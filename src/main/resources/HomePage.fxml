@@ -68,6 +68,6 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <Label fx:id="wrongCredentials" layoutX="274.0" layoutY="6.0" textFill="RED" />
+      <Label fx:id="wrong_credentials" layoutX="274.0" layoutY="6.0" textFill="RED" />
    </children>
 </AnchorPane>

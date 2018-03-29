@@ -25,7 +25,7 @@ public class HomePageController {
     PasswordField password;
 
     @FXML
-    Label wrongCredentials;
+    Label wrong_credentials;
 
     public void onPathfindClick(ActionEvent event) throws IOException {
         Parent pathfind_parent = FXMLLoader.load(getClass().getResource("/PathfindPage.fxml"));
@@ -49,7 +49,7 @@ public class HomePageController {
             openUser(event, "/RegStaffPage.fxml");
         }
         else {
-            wrongCredentials.setText("Wrong username or password");
+            wrong_credentials.setText("Wrong username or password");
         }
     }
 
