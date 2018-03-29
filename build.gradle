@@ -1,5 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'application'
+
+mainClassName = "controller.Main"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -26,16 +29,17 @@ dependencies {
 	)
 }
 
+/*
 jar {
 
 	manifest {
-		attributes 'Main-Class': 'path.to.your.main.class.here'
+		attributes 'Main-Class': 'controller.Main'
 	}
 	from configurations.runtime.collect { zipTree(it) }
 }
 
 task run(type: JavaExec) {
-	main = 'path.to.your.main.class.here'
+	main = 'controller.Main'
 	classpath = sourceSets.main.runtimeClasspath
-}
+}*/
 

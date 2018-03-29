@@ -1,5 +1,6 @@
 .gradle/
 .idea/
+out/
 classes/
 build/
 derby.log
