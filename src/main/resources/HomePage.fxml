@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
+   <children>
+      <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
+         <image>
+            <Image url="@images/cfLLaKI.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="274.0" layoutY="28.0" spacing="10.0">
+         <children>
+            <TextField fx:id="username" alignment="CENTER" prefHeight="19.0" prefWidth="116.0" promptText="Username" />
+            <PasswordField fx:id="password" alignment="CENTER" prefWidth="116.0" promptText="Password" />
+            <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
+         </children>
+      </HBox>
+      <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="575.0" />
+      <ImageView fitHeight="306.0" fitWidth="267.0" layoutX="169.0" layoutY="88.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutX="177.0" layoutY="88.0" prefHeight="196.0" prefWidth="247.0" spacing="15.0">
+         <children>
+            <MenuButton mnemonicParsing="false" text="Quick Locations">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Exit" />
+                <MenuItem mnemonicParsing="false" text="Cafeteria" />
+                  <MenuItem mnemonicParsing="false" text="Reception" />
+                  <MenuItem mnemonicParsing="false" text="Restroom" />
+              </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Named Locations">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" text="Cafeteria" />
+                  <MenuItem mnemonicParsing="false" text="Reception" />
+                  <MenuItem mnemonicParsing="false" text="Restroom" />
+               </items>
+            </MenuButton>
+            <TextField alignment="CENTER" prefHeight="27.0" prefWidth="100.0" promptText="Room No.">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextField>
+            <CheckBox mnemonicParsing="false" text="Stairs" />
+            <Button fx:id="pathfind" mnemonicParsing="false" onAction="#onPathfindClick" text="Directions" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets top="25.0" />
+         </padding>
+      </VBox>
+      <Label fx:id="wrong_credentials" layoutX="274.0" layoutY="6.0" textFill="RED" />
+   </children>
+</AnchorPane>
