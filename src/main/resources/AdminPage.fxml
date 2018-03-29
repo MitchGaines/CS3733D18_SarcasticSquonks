@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminPageController">
+   <children>
+      <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
+         <image>
+            <Image url="@images/cfLLaKI.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER" layoutX="415.0" layoutY="28.0" spacing="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#onLogoutClick" text="Log Out" />
+         </children>
+      </HBox>
+      <ImageView fitHeight="306.0" fitWidth="267.0" layoutX="169.0" layoutY="88.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="91.0" layoutY="90.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="15.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make a Request:" />
+                  <MenuButton mnemonicParsing="false" text="Type of Request">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                    </items>
+                  </MenuButton>
+                  <TextField alignment="CENTER" promptText="Room No." />
+                  <Button mnemonicParsing="false" text="Request" />
+               </children>
+               <padding>
+                  <Insets right="30.0" top="25.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="15.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Be Completed:" />
+                  <MenuButton mnemonicParsing="false" text="My Requests">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </MenuButton>
+                  <Button mnemonicParsing="false" text="Mark Completed" />
+               </children>
+               <padding>
+                  <Insets left="30.0" top="25.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="modify_map_btn" layoutX="255.0" layoutY="332.0" mnemonicParsing="false" onAction="#onModifyMapClick" text="Modify Map" />
+      <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="575.0" />
+   </children>
+</AnchorPane>
