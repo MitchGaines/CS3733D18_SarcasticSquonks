@@ -92,6 +92,8 @@ public class ModifyMapController {
     }
 
     public void onAddLocCancelClick() {
+        add_node_enabled = false;
+        mode.setText("");
         Scene scene = add_loc.getScene();
         scene.setCursor(Cursor.DEFAULT);
         add_loc_cancel.setVisible(false);
@@ -141,6 +143,7 @@ public class ModifyMapController {
     }
 
     public void onDeleteLocCancelClick() {
+        mode.setText("");
         delete_loc_cancel.setVisible(false);
         add_loc.setVisible(true);
         add_loc.setVisible(true);
@@ -151,6 +154,7 @@ public class ModifyMapController {
         short_name.setVisible(true);
         add_loc.setVisible(true);
     }
+
 
 
 }
