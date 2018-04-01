@@ -47,10 +47,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </Button>
-            <ImageView fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-               <image>
-                  <Image url="@images/jpeg.jpg" />
-               </image>
+            <ImageView fx:id="qr_img" fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="45.0" />
                </GridPane.margin>
