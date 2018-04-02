@@ -17,14 +17,14 @@ import java.sql.*;
 public class CSVWriter { // TODO: the code seems a bit repetitive, but this is only called once at program shutdown
 
     // fields
-    private ApacheDatabase data; // need the database so we can see the table
+    private IDatabase database; // need the database so we can see the table
 
     /**
      * Constructor for a CSVReader
-     * @param data the database to read data from
+     * @param database the database to read data from
      */
-    public CSVWriter(ApacheDatabase data) {
-        this.data = data;
+    public CSVWriter(IDatabase database) {
+        this.database = database;
     }
 
     /**
@@ -38,17 +38,17 @@ public class CSVWriter { // TODO: the code seems a bit repetitive, but this is o
         FileWriter file_writer = null; // file writer for CSV file
         String file_header = ""; // header of CSV file
 
+        // silently return if table doesn't exist
+        if(!database.doesTableExist(table_name)){
+            return;
+        }
+
         // change table header based on table
         if (table_name.equals("NODES")) {
             file_header = "node_id,x_coord,y_coord,floor,building,node_type," +
                     "long_name,short_name,team_assigned,x_coord_3d,y_coord_3d";
         } else if (table_name.equals("EDGES")) {
             file_header = "edge_id,start_node,end_node";
-        }
-
-        // silently return if table doesn't exist
-        if(!data.doesTableExist(table_name)){
-            return;
         }
 
         try {
@@ -59,7 +59,7 @@ public class CSVWriter { // TODO: the code seems a bit repetitive, but this is o
             file_writer.append("\n");
 
             // query the database to get the table
-            ResultSet r_set = data.query(table_name, null, null, null,null);
+            ResultSet r_set = database.query(table_name, null, null, null,null);
 
             // check type of table and then loop through it
             if (table_name.equals("NODES")) {
@@ -106,7 +106,7 @@ public class CSVWriter { // TODO: the code seems a bit repetitive, but this is o
             r_set.close();
 
             // drop the table
-            data.dropTable(table_name);
+            database.dropTable(table_name);
 
         } catch (IOException | SQLException e) {
             e.printStackTrace();
