@@ -41,33 +41,8 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
         try {
             buffered_reader = new BufferedReader(new FileReader(csv_file));
 
-            // use first line to create table
+            // skip first line (column names)
             line = buffered_reader.readLine();
-            String[] columns = line.split(",");
-
-            // if we are dealing with nodes, use node columns
-            if (table_name.equals("NODES")) {
-                columns[0] += " varchar(100)";
-                columns[1] += " int";
-                columns[2] += " int";
-                columns[3] += " varchar(100)";
-                columns[4] += " varchar(100)";
-                columns[5] += " varchar(100)";
-                columns[6] += " varchar(100)";
-                columns[7] += " varchar(100)";
-                columns[8] += " varchar(100)";
-                columns[9] += " int";
-                columns[10] += " int";
-            } else if (table_name.equals("EDGES")) {
-                // if we are dealing with edges, use edge columns
-                columns[0] += " varchar(100)";
-                columns[1] += " varchar(100)";
-                columns[2] += " varchar(100)";
-            }
-
-            // connect to database and create table
-            database.connect();
-            database.createTable(table_name, columns);
 
             // check the table type, then loop through each line of the CSV file
             if (table_name.equals("NODES")) {
@@ -119,4 +94,3 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
         //System.out.println("File read successfully!");
     }
 }
-
