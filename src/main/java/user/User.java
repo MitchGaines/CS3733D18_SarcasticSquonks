@@ -1,5 +1,12 @@
 package user;
 
+/**
+ * User.java
+ * Abstract class for all possible user types
+ * Author: Danny Sullivan
+ * Date: March 31, 2018
+ */
+
 public abstract class User {
     private boolean can_mod_map;
     private String username;
@@ -7,17 +14,14 @@ public abstract class User {
     private enum user_type{}
 
     /**
-     * Sets it so that current User can modify map
+     * Takes a Boolean as a parameter and sets the permission
+     * for the User if they are able to modify the map or not.
+     *
+     * @param if_can_mod_map is a boolean value, true if map can be
+     *                       modified by the user, false otherwise
      */
-    public void setCanModMap() {
-        can_mod_map = true;
-    }
-
-    /**
-     * Sets it so that current User cannot modify map
-     */
-    public void setCannotModMap() {
-        can_mod_map = false;
+    public void setCanModMap(boolean if_can_mod_map) {
+        can_mod_map = if_can_mod_map;
     }
 
     /**
@@ -46,23 +50,5 @@ public abstract class User {
      */
     public String getUsername() {
         return username;
-    }
-
-    /**
-     * Sets the password of the current User to the inputted byte[]
-     *
-     * @param new_password the desired new password
-     */
-    public void setPassword(byte[] new_password) {
-        password_salt = new_password;
-    }
-
-    /**
-     * Returns the password of the current User
-     *
-     * @return password of the current User
-     */
-    public byte[] getPassword() {
-        return password_salt;
     }
 }

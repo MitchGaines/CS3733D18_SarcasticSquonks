@@ -2,6 +2,13 @@ package user;
 import service.ServiceRequest;
 import java.util.ArrayList;
 
+/**
+ * Staff.java
+ * Abstract class for different Staff user types
+ * Author: Danny Sullivan
+ * Date: March 31, 2018
+ */
+
 public abstract class Staff extends User {
     private ArrayList<ServiceRequest> staff_service_requests;
 
