@@ -25,6 +25,12 @@ public class PathfindController implements Initializable {
     @FXML
     ImageView qr_img;
 
+    /**
+     * Performs this function during creation of Controller; everything done here
+     * is the logic that should go into manipulating what is shown
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         /*
