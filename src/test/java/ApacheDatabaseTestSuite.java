@@ -1,5 +1,3 @@
-package database;
-
 /**
  * ApacheDatabaseTestSuite.java
  * A test suite for database operations
@@ -7,6 +5,8 @@ package database;
  * Date: March 28, 2018
  */
 
+import database.IDatabase;
+import database.ApacheDatabase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
