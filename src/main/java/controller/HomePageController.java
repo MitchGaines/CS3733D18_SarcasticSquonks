@@ -1,20 +1,24 @@
 package controller;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import pathfind.QRCode;
 
 public class HomePageController {
 
     @FXML
     Button pathfind;
+
     @FXML
     Button login_btn;
 
