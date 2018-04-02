@@ -33,7 +33,7 @@ public class ServiceRequest {
      * Returns all service requests, even completed ones
      * @return a hashset of all service requests, both completed and not
      */
-    public HashSet<ServiceRequest> getServiceRequests() {
+    public static HashSet<ServiceRequest> getServiceRequests() {
         return service_requests;
     }
 
@@ -43,7 +43,7 @@ public class ServiceRequest {
      * Gets a hashset of all service requests that need to be fulfilled
      * @return all services without a fulfiller
      */
-    public HashSet<ServiceRequest> getUnfulfilledServiceRequests() {
+    public static HashSet<ServiceRequest> getUnfulfilledServiceRequests() {
         HashSet<ServiceRequest> to_return = new HashSet<>();
         for (ServiceRequest sr : service_requests) {
             if (!sr.isFulfilled()) {
