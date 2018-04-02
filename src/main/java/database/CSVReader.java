@@ -38,6 +38,11 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
         String line; // modified by each line read in
         String csv_delimiter = ","; // delimiter for CSV files
 
+        // silently return if table doesn't exist
+        if(!database.doesTableExist(table_name)){
+            return;
+        }
+
         try {
             buffered_reader = new BufferedReader(new FileReader(csv_file));
 
