@@ -1,9 +1,12 @@
 package pathfind;
 
+import data.Node;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AStarNode {
-    public HashMap<String, AStarNode> neighbors = new HashMap<>();
+    public ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
     private AStarNode parent = null;
     private double f_cost;
     private double h_cost;

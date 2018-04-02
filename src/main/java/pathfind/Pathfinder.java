@@ -1,6 +1,9 @@
 package pathfind;
 import data.Node;
 import data.Edge;
+import database.ApacheDatabase;
+import database.CSVReader;
+import database.Storage;
 
 import java.util.*;
 
@@ -28,15 +31,32 @@ public class Pathfinder {
             a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getShortName()));
         }
         for(Edge connection: edges.values()){
-            a_star_node_map.get(connection.getStartNode()).neighbors.put(connection.getEndNode(), a_star_node_map.get(connection.getEndNode()));
-            a_star_node_map.get(connection.getEndNode()).neighbors.put(connection.getStartNode(), a_star_node_map.get(connection.getStartNode()));
+            if(a_star_node_map.containsKey(connection.getStartNode()) && a_star_node_map.containsKey(connection.getEndNode())){
+                a_star_node_map.get(connection.getStartNode()).neighbors.add(a_star_node_map.get(connection.getEndNode()));
+                a_star_node_map.get(connection.getEndNode()).neighbors.add(a_star_node_map.get(connection.getStartNode()));
+            } else {
+                System.out.println("can't connect nodes for: " + connection.getEdgeID());
+            }
         }
     }
 
     private void loadDBData(){
-        // TODO pull list from db, populate edge and node hashmap, than populateMap()
-
+        Storage db_storage = new Storage();
+        db_storage.setDatabase(new ApacheDatabase("apacheDB"));
+        //db_storage.getDatabase().dropTable("NODES");
+        //db_storage.getDatabase().dropTable("EDGES");
+        CSVReader csv_reader = new CSVReader(db_storage.getDatabase());
+        csv_reader.readCSVFile("src/main/resources/db/MapBNodes.csv", "NODES");
+        for (Node node: db_storage.getAllNodes()) {
+            nodes.put(node.getNodeID(), node);
+        }
+        csv_reader.readCSVFile("src/main/resources/db/MapBEdges.csv", "EDGES");
+        for (Edge edge: db_storage.getAllEdges()) {
+            edges.put(edge.getEdgeID(), edge);
+        }
+        System.out.println(edges.size());
         populateMap(nodes, edges);
+        System.out.println(a_star_node_map.size());
     }
 
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
@@ -62,12 +82,13 @@ public class Pathfinder {
             closed_a_star_nodes.add(current_node);
 
             if(current_node.checkID(this.goal)){
-                //System.out.println("Arrived at Goal!");
+                System.out.println("Arrived at Goal!");
                 reconstructPath(current_node);
+                return;
             }
             //loop over the current_node node's neighbors
-            for(AStarNode neighbor: current_node.neighbors.values()){
-                //System.out.println("found neighbor: " + neighbor.getID());
+            for(AStarNode neighbor: current_node.neighbors){
+                System.out.println("found neighbor: " + neighbor.getID());
                 //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
                     //check if they haven't been discovered before
@@ -96,7 +117,6 @@ public class Pathfinder {
     }
     //returns the path (ordered start ---> finish) given the last node
     private Path reconstructPath(AStarNode end){
-
         AStarNode previous = end;
         while(true){
             path.a_star_node_path.add(previous);

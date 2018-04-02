@@ -8,6 +8,18 @@ public class Path {
     put more attributes here later:
     total distance, elevators used, etc...
      */
+    public static void main(String[] args) {
+        Pathfinder pathfinder = new Pathfinder();
+        pathfinder.findShortestPath("BDEPT00202", "BREST00402");
+        //print the path to console
+        int i = 1;
+        for(AStarNode AStarNode : pathfinder.path.a_star_node_path){
+            System.out.println("step "+ i + ": AStarNode " + AStarNode.getID());
+            i++;
+        }
+    }
+
+
     public Path(){
     }
 
@@ -15,11 +27,13 @@ public class Path {
     public String getPathDirections(){
         String path = "";
         path += "path from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
+        for (int i = 1; i < (a_star_node_path.size()-1) ; i++) {
+        }
         //TODO add path descriptions
         return path;
     }
 
-    public String calcTurn(AStarNode current_node, AStarNode next_node){
+    private String calcTurn(AStarNode current_node, AStarNode next_node){
         int previous_x = current_node.getParent().getX_coord();
         int previous_y = current_node.getParent().getY_coord();
         int current_x = current_node.getX_coord();
@@ -27,15 +41,19 @@ public class Path {
         int next_x = next_node.getX_coord();
         int next_y = next_node.getY_coord();
 
-        double start_angle = 45;
-        double new_angle = 30;
-        double angle = new_angle-start_angle;
+        double previous_angle = angle(previous_x, previous_y, current_x, current_y);
+        double new_angle = angle(current_x, current_y, next_x, next_y);
+        double angle = new_angle-previous_angle;
         if(angle <= -30){
             return "turn left";
         } else if(angle >= 30){
             return "turn right";
         } else {
-            return "continue";
+            return "continue straight";
         }
+    }
+
+    private double angle(int x1, int y1, int x2, int y2){
+        return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }
 }
