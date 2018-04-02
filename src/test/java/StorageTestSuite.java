@@ -1,5 +1,3 @@
-package database;
-
 /**
  * StorageTestSuite.java
  * A test suite for storage operations
@@ -9,6 +7,9 @@ package database;
 
 import data.Edge;
 import data.Node;
+import database.Storage;
+import database.IDatabase;
+import database.ApacheDatabase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
