@@ -9,3 +9,4 @@ derby.log
 *.jar
 *.lock
 *.iml
+.DS_Store
