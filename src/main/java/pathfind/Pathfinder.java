@@ -5,22 +5,27 @@ import data.Edge;
 import java.util.*;
 
 public class Pathfinder {
-    public LinkedList<AStarNode> path = new LinkedList<AStarNode>();
-    public HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
-    public AStarNode goal;
-    public AStarNode start;
+    HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
+    HashMap<String, Node> nodes = new HashMap();
+    HashMap<String, Edge> edges = new HashMap();
+    AStarNode goal;
+    AStarNode start;
+    public Path path = new Path();
+
     public Pathfinder(){
     }
 
     /**
+     * populateMap
      * populates the fathfinder hashmap of a star nodes based on the given nodes and edges.
+     * updates the pathfinder path attribute
      *
      * @param nodes hashmap of nodes, with the nodes id as the key
      * @param edges hashmap of edges, which contain node ids to be neighbored
      */
-    public void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
+    private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
-            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord()));
+            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getShortName()));
         }
         for(Edge connection: edges.values()){
             a_star_node_map.get(connection.getStartNode()).neighbors.put(connection.getEndNode(), a_star_node_map.get(connection.getEndNode()));
@@ -28,8 +33,16 @@ public class Pathfinder {
         }
     }
 
+    private void loadDBData(){
+        // TODO pull list from db, populate edge and node hashmap, than populateMap()
+
+        populateMap(nodes, edges);
+    }
+
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
-    public Path findShortestPath(String startID, String goalID){
+    public void findShortestPath(String startID, String goalID){
+        loadDBData();
+
         this.start = this.a_star_node_map.get(startID);
         this.goal = this.a_star_node_map.get(goalID);
 
@@ -50,7 +63,7 @@ public class Pathfinder {
 
             if(current_node.checkID(this.goal)){
                 //System.out.println("Arrived at Goal!");
-                return reconstructPath(current_node);
+                reconstructPath(current_node);
             }
             //loop over the current_node node's neighbors
             for(AStarNode neighbor: current_node.neighbors.values()){
@@ -80,18 +93,16 @@ public class Pathfinder {
             }
         }
         System.out.println("could not find suitable path");
-        return new Path();
     }
     //returns the path (ordered start ---> finish) given the last node
     private Path reconstructPath(AStarNode end){
 
         AStarNode previous = end;
-        Path path = new Path();
         while(true){
-            path.node_path.add(previous);
+            path.a_star_node_path.add(previous);
             if(previous.checkID(this.start)){
-                System.out.println("reconstructed path with " + path.node_path.size() + " steps");
-                Collections.reverse(path.node_path);
+                System.out.println("reconstructed path with " + path.a_star_node_path.size() + " steps");
+                Collections.reverse(path.a_star_node_path);
                 return path;
             }
             previous = previous.getParent();
