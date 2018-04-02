@@ -1,9 +1,14 @@
 package pathfind;
-
 import data.Node;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * AStarNode.java
+ * Nodes that have costs and neighbors for a-star calculations
+ * Author: Noah Hillman
+ * Date: April 2, 2018
+ */
 
 public class AStarNode {
     public ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();

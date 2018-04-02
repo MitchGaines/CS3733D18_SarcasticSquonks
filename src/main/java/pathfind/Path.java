@@ -2,6 +2,13 @@ package pathfind;
 
 import java.util.ArrayList;
 
+/**
+ * Path.java
+ * Holds path information from A-star and calculates text directions
+ * Author: Noah Hillman
+ * Date: April 2, 2018
+ */
+
 public class Path {
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
     /*

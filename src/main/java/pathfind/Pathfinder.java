@@ -4,8 +4,14 @@ import data.Edge;
 import database.ApacheDatabase;
 import database.CSVReader;
 import database.Storage;
-
 import java.util.*;
+
+/**
+ * Pathfinder.java
+ * loads from database and calculates the fastest path between given nodes
+ * Author: Noah Hillman
+ * Date: April 2, 2018
+ */
 
 public class Pathfinder {
     HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
