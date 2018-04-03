@@ -13,7 +13,7 @@ import java.sql.*;
 
 
 public class ApacheDatabase implements IDatabase {
-
+    
     // fields
     private Connection connection; // establishes connection with driver
     private Statement statement; // statement to be executed
