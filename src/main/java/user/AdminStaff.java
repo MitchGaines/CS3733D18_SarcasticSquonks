@@ -9,4 +9,8 @@ package user;
 
 public class AdminStaff extends Staff {
 
+    public AdminStaff(String username, String password){
+        super(username, password);
+        type = user_type.ADMIN_STAFF;
+    }
 }

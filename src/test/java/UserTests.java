@@ -10,7 +10,7 @@ import user.Doctor;
  */
 
 public class UserTests {
-    Doctor doc1 = new Doctor();
+    Doctor doc1 = new Doctor("", "");
     //Doctor doc2 = new Doctor();
 
     @Test

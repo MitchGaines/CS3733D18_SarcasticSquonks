@@ -9,4 +9,9 @@ package user;
 
 public class RegularStaff extends Staff {
 
+    public RegularStaff(String username, String password){
+        super(username, password);
+        type = user_type.REGULAR_STAFF;
+    }
+
 }
