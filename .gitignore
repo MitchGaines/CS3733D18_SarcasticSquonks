@@ -10,3 +10,5 @@ derby.log
 *.lock
 *.iml
 .DS_Store
+newEdgeFile.csv
+newNodeFile.csv

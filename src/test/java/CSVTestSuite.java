@@ -29,6 +29,7 @@ public class CSVTestSuite {
      */
     @Before
     public void setUp() {
+
         storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
 
