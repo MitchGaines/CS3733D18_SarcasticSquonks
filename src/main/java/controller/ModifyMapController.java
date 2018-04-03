@@ -138,11 +138,14 @@ public class ModifyMapController {
         long_name.setVisible(false);
         short_name.setVisible(false);
         add_loc.setVisible(false);
+<<<<<<< HEAD
     }
 
     public void onTrashCanClick() {
         delete_loc_cancel.setVisible(true);
         add_loc.setVisible(false);
+=======
+>>>>>>> Modify Map UI upadted
     }
 
     public void onDeleteLocCancelClick() {
