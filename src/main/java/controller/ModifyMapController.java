@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,8 +63,9 @@ public class ModifyMapController {
     @FXML
     Button back_btn;
 
-    public ModifyMapController() {
-
+    @FXML
+    private void initialize() {
+        makeMap(new ArrayList<data.Node>());
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
@@ -101,7 +101,6 @@ public class ModifyMapController {
     public void onMouseClick(MouseEvent click) {
         if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
-
             data.Node a_node = new data.Node("id", (int)click.getX(), (int)click.getY(), floor.getText(), building.getText(), loc_type.getText(), long_name.getText(), short_name.getText(), "S", 1, 1); //TODO: id function
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
@@ -150,6 +149,16 @@ public class ModifyMapController {
         long_name.setVisible(true);
         short_name.setVisible(true);
         add_loc.setVisible(true);
+    }
+
+    private void makeMap(List<data.Node> dataNodes) {
+        for(data.Node a_node: dataNodes) {
+            ImageView pin = new ImageView("images/nodeIcon.png");
+            pin.setX(a_node.getXCoord());
+            pin.setY(a_node.getYCoord());
+            nodes_list.put(a_node, pin);
+            pane.getChildren().addAll(pin);
+        }
     }
 
 
