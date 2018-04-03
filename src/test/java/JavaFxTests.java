@@ -50,7 +50,9 @@ public class JavaFxTests extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
-    // Universal functions to make testing easier
+    /* Universal functions to make testing easier */
+
+    // hit logout button on page (assuming there is one)
     public void logout() {
         clickOn("#logout_btn");
     }
@@ -76,11 +78,12 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#login_btn");
     }
 
+    // hits the back button, assuming there is a back button
     public void goBack() {
         clickOn("#back_btn");
     }
 
-    // Tests for home screen/visitors
+    /* Tests for home screen/visitors */
 
     @Test(expected = FxRobotException.class) //expects to throw exception
     public void clickOnRandom() {
@@ -90,7 +93,7 @@ public class JavaFxTests extends ApplicationTest {
     @Test
     public void clickOnLoginButton() {
         clickOn("#login_btn"); //click on login button
-        verifyThat("#wrong_credentials", hasText("Wrong username or password"));
+        verifyThat("#wrong_credentials", hasText("Wrong username or password")); //checks label status
     }
 
     @Test
@@ -99,7 +102,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#password");
         write("notCorrectPassword");
         clickOn("#login_btn");
-        verifyThat("#wrong_credentials", hasText("Wrong username or password"));
+        verifyThat("#wrong_credentials", hasText("Wrong username or password")); //checks label status
     }
 
     @Test
@@ -108,14 +111,14 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Exit");
         clickOn("Named Locations");
         clickOn("Cafeteria");
-        //clickOn("Room No."); //possibly going to need an object ID for room number
+        //clickOn("Room No."); //possibly going to need an object ID for room number TextField object
         //write("some room"); //can't do this without being able to click on room no.
         clickOn("Stairs");
         clickOn("#pathfind");
         clickOn("#back_button");
     }
 
-    // Tests for Doctors
+    /* Tests for Doctors */
 
     @Test
     public void loginDoctorTest() {
@@ -135,18 +138,18 @@ public class JavaFxTests extends ApplicationTest {
     }
 
     @Test
-    public void removeRequestDoctor() {
+    public void markRequestCompletedDoctor() {
         loginAsDoc();
         clickOn("My Requests");
         clickOn("Action 1");
-        clickOn("Mark Completed");
+        clickOn("Mark Completed"); //clicks the wrong one of the two buttons since names are the same, no ID
         clickOn("My Requests");
         clickOn("Action 2");
-        clickOn("Mark Completed");
+        clickOn("Mark Completed"); //clicks the wrong one of the two buttons since names are the same, no ID
         logout();
     }
 
-    // Tests for Admins
+    /* Tests for Admins */
 
     @Test
     public void loginAdminTest() {
@@ -178,13 +181,45 @@ public class JavaFxTests extends ApplicationTest {
     }
 
     @Test
-    public void addNode() {
+    public void checkUnfilledFields() {
         loginAsAdmin();
         clickOn("Modify Map");
         clickOn("#add_loc");
-        clickOn("#map");
-        verifyThat("#mode", hasText("Add Location Mode"));
-        clickOn("#add_loc_cancel");
+        verifyThat("#add_loc_fail", hasText("Please fill all fields")); //ensure error text is thrown
+        goBack();
+        logout();
+    }
+
+    @Test
+    public void checkPartialUnfilledFields() {
+        loginAsAdmin();
+        clickOn("Modify Map");
+        clickOn("#floor");
+        write("2");
+        clickOn("#building");
+        write("some building");
+        clickOn("#add_loc");
+        verifyThat("#add_loc_fail", hasText("Please fill all fields")); //ensure error text is thrown
+        goBack();
+        logout();
+    }
+
+    @Test
+    public void addNode() {
+        loginAsAdmin();
+        clickOn("Modify Map");
+        clickOn("#floor");
+        write("2");
+        clickOn("#building");
+        write("some building");
+        clickOn("#loc_type");
+        write("some location");
+        clickOn("#long_name");
+        write("some long name");
+        clickOn("#short_name");
+        write("name");
+        clickOn("#add_loc");
+        clickOn("#pane");
         goBack();
         logout();
     }
@@ -194,8 +229,7 @@ public class JavaFxTests extends ApplicationTest {
         loginAsAdmin();
         clickOn("Modify Map");
         clickOn("#trash_can");
-        clickOn("#map");
-        verifyThat("#mode", hasText("Delete Location Mode"));
+        clickOn("#pane");
         clickOn("#delete_loc_cancel");
         goBack();
         logout();
@@ -205,13 +239,20 @@ public class JavaFxTests extends ApplicationTest {
     public void addAndDeleteNodes() {
         loginAsAdmin();
         clickOn("Modify Map");
+        clickOn("#floor");
+        write("2");
+        clickOn("#building");
+        write("some building");
+        clickOn("#loc_type");
+        write("some location");
+        clickOn("#long_name");
+        write("some long name");
+        clickOn("#short_name");
+        write("name");
         clickOn("#add_loc");
-        clickOn("#map");
-        verifyThat("#mode", hasText("Add Location Mode"));
-        clickOn("#add_loc_cancel");
+        clickOn("#pane");
         clickOn("#trash_can");
-        clickOn("#map");
-        verifyThat("#mode", hasText("Delete Location Mode"));
+        clickOn("#pane");
         clickOn("#delete_loc_cancel");
         goBack();
         logout();
@@ -225,7 +266,7 @@ public class JavaFxTests extends ApplicationTest {
         logout();
     }
 
-    // Tests for Regular Staff
+    /* Tests for Regular Staff */
 
     @Test
     public void loginRegTest() {
@@ -270,7 +311,6 @@ public class JavaFxTests extends ApplicationTest {
         makeRequestAdmin();
         removeRequestAdmin();
         makeRequestsReg();
-        removeRequestDoctor();
         chooseQuickLocation();
         loginRegTest();
     }
