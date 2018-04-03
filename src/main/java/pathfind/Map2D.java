@@ -46,9 +46,5 @@ public class Map2D extends Map {
         }
         destination_img.setTranslateX(x_coord - destination_img.getFitWidth() / 2);
         destination_img.setTranslateY(y_coord - destination_img.getFitHeight() / 2);
-        System.out.println(destination_img.getLayoutX());
-        System.out.println(destination_img.getLayoutY());
-        System.out.println(destination_img.getTranslateX());
-        System.out.println(destination_img.getTranslateY());
     }
 }
