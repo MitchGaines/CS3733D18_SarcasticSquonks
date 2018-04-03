@@ -24,7 +24,7 @@ public class LoginHandler {
     }
 
     /**
-     *
+     * This class is used in place of an actual database implementation, will be removed
      *
      */
     public void __generateDummyUsers(){
