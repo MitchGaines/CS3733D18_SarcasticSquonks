@@ -29,7 +29,7 @@ public class StorageTestSuite {
     @Before
     public void setUp() {
         data = new ApacheDatabase("apacheDB");
-        storage = new Storage();
+        storage = Storage.getInstance();
     }
 
     /**
