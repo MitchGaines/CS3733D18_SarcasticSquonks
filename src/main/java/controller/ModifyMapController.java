@@ -11,6 +11,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,25 +20,37 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModifyMapController {
 
-    ArrayList<ImageView> nodes = new ArrayList<>();
+    HashMap<data.Node, ImageView> nodes_list = new HashMap<>();
 
-    Boolean add_node_enabled = false;
+    @FXML
+    Label add_loc_fail;
 
     @FXML
     ImageView trash_can;
 
     @FXML
-    Label mode;
+    TextField floor;
+
+    @FXML
+    TextField building;
+
+    @FXML
+    TextField loc_type;
+
+    @FXML
+    TextField long_name;
+
+    @FXML
+    TextField short_name;
 
     @FXML
     AnchorPane pane;
-
-    @FXML
-    ImageView map;
 
     @FXML
     Button add_loc_cancel;
@@ -51,6 +64,10 @@ public class ModifyMapController {
     @FXML
     Button back_btn;
 
+    public ModifyMapController() {
+
+    }
+
     public void onBackClick(ActionEvent event) throws IOException {
         Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"));
         Scene admin_scene = new Scene(admin_parent);
@@ -61,18 +78,20 @@ public class ModifyMapController {
     }
 
     public void onAddLocClick() {
-        trash_can.setVisible(false);
-        add_node_enabled = true;
-        mode.setText("Add Location Mode");
-        Scene scene = add_loc.getScene();
-        Image loc_cursor = new Image("images/nodeIcon.png");
-        scene.setCursor(new ImageCursor(loc_cursor));
-        add_loc_cancel.setVisible(true);
+        if (!floor.getText().equals("") && !building.getText().equals("") && !loc_type.getText().equals("") && !long_name.getText().equals("") && !short_name.getText().equals("")) {
+            trash_can.setVisible(false);
+            Scene scene = add_loc.getScene();
+            Image loc_cursor = new Image("images/nodeIcon.png");
+            scene.setCursor(new ImageCursor(loc_cursor));
+            add_loc_cancel.setVisible(true);
+            add_loc_fail.setText("");
+        }
+        else {
+            add_loc_fail.setText("Please fill all fields");
+        }
     }
 
     public void onAddLocCancelClick() {
-        add_node_enabled = false;
-        mode.setText("");
         Scene scene = add_loc.getScene();
         scene.setCursor(Cursor.DEFAULT);
         add_loc_cancel.setVisible(false);
@@ -80,44 +99,58 @@ public class ModifyMapController {
     }
 
     public void onMouseClick(MouseEvent click) {
-        if (add_node_enabled) {
-            ImageView aNode = new ImageView("images/nodeIcon.png");
-            aNode.setX(click.getSceneX());
-            aNode.setY(click.getSceneY());
-            nodes.add(aNode);
-            pane.getChildren().addAll(aNode);
+        if (add_loc_cancel.isVisible()) {
+            Scene scene = add_loc.getScene();
+
+            data.Node a_node = new data.Node("id", (int)click.getX(), (int)click.getY(), floor.getText(), building.getText(), loc_type.getText(), long_name.getText(), short_name.getText(), "S", 1, 1); //TODO: id function
+            ImageView pin = new ImageView("images/nodeIcon.png");
+            pin.setX(click.getX());
+            pin.setY(click.getY());
+            nodes_list.put(a_node, pin);
+            pane.getChildren().addAll(pin);
+            add_loc_cancel.setVisible(false);
+            trash_can.setVisible(true);
+            scene.setCursor(Cursor.DEFAULT);
+            floor.setText("");
+            building.setText("");
+            loc_type.setText("");
+            long_name.setText("");
+            short_name.setText("");
+        }
+        if (delete_loc_cancel.isVisible()) {
+            HashMap<data.Node, ImageView> to_delete = new HashMap<>();
+            Point2D pt = new Point2D(click.getX(), click.getY());
+            for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
+                if (entry.getValue().contains(pt)) {
+                    pane.getChildren().remove(entry.getValue());
+                    nodes_list.remove(entry); //Might mess with the for loop
+                }
+            }
         }
     }
 
     public void onTrashCanClick() {
-        mode.setText("Delete Location Mode");
         delete_loc_cancel.setVisible(true);
+        add_loc.setVisible(false);
+        floor.setVisible(false);
+        building.setVisible(false);
+        loc_type.setVisible(false);
+        long_name.setVisible(false);
+        short_name.setVisible(false);
         add_loc.setVisible(false);
     }
 
-    public void onSelectNodeClick(MouseEvent click) {
-        if (delete_loc_cancel.isVisible()) {
-            Point2D pt = new Point2D(click.getSceneX(), click.getSceneY());
-            List<ImageView> toDelete = new ArrayList<>();
-            for (ImageView aNode : nodes) {
-                if (aNode.contains(pt)) {
-                    System.out.println("asda");
-                    pane.getChildren().remove(aNode);
-                    toDelete.add(aNode);
-                }
-            }
-            toDelete.forEach(aNode -> {
-                nodes.remove(aNode);
-            });
-        }
-    }
-
     public void onDeleteLocCancelClick() {
-        mode.setText("");
         delete_loc_cancel.setVisible(false);
         add_loc.setVisible(true);
+        add_loc.setVisible(true);
+        floor.setVisible(true);
+        building.setVisible(true);
+        loc_type.setVisible(true);
+        long_name.setVisible(true);
+        short_name.setVisible(true);
+        add_loc.setVisible(true);
     }
-
 
 
 }
