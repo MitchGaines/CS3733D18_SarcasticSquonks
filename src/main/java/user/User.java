@@ -1,5 +1,7 @@
 package user;
 
+import java.security.SecureRandom;
+
 /**
  * User.java
  * Abstract class for all possible user types
@@ -11,7 +13,13 @@ public abstract class User {
     private boolean can_mod_map;
     private String username;
     private byte[] password_salt;
-    private enum user_type{}
+    enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
+    user_type type;
+
+    protected User(){
+        password_salt = new byte[16];
+        new SecureRandom().nextBytes(password_salt);
+    }
 
     /**
      * Takes a Boolean as a parameter and sets the permission
@@ -50,5 +58,9 @@ public abstract class User {
      */
     public String getUsername() {
         return username;
+    }
+
+    public user_type getType() {
+        return type;
     }
 }

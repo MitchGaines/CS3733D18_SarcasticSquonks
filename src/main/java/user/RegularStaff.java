@@ -9,4 +9,9 @@ package user;
 
 public class RegularStaff extends Staff {
 
+    public RegularStaff(){
+        super();
+        type = user_type.REGULAR_STAFF;
+    }
+
 }

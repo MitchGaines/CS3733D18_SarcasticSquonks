@@ -9,4 +9,8 @@ package user;
 
 public class AdminStaff extends Staff {
 
+    public AdminStaff() {
+        super();
+        type = user_type.ADMIN_STAFF;
+    }
 }
