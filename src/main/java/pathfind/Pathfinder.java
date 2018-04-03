@@ -40,8 +40,6 @@ public class Pathfinder {
             if(a_star_node_map.containsKey(connection.getStartNode()) && a_star_node_map.containsKey(connection.getEndNode())){
                 a_star_node_map.get(connection.getStartNode()).neighbors.add(a_star_node_map.get(connection.getEndNode()));
                 a_star_node_map.get(connection.getEndNode()).neighbors.add(a_star_node_map.get(connection.getStartNode()));
-            } else {
-                System.out.println("can't connect nodes for: " + connection.getEdgeID());
             }
         }
     }
@@ -55,10 +53,7 @@ public class Pathfinder {
         for (Edge edge: db_storage.getAllEdges()) {
             edges.put(edge.getEdgeID(), edge);
         }*/
-
-        System.out.println(nodes.size() + " nodes found on database");
         populateMap(nodes, edges);
-        System.out.println(a_star_node_map.size() + " A* nodes created");
     }
 
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
@@ -87,7 +82,6 @@ public class Pathfinder {
             closed_a_star_nodes.add(current_node);
 
             if(current_node.checkID(this.goal)){
-                System.out.println("Arrived at Goal!");
                 reconstructPath(current_node);
                 return;
             }
@@ -118,7 +112,6 @@ public class Pathfinder {
                 }
             }
         }
-        System.out.println("could not find suitable path");
         return;
     }
     //returns the path (ordered start ---> finish) given the last node
@@ -127,7 +120,6 @@ public class Pathfinder {
         while(true){
             path.a_star_node_path.add(previous);
             if(previous.checkID(this.start)){
-                System.out.println("reconstructed path with " + path.a_star_node_path.size() + " steps");
                 Collections.reverse(path.a_star_node_path);
                 return path;
             }
