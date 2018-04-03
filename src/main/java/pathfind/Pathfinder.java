@@ -13,7 +13,7 @@ import java.util.*;
  * Date: April 2, 2018
  */
 
-public class Pathfinder {
+public class Pathfinder extends Exception {
     HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
     HashMap<String, Node> nodes = new HashMap();
     HashMap<String, Edge> edges = new HashMap();
