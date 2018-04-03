@@ -1,5 +1,10 @@
 package user;
 
+import sun.misc.BASE64Encoder;
+
+import java.security.SecureRandom;
+import java.util.Base64;
+
 /**
  * User.java
  * Abstract class for all possible user types
@@ -11,7 +16,24 @@ public abstract class User {
     private boolean can_mod_map;
     private String username;
     private byte[] password_salt;
-    private enum user_type{}
+    private byte[] enc_password;
+    private static BASE64Encoder encoder = new BASE64Encoder();
+    public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
+    user_type type;
+
+    protected User(String username, String password){
+        password_salt = new byte[16];
+        new SecureRandom().nextBytes(password_salt);
+
+        this.username = username;
+
+        byte[] password_unsalted = password.getBytes();
+        byte [] password_salted = new byte[password_unsalted.length + password_salt.length];
+        System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
+
+        enc_password = Base64.getEncoder().encode(password_salted);
+    }
 
     /**
      * Takes a Boolean as a parameter and sets the permission
@@ -50,5 +72,17 @@ public abstract class User {
      */
     public String getUsername() {
         return username;
+    }
+
+    public byte[] getEncodedPassword() {
+        return enc_password;
+    }
+
+    public byte[] getPasswordSalt() {
+        return password_salt;
+    }
+
+    public user_type getType() {
+        return type;
     }
 }
