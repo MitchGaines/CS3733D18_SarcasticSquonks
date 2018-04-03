@@ -23,7 +23,14 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     /**
      * Empty constructor for storage
      */
-    public Storage() {
+    private Storage() {
+    }
+
+    /**
+     * Get instance of Storage object
+     */
+    public static Storage getInstance() {
+        return StorageHolder.instance;
     }
 
     /**
@@ -309,6 +316,13 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
      */
     public IDatabase getDatabase() {
         return database;
+    }
+
+    /**
+     * Storage holder class (singleton)
+     */
+    private static class StorageHolder {
+        private static final Storage instance = new Storage();
     }
 }
 

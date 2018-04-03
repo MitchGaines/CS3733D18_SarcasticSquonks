@@ -1,0 +1,71 @@
+node_id,x_coord,y_coord,floor,building,node_type,long_name,short_name,team_assigned,x_coord_3d,y_coord_3d
+BCONF00102,2150,1025,2,45 Francis,CONF,Duncan Reid Conference Room,Conf B0102,Team B,1,1
+BHALL03802,2279,786,2,45 Francis,HALL,Hallway Intersection 38 Level 2,Hallway B3802,Team B,1,1
+BDEPT00202,2166,1039,2,45 Francis,DEPT,Oral Medicine and Dentistry,DEPT B0202,Team B,1,1
+BDEPT00302,2385,753,2,45 Francis,DEPT,Lee Bell Breast Center,DEPT B0302,Team B,1,1
+BDEPT00402,2439,902,2,45 Francis,DEPT,Jen Center for Primary Care,DEPT B0402,Team B,1,1
+BDEPT00502,2623,1018,2,45 Francis,DEPT,Ear Nose & Throat,DEPT B0502,Team B,1,1
+BDEPT00602,2782,1303,2,45 Francis,HALL,Hallway Intersection 31 Level 2,Hallway B3102,Team B,1,1
+BDEPT00702,2945,775,2,45 Francis,DEPT,Plastic Surgery,DEPT B0702,Team B,1,1
+BDEPT00802,3155,890,2,45 Francis,DEPT,Outpatient Pharmacy,DEPT B0802,Team B,1,1
+BDEPT00902,3257,879,2,45 Francis,DEPT,Weiner Center for Preoperative Evaluation,DEPT B0902,Team B,1,1
+BHALL00102,2238,902,2,45 Francis,HALL,Hallway Intersection 1 Level 2,Hallway B0102,Team B,1,1
+BHALL00202,2279,902,2,45 Francis,HALL,Hallway Intersection 2 Level 2,Hallway B0202,Team B,1,1
+BHALL00302,2238,1028,2,45 Francis,HALL,Hallway Intersection 3 Level 2,Hallway B0302,Team B,1,1
+BHALL00402,2246,1280,2,45 Francis,HALL,Hallway Intersection 4 Level 2,Hallway B0402,Team B,1,1
+BHALL00502,2385,902,2,45 Francis,HALL,Hallway Intersection 5 Level 2,Hallway B0502,Team B,1,1
+BHALL00602,2605,902,2,45 Francis,HALL,Hallway Intersection 6 Level 2,Hallway B0602,Team B,1,1
+BHALL00702,2672,902,2,45 Francis,HALL,Hallway Intersection 7 Level 2,Hallway B0702,Team B,1,1
+BHALL00802,2605,783,2,45 Francis,HALL,Hallway Intersection 8 Level 2,Hallway B0802,Team B,1,1
+BHALL00902,2330,590,2,45 Francis,HALL,Hallway Intersection 9 Level 2,Hallway B0902,Team B,1,1
+BHALL01002,2713,902,2,45 Francis,HALL,Hallway Intersection 10 Level 2,Hallway B1002,Team B,1,1
+BHALL01102,2912,903,2,45 Francis,HALL,Hallway Intersection 11 Level 2,Hallway B1102,Team B,1,1
+BHALL01202,2945,902,2,45 Francis,HALL,Hallway Intersection 12 Level 2,Hallway B1202,Team B,1,1
+BHALL01302,3135,890,2,45 Francis,HALL,Hallway Intersection 13 Level 2,Hallway B1302,Team B,1,1
+BHALL01402,3296,880,2,45 Francis,HALL,Hallway Intersection 14 Level 2,Hallway B1402,Team B,1,1
+BHALL01502,2672,820,2,45 Francis,HALL,Hallway Intersection 15 Level 2,Hallway B1502,Team B,1,1
+BHALL01602,2721,750,2,45 Francis,HALL,Hallway Intersection 16 Level 2,Hallway B1602,Team B,1,1
+BHALL01702,2945,710,2,45 Francis,HALL,Hallway Intersection 17 Level 2,Hallway B1702,Team B,1,1
+BHALL01802,2610,953,2,45 Francis,HALL,Hallway Intersection 18 Level 2,Hallway B1802,Team B,1,1
+BHALL01902,2678,1032,2,45 Francis,HALL,Hallway Intersection 19 Level 2,Hallway B1902,Team B,1,1
+BHALL02002,2761,1032,2,45 Francis,HALL,Hallway Intersection 20 Level 2,Hallway B2002,Team B,1,1
+BHALL02102,2841,1032,2,45 Francis,HALL,Hallway Intersection 21 Level 2,Hallway B2102,Team B,1,1
+BHALL02202,2900,985,2,45 Francis,HALL,Hallway Intersection 22 Level 2,Hallway B2202,Team B,1,1
+BHALL02302,2912,963,2,45 Francis,HALL,Hallway Intersection 23 Level 2,Hallway B2302,Team B,1,1
+BHALL02502,3163,945,2,45 Francis,HALL,Hallway Intersection 25 Level 2,Hallway B2502,Team B,1,1
+BHALL02602,3296,945,2,45 Francis,HALL,Hallway Intersection 26 Level 2,Hallway B2602,Team B,1,1
+BHALL02702,3296,1043,2,45 Francis,HALL,Hallway Intersection 27 Level 2,Hallway B2702,Team B,1,1
+BHALL02802,3063,1043,2,45 Francis,HALL,Hallway Intersection 28 Level 2,Hallway B2802,Team B,1,1
+BHALL02902,2782,1091,2,45 Francis,HALL,Hallway Intersection 29 Level 2,Hallway B2902,Team B,1,1
+BHALL03002,2782,1165,2,45 Francis,HALL,Hallway Intersection 30 Level 2,Hallway B3002,Team B,1,1
+BHALL03102,2554,1280,2,45 Francis,HALL,Hallway Intersection 31 Level 2,Hallway B3102,Team B,1,1
+BHALL03202,2554,1472,2,45 Francis,HALL,Hallway Intersection 32 Level 2,Hallway B3202,Team B,1,1
+BINFO00102,2962,963,2,45 Francis,INFO,Information Desk Level 2,INFO B0102,Team B,1,1
+BINFO00202,3136,963,2,45 Francis,INFO,Valet Service Level 2,INFO B0202,Team B,1,1
+BLABS00102,2246,1350,2,45 Francis,LABS,Vascular Diagnostic Lab,Labs B0102,Team B,1,1
+BLABS00202,2945,995,2,45 Francis,LABS,Outpatient Specimen Collection,Labs B0202,Team B,1,1
+BREST00102,2177,1010,2,45 Francis,REST,Restroom 1 Level 2,REST B0102,Team B,1,1
+BREST00202,2605,841,2,45 Francis,REST,Restroom 2 Level 2,REST B0202,Team B,1,1
+BREST00302,2225,1280,2,45 Francis,REST,Restroom 3 Level 2,REST B0302,Team B,1,1
+BREST00402,2554,1389,2,45 Francis,REST,Restroom 4 Level 2,REST B0402,Team B,1,1
+BREST00502,2782,1152,2,45 Francis,REST,Restroom 5 Level 2,REST B0502,Team B,1,1
+BSERV00102,2853,1067,2,45 Francis,SERV,Patient Financial Services,SERV B0102,Team B,1,1
+BSTAI00102,2177,902,2,45 Francis,STAI,Staircase Intersection 1 Level 2,Stair B0102,Team B,1,1
+BSTAI00202,2279,827,2,45 Francis,STAI,Staircase Intersection 2 Level 2,Stair B0202,Team B,1,1
+BSTAI00302,2554,783,2,45 Francis,STAI,Staircase Intersection 3 Level 2,Stair B0302,Team B,1,1
+BSTAI00502,2945,840,2,45 Francis,STAI,Staircase Intersection 5 Level 2,Stair B0502,Team B,1,1
+BSTAI00602,3217,886,2,45 Francis,STAI,Staircase Intersection 6 Level 2,Stair B0602,Team B,1,1
+BSTAI00702,2811,1165,2,45 Francis,STAI,Staircase Intersection 7 Level 2,Stair B0702,Team B,1,1
+BSTAI00802,2554,1316,2,45 Francis,STAI,Staircase Intersection 8 Level 2,Stair B0802,Team B,1,1
+BSTAI00902,2190,1280,2,45 Francis,STAI,Staircase Intersection 9 Level 2,Stair B0902,Team B,1,1
+BSTAI01002,2238,932,2,45 Francis,STAI,Staircase Intersection 10 Level 2,Stair B1002,Team B,1,1
+BHALL03302,2782,1280,2,45 Francis,HALL,Hallway Intersection 33 Level 2,Hallway B3302,Team B,1,1
+BHALL03402,2166,1028,2,45 Francis,HALL,Hallway Intersection 34 Level 2,Hallway B3402,Team B,1,1
+BHALL03502,2246,1028,2,45 Francis,HALL,Hallway Intersection 35 Level 2,Hallway B3502,Team B,1,1
+BDEPT00102,2260,786,2,45 Francis,DEPT,Comprehensive Breast Heath,DEPT B0102,Team B,1,1
+BHALL03602,2279,762,2,45 Francis,HALL,Hallway Intersection 36 Level 2,Hallway B3602,Team B,1,1
+BHALL03702,2322,641,2,45 Francis,HALL,Hallway Intersection 37 Level 2,Hallway B3702,Team B,1,1
+BHALL04102,2678,1067,2,45 Francis,HALL,Hallway Intersection 41 Level 2,Hallway B04102,Team B,1,1
+BHALL04202,2761,1067,2,45 Francis,HALL,Hallway Intersection 42 Level 2,Hallway B04202,Team B,1,1
+BHALL04302,2782,1067,2,45 Francis,HALL,Hallway Intersection 43 level 2,Hallway B04302,Team B,1,1
+BHALL04402,3063,963,2,45 Francis,HALL,Hallway Intersection 44 Level 2,Hallway B4402,Team B,1,1
