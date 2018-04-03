@@ -31,3 +31,11 @@ dependencies {
     )
 }
 
+jar {
+
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from configurations.runtime.collect { zipTree(it) }
+}
+

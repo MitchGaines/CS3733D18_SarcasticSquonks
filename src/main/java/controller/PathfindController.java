@@ -10,11 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import pathfind.AStarNode;
+import pathfind.Map2D;
+import pathfind.Pathfinder;
 import pathfind.QRCode;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class PathfindController implements Initializable {
@@ -24,6 +29,13 @@ public class PathfindController implements Initializable {
 
     @FXML
     ImageView qr_img;
+    @FXML
+    ImageView map_img;
+    @FXML
+    ImageView destination_img;
+
+    @FXML
+    Polyline path_polyline;
 
     /**
      * Performs this function during creation of Controller; everything done here
@@ -32,14 +44,25 @@ public class PathfindController implements Initializable {
      * @param resources
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources){
-        /*
-        Perform all pathfinding operations here and then convert to
-        a readable string (exactly how it will be viewed after scanning)
-        to pass into QRCode creator.
-         */
+    public void initialize(URL location, ResourceBundle resources) {
+        Map2D map = new Map2D(map_img, path_polyline, destination_img);
+        Pathfinder pathfinder = new Pathfinder();
+        //pathfinder.findShortestPath();
+        //map.drawPath(pathfinder.path.getAStarNodePath());
 
-        QRCode qr = new QRCode("pathfind text here...");
+        // Test path
+        /*
+        ArrayList<AStarNode> test_path = new ArrayList<>();
+        test_path.add(new AStarNode("", 2623, 1018, ""));
+        test_path.add(new AStarNode("", 2610, 953, ""));
+        test_path.add(new AStarNode("", 2605, 902, ""));
+        test_path.add(new AStarNode("", 2605, 841, ""));
+        test_path.add(new AStarNode("", 2605, 783, ""));
+        test_path.add(new AStarNode("", 2554, 784, ""));
+        map.drawPath(test_path);
+        */
+
+        QRCode qr = new QRCode(/*pathfinder.path.getPathDirections()*/"Pathfinding directions here");
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
