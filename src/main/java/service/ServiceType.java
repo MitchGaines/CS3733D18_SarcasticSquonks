@@ -38,7 +38,7 @@ public class ServiceType {
     }
 
     /**
-     * Stores a HashMap of users.
+     * Stores a HashSet of users.
      */
     private HashSet<User> fulfillers;
 
