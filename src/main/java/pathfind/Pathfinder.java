@@ -47,28 +47,27 @@ public class Pathfinder {
     }
 
     private void loadDBData(){
-        Storage db_storage = new Storage();
-        db_storage.setDatabase(new ApacheDatabase("apacheDB"));
-        //db_storage.getDatabase().dropTable("NODES");
-        //db_storage.getDatabase().dropTable("EDGES");
-        CSVReader csv_reader = new CSVReader(db_storage.getDatabase());
-        csv_reader.readCSVFile("src/main/resources/db/MapBNodes.csv", "NODES");
+        //TODO update once database gets fixed to pull nodes and edges
+/*        Storage db_storage = new Storage();
         for (Node node: db_storage.getAllNodes()) {
             nodes.put(node.getNodeID(), node);
         }
-        csv_reader.readCSVFile("src/main/resources/db/MapBEdges.csv", "EDGES");
         for (Edge edge: db_storage.getAllEdges()) {
             edges.put(edge.getEdgeID(), edge);
-        }
-        System.out.println(edges.size());
+        }*/
+
+        System.out.println(nodes.size() + " nodes found on database");
         populateMap(nodes, edges);
-        System.out.println(a_star_node_map.size());
+        System.out.println(a_star_node_map.size() + " A* nodes created");
     }
 
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
     public void findShortestPath(String startID, String goalID){
         loadDBData();
-
+        if(a_star_node_map.size()==0){
+            System.out.println("Unusable map! Aborting A*");
+            return;
+        }
         this.start = this.a_star_node_map.get(startID);
         this.goal = this.a_star_node_map.get(goalID);
 
@@ -94,7 +93,7 @@ public class Pathfinder {
             }
             //loop over the current_node node's neighbors
             for(AStarNode neighbor: current_node.neighbors){
-                System.out.println("found neighbor: " + neighbor.getID());
+                //System.out.println("found neighbor: " + neighbor.getID());
                 //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
                     //check if they haven't been discovered before
@@ -120,6 +119,7 @@ public class Pathfinder {
             }
         }
         System.out.println("could not find suitable path");
+        return;
     }
     //returns the path (ordered start ---> finish) given the last node
     private Path reconstructPath(AStarNode end){
