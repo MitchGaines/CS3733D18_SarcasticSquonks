@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -77,6 +78,11 @@
                         <Font size="23.0" />
                     </font>
                 </TextField>
+            <CheckBox fx:id="add_edge_check" mnemonicParsing="false" text="Add a Path">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </CheckBox>
                 <Button fx:id="add_loc" alignment="CENTER" mnemonicParsing="false" onAction="#onAddLocClick" text="Add Location">
                     <font>
                         <Font size="23.0" />

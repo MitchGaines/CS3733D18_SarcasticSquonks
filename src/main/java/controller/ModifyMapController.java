@@ -1,5 +1,6 @@
 package controller;
 
+import data.Edge;
 import database.Storage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.ImageCursor;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,6 +30,9 @@ public class ModifyMapController {
 
     HashMap<data.Node, ImageView> nodes_list;
     Storage storage;
+
+    boolean add_edge = false;
+    data.Node start_of_edge;
 
     @FXML
     Label add_loc_fail;
@@ -66,8 +71,10 @@ public class ModifyMapController {
     Button back_btn;
 
     @FXML
+    CheckBox add_edge_check;
+
+    @FXML
     private void initialize() {
-        System.out.println("Intialize"); //test
         nodes_list = new HashMap<>();
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes());
@@ -104,7 +111,19 @@ public class ModifyMapController {
     }
 
     public void onMouseClick(MouseEvent click) {
-        if (add_loc_cancel.isVisible()) {
+        if (add_edge) {
+            Point2D pt = new Point2D(click.getX(), click.getY());
+            for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
+                if (entry.getValue().contains(pt)) {
+                    data.Edge a_edge = new Edge(generateEdgeId(start_of_edge, entry.getKey()), start_of_edge.getNodeID(), entry.getKey().getNodeID()); //TODO edge id function
+                    storage.saveEdge(a_edge);
+                }
+            }
+            add_edge_check.setSelected(false);
+            endAddLoc();
+        }
+
+        else if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
             data.Node a_node = new data.Node("id", (int)click.getX() + 2100 + 10, (int)click.getY() + 550 + 30, //adding the offset of the image and the offset of the icon
                     floor.getText(), building.getText(), loc_type.getText(), long_name.getText(),
@@ -114,27 +133,30 @@ public class ModifyMapController {
             pin.setY(click.getY());
             nodes_list.put(a_node, pin);
             storage.saveNode(a_node);
-            pane.getChildren().addAll(pin);
-            add_loc_cancel.setVisible(false);
-            trash_can.setVisible(true);
+            pane.getChildren().add(pin);
             scene.setCursor(Cursor.DEFAULT);
-            floor.setText("");
-            building.setText("");
-            loc_type.setText("");
-            long_name.setText("");
-            short_name.setText("");
+            if (add_edge_check.isSelected()) {
+                add_edge = true;
+                start_of_edge = a_node;
+            }
+            else {
+                endAddLoc();
+            }
         }
 
-        if (delete_loc_cancel.isVisible()) {
+        else if (delete_loc_cancel.isVisible()) {
+            System.out.println(storage.getAllEdges().size());
             HashMap<data.Node, ImageView> to_delete = new HashMap<>();
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
                     pane.getChildren().remove(entry.getValue());
                     storage.deleteNode(entry.getKey());
-                    nodes_list.remove(entry); //Might mess with the for loop
+                    nodes_list.remove(entry);
+                    deleteEdge(entry.getKey());
                 }
             }
+            System.out.println(storage.getAllEdges().size());
         }
     }
 
@@ -162,21 +184,43 @@ public class ModifyMapController {
     }
 
     private void makeMap(List<data.Node> dataNodes) {
-        System.out.println("make map"); //test
         int count = 1; //test
         int coord; //test
         for(data.Node a_node: dataNodes) {
-            System.out.println(count); //test
             count++; //test
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(a_node.getXCoord() - 2100 - 10); // -2100 for the image offset, -10 for the icon offset
             pin.setY(a_node.getYCoord() - 550 - 30); // -550 for the image offset, -30 for the icon offset
-            System.out.println(a_node.getXCoord() + " " + a_node.getYCoord()); //test
-            System.out.println(pin.getX() + " " + pin.getY()); //test
             nodes_list.put(a_node, pin);
             pane.getChildren().add(pin);
         }
-        //pane.getChildren().addAll(nodes_list.values());
-        System.out.println(nodes_list.size()); //test
     }
+
+    private void endAddLoc() {
+        add_loc_cancel.setVisible(false);
+        trash_can.setVisible(true);
+        floor.setText("");
+        building.setText("");
+        loc_type.setText("");
+        long_name.setText("");
+        short_name.setText("");
+    }
+
+    private void deleteEdge(data.Node a_node) {
+        List<data.Edge> to_delete = new ArrayList<>();
+        List<data.Edge> edges = storage.getAllEdges();
+        for (data.Edge a_edge : edges) {
+            if (a_edge.getEndNode().equals(a_node.getNodeID()) || a_edge.getStartNode().equals(a_node.getNodeID())) {
+                to_delete.add(a_edge);
+            }
+        }
+        for (data.Edge a_edge : to_delete) {
+            storage.deleteEdge(a_edge);
+        }
+    }
+
+    private String generateEdgeId(data.Node first_node, data.Node second_node) {
+        return (first_node.getNodeID() + "_" + second_node.getNodeID());
+    }
+
 }
