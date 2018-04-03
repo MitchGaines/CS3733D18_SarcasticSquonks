@@ -10,8 +10,12 @@ package user;
 public class LoginHandler {
     private ArrayList<User> users;
 
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
     public LoginHandler(){
-        users = new ArrayList<User>();
+        users = new ArrayList<>();
         /*
         Storage storage = new Storage();
         storage.setDatabase(new ApacheDatabase("apacheDB"));

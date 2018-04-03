@@ -11,6 +11,9 @@ import java.util.HashSet;
  *
  */
 public class ServiceType {
+
+
+
     /**
      * Stores the name of the Service Type.
      */
@@ -41,6 +44,21 @@ public class ServiceType {
      * Stores a HashSet of users.
      */
     private HashSet<User> fulfillers;
+
+    private static HashSet<ServiceType> serviceTypes;
+
+    private ServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+        this.name = name;
+        this.emergency = emergency;
+    }
+
+    public HashSet<ServiceType> getServiceTypes() {
+        return serviceTypes;
+    }
+
+    public void createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+        serviceTypes.add(new ServiceType(name, emergency, fulfillers));
+    }
 
 
 }
