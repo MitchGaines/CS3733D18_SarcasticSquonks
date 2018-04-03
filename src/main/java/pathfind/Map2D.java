@@ -2,7 +2,6 @@
 
 package pathfind;
 
-import data.Node;
 import javafx.geometry.Bounds;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
@@ -35,12 +34,12 @@ public class Map2D extends Map {
      * @param path List of nodes to draw along
      * @author Will Lucca
      */
-    public void drawPath(ArrayList<Node> path) {
+    public void drawPath(ArrayList<AStarNode> path) {
         path_polyline.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
-        for (Node node : path) {
-            path_polyline.getPoints().addAll(((double)node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX(),
-                    ((double)node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY());
+        for (AStarNode node : path) {
+            path_polyline.getPoints().addAll(((double)node.getX_coord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX(),
+                    ((double)node.getY_coord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY());
         }
     }
 }

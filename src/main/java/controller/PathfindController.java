@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import pathfind.Map2D;
+import pathfind.Pathfinder;
 import pathfind.QRCode;
 
 import java.io.IOException;
@@ -36,29 +37,21 @@ public class PathfindController implements Initializable {
     Polyline path_polyline;
 
     /**
-     *
+     * Performs this function during creation of Controller; everything done here
+     * is the logic that should go into manipulating what is shown
      * @param location
      * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Map2D map = new Map2D(map_img, path_polyline, destination_img);
-        ArrayList<data.Node> path = new ArrayList<>();
 
-        /* TODO
-        Perform all pathfinding operations here and then convert to
-        a readable string (exactly how it will be viewed after scanning)
-        to pass into QRCode creator.
-         */
+        Pathfinder pathfinder = new Pathfinder();
 
         // Test path
-        path.add(new data.Node("",0,0,"", "", "", "", "", "", 0, 0));
-        path.add(new data.Node("",1000,0,"", "", "", "", "", "", 0, 0));
-        path.add(new data.Node("",1000,2000,"", "", "", "", "", "", 0, 0));
-        path.add(new data.Node("",5000,3400,"", "", "", "", "", "", 0, 0));
+        pathfinder.findShortestPath("BDEPT00502", "BDEPT00802");
 
-
-        map.drawPath(path);
+        map.drawPath(pathfinder.path.getAStarNodePath());
 
         QRCode qr = new QRCode("pathfind text here...");
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
