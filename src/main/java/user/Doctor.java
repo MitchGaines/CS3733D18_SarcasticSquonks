@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class Doctor extends User {
     private ArrayList<ServiceRequest> doc_emergencies;
 
+    public Doctor(String username, String password){
+        super(username, password);
+        type = user_type.DOCTOR;
+    }
+
     /**
      * Returns the array list of emergencies for the current Doctor
      *

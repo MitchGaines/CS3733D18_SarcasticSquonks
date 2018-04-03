@@ -29,12 +29,13 @@ public class CSVTestSuite {
      */
     @Before
     public void setUp() {
-        storage = new Storage();
+
+        storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
 
         csv_reader = new CSVReader(storage.getDatabase());
-        csv_reader.readCSVFile("src/main/resources/db/MapBNodes.csv", table_name_nodes);
-        csv_reader.readCSVFile("src/main/resources/db/MapBEdges.csv", table_name_edges);
+        csv_reader.readCSVFile("csv/MapBNodes.csv", table_name_nodes);
+        csv_reader.readCSVFile("csv/MapBEdges.csv", table_name_edges);
 
         csv_writer = new CSVWriter(storage.getDatabase());
     }
@@ -73,18 +74,19 @@ public class CSVTestSuite {
      */
     @Test
     public void testWrite() {
-        csv_writer.writeCSVFile("src/main/resources/db/newNodeFile.csv", "NODES");
-        csv_writer.writeCSVFile("src/main/resources/db/newEdgeFile.csv", "EDGES");
+
+        csv_writer.writeCSVFile("csv/newNodeFile.csv", "NODES");
+        csv_writer.writeCSVFile("csv/newEdgeFile.csv", "EDGES");
 
         // re-create tables
         storage.setDatabase(storage.getDatabase());
 
         // read the files we just wrote to
-        csv_reader.readCSVFile("src/main/resources/db/newNodeFile.csv", "NODES");
+        csv_reader.readCSVFile("csv/MapBNodes.csv", table_name_nodes);
         List<Node> nodes = storage.getAllNodes();
         Assert.assertEquals(nodes.size(), 70);
 
-        csv_reader.readCSVFile("src/main/resources/db/newEdgeFile.csv", "EDGES");
+        csv_reader.readCSVFile("csv/MapBEdges.csv", table_name_edges);
         List<Edge> edges = storage.getAllEdges();
         Assert.assertEquals(edges.size(), 84);
 

@@ -47,7 +47,7 @@ public class PathfindController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Map2D map = new Map2D(map_img, path_polyline, destination_img);
         Pathfinder pathfinder = new Pathfinder();
-        //pathfinder.findShortestPath("BDEPT00502", "BDEPT00702");
+        //pathfinder.findShortestPath();
         //map.drawPath(pathfinder.path.getAStarNodePath());
 
         // Test path
