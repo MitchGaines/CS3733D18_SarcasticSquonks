@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class ModifyMapController {
 
-    HashMap<data.Node, ImageView> nodes_list = new HashMap<>();
-    Storage storage = Storage.getInstance();
+    HashMap<data.Node, ImageView> nodes_list;
+    Storage storage;
 
     @FXML
     Label add_loc_fail;
@@ -67,7 +67,10 @@ public class ModifyMapController {
 
     @FXML
     private void initialize() {
-        makeMap(new ArrayList<data.Node>());
+        System.out.println("Intialize"); //test
+        nodes_list = new HashMap<>();
+        storage = Storage.getInstance();
+        makeMap(storage.getAllNodes());
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
@@ -103,7 +106,7 @@ public class ModifyMapController {
     public void onMouseClick(MouseEvent click) {
         if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
-            data.Node a_node = new data.Node("id", (int)click.getX(), (int)click.getY(),
+            data.Node a_node = new data.Node("id", (int)click.getX() + 2100 + 10, (int)click.getY() + 550 + 30, //adding the offset of the image and the offset of the icon
                     floor.getText(), building.getText(), loc_type.getText(), long_name.getText(),
                     short_name.getText(), "S", 1, 1); //TODO: id function
             ImageView pin = new ImageView("images/nodeIcon.png");
@@ -159,14 +162,21 @@ public class ModifyMapController {
     }
 
     private void makeMap(List<data.Node> dataNodes) {
+        System.out.println("make map"); //test
+        int count = 1; //test
+        int coord; //test
         for(data.Node a_node: dataNodes) {
+            System.out.println(count); //test
+            count++; //test
             ImageView pin = new ImageView("images/nodeIcon.png");
-            pin.setX(a_node.getXCoord());
-            pin.setY(a_node.getYCoord());
+            pin.setX(a_node.getXCoord() - 2100 - 10); // -2100 for the image offset, -10 for the icon offset
+            pin.setY(a_node.getYCoord() - 550 - 30); // -550 for the image offset, -30 for the icon offset
+            System.out.println(a_node.getXCoord() + " " + a_node.getYCoord()); //test
+            System.out.println(pin.getX() + " " + pin.getY()); //test
             nodes_list.put(a_node, pin);
-            pane.getChildren().addAll(pin);
+            pane.getChildren().add(pin);
         }
+        //pane.getChildren().addAll(nodes_list.values());
+        System.out.println(nodes_list.size()); //test
     }
-
-
 }
