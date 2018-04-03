@@ -10,6 +10,9 @@ import java.util.ArrayList;
  */
 
 public abstract class Staff extends User {
+    protected Staff(String username, String password){
+        super(username, password);
+    }
     private ArrayList<ServiceRequest> staff_service_requests;
 
     /**
