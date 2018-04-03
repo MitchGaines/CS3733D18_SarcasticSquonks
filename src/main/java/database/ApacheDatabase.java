@@ -1,14 +1,16 @@
 package database;
 
 /**
- * ApacheDatabase.java
- * An implementation of an Apache Derby database
- * Author: Joseph Turcotte
+ * An implementation of a database that holds tables and processes
+ * SQL statements.
+ * @author Joseph Turcotte
+ * @version 1.0
  * Date: March 24, 2018
  */
 
 import org.apache.derby.jdbc.EmbeddedDriver;
 import java.sql.*;
+
 
 public class ApacheDatabase implements IDatabase {
     
@@ -19,15 +21,15 @@ public class ApacheDatabase implements IDatabase {
     private boolean is_open = false; // tells whether connection is open
 
     /**
-     * Constructor for the database
-     * @param db_name name of the database
+     * Constructor for the database.
+     * @param db_name name of the database.
      */
     public ApacheDatabase(String db_name) {
         this.db_name = db_name;
     }
 
     /**
-     * Connects to the embedded driver
+     * Connects to the embedded driver.
      */
     @Override
     public void connect() {
@@ -316,7 +318,7 @@ public class ApacheDatabase implements IDatabase {
     } // end insert
 
     /**
-     * Updates an entry (or multiple entries) in the database
+     * Updates an entry (or multiple entries) in the database.
      * @param table_name the name of the table
      * @param values the new values to insert
      * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null
@@ -376,7 +378,7 @@ public class ApacheDatabase implements IDatabase {
     } // end update
 
     /**
-     * Removes an entry from the table with the given name
+     * Removes an entry from the table with the given name.
      * @param table_name the name of the table
      * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null
      * @param whereArgs optional arguments to replace "?" in the condition (similar to Android); default null
@@ -423,7 +425,7 @@ public class ApacheDatabase implements IDatabase {
     } // end delete
 
     /**
-     * Adds quotes to a given string for SQL statements
+     * Adds quotes to a given string for SQL statements.
      * @param s the string to add quotes to
      * @return a String with quotes added around it
      */
@@ -432,7 +434,7 @@ public class ApacheDatabase implements IDatabase {
     }
 
     /**
-     * Gets the status of the database (open/closed)
+     * Gets the status of the database (open/closed).
      * @return true if the connection is open, false otherwise
      */
     public boolean getIsOpen() {
