@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import pathfind.AStarNode;
 import pathfind.Map2D;
 import pathfind.Pathfinder;
 import pathfind.QRCode;
@@ -45,15 +46,23 @@ public class PathfindController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Map2D map = new Map2D(map_img, path_polyline, destination_img);
-
         Pathfinder pathfinder = new Pathfinder();
+        //pathfinder.findShortestPath("BDEPT00502", "BDEPT00702");
+        //map.drawPath(pathfinder.path.getAStarNodePath());
 
         // Test path
-        pathfinder.findShortestPath("BDEPT00502", "BDEPT00802");
+        /*
+        ArrayList<AStarNode> test_path = new ArrayList<>();
+        test_path.add(new AStarNode("", 2623, 1018, ""));
+        test_path.add(new AStarNode("", 2610, 953, ""));
+        test_path.add(new AStarNode("", 2605, 902, ""));
+        test_path.add(new AStarNode("", 2605, 841, ""));
+        test_path.add(new AStarNode("", 2605, 783, ""));
+        test_path.add(new AStarNode("", 2554, 784, ""));
+        map.drawPath(test_path);
+        */
 
-        map.drawPath(pathfinder.path.getAStarNodePath());
-
-        QRCode qr = new QRCode("pathfind text here...");
+        QRCode qr = new QRCode(/*pathfinder.path.getPathDirections()*/"Pathfinding directions here");
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 

@@ -35,11 +35,20 @@ public class Map2D extends Map {
      * @author Will Lucca
      */
     public void drawPath(ArrayList<AStarNode> path) {
+        double x_coord = 0;
+        double y_coord = 0;
         path_polyline.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
         for (AStarNode node : path) {
-            path_polyline.getPoints().addAll(((double)node.getX_coord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX(),
-                    ((double)node.getY_coord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY());
+            x_coord = ((double)node.getX_coord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
+            y_coord = ((double)node.getY_coord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
+            path_polyline.getPoints().addAll(x_coord, y_coord);
         }
+        destination_img.setTranslateX(x_coord - destination_img.getFitWidth() / 2);
+        destination_img.setTranslateY(y_coord - destination_img.getFitHeight() / 2);
+        System.out.println(destination_img.getLayoutX());
+        System.out.println(destination_img.getLayoutY());
+        System.out.println(destination_img.getTranslateX());
+        System.out.println(destination_img.getTranslateY());
     }
 }

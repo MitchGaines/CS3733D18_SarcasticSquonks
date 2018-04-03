@@ -60,7 +60,7 @@
                            </Lighting>
                        </effect>
                    </Polyline>
-                  <ImageView fx:id="destination_img" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="destination_img" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/destinationIcon.png" />
                      </image>
