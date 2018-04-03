@@ -1,63 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
    <children>
-      <Button fx:id="back_button" layoutX="505.0" layoutY="28.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="&lt; Home" />
+      <Button fx:id="back_button" layoutX="1110.0" layoutY="28.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="&lt; Home" />
       <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
          <image>
             <Image url="@images/cfLLaKI.png" />
          </image>
       </ImageView>
-      <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="575.0" />
+      <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
       <ImageView fitHeight="306.0" fitWidth="267.0" layoutX="169.0" layoutY="88.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
          </image>
       </ImageView>
-      <GridPane layoutX="1.0" layoutY="81.0" prefHeight="320.0" prefWidth="600.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="300.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.8891296386719" minWidth="0.0" prefWidth="300.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <ScrollPane layoutX="14.0" layoutY="100.0" prefHeight="690.0" prefWidth="900.0">
+        <content>
+          <AnchorPane layoutX="-500.0" layoutY="-500.0" minHeight="0.0" minWidth="0.0" prefHeight="1050.0" prefWidth="1250.0">
+               <children>
+                  <ImageView fitHeight="3400.0" fitWidth="5000.0" layoutX="-2100.0" layoutY="-550.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/02_thesecondfloor.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button layoutX="1000.0" layoutY="700.0" mnemonicParsing="false" text="3D Map">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <VBox layoutX="915.0" layoutY="100.0" spacing="50.0">
          <children>
-            <ImageView fitHeight="261.0" fitWidth="269.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label layoutX="900.0" text="Scan QR Code For">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="Step By Step Instructions">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <ImageView fx:id="qr_img" fitHeight="291.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/ScreenShot2018-03-27at6.35.44PM.png" />
+                  <Image url="@images/jpeg.jpg" />
                </image>
-               <GridPane.margin>
-                  <Insets bottom="45.0" />
-               </GridPane.margin>
             </ImageView>
-            <Button mnemonicParsing="false" text="3D Map" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </Button>
-            <ImageView fx:id="qr_img" fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="45.0" />
-               </GridPane.margin>
-            </ImageView>
-            <Label text="Scan QR Code for Step-by-Step Directions" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="25.0" />
-               </GridPane.margin>
-            </Label>
          </children>
-      </GridPane>
+      </VBox>
    </children>
 </AnchorPane>
