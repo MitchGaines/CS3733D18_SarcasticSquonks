@@ -15,7 +15,6 @@ public class Path {
     public Path(){
     }
 
-
     public String getPathDirections(){
         String path = "";
         path += "path from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
@@ -43,6 +42,10 @@ public class Path {
         } else {
             return "continue straight";
         }
+    }
+
+    public ArrayList<AStarNode> getAStarNodePath() {
+        return a_star_node_path;
     }
 
     private double angle(int x1, int y1, int x2, int y2){
