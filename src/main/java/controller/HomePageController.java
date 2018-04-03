@@ -1,18 +1,17 @@
 package controller;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import pathfind.QRCode;
+import user.LoginHandler;
+import user.User;
 
 public class HomePageController {
 
@@ -44,13 +43,13 @@ public class HomePageController {
     public void onLoginClick(ActionEvent event) throws IOException {
         String name = username.getText();
         if (name.equals("doctor")) {
-            openUser(event, "/DoctorPage.fxml");
+            openUser(event, "/DoctorPage.fxml", LoginHandler.getUsers().get(0));
         }
         else if (name.equals("admin")) {
-            openUser(event, "/AdminPage.fxml");
+            openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
         }
         if (name.equals("regstaff")) {
-            openUser(event, "/RegStaffPage.fxml");
+            openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
         }
         else {
             wrong_credentials.setText("Wrong username or password");
@@ -58,8 +57,13 @@ public class HomePageController {
     }
 
     //PART OF THE USER TEST
-    public void openUser (ActionEvent event, String page) throws IOException{
-        Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+    public void openUser (ActionEvent event, String page, User user) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
+//             Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+        Parent user_parent = (Parent)loader.load();
+        UserController controller = loader.<UserController>getController();
+        controller.setUser(user);
+        controller.populateBoxes();
         Scene user_scene = new Scene(user_parent);
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");

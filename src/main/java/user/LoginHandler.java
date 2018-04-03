@@ -8,14 +8,13 @@ package user;
         import java.util.Base64;
 
 public class LoginHandler {
-    private ArrayList<User> users;
+    private static ArrayList<User> users = new ArrayList<>();
 
-    public ArrayList<User> getUsers() {
+    public static ArrayList<User> getUsers() {
         return users;
     }
 
     public LoginHandler(){
-        users = new ArrayList<>();
         /*
         Storage storage = new Storage();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
@@ -31,7 +30,7 @@ public class LoginHandler {
      * This class is used in place of an actual database implementation, will be removed
      *
      */
-    public void __generateDummyUsers(){
+    public static void __generateDummyUsers(){
         User u1 = new Doctor("Doctor", "Password");
         User u2 = new AdminStaff("Admin", "SecurePassword");
         User u3 = new RegularStaff("Bob", "abc");
