@@ -40,7 +40,8 @@ public class PathfindController implements Initializable {
          */
 
         QRCode qr = new QRCode("pathfind text here...");
-        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+        //TODO: fix QR import errors
+        //qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {

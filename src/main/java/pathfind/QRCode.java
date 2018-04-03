@@ -1,11 +1,11 @@
 package pathfind;
 
-
+/*
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-
+*/
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -27,6 +27,8 @@ public class QRCode {
      * Creates a BufferedImage of the QR-Code that should be displayed
      * @return the QR-Code image
      */
+    //TODO: fix QR code import errors
+    /*
     public BufferedImage getQRCode(){
         QRCodeWriter qr_writer = new QRCodeWriter();
         int width = 300;
@@ -59,4 +61,5 @@ public class QRCode {
 
         return buffered_image;
     }
+    */
 }
