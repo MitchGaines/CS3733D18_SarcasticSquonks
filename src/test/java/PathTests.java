@@ -31,8 +31,8 @@ public class PathTests {
         pathList.add(node5);
         path.setA_star_node_path(pathList);
         String description = path.getPathDirections();
-        Assert.assertTrue(description.contains("First, begin walking "));
-        //System.out.println(path.getPathDirections());
+        Assert.assertTrue(description.contains("Directions from: first node to: fifth node"));
+        System.out.println(path.getPathDirections());
     }
 
 }

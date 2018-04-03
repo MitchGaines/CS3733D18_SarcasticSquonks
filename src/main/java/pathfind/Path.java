@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 
 public class Path {
-    private static final double FEET_PER_PIXEL = 1;
+    private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
 
@@ -25,16 +25,16 @@ public class Path {
     /**
      * Once path is generated, will generate text descriptions for turns based on the path nodes
      *
-     * @return
+     * @return String based on calculated turns at each node
      */
     public String getPathDirections(){
         String path_description = "";
-        path_description += "Path  from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
+        path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
         path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + System.lineSeparator();
         for (int i = 1; i < (a_star_node_path.size()-1) ; i++) {
-            path_description += calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + " in " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + System.lineSeparator();
+            path_description += "In " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + ", " + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + "." + System.lineSeparator();
         }
-        path_description += "destination is " + calcDist(a_star_node_path.get(a_star_node_path.size()-2), a_star_node_path.get(a_star_node_path.size()-1)) + " ahead";
+        path_description += "Destination is " + calcDist(a_star_node_path.get(a_star_node_path.size()-2), a_star_node_path.get(a_star_node_path.size()-1)) + " ahead.";
         return path_description;
     }
 
