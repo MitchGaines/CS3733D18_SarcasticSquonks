@@ -1,5 +1,6 @@
 package controller;
 
+import database.Storage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class ModifyMapController {
 
     HashMap<data.Node, ImageView> nodes_list = new HashMap<>();
+    Storage storage = Storage.getInstance();
 
     @FXML
     Label add_loc_fail;
@@ -101,11 +103,14 @@ public class ModifyMapController {
     public void onMouseClick(MouseEvent click) {
         if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
-            data.Node a_node = new data.Node("id", (int)click.getX(), (int)click.getY(), floor.getText(), building.getText(), loc_type.getText(), long_name.getText(), short_name.getText(), "S", 1, 1); //TODO: id function
+            data.Node a_node = new data.Node("id", (int)click.getX(), (int)click.getY(),
+                    floor.getText(), building.getText(), loc_type.getText(), long_name.getText(),
+                    short_name.getText(), "S", 1, 1); //TODO: id function
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
             pin.setY(click.getY());
             nodes_list.put(a_node, pin);
+            storage.saveNode(a_node);
             pane.getChildren().addAll(pin);
             add_loc_cancel.setVisible(false);
             trash_can.setVisible(true);
@@ -116,12 +121,14 @@ public class ModifyMapController {
             long_name.setText("");
             short_name.setText("");
         }
+
         if (delete_loc_cancel.isVisible()) {
             HashMap<data.Node, ImageView> to_delete = new HashMap<>();
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
                     pane.getChildren().remove(entry.getValue());
+                    storage.deleteNode(entry.getKey());
                     nodes_list.remove(entry); //Might mess with the for loop
                 }
             }
@@ -137,14 +144,6 @@ public class ModifyMapController {
         long_name.setVisible(false);
         short_name.setVisible(false);
         add_loc.setVisible(false);
-<<<<<<< HEAD
-    }
-
-    public void onTrashCanClick() {
-        delete_loc_cancel.setVisible(true);
-        add_loc.setVisible(false);
-=======
->>>>>>> Modify Map UI upadted
     }
 
     public void onDeleteLocCancelClick() {
