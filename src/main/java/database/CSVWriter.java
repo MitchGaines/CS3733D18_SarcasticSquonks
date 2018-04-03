@@ -1,36 +1,38 @@
 package database;
 
-/**
- * CSVWriter.java
- * Parses a table and writes to a CSV file
- * Author: Joseph Turcotte
- * Date: March 24, 2018
- * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
- *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
- */
+
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.*;
-
+/**
+ * Parses a table and writes to a CSV file.
+ * @author Joseph Turcotte
+ * @version 1.0
+ * Date: March 24, 2018
+ * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+ *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
+ */
 public class CSVWriter { // TODO: the code seems a bit repetitive, but this is only called once at program shutdown
 
-    // fields
+    /**
+     * Stores the database.
+     */
     private ApacheDatabase data; // need the database so we can see the table
 
     /**
-     * Constructor for a CSVReader
-     * @param data the database to read data from
+     * Constructor for a CSVReader.
+     * @param data the database to read data from.
      */
     public CSVWriter(ApacheDatabase data) {
         this.data = data;
     }
 
     /**
-     * Reads from a JavaDB table and writes the entries to a csv file at the end of the program
-     * @param csv_file the name of the file to write to
-     * @param table_name the name of the table to read from
+     * Reads from a JavaDB table and writes the entries to a csv file at the end of the program.
+     * @param csv_file the name of the file to write to.
+     * @param table_name the name of the table to read from.
      */
     public void writeCSVFile(String csv_file, String table_name) {
 
