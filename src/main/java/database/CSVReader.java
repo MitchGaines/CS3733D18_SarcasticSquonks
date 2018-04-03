@@ -1,36 +1,41 @@
 package database;
 
-/**
- * CSVReader.java
- * Parses a CSV file and writes to a table
- * Author: Joseph Turcotte
- * Date: March 24, 2018
- * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
- *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
- */
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ *
+ * Parses a CSV file and writes to a table.
+ * @Author: Joseph Turcotte
+ * @version 1.0
+ * Date: March 24, 2018
+ * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+ *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
+ */
 public class CSVReader { // TODO: the code seems a bit repetitive, but this is only called once at program startup
 
-    // fields
+    /**
+     * Stores null for the buffered reader.
+     */
     private BufferedReader buffered_reader = null; // reader for file
+    /**
+     * Stores the database.
+     */
     private IDatabase database;
 
     /**
-     * Constructor for a CSVReader
-     * @param database the database that holds the tables
+     * Constructor for a CSVReader.
+     * @param database the database that holds the tables.
      */
     public CSVReader(IDatabase database) {
         this.database = database;
     }
 
     /**
-     * Loads a CSV file and populates a JavaDB table at the start of the program
-     * @param csv_file the name of the csv file to read from
-     * @param table_name the name of the table to create
+     * Loads a CSV file and populates a JavaDB table at the start of the program.
+     * @param csv_file the name of the csv file to read from.
+     * @param table_name the name of the table to create.
      */
     public void readCSVFile(String csv_file, String table_name) {
 

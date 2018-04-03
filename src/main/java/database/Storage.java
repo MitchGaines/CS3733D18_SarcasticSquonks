@@ -1,11 +1,6 @@
 package database;
 
-/**
- * Storage.java
- * The controller for the Apache Database
- * Author: Joseph Turcotte
- * Date: March 29, 2018
- */
+
 
 import data.Edge;
 import data.Node;
@@ -15,13 +10,22 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.LinkedList;
 
+/**
+ * Storage.java
+ * The controller for the Apache Database
+ * @author Joseph Turcotte
+ * @version 1.0
+ * Date: March 29, 2018
+ */
 public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node_id")
 
-    // fields
+    /**
+     * Stores the database.
+     */
     private IDatabase database;
 
     /**
-     * Empty constructor for storage
+     * Empty constructor for storage.
      */
     private Storage() {
     }
@@ -34,8 +38,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Sets the database for the controller to interact with
-     * @param database the database to connect to
+     * Sets the database for the controller to interact with.
+     * @param database the database to connect to.
      */
     public void setDatabase(IDatabase database) {
 
@@ -72,8 +76,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     // ----------- NODE METHODS ------------- //
 
     /**
-     * Inserts the fields of a new node into the nodes table
-     * @param node the Node object to insert into the nodes table
+     * Inserts the fields of a new node into the nodes table.
+     * @param node the Node object to insert into the nodes table.
      */
     public void saveNode(Node node) {
         database.insert("NODES", new String[] {
@@ -92,16 +96,16 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Removes a node entry from the nodes table
-     * @param node the Node object to delete from the nodes table
+     * Removes a node entry from the nodes table.
+     * @param node the Node object to delete from the nodes table.
      */
     public void deleteNode(Node node) {
         database.delete("NODES", "node_id = '" + node.getNodeID() + "'", null);
     }
 
     /**
-     * Updates the nodes table entry for a given node
-     * @param node the Node object to update in the nodes table
+     * Updates the nodes table entry for a given node.
+     * @param node the Node object to update in the nodes table.
      */
     public void updateNode(Node node) {
         String[] values = new String[] {
@@ -122,9 +126,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves a specific node from the nodes table based on its id
-     * @param node_id the id of the node to extract from the nodes table
-     * @return a Node object corresponding to the node requested
+     * Retrieves a specific node from the nodes table based on its id.
+     * @param node_id the id of the node to extract from the nodes table.
+     * @return a Node object corresponding to the node requested.
      */
     public Node getNodeByID(String node_id) {
         ResultSet result_set = database.query("NODES", null,
@@ -133,8 +137,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves all nodes from the nodes table
-     * @return a List of all of the nodes in the nodes table
+     * Retrieves all nodes from the nodes table.
+     * @return a List of all of the nodes in the nodes table.
      */
     public List<Node> getAllNodes() {
         ResultSet result_set = database.query("NODES", null,
@@ -143,9 +147,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Parses the nodes table and adds nodes to a list
-     * @param result_set the table of node entries
-     * @return a List of the node entries in the nodes table
+     * Parses the nodes table and adds nodes to a list.
+     * @param result_set the table of node entries.
+     * @return a List of the node entries in the nodes table.
      */
     private List<Node> getNodes(ResultSet result_set) {
         List<Node> nodes = new LinkedList<>();
@@ -165,9 +169,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves one node from the nodes table
-     * @param result_set a single entry from the nodes table
-     * @return a node corresponding to the nodes table entry
+     * Retrieves one node from the nodes table.
+     * @param result_set a single entry from the nodes table.
+     * @return a node corresponding to the nodes table entry.
      */
     private Node getNode(ResultSet result_set) {
 
@@ -205,8 +209,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     // ----------- EDGE METHODS ------------- //
 
     /**
-     * Inserts the fields of a new edge into the edges table
-     * @param edge the Edge to be inserted into the edges table
+     * Inserts the fields of a new edge into the edges table.
+     * @param edge the Edge to be inserted into the edges table.
      */
     public void saveEdge(Edge edge) {
         database.insert("EDGES", new String[] {
@@ -217,16 +221,16 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Deletes the edges table entry for the given edge
-     * @param edge the Edge to be deleted from the edges table
+     * Deletes the edges table entry for the given edge.
+     * @param edge the Edge to be deleted from the edges table.
      */
     public void deleteEdge(Edge edge) {
         database.delete("EDGES", "edge_id = '" + edge.getEdgeID() + "'", null);
     }
 
     /**
-     * Updates the edges table entry for the given edge
-     * @param edge the Edge to be updated in the edges table
+     * Updates the edges table entry for the given edge.
+     * @param edge the Edge to be updated in the edges table.
      */
     public void updateEdge(Edge edge) {
         String[] values = new String[] {
@@ -239,9 +243,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves a specific Edge from the edges table, based on its id
-     * @param edge_id the id of the edge to retrieve from the edges table
-     * @return
+     * Retrieves a specific Edge from the edges table, based on its id.
+     * @param edge_id the id of the edge to retrieve from the edges table.
+     * @return the edge with the corresponding edge id.
      */
     public Edge getEdgeByID(String edge_id) {
         ResultSet result_set = database.query("EDGES", null,
@@ -250,8 +254,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves all edges from the edges table
-     * @return a List containing all of the edges in the edges table
+     * Retrieves all edges from the edges table.
+     * @return a List containing all of the edges in the edges table.
      */
     public List<Edge> getAllEdges() {
         ResultSet result_set = database.query("EDGES", null,
@@ -260,9 +264,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Parses the edges table and adds edges to a list
-     * @param result_set the table of edges to parse
-     * @return a List containing the edges in the edges table
+     * Parses the edges table and adds edges to a list.
+     * @param result_set the table of edges to parse.
+     * @return a List containing the edges in the edges table.
      */
     private List<Edge> getEdges(ResultSet result_set) {
         List<Edge> edges = new LinkedList<>();
@@ -282,9 +286,9 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Retrieves one edge from the edges table
-     * @param result_set a single entry in the edges table
-     * @return an Edge corresponding to the entry in the edges table
+     * Retrieves one edge from the edges table.
+     * @param result_set a single entry in the edges table.
+     * @return an Edge corresponding to the entry in the edges table.
      */
     private Edge getEdge(ResultSet result_set) {
 
@@ -311,8 +315,8 @@ public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node
     }
 
     /**
-     * Get database
-     * @return the database
+     * Get database.
+     * @return the database.
      */
     public IDatabase getDatabase() {
         return database;
