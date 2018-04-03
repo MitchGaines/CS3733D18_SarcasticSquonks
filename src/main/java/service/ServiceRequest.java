@@ -42,7 +42,7 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    private ServiceRequest(String title, String description, ServiceType type, User requester, Node location) {
+    private ServiceRequest(String title, String description, ServiceType type, User requester, String location) {
         this.title = title;
         this.description = description;
         this.service_type = type;
@@ -58,7 +58,7 @@ public class ServiceRequest {
         return service_requests;
     }
 
-    private Node location;
+    private String location;
 
     /**
      * Gets a hashset of all service requests that need to be fulfilled.
@@ -82,7 +82,7 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    public static void createService(String title, String description, ServiceType type, User requester, Node location) {
+    public static void createService(String title, String description, ServiceType type, User requester, String location) {
         service_requests.add(new ServiceRequest(title, description, type, requester, location));
     }
 
@@ -176,7 +176,7 @@ public class ServiceRequest {
      * Retrieves the location of the request.
      * @return the location.
      */
-    public Node getLocation() {
+    public String getLocation() {
         return location;
     }
 
@@ -184,7 +184,12 @@ public class ServiceRequest {
      * Sets the location of the request.
      * @param location the location of the request.
      */
-    public void setLocation(Node location) {
+    public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
     }
 }
