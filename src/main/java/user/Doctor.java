@@ -1,5 +1,5 @@
 package user;
-import service.Emergency;
+import service.ServiceRequest;
 import java.util.ArrayList;
 
 /**
@@ -10,14 +10,14 @@ import java.util.ArrayList;
  */
 
 public class Doctor extends User {
-    private ArrayList<Emergency> doc_emergencies;
+    private ArrayList<ServiceRequest> doc_emergencies;
 
     /**
      * Returns the array list of emergencies for the current Doctor
      *
      * @return array list of emergencies for current Doctor
      */
-    public ArrayList<Emergency> getDocEmergencies() {
+    public ArrayList<ServiceRequest> getDocEmergencies() {
         return doc_emergencies;
     }
 }

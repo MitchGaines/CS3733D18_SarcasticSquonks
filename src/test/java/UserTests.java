@@ -44,24 +44,4 @@ public class UserTests {
         doc1.setUsername("not_doctor");
         Assert.assertEquals("not_doctor", doc1.getUsername());
     }
-
-    /*
-    @Test
-    public void testSalt() {
-        Assert.assertEquals("[B@66cd51c3", doc1.generateSalt().toString());
-    }
-
-    @Test
-    public void testSaltDifForUsers() {
-        Assert.assertEquals("[B@4dcbadb4", doc1.generateSalt().toString());
-        Assert.assertNotEquals("[B@4dcbadb4", doc2.generateSalt().toString());
-    }
-
-
-    @Test
-    public void testSaltChanges() {
-        doc1.generateSalt(); //salt is [B@1b9e1916
-        Assert.assertNotEquals("[B@1b9e1916", doc1.generateSalt().toString());
-    }
-    */
 }
