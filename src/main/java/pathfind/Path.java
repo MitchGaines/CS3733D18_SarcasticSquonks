@@ -12,19 +12,6 @@ import java.util.ArrayList;
 public class Path {
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
 
-
-    public static void main(String[] args) {
-        Pathfinder pathfinder = new Pathfinder();
-        pathfinder.findShortestPath("BDEPT00202", "BREST00402");
-/*        //print the path to console
-        int i = 1;
-        for(AStarNode AStarNode : pathfinder.path.a_star_node_path){
-            System.out.println("step "+ i + ": AStarNode " + AStarNode.getID());
-            i++;
-        }*/
-    }
-
-
     public Path(){
     }
 
