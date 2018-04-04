@@ -21,7 +21,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="30.0">
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make a Request:">
                <font>
@@ -46,7 +46,7 @@
                </VBox.margin>
             </TextField>
             <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="Description" />
-            <Button fx:id="requestServiceButton" mnemonicParsing="false" onAction="#doRequestService" text="Request">
+            <Button fx:id="request_service_button" mnemonicParsing="false" onAction="#doRequestService" text="Request">
                <font>
                   <Font size="14.0" />
                </font>
@@ -56,14 +56,17 @@
             <Insets left="30.0" right="30.0" top="25.0" />
          </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="50.0" GridPane.columnIndex="1">
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="30.0" GridPane.columnIndex="1">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Be Completed:">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <ComboBox fx:id="active_requests_box" prefWidth="150.0" promptText="My Requests" />
+            <ComboBox fx:id="active_requests_box" onAction="#loadRequestInfo" prefWidth="150.0" promptText="My Requests" />
+            <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" />
             <Button mnemonicParsing="false" onAction="#markComplete" text="Mark Completed">
                <font>
                   <Font size="14.0" />
