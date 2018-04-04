@@ -125,7 +125,7 @@ public class ModifyMapController {
 
         else if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
-            data.Node a_node = new data.Node("id", (int)click.getX() + 2100 + 10, (int)click.getY() + 550 + 30, //adding the offset of the image and the offset of the icon
+            data.Node a_node = new data.Node(generateNodeId(loc_type.getText()), (int)click.getX() + 2100 + 10, (int)click.getY() + 550 + 30, //adding the offset of the image and the offset of the icon
                     floor.getText(), building.getText(), loc_type.getText(), long_name.getText(),
                     short_name.getText(), "S", 1, 1); //TODO: id function
             ImageView pin = new ImageView("images/nodeIcon.png");
@@ -145,7 +145,6 @@ public class ModifyMapController {
         }
 
         else if (delete_loc_cancel.isVisible()) {
-            System.out.println(storage.getAllEdges().size());
             HashMap<data.Node, ImageView> to_delete = new HashMap<>();
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
@@ -156,12 +155,12 @@ public class ModifyMapController {
                     deleteEdge(entry.getKey());
                 }
             }
-            System.out.println(storage.getAllEdges().size());
         }
     }
 
     public void onTrashCanClick() {
         delete_loc_cancel.setVisible(true);
+        add_edge_check.setVisible(false);
         add_loc.setVisible(false);
         floor.setVisible(false);
         building.setVisible(false);
@@ -173,6 +172,7 @@ public class ModifyMapController {
 
     public void onDeleteLocCancelClick() {
         delete_loc_cancel.setVisible(false);
+        add_edge_check.setVisible(true);
         add_loc.setVisible(true);
         add_loc.setVisible(true);
         floor.setVisible(true);
@@ -204,6 +204,7 @@ public class ModifyMapController {
         loc_type.setText("");
         long_name.setText("");
         short_name.setText("");
+        add_edge = false;
     }
 
     private void deleteEdge(data.Node a_node) {
@@ -222,15 +223,18 @@ public class ModifyMapController {
     private String generateNodeId(String ntype){
         List<data.Node> nodes = storage.getAllNodes();  //get list of all nodes in database
 
-        int nodeinc = 0;        //initialize a counter
-
+        int currmax = 0;
         for (data.Node n : nodes){  //count number of nodes of that type that already exist
             if (n.getNodeType().equals(ntype)){
-                nodeinc++;
+                String fullID = n.getNodeID();
+                fullID = fullID.substring(5,8);
+                int id = Integer.parseInt(fullID);
+                if(id > currmax) {
+                    currmax = id;
+                }
             }
         }
-        nodeinc++;
-        return ("S" + ntype + Integer.toString(nodeinc) + "02");
+        return ("B" + ntype + String.format("%03d", currmax+1) + "02");
     }
 
 

@@ -48,6 +48,6 @@
             </Label>
          </children>
       </VBox>
-      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="LoggedInPage.fxml" />
+      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
    </children>
 </AnchorPane>

@@ -30,6 +30,7 @@ public class Main extends Application {
         csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
         csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
+
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));

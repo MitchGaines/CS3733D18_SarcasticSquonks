@@ -21,7 +21,6 @@ public class ServiceAreaController {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
         request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
-        System.out.println("there are " + ServiceType.getServiceTypes() + " types");
     }
 
     public void populateRequestsBox() {
@@ -52,6 +51,7 @@ public class ServiceAreaController {
             title_text.setVisible(false);
             location_text.setVisible(false);
             description_text.setVisible(false);
+            mark_completed_btn.setVisible(false);
         }
 
     }
@@ -95,6 +95,9 @@ public class ServiceAreaController {
     @FXML
     private TextArea description_field, description_text;
 
+    @FXML
+     Button mark_completed_btn;
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -114,12 +117,14 @@ public class ServiceAreaController {
         title_text.setVisible(true);
         location_text.setVisible(true);
         description_text.setVisible(true);
+        mark_completed_btn.setVisible(true);
     }
 
     public void initialize() {
         title_text.setVisible(false);
         location_text.setVisible(false);
         description_text.setVisible(false);
+        mark_completed_btn.setVisible(false);
     }
 
     private UserController parent;
