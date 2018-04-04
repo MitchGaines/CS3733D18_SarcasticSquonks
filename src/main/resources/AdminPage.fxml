@@ -32,6 +32,6 @@
             <Font size="23.0" />
          </font></Button>
       <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
-      <fx:include source="LoggedInPage.fxml" fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" />
+      <fx:include source="ServiceAreaRequests.fxml" fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" />
    </children>
 </AnchorPane>
