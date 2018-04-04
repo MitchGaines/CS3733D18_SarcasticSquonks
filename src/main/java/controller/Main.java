@@ -21,14 +21,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-//        // set database and storage class
-//        Storage storage = Storage.getInstance();
-//        storage.setDatabase(new ApacheDatabase("apacheDB"));
-//
-//        // read from CSV files
-//        CSVReader csv_reader = new CSVReader(storage.getDatabase());
-//        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
-//        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
+        // set database and storage class
+        Storage storage = Storage.getInstance();
+        storage.setDatabase(new ApacheDatabase("apacheDB"));
+
+        // read from CSV files
+        CSVReader csv_reader = new CSVReader(storage.getDatabase());
+        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
+        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
         primaryStage.setTitle("Brigham and Women's");

@@ -271,5 +271,9 @@ public class Node { // TODO: add 3d coordinate fields
         this.y_coord_3d = y_coord_3d;
     }
 
+    @Override
+    public String toString() {
+        return long_name;
+    }
 }
 
