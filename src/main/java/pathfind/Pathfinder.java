@@ -46,13 +46,13 @@ public class Pathfinder {
 
     private void loadDBData(){
         //TODO update once database gets fixed to pull nodes and edges
-/*        Storage db_storage = new Storage();
+        Storage db_storage = Storage.getInstance();
         for (Node node: db_storage.getAllNodes()) {
             nodes.put(node.getNodeID(), node);
         }
         for (Edge edge: db_storage.getAllEdges()) {
             edges.put(edge.getEdgeID(), edge);
-        }*/
+        }
         populateMap(nodes, edges);
     }
 

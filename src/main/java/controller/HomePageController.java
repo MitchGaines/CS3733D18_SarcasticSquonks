@@ -1,9 +1,16 @@
 package controller;
 
+import database.Storage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -13,7 +20,7 @@ import javafx.scene.Scene;
 import user.LoginHandler;
 import user.User;
 
-public class HomePageController {
+public class HomePageController implements Initializable {
 
     @FXML
     Button pathfind;
@@ -30,12 +37,43 @@ public class HomePageController {
     @FXML
     Label wrong_credentials;
 
-    public void onPathfindClick(ActionEvent event) throws IOException {
-        Parent pathfind_parent = FXMLLoader.load(getClass().getResource("/PathfindPage.fxml"));
-        Scene pathfind_scene = new Scene(pathfind_parent);
+    @FXML
+    ComboBox<data.Node> combobox_start;
+    @FXML
+    ComboBox<data.Node> combobox_end;
+
+    /**
+     * Performs this function during creation of Controller; sets up the ComboBoxes
+     * by pulling all nodes from the database
+     * @param location
+     * @param resources
+     * @author Will Lucca
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<data.Node> locations = FXCollections.observableArrayList();
+        locations.addAll(Storage.getInstance().getAllNodes());
+
+        combobox_start.setItems(locations);
+        combobox_end.setItems(locations);
+    }
+
+    /**
+     * Sets start_loc and end_loc to the values selected in the combobox, then switches view to
+     * PathfindPage, initializing PathfindController
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void onPathfindClick(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"));
+        Parent pathfind_parent = (Parent)loader.load();
+        PathfindController pathfind_ctrl = loader.getController();
+        pathfind_ctrl.doPathfinding(combobox_start.getValue(), combobox_end.getValue());
+
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(pathfind_scene);
+        pathfind_stage.setScene(new Scene(pathfind_parent));
         pathfind_stage.show();
     }
 
