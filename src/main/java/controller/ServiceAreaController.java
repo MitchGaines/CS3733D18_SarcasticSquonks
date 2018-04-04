@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import service.ServiceLogEntry;
 import service.ServiceRequest;
 import service.ServiceType;
 import user.User;
@@ -43,8 +44,9 @@ public class ServiceAreaController {
     Button request_service_button;
 
     public void markComplete() {
-        if (active_requests_box.getSelectionModel().getSelectedItem() != null) {
-            active_requests_box.getSelectionModel().getSelectedItem().fulfill(user);
+        ServiceRequest selected = active_requests_box.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            selected.fulfill(user);
 
             populateRequestsBox();
 
@@ -53,6 +55,8 @@ public class ServiceAreaController {
             description_text.setVisible(false);
             mark_completed_btn.setVisible(false);
         }
+
+        ServiceLogEntry.log(selected, true);
 
     }
 
