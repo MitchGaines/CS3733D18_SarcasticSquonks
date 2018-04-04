@@ -48,7 +48,7 @@ public class HomePageController {
         else if (name.equals("admin")) {
             openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
         }
-        if (name.equals("regstaff")) {
+        else if (name.equals("regstaff")) {
             openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
         }
         else {

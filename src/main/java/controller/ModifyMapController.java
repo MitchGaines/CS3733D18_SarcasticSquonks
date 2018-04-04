@@ -162,6 +162,7 @@ public class ModifyMapController {
 
     public void onTrashCanClick() {
         delete_loc_cancel.setVisible(true);
+        add_edge_check.setVisible(false);
         add_loc.setVisible(false);
         floor.setVisible(false);
         building.setVisible(false);
@@ -173,6 +174,7 @@ public class ModifyMapController {
 
     public void onDeleteLocCancelClick() {
         delete_loc_cancel.setVisible(false);
+        add_edge_check.setVisible(true);
         add_loc.setVisible(true);
         add_loc.setVisible(true);
         floor.setVisible(true);
