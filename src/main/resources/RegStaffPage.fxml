@@ -28,7 +28,7 @@
             <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
          </image>
       </ImageView>
-      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="LoggedInPage.fxml" />
+      <fx:include source="ServiceAreaRequests.fxml" fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" />
       <Button layoutX="541.0" layoutY="655.0" mnemonicParsing="false" onAction="#openLog" text="Open Log">
          <font>
             <Font size="23.0" />

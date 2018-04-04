@@ -48,7 +48,7 @@
             </Label>
          </children>
       </VBox>
-      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="LoggedInPage.fxml" />
+      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
       <Button layoutX="541.0" layoutY="698.0" mnemonicParsing="false" onAction="#openLog" text="Open Log">
          <font>
             <Font size="23.0" />
