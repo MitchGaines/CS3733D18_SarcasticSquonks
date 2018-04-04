@@ -1,7 +1,5 @@
 package user;
 
-import sun.misc.BASE64Encoder;
-
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -17,7 +15,6 @@ public abstract class User {
     private String username;
     private byte[] password_salt;
     private byte[] enc_password;
-    private static BASE64Encoder encoder = new BASE64Encoder();
     public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
     user_type type;
 
