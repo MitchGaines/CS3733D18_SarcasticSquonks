@@ -219,6 +219,22 @@ public class ModifyMapController {
         }
     }
 
+    private String generateNodeId(String ntype){
+        List<data.Node> nodes = storage.getAllNodes();  //get list of all nodes in database
+
+        int nodeinc = 0;        //initialize a counter
+
+        for (data.Node n : nodes){  //count number of nodes of that type that already exist
+            if (n.getNodeType().equals(ntype)){
+                nodeinc++;
+            }
+        }
+        nodeinc++;
+        return ("S" + ntype + Integer.toString(nodeinc) + "02");
+    }
+
+
+
     private String generateEdgeId(data.Node first_node, data.Node second_node) {
         return (first_node.getNodeID() + "_" + second_node.getNodeID());
     }
