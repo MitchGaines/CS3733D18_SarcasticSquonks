@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pathfind.QRCode;
+import service.ServiceType;
 
 
 public class Main extends Application {
@@ -33,6 +34,7 @@ public class Main extends Application {
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
+        ServiceType.createDummyTypes();
 
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {

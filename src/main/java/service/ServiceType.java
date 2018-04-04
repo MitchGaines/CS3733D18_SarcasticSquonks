@@ -1,5 +1,6 @@
 package service;
 
+import user.LoginHandler;
 import user.User;
 
 import java.util.HashSet;
@@ -11,6 +12,26 @@ import java.util.HashSet;
  *
  */
 public class ServiceType {
+
+
+    /**
+     * Creating three dummy types, adding appropriate staff as the fulfillers
+     */
+    public static void createDummyTypes() {
+        LoginHandler.__generateDummyUsers();
+        HashSet<User> doctors = new HashSet<>();
+        HashSet<User> staff = new HashSet<>();
+        HashSet<User> admins = new HashSet<>();
+
+        doctors.add(LoginHandler.getUsers().get(0));
+        admins.add(LoginHandler.getUsers().get(1));
+        staff.add(LoginHandler.getUsers().get(2));
+
+        createServiceType("Medical", true, doctors);
+        createServiceType("Custodial", false, staff);
+        createServiceType("Administrative", false, admins);
+    }
+
     /**
      * Stores the name of the Service Type.
      */
@@ -25,7 +46,7 @@ public class ServiceType {
      * Retrieves the value of the emergency field for the object.
      * @return the emergency field for the object.
      */
-    private boolean isEmergency() {
+    public boolean isEmergency() {
         return emergency;
     }
 
@@ -33,14 +54,38 @@ public class ServiceType {
      * Retrieves the name of the Service Type.
      * @return the name of the Service Type.
      */
-    private String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * Stores a HashSet of users.
      */
-    private HashSet<User> fulfillers;
+    private HashSet<User> fulfillers = new HashSet<>();
 
+    private static HashSet<ServiceType> serviceTypes = new HashSet<>();
+
+    private ServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+        this.name = name;
+        this.emergency = emergency;
+        this.fulfillers = fulfillers;
+    }
+
+    public static HashSet<ServiceType> getServiceTypes() {
+        return serviceTypes;
+    }
+
+    public static void createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+        serviceTypes.add(new ServiceType(name, emergency, fulfillers));
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    public HashSet<User> getFulfillers() {
+        return fulfillers;
+    }
 
 }

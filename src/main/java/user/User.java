@@ -1,7 +1,5 @@
 package user;
 
-import sun.misc.BASE64Encoder;
-
 import java.security.SecureRandom;
 import java.util.Base64;
 

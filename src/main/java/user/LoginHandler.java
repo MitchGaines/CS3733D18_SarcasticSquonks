@@ -15,16 +15,20 @@ package user;
  * @version %I%, %G%
  */
 public class LoginHandler {
+
     /**
      * Stores an ArrayList of users.
      */
-    private ArrayList<User> users;
+     private static ArrayList<User> users = new ArrayList<>();
+
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
 
     /**
      * initializes the ArrayList.
      */
     public LoginHandler(){
-        users = new ArrayList<User>();
         /*
         Storage storage = new Storage();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
@@ -40,7 +44,7 @@ public class LoginHandler {
      * This class is used in place of an actual database implementation, will be removed
      *
      */
-    public void __generateDummyUsers(){
+    public static void __generateDummyUsers(){
         User u1 = new Doctor("Doctor", "Password");
         User u2 = new AdminStaff("Admin", "SecurePassword");
         User u3 = new RegularStaff("Bob", "abc");

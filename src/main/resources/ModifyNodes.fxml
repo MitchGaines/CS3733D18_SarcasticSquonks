@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -15,83 +16,88 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyMapController">
-   <children>
-      <Separator layoutX="13.0" prefHeight="100.0" prefWidth="1174.0">
-         <padding>
-            <Insets top="80.0" />
-         </padding>
-      </Separator>
-      <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
-         <image>
-            <Image url="@images/cfLLaKI.png" />
-         </image>
-      </ImageView>
-      <HBox alignment="CENTER" layoutX="1018.0" layoutY="30.0" spacing="10.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
-            <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="&lt; Back" />
-         </children>
-      </HBox>
-      <ImageView fx:id="trash_can" fitHeight="40.0" fitWidth="46.0" layoutX="1120.0" layoutY="702.0" onMouseClicked="#onTrashCanClick" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/59-512.png" />
-         </image>
-      </ImageView>
-      <ScrollPane layoutX="14.0" layoutY="100.0" prefHeight="690.0" prefWidth="900.0">
-        <content>
-          <AnchorPane fx:id="pane" layoutX="-500.0" layoutY="-500.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#onMouseClick" prefHeight="1050.0" prefWidth="1250.0">
-               <children>
-                  <ImageView fitHeight="3400.0" fitWidth="5000.0" layoutX="-2100.0" layoutY="-550.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/02_thesecondfloor.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-      <VBox alignment="TOP_CENTER" layoutX="922.0" layoutY="100.0" prefHeight="480.0" prefWidth="247.0" spacing="15.0">
-         <children>
-            <TextField fx:id="floor" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Floor">
+    <children>
+        <Separator layoutX="13.0" prefHeight="100.0" prefWidth="1174.0">
+            <padding>
+                <Insets top="80.0" />
+            </padding>
+        </Separator>
+        <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
+            <image>
+                <Image url="@images/cfLLaKI.png" />
+            </image>
+        </ImageView>
+        <HBox alignment="CENTER" layoutX="1018.0" layoutY="30.0" spacing="10.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
+                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="&lt; Back" />
+            </children>
+        </HBox>
+        <ImageView fx:id="trash_can" fitHeight="40.0" fitWidth="46.0" layoutX="1120.0" layoutY="702.0" onMouseClicked="#onTrashCanClick" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@images/59-512.png" />
+            </image>
+        </ImageView>
+        <ScrollPane layoutX="14.0" layoutY="100.0" prefHeight="690.0" prefWidth="900.0">
+            <content>
+                <AnchorPane fx:id="pane" layoutX="-500.0" layoutY="-500.0" minHeight="0.0" minWidth="0.0" onMouseClicked="#onMouseClick" prefHeight="1050.0" prefWidth="1250.0">
+                    <children>
+                        <ImageView fitHeight="3400.0" fitWidth="5000.0" layoutX="-2100.0" layoutY="-550.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/02_thesecondfloor.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <VBox alignment="TOP_CENTER" layoutX="922.0" layoutY="100.0" prefHeight="480.0" prefWidth="247.0" spacing="15.0">
+            <children>
+                <TextField fx:id="floor" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Floor">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="building" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Buiding">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="loc_type" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Location Type">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="long_name" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Long Name">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="short_name" alignment="CENTER" prefHeight="50.0" prefWidth="247.0" promptText="Short Name">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </TextField>
+            <CheckBox fx:id="add_edge_check" mnemonicParsing="false" text="Add a Path">
                <font>
                   <Font size="23.0" />
                </font>
-            </TextField>
-            <TextField fx:id="building" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Buiding">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="loc_type" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Location Type">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="long_name" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Long Name">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="short_name" alignment="CENTER" prefHeight="50.0" prefWidth="247.0" promptText="Short Name">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </TextField>
-            <Button fx:id="add_loc" alignment="CENTER" mnemonicParsing="false" onAction="#onAddLocClick" text="Add Location">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </Button>
-            <Label fx:id="add_loc_fail" textFill="RED" />
-         </children>
-      </VBox>
-      <Button fx:id="add_loc_cancel" layoutX="922.0" layoutY="700.0" mnemonicParsing="false" onAction="#onAddLocCancelClick" prefHeight="44.0" prefWidth="132.0" text="Cancel" visible="false">
-         <font>
-            <Font size="23.0" />
-         </font></Button>
-      <Button fx:id="delete_loc_cancel" layoutX="922.0" layoutY="700.0" mnemonicParsing="false" onAction="#onDeleteLocCancelClick" prefHeight="44.0" prefWidth="132.0" text="Cancel" visible="false">
-         <font>
-            <Font size="23.0" />
-         </font></Button>
-   </children>
+            </CheckBox>
+                <Button fx:id="add_loc" alignment="CENTER" mnemonicParsing="false" onAction="#onAddLocClick" text="Add Location">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </Button>
+                <Label fx:id="add_loc_fail" textFill="RED" />
+            </children>
+        </VBox>
+        <Button fx:id="add_loc_cancel" layoutX="922.0" layoutY="700.0" mnemonicParsing="false" onAction="#onAddLocCancelClick" prefHeight="44.0" prefWidth="132.0" text="Cancel" visible="false">
+            <font>
+                <Font size="23.0" />
+            </font></Button>
+        <Button fx:id="delete_loc_cancel" layoutX="922.0" layoutY="700.0" mnemonicParsing="false" onAction="#onDeleteLocCancelClick" prefHeight="44.0" prefWidth="132.0" text="Cancel" visible="false">
+            <font>
+                <Font size="23.0" />
+            </font></Button>
+    </children>
 </AnchorPane>
