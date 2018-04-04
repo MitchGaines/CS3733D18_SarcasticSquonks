@@ -7,7 +7,7 @@ package data;
  * Date: March 24, 2018
  *
  * @author Joseph Turcotte
- * @version 1.0
+ * @version %I%, %G%
  */
 
 public class Edge {

@@ -7,30 +7,50 @@ import database.Storage;
 import java.util.*;
 
 /**
- * Pathfinder.java
- * loads from database and calculates the fastest path between given nodes
- * Author: Noah Hillman
+ * This class loads from database and calculates the fastest path between given nodes.
+ * @author Noah Hillman
+ * @version %I% %G%
  * Date: April 2, 2018
  */
-
 public class Pathfinder {
+    /**
+     * Stores a HashMap of Strings as keys and AStarNodes as values.
+     */
     HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
+
+    /**
+     * Stores the nodes in a HashMap.
+     */
     HashMap<String, Node> nodes = new HashMap();
+
+    /**
+     * Stores the edges in a HashMap.
+     */
     HashMap<String, Edge> edges = new HashMap();
+
+    /**
+     * Stores the goal.
+     */
     AStarNode goal;
+
+    /**
+     * Stores the start location.
+     */
     AStarNode start;
+
+    /**
+     * Stores a new path.
+     */
     public Path path = new Path();
 
     public Pathfinder(){
     }
 
     /**
-     * populateMap
-     * populates the fathfinder hashmap of a star nodes based on the given nodes and edges.
-     * updates the pathfinder path attribute
-     *
-     * @param nodes hashmap of nodes, with the nodes id as the key
-     * @param edges hashmap of edges, which contain node ids to be neighbored
+     * populates the pathfinder HashMap of a star nodes based on the given nodes and edges and
+     * updates the pathfinder path attribute.
+     * @param nodes hashmap of nodes, with the nodes id as the key.
+     * @param edges hashmap of edges, which contain node ids to be neighbored.
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
@@ -44,6 +64,9 @@ public class Pathfinder {
         }
     }
 
+    /**
+     * Loads the database data.
+     */
     private void loadDBData(){
         //TODO update once database gets fixed to pull nodes and edges
 /*        Storage db_storage = new Storage();
@@ -57,6 +80,11 @@ public class Pathfinder {
     }
 
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
+    /**
+     * Finds the shortest path between two nodes.
+     * @param startID Start node id.
+     * @param goalID Final goal node id.
+     */
     public void findShortestPath(String startID, String goalID){
         loadDBData();
         if(a_star_node_map.size()==0){
@@ -114,7 +142,13 @@ public class Pathfinder {
         }
         return;
     }
+
     //returns the path (ordered start ---> finish) given the last node
+    /**
+     * Returns the path reconstructed from start node to final destination node.
+     * @param end the final destination.
+     * @return the reconstructed path.
+     */
     private Path reconstructPath(AStarNode end){
         AStarNode previous = end;
         while(true){
@@ -126,6 +160,10 @@ public class Pathfinder {
             previous = previous.getParent();
         }
     }
+
     //comparator to organize how the priority queue sorts items (based on heuristic)
+    /**
+     * Comparator to organize how the priority queue sorts items (based on heuristic)
+     */
     private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getFCost() - AStarNode2.getFCost());
 }

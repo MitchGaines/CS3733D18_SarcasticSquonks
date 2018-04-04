@@ -6,8 +6,9 @@ import user.User;
 import java.util.HashSet;
 
 /**
- *
- *
+ * Defines a ServiceRequest.
+ * @author Mathew McMillan
+ * @version 1.0
  *
  */
 public class ServiceRequest {

@@ -4,8 +4,7 @@ package database;
  * An implementation of a database that holds tables and processes
  * SQL statements.
  * @author Joseph Turcotte
- * @version 1.0
- * Date: March 24, 2018
+ * @version %I%, %G%
  */
 
 import org.apache.derby.jdbc.EmbeddedDriver;

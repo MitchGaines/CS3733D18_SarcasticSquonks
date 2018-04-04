@@ -7,9 +7,22 @@ package user;
         import java.util.Arrays;
         import java.util.Base64;
 
+
+/**
+ * A class that stores and deals with the users.
+ *
+ * @author Mathew Puentes
+ * @version %I%, %G%
+ */
 public class LoginHandler {
+    /**
+     * Stores an ArrayList of users.
+     */
     private ArrayList<User> users;
 
+    /**
+     * initializes the ArrayList.
+     */
     public LoginHandler(){
         users = new ArrayList<User>();
         /*
@@ -36,6 +49,14 @@ public class LoginHandler {
         users.add(u3);
     }
 
+    /**
+     * Logs the user into their account.
+     * @param username the username
+     * @param password the password.
+     * @return the user
+     * @throws InvalidPasswordException throws if the password does not match with the user's username.
+     * @throws InvalidUsernameException throws if the username is not in the ArrayList
+     */
     public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {
         for (User user:users) {
             String user_username = user.getUsername();
