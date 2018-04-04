@@ -22,9 +22,7 @@ public class Path {
         this.a_star_node_path = a_star_node_path;
     }
 
-    public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
-        this.a_star_node_path = a_star_node_path;
-    }
+
 
     /**
      * Once path is generated, will generate text descriptions for turns based on the path nodes
