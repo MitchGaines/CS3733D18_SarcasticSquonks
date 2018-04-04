@@ -56,6 +56,7 @@ public class HomePageController {
         }
     }
 
+
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
