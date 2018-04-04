@@ -13,7 +13,7 @@ import java.util.*;
  * Date: April 2, 2018
  */
 
-public class Pathfinder extends Exception {
+public class Pathfinder extends Exception{
     HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
     HashMap<String, Node> nodes = new HashMap();
     HashMap<String, Edge> edges = new HashMap();
@@ -65,7 +65,6 @@ public class Pathfinder extends Exception {
         }
         this.start = this.a_star_node_map.get(startID);
         this.goal = this.a_star_node_map.get(goalID);
-
         //queue of all Nodes generated but not yet searched (queued in order of increasing cost)
         PriorityQueue<AStarNode> open_a_star_nodes = new PriorityQueue<>(10, heuristicComparator);
         //list of searched nodes that shouldn't be searched again
@@ -120,12 +119,14 @@ public class Pathfinder extends Exception {
         while(true){
             path.a_star_node_path.add(previous);
             if(previous.checkID(this.start)){
+                System.out.println("reconstructed path with " + path.a_star_node_path.size() + " steps");
                 Collections.reverse(path.a_star_node_path);
                 return path;
             }
             previous = previous.getParent();
         }
     }
+
     //comparator to organize how the priority queue sorts items (based on heuristic)
     private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getFCost() - AStarNode2.getFCost());
 }

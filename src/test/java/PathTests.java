@@ -1,8 +1,8 @@
+import database.ApacheDatabase;
+import database.Storage;
 import org.junit.Assert;
 import org.junit.Test;
-import pathfind.Path;
-import pathfind.AStarNode;
-import pathfind.Pathfinder;
+import pathfind.*;
 
 import java.util.ArrayList;
 
@@ -33,6 +33,17 @@ public class PathTests {
         String description = path.getPathDirections();
         Assert.assertTrue(description.contains("Directions from: first node to: fifth node"));
         System.out.println(path.getPathDirections());
+
+
+    }
+
+    @Test
+    public void testAStar(){
+        Storage.getInstance().setDatabase(new ApacheDatabase("apacheDB"));
+        Pathfinder pathfinder = new Pathfinder();
+        pathfinder.findShortestPath("BHALL01702","BSTAI00802");
+        System.out.println(pathfinder.path.getPathDirections());
+        Assert.assertTrue(true);
     }
 
 }

@@ -15,7 +15,6 @@ public class Path {
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
 
     public Path(){
-
     }
 
     public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
@@ -27,7 +26,10 @@ public class Path {
      *
      * @return String based on calculated turns at each node
      */
-    public String getPathDirections(){
+    public String getPathDirections() {
+        if(this.a_star_node_path.size() == 0){
+            return "No path found";
+        }
         String path_description = "";
         path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
         path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + System.lineSeparator();
