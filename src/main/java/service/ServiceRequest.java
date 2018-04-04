@@ -83,7 +83,10 @@ public class ServiceRequest {
      * @param location the location where the service is needed.
      */
     public static void createService(String title, String description, ServiceType type, User requester, String location) {
-        service_requests.add(new ServiceRequest(title, description, type, requester, location));
+        ServiceRequest service_request = new ServiceRequest(title, description, type, requester, location);
+        service_requests.add(service_request);
+        ServiceLogEntry.log(service_request, false);
+
     }
 
     /**
@@ -94,6 +97,7 @@ public class ServiceRequest {
     public boolean fulfill(User user) {
         if (!isFulfilled()) {
             fulfiller = user;
+            ServiceLogEntry.log(this, true);
             return true;
         } else {
             return false;
@@ -122,6 +126,10 @@ public class ServiceRequest {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public User getRequester() {
+        return requester;
     }
 
     /**
