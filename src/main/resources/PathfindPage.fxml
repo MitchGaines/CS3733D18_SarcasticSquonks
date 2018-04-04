@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Polyline?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
    <children>
       <Button fx:id="back_button" layoutX="1110.0" layoutY="28.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="&lt; Home" />
       <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
@@ -38,7 +38,7 @@
                         <Image url="@images/02_thesecondfloor.png" />
                      </image>
                   </ImageView>
-                   <Polyline fx:id="path_polyline" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeWidth="8.0">
+                   <Polyline fx:id="path_polyline" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
                        <points>
                            <Double fx:value="-50.0" />
                            <Double fx:value="-40.0" />
