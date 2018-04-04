@@ -36,7 +36,7 @@ public class PathTests {
         path.setA_star_node_path(pathList);
         String description = path.getPathDirections();
         Assert.assertTrue(description.contains("Directions from: first node to: fifth node"));
-        System.out.println(path.getPathDirections());
+        //System.out.println(path.getPathDirections());
 
 
     }
@@ -58,7 +58,7 @@ public class PathTests {
         csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
         Pathfinder pathfinder = new Pathfinder();
-        pathfinder.findShortestPath("BHALL01502","BHALL01602");
+        pathfinder.findShortestPath("BHALL01602","BREST00402");
         //System.out.println(pathfinder.path.getPathDirections());
         Assert.assertTrue(true);
         storage.getDatabase().dropTable("EDGES");
