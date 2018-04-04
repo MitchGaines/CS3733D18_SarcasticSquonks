@@ -40,6 +40,27 @@ public class UserController{
         serviceAreaController.setUser(user);
     }
 
+    public void openLog(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"));
+        Parent root = loader.load();
+        LogController log_controller = loader.getController();
+        Scene home_scene = new Scene(root);
+        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        home_stage.setTitle("Brigham and Women's");
+        home_stage.setScene(home_scene);
+        log_controller.setUser(user);
+        log_controller.setReturnPage(page);
+        log_controller.populateTable();
+
+        home_stage.show();
+    }
+
+    private String page;
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
     @FXML
     // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
     private ServiceAreaController serviceAreaController;

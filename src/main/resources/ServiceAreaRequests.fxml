@@ -25,13 +25,13 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make a Request:">
                <font>
-                  <Font size="23.0" />
+                  <Font size="30.0" />
                </font>
             </Text>
-            <ComboBox fx:id="request_type_selector" prefWidth="150.0" promptText="Service Type" />
+            <ComboBox fx:id="request_type_selector" prefHeight="44.0" prefWidth="229.0" promptText="Service Type" style="-fx-font-size: 23;" />
             <TextField fx:id="service_title" alignment="CENTER" layoutX="110.0" layoutY="283.0" promptText="Title">
                <font>
-                  <Font size="14.0" />
+                  <Font size="23.0" />
                </font>
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
@@ -39,16 +39,19 @@
             </TextField>
             <TextField fx:id="service_location" alignment="CENTER" promptText="Location">
                <font>
-                  <Font size="14.0" />
+                  <Font size="23.0" />
                </font>
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </TextField>
-            <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="Description" />
+            <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="Description">
+               <font>
+                  <Font size="23.0" />
+               </font></TextArea>
             <Button fx:id="request_service_button" mnemonicParsing="false" onAction="#doRequestService" text="Request">
                <font>
-                  <Font size="14.0" />
+                  <Font size="23.0" />
                </font>
             </Button>
          </children>
@@ -56,20 +59,29 @@
             <Insets left="30.0" right="30.0" top="25.0" />
          </padding>
       </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="30.0" GridPane.columnIndex="1">
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0" GridPane.columnIndex="1">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Be Completed:">
                <font>
-                  <Font size="23.0" />
+                  <Font size="30.0" />
                </font>
             </Text>
-            <ComboBox fx:id="active_requests_box" onAction="#loadRequestInfo" prefWidth="150.0" promptText="My Requests" />
-            <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" onAction="#markComplete" text="Mark Completed">
+            <ComboBox fx:id="active_requests_box" onAction="#loadRequestInfo" prefHeight="44.0" prefWidth="235.0" promptText="My Requests" style="-fx-font-size: 23;" />
+            <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
                <font>
-                  <Font size="14.0" />
+                  <Font size="23.0" />
+               </font></Text>
+            <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font size="23.0" />
+               </font></Text>
+            <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0">
+               <font>
+                  <Font size="23.0" />
+               </font></TextArea>
+            <Button fx:id="mark_completed_btn" mnemonicParsing="false" onAction="#markComplete" text="Mark Completed">
+               <font>
+                  <Font size="23.0" />
                </font>
             </Button>
          </children>

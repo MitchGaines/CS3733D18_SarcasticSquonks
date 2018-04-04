@@ -86,13 +86,14 @@ public class HomePageController implements Initializable {
         else if (name.equals("admin")) {
             openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
         }
-        if (name.equals("regstaff")) {
+        else if (name.equals("regstaff")) {
             openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
         }
         else {
             wrong_credentials.setText("Wrong username or password");
         }
     }
+
 
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
@@ -102,6 +103,7 @@ public class HomePageController implements Initializable {
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
         controller.populateBoxes();
+        controller.setPage(page);
         Scene user_scene = new Scene(user_parent);
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
