@@ -37,22 +37,6 @@ public class PathfindController {
     @FXML
     Polyline path_polyline;
 
-    /**
-     * Performs this function during creation of Controller; everything done here
-     * is the logic that should go into manipulating what is shown
-     * @param location
-     * @param resources
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Map2D map = new Map2D(map_img, path_polyline, destination_img);
-        Pathfinder pathfinder = new Pathfinder();
-        pathfinder.findShortestPath("BHALL23102","BSTAI00802");
-        map.drawPath(pathfinder.path.getAStarNodePath());
-        QRCode qr = new QRCode(pathfinder.path.getPathDirections());
-
-        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
-    }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));

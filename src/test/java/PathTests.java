@@ -1,8 +1,12 @@
-import database.ApacheDatabase;
-import database.Storage;
+import controller.Main;
+import database.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import org.junit.Assert;
 import org.junit.Test;
 import pathfind.*;
+import service.ServiceType;
 
 import java.util.ArrayList;
 
@@ -38,12 +42,26 @@ public class PathTests {
     }
 
     @Test
-    public void testAStar(){
-        Storage.getInstance().setDatabase(new ApacheDatabase("apacheDB"));
-        Pathfinder pathfinder = new Pathfinder();
-        pathfinder.findShortestPath("BHALL01702","BSTAI00802");
-        System.out.println(pathfinder.path.getPathDirections());
-        Assert.assertTrue(true);
-    }
+    public void testAStar() throws Exception{
+//        storage.setDatabase(new ApacheDatabase("apacheDB"));
+//        CSVReader csv_reader = new CSVReader(storage.getDatabase());
+//        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
+//        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
+        // set database and storage class
+        Storage storage = Storage.getInstance();
+        storage.setDatabase(new ApacheDatabase("apacheDB"));
+
+        // read from CSV files
+        CSVReader csv_reader = new CSVReader(storage.getDatabase());
+        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
+        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
+
+        Pathfinder pathfinder = new Pathfinder();
+        pathfinder.findShortestPath("BHALL01502","BHALL01602");
+        //System.out.println(pathfinder.path.getPathDirections());
+        Assert.assertTrue(true);
+        storage.getDatabase().dropTable("EDGES");
+        storage.getDatabase().dropTable("NODES");
+    }
 }
