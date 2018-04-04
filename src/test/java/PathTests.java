@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import controller.Main;
 import database.*;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import pathfind.*;
 import service.ServiceType;
+=======
+import org.junit.Assert;
+import org.junit.Test;
+import pathfind.Path;
+import pathfind.AStarNode;
+import pathfind.Pathfinder;
+>>>>>>> a7604c7e4403b8da3885c04f30092a3486e38c6c
 
 import java.util.ArrayList;
 
@@ -36,7 +44,6 @@ public class PathTests {
         path.setA_star_node_path(pathList);
         String description = path.getPathDirections();
         Assert.assertTrue(description.contains("Directions from: first node to: fifth node"));
-        //System.out.println(path.getPathDirections());
 
 
     }

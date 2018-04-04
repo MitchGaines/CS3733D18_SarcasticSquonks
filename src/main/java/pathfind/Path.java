@@ -15,6 +15,11 @@ public class Path {
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
 
     public Path(){
+
+    }
+
+    public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
+        this.a_star_node_path = a_star_node_path;
     }
 
     public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
