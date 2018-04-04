@@ -12,10 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
-import pathfind.AStarNode;
-import pathfind.Map2D;
-import pathfind.Pathfinder;
-import pathfind.QRCode;
+import pathfind.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +36,7 @@ public class PathfindController {
 
     @FXML
     Polyline path_polyline;
+
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));

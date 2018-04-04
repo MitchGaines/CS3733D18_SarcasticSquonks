@@ -56,7 +56,7 @@ public class CSVTestSuite {
         Assert.assertEquals(node6.getYCoord(), 1303);
 
         List<Edge> edges = storage.getAllEdges();
-        Assert.assertEquals(edges.size(), 84);
+        Assert.assertEquals(edges.size(), 90);
 
         // check the 7th entry to make sure it was read correctly
         Edge edge6 = edges.get(6);
@@ -88,7 +88,7 @@ public class CSVTestSuite {
 
         csv_reader.readCSVFile("csv/MapBEdges.csv", table_name_edges);
         List<Edge> edges = storage.getAllEdges();
-        Assert.assertEquals(edges.size(), 84);
+        Assert.assertEquals(edges.size(), 90);
 
         // drop tables at the end
         storage.getDatabase().dropTable("NODES");
