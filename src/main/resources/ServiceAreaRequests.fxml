@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane prefHeight="400.0" prefWidth="1174.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiceAreaController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Make a Request:">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="request_type_selector" prefHeight="44.0" prefWidth="229.0" promptText="Service Type" style="-fx-font-size: 23;" />
+            <TextField fx:id="service_title" alignment="CENTER" layoutX="110.0" layoutY="283.0" promptText="Title">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="service_location" alignment="CENTER" promptText="Location">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </TextField>
+            <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="Description">
+               <font>
+                  <Font size="23.0" />
+               </font></TextArea>
+            <Button fx:id="request_service_button" mnemonicParsing="false" onAction="#doRequestService" text="Request">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" top="25.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0" GridPane.columnIndex="1">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Be Completed:">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="active_requests_box" onAction="#loadRequestInfo" prefHeight="44.0" prefWidth="235.0" promptText="My Requests" style="-fx-font-size: 23;" />
+            <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font size="23.0" />
+               </font></Text>
+            <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font size="23.0" />
+               </font></Text>
+            <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0">
+               <font>
+                  <Font size="23.0" />
+               </font></TextArea>
+            <Button fx:id="mark_completed_btn" mnemonicParsing="false" onAction="#markComplete" text="Mark Completed">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" top="25.0" />
+         </padding>
+      </VBox>
+   </children>
+</GridPane>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Polyline?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
+   <children>
+      <Button fx:id="back_button" layoutX="1110.0" layoutY="28.0" mnemonicParsing="false" onAction="#onBackButtonClick" text="&lt; Home" />
+      <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
+         <image>
+            <Image url="@images/cfLLaKI.png" />
+         </image>
+      </ImageView>
+      <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
+      <ImageView fitHeight="306.0" fitWidth="267.0" layoutX="169.0" layoutY="88.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
+         </image>
+      </ImageView>
+      <ScrollPane layoutX="14.0" layoutY="100.0" prefHeight="690.0" prefWidth="900.0">
+        <content>
+          <AnchorPane layoutX="-500.0" layoutY="-500.0" minHeight="0.0" minWidth="0.0" prefHeight="1050.0" prefWidth="1250.0">
+               <children>
+                  <ImageView fx:id="map_img" fitHeight="3400.0" fitWidth="5000.0" layoutX="-2100.0" layoutY="-550.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/02_thesecondfloor.png" />
+                     </image>
+                  </ImageView>
+                   <Polyline fx:id="path_polyline" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
+                       <points>
+                           <Double fx:value="-50.0" />
+                           <Double fx:value="-40.0" />
+                           <Double fx:value="50.0" />
+                           <Double fx:value="-40.0" />
+                           <Double fx:value="0.0" />
+                           <Double fx:value="60.0" />
+                           <Double fx:value="-50.0" />
+                           <Double fx:value="-40.0" />
+                       </points>
+                       <effect>
+                           <Lighting diffuseConstant="1.42" specularConstant="0.95" specularExponent="10.22" surfaceScale="2.9">
+                               <bumpInput>
+                                   <Shadow height="11.12" radius="8.215" width="23.74" />
+                               </bumpInput>
+                               <light>
+                                   <Light.Distant />
+                               </light>
+                           </Lighting>
+                       </effect>
+                   </Polyline>
+                  <ImageView fx:id="destination_img" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/destinationIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button layoutX="1000.0" layoutY="700.0" mnemonicParsing="false" text="3D Map">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <VBox layoutX="915.0" layoutY="100.0" spacing="50.0">
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <Label layoutX="900.0" text="Scan QR Code For">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="Step By Step Instructions">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <ImageView fx:id="qr_img" fitHeight="291.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/jpeg.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

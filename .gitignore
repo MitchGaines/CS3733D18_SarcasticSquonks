@@ -1,5 +1,7 @@
 .gradle/
+apacheDB/
 .idea/
+out/
 classes/
 build/
 derby.log
@@ -7,3 +9,7 @@ derby.log
 *.jar
 *.lock
 *.iml
+.DS_Store
+newEdgeFile.csv
+newNodeFile.csv
+*.orig
