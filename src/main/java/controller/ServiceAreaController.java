@@ -1,10 +1,8 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import service.ServiceRequest;
 import service.ServiceType;
 import user.User;
@@ -20,27 +18,44 @@ public class ServiceAreaController {
     private User user;
 
     public void populateRequestTypes() {
-        request_type_selector.getItems().removeAll();
+        request_type_selector.valueProperty().set(null);
+        request_type_selector.getItems().removeAll(request_type_selector.getItems());
         request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
+        System.out.println("there are " + ServiceType.getServiceTypes() + " types");
     }
 
     public void populateRequestsBox() {
-        active_requests_box.getItems().removeAll();
+        parent.dismissEmergency();
+        boolean emergency_declared = false;
+        active_requests_box.valueProperty().set(null);
+        active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
             if (sr.getServiceType().getFulfillers().contains(user)) {
                 active_requests_box.getItems().add(sr);
+                if (sr.getServiceType().isEmergency() && !emergency_declared) {
+                    emergency_declared = true;
+                    parent.declareEmergency(sr.getTitle(), sr.getLocation(), sr.getDescription());
+                }
             }
         }
     }
 
     @FXML
-    Button requestServiceButton;
+    Button request_service_button;
 
     public void markComplete() {
         if (active_requests_box.getSelectionModel().getSelectedItem() != null) {
             active_requests_box.getSelectionModel().getSelectedItem().fulfill(user);
+
+            populateRequestsBox();
+
+            title_text.setVisible(false);
+            location_text.setVisible(false);
+            description_text.setVisible(false);
         }
+
     }
+
 
     public void doRequestService() {
         // todo: validation 4real
@@ -54,18 +69,63 @@ public class ServiceAreaController {
                 user,
                 service_location.getText());
 
-        System.out.println("Service requested");
         populateRequestsBox();
 
+        service_title.setText("");
+        service_location.setText("");
+        description_field.setText("");
+        populateRequestTypes();
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Service Request Created");
+        alert.setHeaderText("Service Request Created");
+        alert.setContentText("Your service request was created successfully.");
+        alert.showAndWait();
+
     }
+
+
+    @FXML
+    private Text title_text, location_text;
 
     @FXML
     private TextField service_title, service_location;
 
     @FXML
-    private TextArea description_field;
+    private TextArea description_field, description_text;
 
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void loadRequestInfo() {
+
+        ServiceRequest selected_request = active_requests_box.getSelectionModel().getSelectedItem();
+
+        if (selected_request == null) {
+            return;
+        }
+
+        title_text.setText(selected_request.getTitle());
+        description_text.setText(selected_request.getDescription());
+        location_text.setText(selected_request.getLocation());
+
+        title_text.setVisible(true);
+        location_text.setVisible(true);
+        description_text.setVisible(true);
+    }
+
+    public void initialize() {
+        title_text.setVisible(false);
+        location_text.setVisible(false);
+        description_text.setVisible(false);
+    }
+
+    private UserController parent;
+
+    public void setParent(UserController user_controller) {
+        parent = user_controller;
+    }
+
 }

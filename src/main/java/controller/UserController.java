@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import service.ServiceType;
@@ -51,6 +48,32 @@ public class UserController{
     public void populateBoxes() {
         serviceAreaController.populateRequestsBox();
         serviceAreaController.populateRequestTypes();
+    }
+
+    @FXML
+    private Label emergency_title, emergency_details, emergency_label;
+
+    public void declareEmergency(String title, String location, String description) {
+        if (emergency_title != null && emergency_details != null && emergency_label != null) {
+            emergency_title.setText(title + ", " + location);
+            emergency_details.setText(description);
+            emergency_label.setVisible(true);
+            emergency_title.setVisible(true);
+            emergency_details.setVisible(true);
+        }
+    }
+
+    public void dismissEmergency() {
+        if (emergency_title != null && emergency_details != null && emergency_label != null) {
+            emergency_label.setVisible(false);
+            emergency_title.setVisible(false);
+            emergency_details.setVisible(false);
+        }
+
+    }
+
+    public void initialize() {
+        serviceAreaController.setParent(this);
     }
 
 }

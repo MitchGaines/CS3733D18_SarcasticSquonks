@@ -6,10 +6,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -35,21 +32,22 @@
       <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
       <VBox alignment="TOP_CENTER" layoutX="415.0" layoutY="494.0" spacing="15.0">
          <children>
-            <Label text="EMERGENCY" textFill="RED">
+            <Label fx:id="emergency_label" text="EMERGENCY" textFill="RED">
                <font>
                   <Font size="60.0" />
                </font>
             </Label>
-            <Label text="(Details)">
+            <Label fx:id="emergency_title" text="Title">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="36.0" />
                </font></Label>
-            <Button mnemonicParsing="false" text="Mark Completed">
+            <Label fx:id="emergency_details" text="la la la la lala la la la lala la la la la">
                <font>
                   <Font size="23.0" />
-               </font></Button>
+               </font>
+            </Label>
          </children>
       </VBox>
-      <fx:include source="LoggedInPage.fxml" fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" />
+      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="LoggedInPage.fxml" />
    </children>
 </AnchorPane>
