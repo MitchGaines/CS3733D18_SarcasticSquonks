@@ -12,3 +12,4 @@ derby.log
 .DS_Store
 newEdgeFile.csv
 newNodeFile.csv
+*.orig
