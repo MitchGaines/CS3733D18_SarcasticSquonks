@@ -102,6 +102,7 @@ public class HomePageController implements Initializable {
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
         controller.populateBoxes();
+        controller.setPage(page);
         Scene user_scene = new Scene(user_parent);
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
