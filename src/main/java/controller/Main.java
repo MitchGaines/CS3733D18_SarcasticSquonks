@@ -4,6 +4,7 @@ import database.ApacheDatabase;
 import database.CSVReader;
 import database.CSVWriter;
 import database.Storage;
+import internationalization.AllText;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +16,18 @@ import javafx.stage.Stage;
 import pathfind.QRCode;
 import service.ServiceType;
 
+import javax.annotation.Resource;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        AllText.changeLanguage("en");
+        System.out.println(AllText.get("stringy_test"));
+        //System.exit(0);
 
         // set database and storage class
         Storage storage = Storage.getInstance();
@@ -31,7 +39,7 @@ public class Main extends Application {
         csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();

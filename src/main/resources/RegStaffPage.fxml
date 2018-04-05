@@ -20,7 +20,7 @@
       <HBox alignment="CENTER" layoutX="1023.0" layoutY="28.0" spacing="10.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Staff Name)" />
-            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#onLogoutClick" text="Log Out" />
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#onLogoutClick" text="%logout" />
          </children>
       </HBox>
       <ImageView fitHeight="692.0" fitWidth="593.0" layoutX="304.0" layoutY="94.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
@@ -29,7 +29,7 @@
          </image>
       </ImageView>
       <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
-      <Button layoutX="545.0" layoutY="678.0" mnemonicParsing="false" onAction="#openLog" text="View Log">
+      <Button layoutX="545.0" layoutY="678.0" mnemonicParsing="false" onAction="#openLog" text="%view_log">
          <font>
             <Font size="23.0" />
          </font>

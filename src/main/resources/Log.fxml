@@ -26,7 +26,7 @@
         <HBox alignment="CENTER" layoutX="1018.0" layoutY="30.0" spacing="10.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
-                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="&lt; Back" />
+                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="%back" />
             </children>
         </HBox>
       <TableView fx:id="log_table" layoutX="224.0" layoutY="119.0" prefHeight="628.0" prefWidth="753.0">

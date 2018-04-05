@@ -2,6 +2,7 @@ package controller;
 
 import data.Edge;
 import database.Storage;
+import internationalization.AllText;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,7 +82,7 @@ public class ModifyMapController {
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"));
+        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"), AllText.getBundle());
         Scene admin_scene = new Scene(admin_parent);
         Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         admin_stage.setTitle("User");

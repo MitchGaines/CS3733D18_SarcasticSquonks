@@ -1,5 +1,6 @@
 package controller;
 
+import internationalization.AllText;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -106,8 +107,7 @@ public class LogController {
 
     public void onBackClick(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page));
-//             Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
         Parent user_parent = (Parent)loader.load();
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
