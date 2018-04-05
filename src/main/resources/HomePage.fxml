@@ -40,10 +40,10 @@
          <children>
             <MenuButton contentDisplay="CENTER" mnemonicParsing="false" text="%quick_locations">
               <items>
-                <MenuItem mnemonicParsing="false" text="Exit" />
-                <MenuItem mnemonicParsing="false" text="Cafeteria" />
-                  <MenuItem mnemonicParsing="false" text="Reception" />
-                  <MenuItem mnemonicParsing="false" text="Restroom" />
+                <MenuItem mnemonicParsing="false" text="%exit" />
+                <MenuItem mnemonicParsing="false" text="%cafeteria" />
+                  <MenuItem mnemonicParsing="false" text="%reception" />
+                  <MenuItem mnemonicParsing="false" text="%restroom" />
               </items>
                <font>
                   <Font size="23.0" />
