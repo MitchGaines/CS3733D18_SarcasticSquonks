@@ -49,5 +49,10 @@
          </children>
       </VBox>
       <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
+      <Button layoutX="545.0" layoutY="696.0" mnemonicParsing="false" onAction="#openLog" text="View Log">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

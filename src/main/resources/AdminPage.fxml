@@ -32,6 +32,11 @@
             <Font size="23.0" />
          </font></Button>
       <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
-      <fx:include source="ServiceAreaRequests.fxml" fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" />
+      <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
+      <Button layoutX="535.0" layoutY="668.0" mnemonicParsing="false" onAction="#openLog" text="View Log">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
