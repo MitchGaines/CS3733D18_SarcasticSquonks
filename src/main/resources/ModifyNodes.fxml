@@ -30,7 +30,7 @@
         <HBox alignment="CENTER" layoutX="1018.0" layoutY="30.0" spacing="10.0">
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
-                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="&lt; Back" />
+                <Button fx:id="back_btn" mnemonicParsing="false" onAction="#onBackClick" text="%back" />
             </children>
         </HBox>
         <ImageView fx:id="trash_can" fitHeight="40.0" fitWidth="46.0" layoutX="1120.0" layoutY="702.0" onMouseClicked="#onTrashCanClick" pickOnBounds="true" preserveRatio="true">
@@ -53,37 +53,37 @@
         </ScrollPane>
         <VBox alignment="TOP_CENTER" layoutX="922.0" layoutY="100.0" prefHeight="480.0" prefWidth="247.0" spacing="15.0">
             <children>
-                <TextField fx:id="floor" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Floor">
+                <TextField fx:id="floor" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="%floor">
                     <font>
                         <Font size="23.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="building" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Buiding">
+                <TextField fx:id="building" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="%building">
                     <font>
                         <Font size="23.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="loc_type" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Location Type">
+                <TextField fx:id="loc_type" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="%location_type">
                     <font>
                         <Font size="23.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="long_name" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="Long Name">
+                <TextField fx:id="long_name" alignment="CENTER" prefHeight="50.0" prefWidth="119.0" promptText="%long_name">
                     <font>
                         <Font size="23.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="short_name" alignment="CENTER" prefHeight="50.0" prefWidth="247.0" promptText="Short Name">
+                <TextField fx:id="short_name" alignment="CENTER" prefHeight="50.0" prefWidth="247.0" promptText="%short_name">
                     <font>
                         <Font size="23.0" />
                     </font>
                 </TextField>
-            <CheckBox fx:id="add_edge_check" mnemonicParsing="false" text="Add a Path">
+            <CheckBox fx:id="add_edge_check" mnemonicParsing="false" text="%add_path">
                <font>
                   <Font size="23.0" />
                </font>
             </CheckBox>
-                <Button fx:id="add_loc" alignment="CENTER" mnemonicParsing="false" onAction="#onAddLocClick" text="Add Location">
+                <Button fx:id="add_loc" alignment="CENTER" mnemonicParsing="false" onAction="#onAddLocClick" text="%add_location">
                     <font>
                         <Font size="23.0" />
                     </font>

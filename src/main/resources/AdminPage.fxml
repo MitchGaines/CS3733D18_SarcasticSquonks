@@ -19,7 +19,7 @@
       <HBox alignment="CENTER" layoutX="1021.0" layoutY="28.0" spacing="10.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(Admin Name)" />
-            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#onLogoutClick" text="Log Out" />
+            <Button fx:id="logout_btn" mnemonicParsing="false" onAction="#onLogoutClick" text="%logout" />
          </children>
       </HBox>
       <ImageView fitHeight="692.0" fitWidth="593.0" layoutX="304.0" layoutY="94.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
@@ -27,13 +27,13 @@
             <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
          </image>
       </ImageView>
-      <Button fx:id="modify_map_btn" layoutX="520.0" layoutY="585.0" mnemonicParsing="false" onAction="#onModifyMapClick" text="Modify Map">
+      <Button fx:id="modify_map_btn" layoutX="520.0" layoutY="585.0" mnemonicParsing="false" onAction="#onModifyMapClick" text="%modify_map">
          <font>
             <Font size="23.0" />
          </font></Button>
       <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
       <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
-      <Button layoutX="535.0" layoutY="668.0" mnemonicParsing="false" onAction="#openLog" text="View Log">
+      <Button layoutX="535.0" layoutY="668.0" mnemonicParsing="false" onAction="#openLog" text="%view_log">
          <font>
             <Font size="23.0" />
          </font>
