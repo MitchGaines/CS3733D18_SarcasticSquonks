@@ -26,9 +26,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         AllText.changeLanguage("en");
-        System.out.println(AllText.get("stringy_test"));
-        //System.exit(0);
-
+        
         // set database and storage class
         Storage storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
