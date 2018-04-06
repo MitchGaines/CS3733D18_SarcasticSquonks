@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import pathfind.*;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class PathfindController {
 
@@ -52,7 +53,14 @@ public class PathfindController {
         pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
         map.drawPath(pathfinder.path.getAStarNodePath());
 
-        QRCode qr = new QRCode(pathfinder.path.getPathDirections());
+        QRCode qr = null;
+        try {
+            System.out.println(pathfinder.path.getPathDirections().toString());
+            qr = new QRCode(pathfinder.path.getPathDirections().toString());
+        } catch (MalformedURLException e) {
+            //TODO Handle this
+            e.printStackTrace();
+        }
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 }

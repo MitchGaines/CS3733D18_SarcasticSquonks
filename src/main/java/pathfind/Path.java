@@ -1,5 +1,8 @@
 package pathfind;
 
+import org.apache.commons.codec.binary.Base64;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -27,11 +30,17 @@ public class Path {
     /**
      * Once path is generated, will generate text descriptions for turns based on the path nodes
      *
-     * @return String based on calculated turns at each node
+     * @return URL based on calculated turns at each node
      */
-    public String getPathDirections() {
+    public URL getPathDirections() throws MalformedURLException {
+        String host = "localhost";
+        int port = 3000;
+        String protocol = "http";
+        String language = "en";
+        String path  = "/" + language + "/";
+
         if(this.a_star_node_path.size() == 0){
-            return "No path found";
+            return new URL(protocol, host, port, path);
         }
         String path_description = "";
         path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
@@ -40,7 +49,12 @@ public class Path {
             path_description += "In " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + ", " + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + "." + System.lineSeparator();
         }
         path_description += "Destination is " + calcDist(a_star_node_path.get(a_star_node_path.size()-2), a_star_node_path.get(a_star_node_path.size()-1)) + " ahead.";
-        return path_description;
+
+        byte[] path_bytes = path_description.getBytes();
+        String enc_bytes = Base64.encodeBase64String(path_bytes);
+        path += enc_bytes;
+
+        return new URL(protocol, host, port, path);
     }
 
     private String calcDist(AStarNode current_node, AStarNode next_node){

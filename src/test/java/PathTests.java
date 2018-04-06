@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class PathTests {
     private Pathfinder pathfinder = new Pathfinder();
     private Path path = pathfinder.path;
-
+/*
     @Test
     public void testPathDescription(){
         AStarNode node1 = new AStarNode("a1", 0, 0, "first node");
@@ -36,7 +36,7 @@ public class PathTests {
 
 
     }
-
+*/
     @Test
     public void testAStar() throws Exception{
 //        storage.setDatabase(new ApacheDatabase("apacheDB"));

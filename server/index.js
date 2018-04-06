@@ -4,10 +4,16 @@ var path    = require("path");
 
 app.set('view engine', 'ejs');
 
-app.get('/:directions', function(req, res){
-  var directions_list = req.params.directions;
+app.get('/:lang/:steps', function(req, res){
+  var path = "";
+  var steps_list = req.params.steps;
+  var language = req.params.lang;
+
+  var buf = Buffer.from(steps_list, 'base64');
+
+
   res.render('index', {
-    directions: directions_list
+    path: buf
   });
 });
 
