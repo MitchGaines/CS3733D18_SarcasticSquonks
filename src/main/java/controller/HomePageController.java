@@ -1,6 +1,7 @@
 package controller;
 
 import database.Storage;
+import internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -66,7 +67,7 @@ public class HomePageController implements Initializable {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue(), combobox_end.getValue());
@@ -86,7 +87,7 @@ public class HomePageController implements Initializable {
         else if (name.equals("admin")) {
             openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
         }
-        if (name.equals("regstaff")) {
+        else if (name.equals("regstaff")) {
             openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
         }
         else {
@@ -94,13 +95,14 @@ public class HomePageController implements Initializable {
         }
     }
 
+
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
-//             Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(page), AllText.getBundle());
         Parent user_parent = (Parent)loader.load();
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
+        controller.setPage(page);
         controller.populateBoxes();
         Scene user_scene = new Scene(user_parent);
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

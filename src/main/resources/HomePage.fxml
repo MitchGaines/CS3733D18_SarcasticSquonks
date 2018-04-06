@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
    <children>
       <ImageView fitHeight="54.0" fitWidth="189.0" layoutX="14.0" layoutY="14.0">
          <image>
@@ -25,9 +25,9 @@
       </ImageView>
       <HBox layoutX="874.0" layoutY="28.0" spacing="10.0">
          <children>
-            <TextField fx:id="username" alignment="CENTER" prefHeight="19.0" prefWidth="116.0" promptText="Username" />
-            <PasswordField fx:id="password" alignment="CENTER" prefWidth="116.0" promptText="Password" />
-            <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
+            <TextField fx:id="username" alignment="CENTER" prefHeight="19.0" prefWidth="116.0" promptText="%username" />
+            <PasswordField fx:id="password" alignment="CENTER" prefWidth="116.0" promptText="%password" />
+            <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClick" text="%login" />
          </children>
       </HBox>
       <Separator layoutX="13.0" layoutY="80.0" prefHeight="0.0" prefWidth="1174.0" />
@@ -38,37 +38,37 @@
       </ImageView>
       <VBox alignment="TOP_CENTER" layoutY="120.0" prefHeight="438.0" prefWidth="1200.0" spacing="50.0">
          <children>
-            <MenuButton contentDisplay="CENTER" mnemonicParsing="false" text="Quick Locations">
+            <MenuButton contentDisplay="CENTER" mnemonicParsing="false" text="%quick_locations">
               <items>
-                <MenuItem mnemonicParsing="false" text="Exit" />
-                <MenuItem mnemonicParsing="false" text="Cafeteria" />
-                  <MenuItem mnemonicParsing="false" text="Reception" />
-                  <MenuItem mnemonicParsing="false" text="Restroom" />
+                <MenuItem mnemonicParsing="false" text="%exit" />
+                <MenuItem mnemonicParsing="false" text="%cafeteria" />
+                  <MenuItem mnemonicParsing="false" text="%reception" />
+                  <MenuItem mnemonicParsing="false" text="%restroom" />
               </items>
                <font>
                   <Font size="23.0" />
                </font>
             </MenuButton>
-            <ComboBox fx:id="combobox_start" promptText="Select Location . . ." style="-fx-font-size: 23;" />
-            <ComboBox fx:id="combobox_end" promptText="Select Location . . ." style="-fx-font-size: 23;" />
-            <CheckBox mnemonicParsing="false" text="Stairs">
+            <ComboBox fx:id="combobox_start" promptText="%select_location" style="-fx-font-size: 23;" />
+            <ComboBox fx:id="combobox_end" promptText="%select_location" style="-fx-font-size: 23;" />
+            <CheckBox mnemonicParsing="false" text="%stairs">
                <font>
                   <Font size="23.0" />
                </font>
             </CheckBox>
-            <Button fx:id="pathfind" mnemonicParsing="false" onAction="#onPathfindClick" text="Directions">
+            <Button fx:id="pathfind" mnemonicParsing="false" onAction="#onPathfindClick" text="%directions_button">
                <font>
                   <Font size="23.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <Label layoutX="558.0" layoutY="191.0" text="Start Location" textFill="#7c7c7c">
+      <Label layoutX="558.0" layoutY="191.0" text="%start_location" textFill="#7c7c7c">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="571.0" layoutY="294.0" text="Destination" textFill="#7c7c7c">
+      <Label layoutX="571.0" layoutY="294.0" text="%end_location" textFill="#7c7c7c">
          <font>
             <Font size="14.0" />
          </font>

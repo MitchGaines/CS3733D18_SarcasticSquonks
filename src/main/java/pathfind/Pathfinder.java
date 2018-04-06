@@ -56,6 +56,7 @@ public class Pathfinder {
         for(Node node: nodes.values()){
             a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getShortName()));
         }
+
         for(Edge connection: edges.values()){
             if(a_star_node_map.containsKey(connection.getStartNode()) && a_star_node_map.containsKey(connection.getEndNode())){
                 a_star_node_map.get(connection.getStartNode()).neighbors.add(a_star_node_map.get(connection.getEndNode()));
@@ -88,12 +89,10 @@ public class Pathfinder {
     public void findShortestPath(String startID, String goalID){
         loadDBData();
         if(a_star_node_map.size()==0){
-            System.out.println("Unusable map! Aborting A*");
             return;
         }
         this.start = this.a_star_node_map.get(startID);
         this.goal = this.a_star_node_map.get(goalID);
-
         //queue of all Nodes generated but not yet searched (queued in order of increasing cost)
         PriorityQueue<AStarNode> open_a_star_nodes = new PriorityQueue<>(10, heuristicComparator);
         //list of searched nodes that shouldn't be searched again
@@ -105,7 +104,6 @@ public class Pathfinder {
         while(!open_a_star_nodes.isEmpty()){
             //take the lowest f score off the priority queue
             AStarNode current_node = open_a_star_nodes.poll();
-            //System.out.println("current_node node: " + current_node.getID());
             //add the current_node to closed list
             closed_a_star_nodes.add(current_node);
 
@@ -115,7 +113,6 @@ public class Pathfinder {
             }
             //loop over the current_node node's neighbors
             for(AStarNode neighbor: current_node.neighbors){
-                //System.out.println("found neighbor: " + neighbor.getID());
                 //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
                     //check if they haven't been discovered before
@@ -140,6 +137,11 @@ public class Pathfinder {
                 }
             }
         }
+        String list = "";
+        for (AStarNode nodes: closed_a_star_nodes){
+            list += nodes.getID() + System.lineSeparator();
+        }
+
         return;
     }
 
@@ -154,6 +156,7 @@ public class Pathfinder {
         while(true){
             path.a_star_node_path.add(previous);
             if(previous.checkID(this.start)){
+
                 Collections.reverse(path.a_star_node_path);
                 return path;
             }
