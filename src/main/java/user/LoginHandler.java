@@ -1,9 +1,6 @@
 package user;
-        import database.ApacheDatabase;
-        import database.CSVReader;
-        import database.Storage;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
         import java.util.Arrays;
         import java.util.Base64;
 

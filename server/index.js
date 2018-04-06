@@ -9,11 +9,12 @@ app.get('/:lang/:steps', function(req, res){
   var steps_list = req.params.steps;
   var language = req.params.lang;
 
-  var buf = Buffer.from(steps_list, 'base64');
+  var buf = Buffer.from(steps_list, 'base64').toString('utf8')
 
+  path = buf.replace(/\./g, '<br />');
 
   res.render('index', {
-    path: buf
+    path: path
   });
 });
 

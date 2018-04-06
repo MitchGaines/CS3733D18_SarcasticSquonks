@@ -2,10 +2,7 @@ import database.*;
 import org.junit.Assert;
 import org.junit.Test;
 import pathfind.Path;
-import pathfind.AStarNode;
 import pathfind.Pathfinder;
-
-import java.util.ArrayList;
 
 public class PathTests {
     private Pathfinder pathfinder = new Pathfinder();

@@ -1,6 +1,5 @@
 package service;
 
-import data.Node;
 import user.User;
 
 import java.util.HashSet;

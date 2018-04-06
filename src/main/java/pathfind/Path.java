@@ -43,8 +43,8 @@ public class Path {
             return new URL(protocol, host, port, path);
         }
         String path_description = "";
-        path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
-        path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + System.lineSeparator();
+        path_description += "Directions from: " + a_star_node_path.get(0).getLongName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getLongName() + "." + System.lineSeparator();
+        path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + "." + System.lineSeparator();
         for (int i = 1; i < (a_star_node_path.size()-1) ; i++) {
             path_description += "In " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + ", " + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + "." + System.lineSeparator();
         }
@@ -69,12 +69,12 @@ public class Path {
      * @return string for the turning direction: turn left, turn right, continue straight
      */
     private String calcTurn(AStarNode current_node, AStarNode next_node){
-        int previous_x = current_node.getParent().getX_coord();
-        int previous_y = current_node.getParent().getY_coord();
-        int current_x = current_node.getX_coord();
-        int current_y = current_node.getY_coord();
-        int next_x = next_node.getX_coord();
-        int next_y = next_node.getY_coord();
+        int previous_x = current_node.getParent().getXCoord();
+        int previous_y = current_node.getParent().getYCoord();
+        int current_x = current_node.getXCoord();
+        int current_y = current_node.getYCoord();
+        int next_x = next_node.getXCoord();
+        int next_y = next_node.getYCoord();
 
         double previous_angle = angle(previous_x, previous_y, current_x, current_y);
         double new_angle = angle(current_x, current_y, next_x, next_y);
