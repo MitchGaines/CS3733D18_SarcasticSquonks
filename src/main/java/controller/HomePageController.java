@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ import javafx.scene.Scene;
 import user.LoginHandler;
 import user.User;
 
-public class HomePageController implements Initializable {
+public class HomePageController {
 
     @FXML
     Button pathfind;
@@ -43,20 +44,43 @@ public class HomePageController implements Initializable {
     @FXML
     ComboBox<data.Node> combobox_end;
 
+    @FXML
+    MenuButton language_selector;
+
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
      * by pulling all nodes from the database
-     * @param location
-     * @param resources
      * @author Will Lucca
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
         locations.addAll(Storage.getInstance().getAllNodes());
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
+        populateLanguages();
+    }
+
+    private void populateLanguages() {
+        String[] languages = AllText.getLanguages();
+        language_selector.getItems().removeAll(language_selector.getItems());
+        for (String language : languages) {
+            MenuItem menuItem  = new MenuItem(AllText.get(language));
+            menuItem.setOnAction(e -> {
+                AllText.changeLanguage(language);
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+                    Stage primary_stage = (Stage)language_selector.getScene().getWindow();
+                    primary_stage.setTitle("Brigham and Women's");
+                    primary_stage.setScene(new Scene(root, 1200, 800));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            });
+            language_selector.getItems().add(menuItem);
+        }
+
+
     }
 
     /**
@@ -94,6 +118,8 @@ public class HomePageController implements Initializable {
             wrong_credentials.setText("Wrong username or password");
         }
     }
+
+
 
 
     //PART OF THE USER TEST
