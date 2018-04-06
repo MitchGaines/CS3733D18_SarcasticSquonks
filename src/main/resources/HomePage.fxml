@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.control.ExpansionPanel?>
-<?import com.gluonhq.charm.down.common.
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -20,22 +19,27 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
    <children>
-      <ExpansionPanel prefHeight="55.0" prefWidth="1200.0">
+      <ExpansionPanel prefWidth="1200.0">
          <collapsedContent>
-            <Pane prefHeight="100.0" prefWidth="221.0" style="-fx-background-color: #4863A0;">
+            <Pane prefHeight="50.0" prefWidth="1200.0" style="-fx-background-color: #4863A0;">
                <children>
-                  <Label layoutX="11.0" layoutY="14.0" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30 PM" />
+                  <Label layoutX="15.0" layoutY="8.0" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30 PM" />
                </children>
             </Pane>
          </collapsedContent>
          <expandedContent>
-            <HBox spacing="10.0">
+            <Pane prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: #4863A0;">
                <children>
-                  <TextField fx:id="username" alignment="CENTER" prefHeight="19.0" prefWidth="116.0" promptText="%username" />
-                  <PasswordField fx:id="password" alignment="CENTER" layoutX="1000.0" prefWidth="116.0" promptText="%password" />
-                  <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClick" text="%login" />
+                  <Label layoutX="15.0" layoutY="30.0" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30 PM" />
+                  <HBox layoutX="850.0" layoutY="30.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="username" alignment="CENTER" prefHeight="19.0" prefWidth="116.0" promptText="%username" style="-fx-background-color: #ffffff;" />
+                        <PasswordField fx:id="password" alignment="CENTER" layoutX="1000.0" prefWidth="116.0" promptText="%password" style="-fx-background-color: #ffffff;" />
+                        <Button fx:id="login_btn" mnemonicParsing="false" onAction="#onLoginClick" style="-fx-background-color: #A9A9A9;" text="%login" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </Pane>
          </expandedContent>
       </ExpansionPanel>
       <ImageView fitHeight="692.0" fitWidth="593.0" layoutX="304.0" layoutY="94.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
@@ -81,6 +85,5 @@
          </font>
       </Label>
       <Label fx:id="wrong_credentials" layoutX="645.0" layoutY="33.0" prefHeight="17.0" prefWidth="210.0" textFill="RED" />
-      <ExpansionPanel layoutX="225.0" layoutY="652.0" />
    </children>
 </AnchorPane>
