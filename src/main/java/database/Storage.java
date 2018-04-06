@@ -14,8 +14,8 @@ import java.util.LinkedList;
  * Storage.java
  * The controller for the Apache Database
  * @author Joseph Turcotte
- * @version 1.0
- * Date: March 29, 2018
+ * @version %I%, %G%
+ *
  */
 public class Storage { // TODO: consider using constants (i.e NODE.DB_ID = "node_id")
 

@@ -5,6 +5,8 @@ package data;
  * Nodes are the the pixel coordinates, and name of certain
  * real world locations in the hospital.
  *
+ * @author Joseph Turcotte
+ * @version %I%, %G%
  *
  */
 public class Node { // TODO: add 3d coordinate fields

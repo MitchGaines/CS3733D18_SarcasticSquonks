@@ -7,21 +7,44 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import java.util.ArrayList;
 
+/**
+ * A class specifically for the 2d map.
+ * @author Will Luca
+ * @version %I%, %G%
+ */
 public class Map2D extends Map {
 
+    /**
+     * Stores the map width (uses pixel values).
+     */
     private final int MAP_WIDTH = 5000;
+
+    /**
+     * Stores the map height (uses pixel values).
+     */
     private final int MAP_HEIGHT = 3400;
 
+    /**
+     * Stores the map image.
+     */
     private ImageView map;
+
+    /**
+     * Stores the polyline.
+     */
     private Polyline path_polyline;
+
+    /**
+     * Stores the image of the destination.
+     */
     private ImageView destination_img;
 
     /**
-     * Constructs a 2D map with path drawing capabilities
-     * @param map FXML ImageView that the map refers to
-     * @param path_polyline FXML Polyline used for drawing on the map
-     * @param destination_img FXML ImageView that will mark the destination of the path
-     * @author Will Lucca
+     * Constructs a 2D map with path drawing capabilities.
+     * @param map FXML ImageView that the map refers to.
+     * @param path_polyline FXML Polyline used for drawing on the map.
+     * @param destination_img FXML ImageView that will mark the destination of the path.
+     *
      */
     public Map2D(ImageView map, Polyline path_polyline, ImageView destination_img){
         this.map = map;
@@ -30,9 +53,9 @@ public class Map2D extends Map {
     }
 
     /**
-     * Draws path on map
-     * @param path List of nodes to draw along
-     * @author Will Lucca
+     * Draws path on map.
+     * @param path List of nodes to draw along.
+     * @author Will Lucca.
      */
     public void drawPath(ArrayList<AStarNode> path) {
         double x_coord = 0;

@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 /**
  * Defines a ServiceType.
- * @author Mathew McMillian
+ * @author Mathew McMillan
  * @version 1.0
  *
  */

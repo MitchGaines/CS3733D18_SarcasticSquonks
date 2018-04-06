@@ -3,17 +3,22 @@ package pathfind;
 import java.util.ArrayList;
 
 /**
- * Path.java
  * Holds path information from A-star and calculates text directions
- * Author: Noah Hillman
+ * @author Noah Hillman
+ * @version %I%, %G%
  * Date: April 2, 2018
  */
-
 public class Path {
+
+    
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
+
     ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
 
+    /**
+     * initializes the path.
+     */
     public Path(){
 
     }
@@ -21,6 +26,15 @@ public class Path {
     public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
         this.a_star_node_path = a_star_node_path;
     }
+
+
+    /**
+     * Retrieves the pathway directions.
+     * @return the directions to the destination.
+     */
+    public String getPathDirections(){
+        String path = "";
+        path += "path from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
 
 
 
@@ -36,6 +50,7 @@ public class Path {
         String path_description = "";
         path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
         path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + System.lineSeparator();
+
         for (int i = 1; i < (a_star_node_path.size()-1) ; i++) {
             path_description += "In " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + ", " + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + "." + System.lineSeparator();
         }
@@ -74,10 +89,19 @@ public class Path {
         }
     }
 
+
     public ArrayList<AStarNode> getAStarNodePath() {
         return a_star_node_path;
     }
 
+    /**
+     * Calculates the angle between two coordinates.
+     * @param x1 x coordinate of the first node.
+     * @param y1 y coordinate of the first node
+     * @param x2 x coordinate of the second node.
+     * @param y2 y coordinate of the second node
+     * @return the angle between the two nodes.
+     */
     private double angle(int x1, int y1, int x2, int y2){
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }

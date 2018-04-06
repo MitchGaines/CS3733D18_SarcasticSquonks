@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 /**
  * An interface to help the classes work with in the database.
  * @author Joseph Turcotte
- * @version 1.0
- * Date: March 24, 2018
+ * @version %I%, %G%
  */
 public interface IDatabase {
 

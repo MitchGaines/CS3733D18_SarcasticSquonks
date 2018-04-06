@@ -3,12 +3,11 @@ import service.ServiceRequest;
 import java.util.ArrayList;
 
 /**
- * Staff.java
- * Abstract class for different Staff user types
- * Author: Danny Sullivan
- * Date: March 31, 2018
+ * Staff is an Abstract class for different Staff user types.
+ * @author Danny Sullivan
+ * @version %I%, %G%
+ *
  */
-
 public abstract class Staff extends User {
     protected Staff(String username, String password){
         super(username, password);
