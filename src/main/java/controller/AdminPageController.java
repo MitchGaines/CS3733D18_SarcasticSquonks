@@ -22,8 +22,11 @@ public class AdminPageController extends UserController {
     Button modify_map_btn;
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
+        Parent modify_nodes_parent = loader.load();
+        ModifyMapController controller = loader.getController();
         Scene modify_nodes_scene = new Scene(modify_nodes_parent);
+        controller.setReturnScene(modify_map_btn.getScene());
         Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         modify_nodes_stage.setTitle("Modify Nodes");
         modify_nodes_stage.setScene(modify_nodes_scene);
