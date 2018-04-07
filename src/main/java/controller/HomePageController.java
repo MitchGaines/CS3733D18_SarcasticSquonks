@@ -1,5 +1,6 @@
 package controller;
 
+import com.gluonhq.charm.glisten.control.ExpansionPanel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
@@ -13,7 +14,9 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.time.Clock;
 
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -38,6 +41,9 @@ public class HomePageController implements Initializable {
 
     @FXML
     Label wrong_credentials;
+
+    @FXML
+    Label time;
 
     @FXML
     JFXComboBox<data.Node> combobox_start;
@@ -96,6 +102,12 @@ public class HomePageController implements Initializable {
         }
     }
 
+    @FXML
+    ExpansionPanel exp_panel;
+
+    public void onExpPanelClick(MouseEvent click) {
+        wrong_credentials.setText("");
+    }
 
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
