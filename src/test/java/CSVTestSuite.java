@@ -93,7 +93,7 @@ public class CSVTestSuite {
         // drop tables at the end
         storage.getDatabase().dropTable("NODES");
         storage.getDatabase().dropTable("EDGES");
-        storage.getDatabase().dropTable("USERS");
-        storage.getDatabase().dropTable("SERVICES");
+//        storage.getDatabase().dropTable("USERS");
+//        storage.getDatabase().dropTable("SERVICES");
     }
 }
