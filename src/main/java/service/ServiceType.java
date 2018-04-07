@@ -13,7 +13,6 @@ import java.util.HashSet;
  */
 public class ServiceType {
 
-
     /**
      * Creating three dummy types, adding appropriate staff as the fulfillers
      */
@@ -75,8 +74,10 @@ public class ServiceType {
         return serviceTypes;
     }
 
-    public static void createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
-        serviceTypes.add(new ServiceType(name, emergency, fulfillers));
+    public static ServiceType createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+        ServiceType new_service = new ServiceType(name, emergency, fulfillers);
+        serviceTypes.add(new_service);
+        return new_service;
     }
 
     @Override

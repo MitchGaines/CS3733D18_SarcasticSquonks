@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pathfind.QRCode;
 import service.ServiceType;
+import user.LoginHandler;
 
 import javax.annotation.Resource;
 import java.util.Locale;
@@ -31,7 +32,7 @@ public class Main extends Application {
         Storage storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
 
-        // read from CSV files
+        // read from CSV files TODO make user csv file
         CSVReader csv_reader = new CSVReader(storage.getDatabase());
         csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
         csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
@@ -41,7 +42,9 @@ public class Main extends Application {
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
-        ServiceType.createDummyTypes();
+        //ServiceType.createDummyTypes();
+        //TODO: actually use LoginHandler correctly.
+        LoginHandler.__generateDummyUsers();
 
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {

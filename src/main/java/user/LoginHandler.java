@@ -1,42 +1,44 @@
 package user;
-        import database.ApacheDatabase;
-        import database.CSVReader;
-        import database.Storage;
 
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.Base64;
+import database.Storage;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.LinkedList;
 
 public class LoginHandler {
-    private static ArrayList<User> users = new ArrayList<>();
+    private static LinkedList<User> users = new LinkedList<User>();
 
-    public static ArrayList<User> getUsers() {
+    public static LinkedList<User> getUsers() {
         return users;
     }
 
     public LoginHandler(){
-        /*
-        Storage storage = new Storage();
-        storage.setDatabase(new ApacheDatabase("apacheDB"));
+        Storage storage = Storage.getInstance();
 
-        CSVReader user_table_reader = new CSVReader(storage.getDatabase());
-        user_table_reader.readCSVFile("users", "user table");
-        */
+//        CSVReader user_table_reader = new CSVReader(storage.getDatabase()); // TODO move to Main
+//        user_table_reader.readCSVFile("users", "user table");
 
-        //users = storage.getAllUsers(); //This isn't actually implemented yet.
+        users = (LinkedList<User>)storage.getAllUsers();
+        __generateDummyUsers();
     }
 
     /**
-     * This class is used in place of an actual database implementation, will be removed
+     * This class is used in place of an actual database implementation, used for testing purposes
      *
      */
     public static void __generateDummyUsers(){
-        User u1 = new Doctor("Doctor", "Password");
-        User u2 = new AdminStaff("Admin", "SecurePassword");
-        User u3 = new RegularStaff("Bob", "abc");
+        Storage storage = Storage.getInstance();
+
+        User u1 = new User("Doctor", "Password", User.user_type.DOCTOR);
+        User u2 = new User("Admin", "SecurePassword", User.user_type.ADMIN_STAFF);
+        User u3 = new User("Bob", "abc", User.user_type.REGULAR_STAFF);
         users.add(u1);
         users.add(u2);
         users.add(u3);
+
+        storage.saveUser(u1);
+        storage.saveUser(u2);
+        storage.saveUser(u3);
     }
 
     public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {

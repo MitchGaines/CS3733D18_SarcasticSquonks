@@ -66,12 +66,12 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-        ServiceRequest.createService(
-                service_title.getText(),
-                description_field.getText(),
-                request_type_selector.getSelectionModel().getSelectedItem(),
-                user,
-                service_location.getText());
+//        ServiceRequest.createService(
+//                service_title.getText(),
+//                description_field.getText(),
+//                request_type_selector.getSelectionModel().getSelectedItem(),
+//                user,
+//                service_location.getText());
 
         populateRequestsBox();
 

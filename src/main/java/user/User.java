@@ -5,31 +5,41 @@ import java.util.Base64;
 
 /**
  * User.java
- * Abstract class for all possible user types
+ * Class for all possible user types
  * Author: Danny Sullivan
  * Date: March 31, 2018
+ * Modified by: Joseph Turcotte
+ * Date: April 6, 2018
  */
 
-public abstract class User {
+public class User {
+    private long user_id;
     private boolean can_mod_map;
     private String username;
     private byte[] password_salt;
     private byte[] enc_password;
+
+    // for database storage purposes
+    private String plainPassword; // TODO unencrypted passwords
+
     public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
     user_type type;
 
-    protected User(String username, String password){
+    public User(String username, String password, user_type type){
+        plainPassword = password;
         password_salt = new byte[16];
         new SecureRandom().nextBytes(password_salt);
 
         this.username = username;
 
         byte[] password_unsalted = password.getBytes();
-        byte [] password_salted = new byte[password_unsalted.length + password_salt.length];
+        byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
         System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
         System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
 
         enc_password = Base64.getEncoder().encode(password_salted);
+
+        this.type = type;
     }
 
     /**
@@ -67,9 +77,7 @@ public abstract class User {
      *
      * @return username of the User
      */
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
     public byte[] getEncodedPassword() {
         return enc_password;
@@ -82,4 +90,13 @@ public abstract class User {
     public user_type getType() {
         return type;
     }
+
+    public void setType(user_type ut) { type = ut; }
+
+    public long getUserID() { return user_id; }
+
+    public void setUserID(long new_id) { user_id = new_id; }
+
+    // TODO unsafe!
+    public String getPlainPassword() { return plainPassword; }
 }
