@@ -1,5 +1,6 @@
 package controller;
 
+import internationalization.AllText;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ public class UserController{
     Button logout_btn;
 
     public void onLogoutClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         Scene home_scene = new Scene(root);
         Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
@@ -48,6 +49,27 @@ public class UserController{
     public void populateBoxes() {
         serviceAreaController.populateRequestsBox();
         serviceAreaController.populateRequestTypes();
+    }
+
+    public void openLog(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        LogController log_controller = loader.getController();
+        Scene home_scene = new Scene(root);
+        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        home_stage.setTitle("Brigham and Women's");
+        home_stage.setScene(home_scene);
+        log_controller.setUser(user);
+        log_controller.setReturnPage(page);
+        log_controller.populateTable();
+
+        home_stage.show();
+    }
+
+    private String page;
+
+    public void setPage(String page) {
+        this.page = page;
     }
 
     @FXML
