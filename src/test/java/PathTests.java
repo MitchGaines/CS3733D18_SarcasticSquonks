@@ -13,11 +13,11 @@ public class PathTests {
 
     @Test
     public void testPathDescription(){
-        AStarNode node1 = new AStarNode("a1", 0, 0, "first node");
-        AStarNode node2 = new AStarNode("a2", 100, 100, "second node");
-        AStarNode node3 = new AStarNode("a3", 100, 200, "third node");
-        AStarNode node4 = new AStarNode("a4", 300, 100, "forth node");
-        AStarNode node5 = new AStarNode("a5", 400, 50, "fifth node");
+        AStarNode node1 = new AStarNode("a1", 0, 0, 0, 0,"first node");
+        AStarNode node2 = new AStarNode("a2", 100, 100,100, 100, "second node");
+        AStarNode node3 = new AStarNode("a3", 100, 200, 100, 200, "third node");
+        AStarNode node4 = new AStarNode("a4", 300, 100, 300, 100, "forth node");
+        AStarNode node5 = new AStarNode("a5", 400, 50, 400, 50, "fifth node");
 
         node5.setParent(node4);
         node4.setParent(node3);

@@ -34,7 +34,7 @@ public class Pathfinder {
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
-            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getShortName()));
+            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName()));
         }
 
         for(Edge connection: edges.values()){
