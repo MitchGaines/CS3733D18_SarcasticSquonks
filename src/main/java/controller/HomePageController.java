@@ -1,5 +1,7 @@
 package controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
 import internationalization.AllText;
 import javafx.collections.FXCollections;
@@ -10,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class HomePageController implements Initializable {
     Button pathfind;
 
     @FXML
-    Button login_btn;
+    JFXButton login_btn;
 
     @FXML
     TextField username;
@@ -39,9 +40,9 @@ public class HomePageController implements Initializable {
     Label wrong_credentials;
 
     @FXML
-    ComboBox<data.Node> combobox_start;
+    JFXComboBox<data.Node> combobox_start;
     @FXML
-    ComboBox<data.Node> combobox_end;
+    JFXComboBox<data.Node> combobox_end;
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
