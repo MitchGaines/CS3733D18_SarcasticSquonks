@@ -83,7 +83,14 @@ public class ServiceRequest {
      * @param location the location where the service is needed.
      */
     public static void createService(String title, String description, ServiceType type, User requester, String location) {
-        service_requests.add(new ServiceRequest(title, description, type, requester, location));
+        ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
+        service_requests.add(sr);
+
+        ServiceLogEntry.log(sr, false);
+    }
+
+    public User getRequester() {
+        return requester;
     }
 
     /**
