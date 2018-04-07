@@ -1,6 +1,7 @@
 import database.*;
 import org.junit.Assert;
 import org.junit.Test;
+import pathfind.AStar;
 import pathfind.Path;
 import pathfind.AStarNode;
 import pathfind.Pathfinder;
@@ -8,8 +9,8 @@ import pathfind.Pathfinder;
 import java.util.ArrayList;
 
 public class PathTests {
-    private Pathfinder pathfinder = new Pathfinder();
-    private Path path = pathfinder.path;
+    private Pathfinder pathfinder = new Pathfinder(new AStar());
+    private Path path = pathfinder.pathfinder_path;
 
     @Test
     public void testPathDescription(){
@@ -30,11 +31,9 @@ public class PathTests {
         pathList.add(node3);
         pathList.add(node4);
         pathList.add(node5);
-        path.setA_star_node_path(pathList);
+        path.setAlgorithm_node_path(pathList);
         String description = path.getPathDirections();
         Assert.assertTrue(description.contains("Directions from: first node to: fifth node"));
-
-
     }
 
     @Test
@@ -53,9 +52,9 @@ public class PathTests {
         csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
         csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 
-        Pathfinder pathfinder = new Pathfinder();
+        Pathfinder pathfinder = new Pathfinder(new AStar());
         pathfinder.findShortestPath("BHALL01602","BREST00402");
-        //System.out.println(pathfinder.path.getPathDirections());
+        //System.out.println(pathfinder.pathfinder_path.getPathDirections());
         Assert.assertTrue(true);
         storage.getDatabase().dropTable("EDGES");
         storage.getDatabase().dropTable("NODES");

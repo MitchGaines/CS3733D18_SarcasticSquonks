@@ -1,10 +1,8 @@
 package controller;
 
-import data.Node;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,9 +13,6 @@ import javafx.stage.Stage;
 import pathfind.*;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class PathfindController {
 
@@ -52,11 +47,11 @@ public class PathfindController {
         this.node2 = node2;
 
         Map2D map = new Map2D(map_img, path_polyline, destination_img);
-        Pathfinder pathfinder = new Pathfinder();
+        Pathfinder pathfinder = new Pathfinder(new AStar());
         pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
-        map.drawPath(pathfinder.path.getAStarNodePath());
+        map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
-        QRCode qr = new QRCode(pathfinder.path.getPathDirections());
+        QRCode qr = new QRCode(pathfinder.pathfinder_path.getPathDirections());
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 }

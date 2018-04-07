@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Path.java
- * Holds path information from A-star and calculates text directions
+ * Holds pathfinder_path information from A-star and calculates text directions
  * Author: Noah Hillman
  * Date: April 2, 2018
  */
@@ -12,34 +12,34 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
-    ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
+    ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
 
     public Path(){
 
     }
 
-    public void setA_star_node_path(ArrayList<AStarNode> a_star_node_path) {
-        this.a_star_node_path = a_star_node_path;
+    public void setAlgorithm_node_path(ArrayList<AStarNode> algorithm_node_path) {
+        this.algorithm_node_path = algorithm_node_path;
     }
 
 
 
     /**
-     * Once path is generated, will generate text descriptions for turns based on the path nodes
+     * Once pathfinder_path is generated, will generate text descriptions for turns based on the pathfinder_path nodes
      *
      * @return String based on calculated turns at each node
      */
     public String getPathDirections() {
-        if(this.a_star_node_path.size() == 0){
-            return "No path found";
+        if(this.algorithm_node_path.size() == 0){
+            return "No pathfinder_path found";
         }
         String path_description = "";
-        path_description += "Directions from: " + a_star_node_path.get(0).getShortName() + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getShortName() + System.lineSeparator();
-        path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + System.lineSeparator();
-        for (int i = 1; i < (a_star_node_path.size()-1) ; i++) {
-            path_description += "In " + calcDist(a_star_node_path.get(i-1), a_star_node_path.get(i)) + ", " + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1)) + "." + System.lineSeparator();
+        path_description += "Directions from: " + algorithm_node_path.get(0).getShortName() + " to: " + algorithm_node_path.get(algorithm_node_path.size()-1).getShortName() + System.lineSeparator();
+        path_description += "First, begin walking towards " + algorithm_node_path.get(1).short_name + System.lineSeparator();
+        for (int i = 1; i < (algorithm_node_path.size()-1) ; i++) {
+            path_description += "In " + calcDist(algorithm_node_path.get(i-1), algorithm_node_path.get(i)) + ", " + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i+1)) + "." + System.lineSeparator();
         }
-        path_description += "Destination is " + calcDist(a_star_node_path.get(a_star_node_path.size()-2), a_star_node_path.get(a_star_node_path.size()-1)) + " ahead.";
+        path_description += "Destination is " + calcDist(algorithm_node_path.get(algorithm_node_path.size()-2), algorithm_node_path.get(algorithm_node_path.size()-1)) + " ahead.";
         return path_description;
     }
 
@@ -75,7 +75,7 @@ public class Path {
     }
 
     public ArrayList<AStarNode> getAStarNodePath() {
-        return a_star_node_path;
+        return algorithm_node_path;
     }
 
     private double angle(int x1, int y1, int x2, int y2){
