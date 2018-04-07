@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Map3D extends Map {
 
     private final int MAP_WIDTH = 5000;
-    private final int MAP_HEIGHT = 3400;
+    private final int MAP_HEIGHT = 2774;
 
     private ImageView map;
     private Polyline path_polyline;
