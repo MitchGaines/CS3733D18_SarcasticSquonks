@@ -15,11 +15,8 @@ public class LoginHandler {
     public LoginHandler(){
         Storage storage = Storage.getInstance();
 
-//        CSVReader user_table_reader = new CSVReader(storage.getDatabase()); // TODO move to Main
-//        user_table_reader.readCSVFile("users", "user table");
-
         users = (LinkedList<User>)storage.getAllUsers();
-        __generateDummyUsers();
+        //__generateDummyUsers(); // TODO no need to generate dummies
     }
 
     /**
@@ -29,9 +26,9 @@ public class LoginHandler {
     public static void __generateDummyUsers(){
         Storage storage = Storage.getInstance();
 
-        User u1 = new User("Doctor", "Password", User.user_type.DOCTOR);
-        User u2 = new User("Admin", "SecurePassword", User.user_type.ADMIN_STAFF);
-        User u3 = new User("Bob", "abc", User.user_type.REGULAR_STAFF);
+        User u1 = new User("Doctor", "Password", User.user_type.DOCTOR, false);
+        User u2 = new User("Admin", "SecurePassword", User.user_type.ADMIN_STAFF, true);
+        User u3 = new User("Bob", "abc", User.user_type.REGULAR_STAFF, false);
         users.add(u1);
         users.add(u2);
         users.add(u3);

@@ -25,7 +25,7 @@ public class User {
     public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
     user_type type;
 
-    public User(String username, String password, user_type type){
+    public User(String username, String password, user_type type, boolean can_mod_map){
         plainPassword = password;
         password_salt = new byte[16];
         new SecureRandom().nextBytes(password_salt);
@@ -40,6 +40,7 @@ public class User {
         enc_password = Base64.getEncoder().encode(password_salted);
 
         this.type = type;
+        this.can_mod_map = can_mod_map;
     }
 
     /**
