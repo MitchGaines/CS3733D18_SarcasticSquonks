@@ -12,6 +12,7 @@ import database.ApacheDatabase;
 import database.CSVReader;
 import database.CSVWriter;
 import database.Storage;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +35,8 @@ public class CSVTestSuite {
         storage.setDatabase(new ApacheDatabase("apacheDB"));
 
         csv_reader = new CSVReader(storage.getDatabase());
-        csv_reader.readCSVFile("csv/MapBNodes.csv", table_name_nodes);
-        csv_reader.readCSVFile("csv/MapBEdges.csv", table_name_edges);
+        csv_reader.readCSVFile("csv/newNodeFile.csv", table_name_nodes);
+        csv_reader.readCSVFile("csv/newEdgeFile.csv", table_name_edges);
 
         csv_writer = new CSVWriter(storage.getDatabase());
     }
@@ -63,10 +64,6 @@ public class CSVTestSuite {
         Assert.assertEquals(edge6.getEdgeID(), "BHALL00202_BHALL00502");
         Assert.assertEquals(edge6.getStartNode(), "BHALL00202");
         Assert.assertEquals(edge6.getEndNode(), "BHALL00502");
-
-        // drop tables at the end
-        storage.getDatabase().dropTable("NODES");
-        storage.getDatabase().dropTable("EDGES");
     }
 
     /**
@@ -82,16 +79,21 @@ public class CSVTestSuite {
         storage.setDatabase(storage.getDatabase());
 
         // read the files we just wrote to
-        csv_reader.readCSVFile("csv/MapBNodes.csv", table_name_nodes);
+        csv_reader.readCSVFile("csv/newNodeFile.csv", table_name_nodes);
         List<Node> nodes = storage.getAllNodes();
         Assert.assertEquals(nodes.size(), 70);
 
-        csv_reader.readCSVFile("csv/MapBEdges.csv", table_name_edges);
+        csv_reader.readCSVFile("csv/newEdgeFile.csv", table_name_edges);
         List<Edge> edges = storage.getAllEdges();
         Assert.assertEquals(edges.size(), 90);
+    }
 
+    @After
+    public void breakDown() {
         // drop tables at the end
         storage.getDatabase().dropTable("NODES");
         storage.getDatabase().dropTable("EDGES");
+//        storage.getDatabase().dropTable("USERS");
+//        storage.getDatabase().dropTable("SERVICES");
     }
 }

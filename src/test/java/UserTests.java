@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import user.Doctor;
+import user.User;
 
 /**
  * UserTests.java
@@ -10,8 +10,7 @@ import user.Doctor;
  */
 
 public class UserTests {
-    Doctor doc1 = new Doctor("", "");
-    //Doctor doc2 = new Doctor();
+    User doc1 = new User("doc1", "doc1", User.user_type.DOCTOR);
 
     @Test
     public void canModMap() {
