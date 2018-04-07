@@ -71,8 +71,9 @@ public class PathfindController {
     }
 
     public void enable3DMapping(){
+        System.out.println("enable 3d");
         mode = mappingMode.MAP3D;
-        Image m = new Image("@images/2-ICONS.png");
+        Image m = new Image("images/2-ICONS.png");
         map_img.setImage(m);
 
         if(node1 != null && node2 != null){
@@ -81,8 +82,9 @@ public class PathfindController {
     }
 
     public void enable2DMapping(){
+        System.out.println("enable 2d");
         mode = mappingMode.MAP2D;
-        Image m = new Image("@images/02_thesecondfloor.png");
+        Image m = new Image("images/02_thesecondfloor.png");
         map_img.setImage(m);
 
         if(node1 != null && node2 != null){
@@ -94,7 +96,7 @@ public class PathfindController {
         if(mode == mappingMode.MAP2D){
             enable3DMapping();
         }
-        if(mode == mappingMode.MAP3D){
+        else if(mode == mappingMode.MAP3D) {
             enable2DMapping();
         }
     }

@@ -69,7 +69,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Button layoutX="1000.0" layoutY="700.0" mnemonicParsing="false" text="%3d_map">
+      <Button layoutX="1000.0" layoutY="700.0" mnemonicParsing="false" text="%3d_map" onAction="#toggleMappingType">
          <font>
             <Font size="23.0" />
          </font>
