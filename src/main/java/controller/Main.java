@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pathfind.QRCode;
 import service.ServiceType;
+import user.LoginHandler;
 
 import javax.annotation.Resource;
 import java.util.Locale;
@@ -42,6 +43,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
         //ServiceType.createDummyTypes();
+        //TODO: actually use LoginHandler correctly.
+        LoginHandler.__generateDummyUsers();
 
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {

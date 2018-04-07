@@ -19,6 +19,7 @@ public class LoginHandler {
 //        user_table_reader.readCSVFile("users", "user table");
 
         users = (LinkedList<User>)storage.getAllUsers();
+        __generateDummyUsers();
     }
 
     /**

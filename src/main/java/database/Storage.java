@@ -487,186 +487,186 @@ public class Storage {
 
     // ---------------- SERVICE REQUEST METHODS --------------- //
 
-    /**
-     * Inserts the fields of a new service request object into the services table
-     * @param request the ServiceRequest object to store in the table
-     */
-    public void saveRequest(ServiceRequest request) {
-        database.insert("SERVICES" + SERVICE_VALUES, new String[] {
-                database.addQuotes(request.getTitle()),
-                database.addQuotes(request.getDescription()),
-                database.addQuotes(request.getServiceType().getName()),
-                String.valueOf(request.getRequesterID()),
-                String.valueOf(request.getFulfillerID()),
-                database.addQuotes(request.getLocation())
-        });
-    }
-
-    /**
-     * Removes a request from the requests table
-     * @param request the request to remove from the table
-     */
-    public void deleteRequest(ServiceRequest request) {
-        database.delete("SERVICES", "service_id = " + request.getRequestID(), null);
-    }
-
-    /**
-     * Updates a request in the requests table with new values
-     * @param request the request to update in the database, with the new values
-     */
-    public void updateRequest(ServiceRequest request) {
-        String[] values = new String[] {
-                String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
-                String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
-                String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
-                String.format("%s = %d", "requester_id", request.getRequesterID()),
-                String.format("%s = %d", "fulfiller_id", request.getFulfillerID()),
-                String.format("%s = '%s'", "location", request.getLocation())
-        };
-
-        database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
-    }
-
-    /**
-     * Gets a service request from the table by id
-     * @param id the id of the service request to retrieve
-     * @return the service request corresponding to the given id
-     */
-    public ServiceRequest getRequestByID(long id) {
-        ResultSet r_set = database.query(
-                "SERVICES",
-                null,
-                "service_id = " + id,
-                null,
-                null
-        );
-
-        return getRequest(r_set);
-    }
-
-    /**
-     * Gets all requests of a specific type
-     * @return a List of service requests corresponding to a specific type
-     */
-    public List<ServiceRequest> getRequestsByType(ServiceType type) {
-        ResultSet r_set = database.query(
-                "SERVICES",
-                null,
-                "service_type = '" + type.getName() + "'",
-                null,
-                null
-        );
-
-        return getRequests(r_set);
-    }
-
-    /**
-     * Gets all service requests by a specific user
-     * @param user the user who requested services
-     * @return a List of service requests from the given user
-     */
-    public List<ServiceRequest> getAllRequestsByUser(User user) {
-        ResultSet r_set = database.query(
-                "SERVICES",
-                null,
-                "requester_id = " + user.getUserID(),
-                null,
-                null
-        );
-
-        return getRequests(r_set);
-    }
-
-    /**
-     * Gets all service requests assigned to a specific user
-     * @param user the user to retrieve service requests for
-     * @return a List of service requests for the given user
-     */
-    public List<ServiceRequest> getAllRequestsAssignedToUser(User user) {
-        ResultSet r_set = database.query(
-                "SERVICES",
-                null,
-                "fulfiller_id = " + user.getUserID(),
-                null,
-                null
-        );
-
-        return getRequests(r_set);
-    }
-
-    /**
-     * Gets all service requests in the requests table
-     * @return a List containing all of the requests in the table
-     */
-    public List<ServiceRequest> getAllServiceRequests() {
-        ResultSet r_set = database.query(
-                "SERVICES",
-                null,
-                null,
-                null,
-                null
-        );
-
-        return getRequests(r_set);
-    }
-
-    /**
-     * private method for parsing result set
-     * @param r_set the result set containing service requests
-     * @return a List of the service request objects from the table
-     */
-    private List<ServiceRequest> getRequests(ResultSet r_set) {
-        List<ServiceRequest> requests = new LinkedList<>();
-
-        // return an empty list if query didn't return anything
-        if (r_set == null) {
-            return requests;
-        }
-
-        ServiceRequest request;
-        while ((request = getRequest(r_set)) != null) {
-            requests.add(request);
-        }
-
-        return requests;
-    }
-
-    /**
-     * private method for parsing result set
-     * @param r_set the result set consisting of a single table entry
-     * @return the service request object corresponding to the request
-     */
-    private ServiceRequest getRequest(ResultSet r_set) {
-
-        try {
-            // if we don't have anything in the result set
-            if (r_set == null || !r_set.next()) {
-                return null;
-            }
-
-            // extract fields from result set and store in service request object
-            long service_id = r_set.getLong("service_id");
-            String title = r_set.getString("title");
-            String description = r_set.getString("description");
-            long request_id = r_set.getLong("requester_id");
-            long fulfill_id = r_set.getLong("fulfiller_id");
-            String location = r_set.getString("location");
-
-            // ServiceType is an object, so it must be created (default is non-emergency and no fulfillers) TODO
-            ServiceType service_type;
-            service_type = ServiceType.createServiceType(r_set.getString("service_type"), false, null);
-
-            ServiceRequest request = ServiceRequest.createService(service_id, title, description, service_type, request_id, fulfill_id, location);
-
-            return request;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
+//    /**
+//     * Inserts the fields of a new service request object into the services table
+//     * @param request the ServiceRequest object to store in the table
+//     */
+//    public void saveRequest(ServiceRequest request) {
+//        database.insert("SERVICES" + SERVICE_VALUES, new String[] {
+//                database.addQuotes(request.getTitle()),
+//                database.addQuotes(request.getDescription()),
+//                database.addQuotes(request.getServiceType().getName()),
+//                String.valueOf(request.getRequesterID()),
+//                String.valueOf(request.getFulfillerID()),
+//                database.addQuotes(request.getLocation())
+//        });
+//    }
+//
+//    /**
+//     * Removes a request from the requests table
+//     * @param request the request to remove from the table
+//     */
+//    public void deleteRequest(ServiceRequest request) {
+//        database.delete("SERVICES", "service_id = " + request.getRequestID(), null);
+//    }
+//
+//    /**
+//     * Updates a request in the requests table with new values
+//     * @param request the request to update in the database, with the new values
+//     */
+//    public void updateRequest(ServiceRequest request) {
+//        String[] values = new String[] {
+//                String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
+//                String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
+//                String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
+//                String.format("%s = %d", "requester_id", request.getRequesterID()),
+//                String.format("%s = %d", "fulfiller_id", request.getFulfillerID()),
+//                String.format("%s = '%s'", "location", request.getLocation())
+//        };
+//
+//        database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
+//    }
+//
+//    /**
+//     * Gets a service request from the table by id
+//     * @param id the id of the service request to retrieve
+//     * @return the service request corresponding to the given id
+//     */
+//    public ServiceRequest getRequestByID(long id) {
+//        ResultSet r_set = database.query(
+//                "SERVICES",
+//                null,
+//                "service_id = " + id,
+//                null,
+//                null
+//        );
+//
+//        return getRequest(r_set);
+//    }
+//
+//    /**
+//     * Gets all requests of a specific type
+//     * @return a List of service requests corresponding to a specific type
+//     */
+//    public List<ServiceRequest> getRequestsByType(ServiceType type) {
+//        ResultSet r_set = database.query(
+//                "SERVICES",
+//                null,
+//                "service_type = '" + type.getName() + "'",
+//                null,
+//                null
+//        );
+//
+//        return getRequests(r_set);
+//    }
+//
+//    /**
+//     * Gets all service requests by a specific user
+//     * @param user the user who requested services
+//     * @return a List of service requests from the given user
+//     */
+//    public List<ServiceRequest> getAllRequestsByUser(User user) {
+//        ResultSet r_set = database.query(
+//                "SERVICES",
+//                null,
+//                "requester_id = " + user.getUserID(),
+//                null,
+//                null
+//        );
+//
+//        return getRequests(r_set);
+//    }
+//
+//    /**
+//     * Gets all service requests assigned to a specific user
+//     * @param user the user to retrieve service requests for
+//     * @return a List of service requests for the given user
+//     */
+//    public List<ServiceRequest> getAllRequestsAssignedToUser(User user) {
+//        ResultSet r_set = database.query(
+//                "SERVICES",
+//                null,
+//                "fulfiller_id = " + user.getUserID(),
+//                null,
+//                null
+//        );
+//
+//        return getRequests(r_set);
+//    }
+//
+//    /**
+//     * Gets all service requests in the requests table
+//     * @return a List containing all of the requests in the table
+//     */
+//    public List<ServiceRequest> getAllServiceRequests() {
+//        ResultSet r_set = database.query(
+//                "SERVICES",
+//                null,
+//                null,
+//                null,
+//                null
+//        );
+//
+//        return getRequests(r_set);
+//    }
+//
+//    /**
+//     * private method for parsing result set
+//     * @param r_set the result set containing service requests
+//     * @return a List of the service request objects from the table
+//     */
+//    private List<ServiceRequest> getRequests(ResultSet r_set) {
+//        List<ServiceRequest> requests = new LinkedList<>();
+//
+//        // return an empty list if query didn't return anything
+//        if (r_set == null) {
+//            return requests;
+//        }
+//
+//        ServiceRequest request;
+//        while ((request = getRequest(r_set)) != null) {
+//            requests.add(request);
+//        }
+//
+//        return requests;
+//    }
+//
+//    /**
+//     * private method for parsing result set
+//     * @param r_set the result set consisting of a single table entry
+//     * @return the service request object corresponding to the request
+//     */
+//    private ServiceRequest getRequest(ResultSet r_set) {
+//
+//        try {
+//            // if we don't have anything in the result set
+//            if (r_set == null || !r_set.next()) {
+//                return null;
+//            }
+//
+//            // extract fields from result set and store in service request object
+//            long service_id = r_set.getLong("service_id");
+//            String title = r_set.getString("title");
+//            String description = r_set.getString("description");
+//            long request_id = r_set.getLong("requester_id");
+//            long fulfill_id = r_set.getLong("fulfiller_id");
+//            String location = r_set.getString("location");
+//
+//            // ServiceType is an object, so it must be created (default is non-emergency and no fulfillers) TODO
+//            ServiceType service_type;
+//            service_type = ServiceType.createServiceType(r_set.getString("service_type"), false, null);
+//
+//            ServiceRequest request = ServiceRequest.createService(service_id, title, description, service_type, request_id, fulfill_id, location);
+//
+//            return request;
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
+//
     /**
      * Get database.
      * @return the database.
