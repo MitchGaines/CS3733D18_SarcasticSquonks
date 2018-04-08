@@ -17,18 +17,20 @@ import java.util.ResourceBundle;
 import java.time.Clock;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Window;
 import user.LoginHandler;
 import user.User;
 
 public class HomePageController implements Initializable {
 
     @FXML
-    Button pathfind;
+    JFXButton pathfind;
 
     @FXML
     JFXButton login_btn;
@@ -44,6 +46,9 @@ public class HomePageController implements Initializable {
 
     @FXML
     Label time;
+
+    @FXML
+    BorderPane main_pane;
 
     @FXML
     JFXComboBox<data.Node> combobox_start;
@@ -74,6 +79,7 @@ public class HomePageController implements Initializable {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
@@ -81,7 +87,7 @@ public class HomePageController implements Initializable {
 
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent));
+        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
         pathfind_stage.show();
     }
 
@@ -102,22 +108,16 @@ public class HomePageController implements Initializable {
         }
     }
 
-    @FXML
-    ExpansionPanel exp_panel;
-
-    public void onExpPanelClick(MouseEvent click) {
-        wrong_credentials.setText("");
-    }
-
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
+        Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page), AllText.getBundle());
         Parent user_parent = (Parent)loader.load();
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
         controller.setPage(page);
         controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent);
+        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
         user_stage.setScene(user_scene);

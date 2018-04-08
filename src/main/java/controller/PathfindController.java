@@ -11,8 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import pathfind.*;
 
 import java.io.IOException;
@@ -38,10 +40,14 @@ public class PathfindController {
     @FXML
     Polyline path_polyline;
 
+    @FXML
+    BorderPane main_pane;
+
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root);
+        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
         home_stage.setScene(home_scene);
