@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
@@ -19,6 +20,8 @@ import pathfind.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -43,6 +46,14 @@ public class PathfindController {
     @FXML
     BorderPane main_pane;
 
+    @FXML
+    Label time;
+
+    public void initialize() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
+    }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();

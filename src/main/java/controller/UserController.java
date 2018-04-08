@@ -20,6 +20,8 @@ import user.User;
 import javax.xml.ws.Service;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class UserController{
@@ -29,6 +31,9 @@ public class UserController{
 
     @FXML
     BorderPane main_pane;
+
+    @FXML
+    Label time;
 
     public void onLogoutClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -103,6 +108,9 @@ public class UserController{
 
     public void initialize() {
         serviceAreaController.setParent(this);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
     }
 
 }

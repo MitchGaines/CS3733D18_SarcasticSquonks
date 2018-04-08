@@ -25,6 +25,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,10 +83,17 @@ public class ModifyMapController {
     BorderPane main_pane;
 
     @FXML
+    Label time;
+
+    @FXML
     private void initialize() {
         nodes_list = new HashMap<>();
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes());
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
     }
 
     public void onBackClick(ActionEvent event) throws IOException {

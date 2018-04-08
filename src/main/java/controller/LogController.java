@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -20,12 +21,17 @@ import user.User;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class LogController {
 
     @FXML
     TableView log_table;
+
+    @FXML
+    Label time;
 
     public void initialize() {
 
@@ -82,7 +88,9 @@ public class LogController {
             return p;
         });
 
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
 
     }
 

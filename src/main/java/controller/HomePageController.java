@@ -13,13 +13,18 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.time.Clock;
+import java.time.format.DateTimeFormatter;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -47,7 +52,7 @@ public class HomePageController {
     Label wrong_credentials;
 
     @FXML
-    Label time;
+    Label time, time2;
 
     @FXML
     BorderPane main_pane;
@@ -58,7 +63,16 @@ public class HomePageController {
     JFXComboBox<data.Node> combobox_end;
 
     @FXML
-    MenuButton language_selector;
+    JFXComboBox quick_loc;
+
+    @FXML
+    JFXComboBox language_selector;
+
+    @FXML
+    StackPane stack_pane;
+
+    @FXML
+    ExpansionPanel exp_panel;
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
@@ -72,6 +86,11 @@ public class HomePageController {
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
         populateLanguages();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
+        time2.setText(dtf.format(now));
     }
 
     private void populateLanguages() {
