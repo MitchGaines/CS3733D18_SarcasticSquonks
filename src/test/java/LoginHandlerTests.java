@@ -1,4 +1,9 @@
+import database.ApacheDatabase;
+import database.IDatabase;
+import database.Storage;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import user.*;
 
@@ -9,6 +14,15 @@ public class LoginHandlerTests {
  * Author: Matthew Puentes
  * Date: April 2, 2018
  */
+
+    private Storage storage;
+
+    @Before
+    public void setUp() {
+        IDatabase data = new ApacheDatabase("apacheDB");
+        storage = Storage.getInstance();
+        storage.setDatabase(data);
+    }
 
     @Test
     public void LoginDoctor() {
@@ -69,5 +83,14 @@ public class LoginHandlerTests {
         lh.__generateDummyUsers();
         User u;
         u = lh.login("Wilson Wong", "Willy Wongka");
+    }
+
+    @After
+    public void breakDown() {
+        // drop tables at the end
+        storage.getDatabase().dropTable("NODES");
+        storage.getDatabase().dropTable("EDGES");
+        storage.getDatabase().dropTable("USERS");
+        storage.getDatabase().dropTable("SERVICES");
     }
 }

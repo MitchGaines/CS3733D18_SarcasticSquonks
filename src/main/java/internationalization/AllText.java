@@ -8,13 +8,21 @@ import java.util.ResourceBundle;
 
 public class AllText {
     private static ResourceBundle bundle = ResourceBundle.getBundle("all_text", new Locale("en"));
+    private static String language = "en";
+    public static String[] getLanguages() {
+        return new String[] {"en", "es", "ru"};
+    }
     public static String get(String key) {
         try {
-            return new String(bundle.getString(key).getBytes("ISO-8859-1"), "UTF-8");
+            return new String(bundle.getString(key).getBytes(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getLanguage() {
+        return language;
     }
 
     public static ResourceBundle getBundle() {
@@ -22,6 +30,7 @@ public class AllText {
     }
 
     public static void changeLanguage(String localeStr) {
+        language = localeStr;
         bundle = ResourceBundle.getBundle("all_text", new Locale(localeStr));
     }
 
