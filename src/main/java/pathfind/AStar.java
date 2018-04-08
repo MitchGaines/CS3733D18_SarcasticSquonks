@@ -6,19 +6,18 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class AStar implements ISearchAlgorithm {
-    AStarNode start;
-    AStarNode goal;
 
     @Override
     public AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map) {
-        this.start = algorithm_node_map.get(start_id);
-        this.goal = algorithm_node_map.get(goal_id);
+        AStarNode start = algorithm_node_map.get(start_id);
+        AStarNode goal = algorithm_node_map.get(goal_id);
+
         //queue of all Nodes generated but not yet searched (queued in order of increasing cost)
         PriorityQueue<AStarNode> open_a_star_nodes = new PriorityQueue<>(10, heuristicComparator);
         //list of searched nodes that shouldn't be searched again
         LinkedList<AStarNode> closed_a_star_nodes = new LinkedList<>();
         //search the starting node first
-        open_a_star_nodes.add(this.start);
+        open_a_star_nodes.add(start);
 
         //run until there are no more searchable nodes (or program finds a pathfinder_path)
         while(!open_a_star_nodes.isEmpty()){
@@ -27,8 +26,8 @@ public class AStar implements ISearchAlgorithm {
             //add the current_node to closed list
             closed_a_star_nodes.add(current_node);
 
-            if(current_node.checkID(this.goal)){
-                System.out.println("reached goal at " +  current_node.getID());
+            if(current_node.checkID(goal)){
+                //System.out.println(closed_a_star_nodes.size() + " searched nodes");
                 return current_node;
             }
             //loop over the current_node node's neighbors
@@ -40,7 +39,7 @@ public class AStar implements ISearchAlgorithm {
                         //add them to the open set of nodes and update parent, g, h, and f costs
                         neighbor.setParent(current_node);
                         neighbor.newGCost(current_node);
-                        neighbor.newHCost(this.goal);
+                        neighbor.newHCost(goal);
                         neighbor.calcFCost();
                         open_a_star_nodes.add(neighbor);
                     }
@@ -50,14 +49,14 @@ public class AStar implements ISearchAlgorithm {
                         if(temp_g_cost < neighbor.getGCost()){
                             neighbor.setParent(current_node);
                             neighbor.newGCost(current_node);
-                            neighbor.newHCost(this.goal);
+                            neighbor.newHCost(goal);
                             neighbor.calcFCost();
                         }
                     }
                 }
             }
         }
-        return this.start;
+        return start;
     }
 
     //comparator to organize how the priority queue sorts items (based on heuristic)

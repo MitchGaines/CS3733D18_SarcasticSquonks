@@ -43,7 +43,6 @@ public class Pathfinder {
                 algorithm_node_map.get(connection.getEndNode()).neighbors.add(algorithm_node_map.get(connection.getStartNode()));
             }
         }
-        System.out.println("loaded " + algorithm_node_map.size() + " nodes from database");
     }
 
     private void loadDBData(){
