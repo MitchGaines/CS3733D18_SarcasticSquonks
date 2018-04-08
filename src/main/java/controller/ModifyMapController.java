@@ -20,7 +20,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +78,9 @@ public class ModifyMapController {
     CheckBox add_edge_check;
 
     @FXML
+    BorderPane main_pane;
+
+    @FXML
     private void initialize() {
         nodes_list = new HashMap<>();
         storage = Storage.getInstance();
@@ -82,16 +88,13 @@ public class ModifyMapController {
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Stage curr_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        curr_stage.setTitle("User");
-        curr_stage.setScene(returnScene);
-        curr_stage.show();
-    }
-
-    private Scene returnScene;
-
-    public void setReturnScene(Scene scene) {
-        returnScene = scene;
+        Window window = main_pane.getScene().getWindow();
+        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"), AllText.getBundle());
+        Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
+        Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        admin_stage.setTitle("User");
+        admin_stage.setScene(admin_scene);
+        admin_stage.show();
     }
 
     public void onAddLocClick() {
