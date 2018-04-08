@@ -8,11 +8,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminPageController extends UserController {
 
@@ -22,6 +27,8 @@ public class AdminPageController extends UserController {
     Button modify_map_btn;
     @FXML
     BorderPane main_pane;
+    @FXML
+    Label time;
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -31,5 +38,11 @@ public class AdminPageController extends UserController {
         modify_nodes_stage.setTitle("Modify Nodes");
         modify_nodes_stage.setScene(modify_nodes_scene);
         modify_nodes_stage.show();
+    }
+
+    public void initialize() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
     }
 }
