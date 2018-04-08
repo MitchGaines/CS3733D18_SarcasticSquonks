@@ -62,7 +62,6 @@ public class PathfindController {
 
         QRCode qr = null;
         try {
-            System.out.println(pathfinder.path.getPathDirections().toString());
             qr = new QRCode(pathfinder.path.getPathDirections().toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
