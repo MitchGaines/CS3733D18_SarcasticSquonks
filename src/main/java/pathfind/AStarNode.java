@@ -34,6 +34,7 @@ public class AStarNode {
     public String getShortName(){
         return this.short_name;
     }
+
     public double getGCost(){
         return this.g_cost;
     }
@@ -88,20 +89,12 @@ public class AStarNode {
         return y_coord;
     }
 
-    public String getShortName() {
-        return short_name;
-    }
-
     public String getLongName() {
         return long_name;
     }
 
     public double getHCost() {
         return h_cost;
-    }
-
-    public double getGCost() {
-        return g_cost;
     }
 
     public String getId() {
