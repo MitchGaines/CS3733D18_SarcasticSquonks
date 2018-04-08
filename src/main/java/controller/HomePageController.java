@@ -112,6 +112,8 @@ public class HomePageController {
 
         loginHandler = new LoginHandler();
 
+        loginHandler = new LoginHandler();
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
