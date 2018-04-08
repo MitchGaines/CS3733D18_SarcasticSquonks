@@ -2,6 +2,7 @@ package controller;
 
 import data.Edge;
 import database.Storage;
+import internationalization.AllText;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +20,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,15 +80,26 @@ public class ModifyMapController {
     CheckBox add_edge_check;
 
     @FXML
+    BorderPane main_pane;
+
+    @FXML
+    Label time;
+
+    @FXML
     private void initialize() {
         nodes_list = new HashMap<>();
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes());
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"));
-        Scene admin_scene = new Scene(admin_parent);
+        Window window = main_pane.getScene().getWindow();
+        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"), AllText.getBundle());
+        Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
         Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         admin_stage.setTitle("User");
         admin_stage.setScene(admin_scene);

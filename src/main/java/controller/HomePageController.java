@@ -1,6 +1,10 @@
 package controller;
 
+import com.gluonhq.charm.glisten.control.ExpansionPanel;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
+import internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,24 +13,37 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.time.Clock;
+import java.time.format.DateTimeFormatter;
 
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Window;
 import user.LoginHandler;
 import user.User;
 
-public class HomePageController implements Initializable {
+public class HomePageController {
 
     @FXML
-    Button pathfind;
+    JFXButton pathfind;
 
     @FXML
-    Button login_btn;
+    JFXButton login_btn;
 
     @FXML
     TextField username;
@@ -38,24 +55,69 @@ public class HomePageController implements Initializable {
     Label wrong_credentials;
 
     @FXML
-    ComboBox<data.Node> combobox_start;
+
+    Label time, time2;
+
     @FXML
-    ComboBox<data.Node> combobox_end;
+    BorderPane main_pane;
+
+    @FXML
+    JFXComboBox<data.Node> combobox_start;
+
+    @FXML
+    JFXComboBox<data.Node> combobox_end;
+
+    @FXML
+    JFXComboBox quick_loc;
+
+    @FXML
+    JFXComboBox language_selector;
+
+    @FXML
+    StackPane stack_pane;
+
+    @FXML
+    ExpansionPanel exp_panel;
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
      * by pulling all nodes from the database
-     * @param location
-     * @param resources
      * @author Will Lucca
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
         locations.addAll(Storage.getInstance().getAllNodes());
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
+        populateLanguages();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
+        time2.setText(dtf.format(now));
+    }
+
+    private void populateLanguages() {
+        String[] languages = AllText.getLanguages();
+        language_selector.getItems().removeAll(language_selector.getItems());
+        for (String language : languages) {
+            MenuItem menuItem  = new MenuItem(AllText.get(language));
+            menuItem.setOnAction(e -> {
+                AllText.changeLanguage(language);
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+                    Stage primary_stage = (Stage)language_selector.getScene().getWindow();
+                    primary_stage.setTitle("Brigham and Women's");
+                    primary_stage.setScene(new Scene(root, 1200, 800));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            });
+            language_selector.getItems().add(menuItem);
+        }
+
+
     }
 
     /**
@@ -66,14 +128,15 @@ public class HomePageController implements Initializable {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"));
+        Window window = main_pane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue(), combobox_end.getValue());
 
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent));
+        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
         pathfind_stage.show();
     }
 
@@ -94,17 +157,16 @@ public class HomePageController implements Initializable {
         }
     }
 
-
     //PART OF THE USER TEST
     public void openUser (ActionEvent event, String page, User user) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
-//             Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+        Window window = main_pane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(page), AllText.getBundle());
         Parent user_parent = (Parent)loader.load();
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
         controller.setPage(page);
         controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent);
+        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
         user_stage.setScene(user_scene);

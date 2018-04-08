@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * Pathfinder.java
- * loads from database and calculates the fastest pathfinder_path between given nodes
+ * loads from database and calculates the fastest path between given nodes
  * Author: Noah Hillman
  * Date: April 2, 2018
  */
@@ -27,7 +27,7 @@ public class Pathfinder {
     /**
      * populateMap
      * populates the fathfinder hashmap of a star nodes based on the given nodes and edges.
-     * updates the pathfinder pathfinder_path attribute
+     * updates the pathfinder path attribute
      *
      * @param nodes hashmap of nodes, with the nodes id as the key
      * @param edges hashmap of edges, which contain node ids to be neighbored
@@ -57,7 +57,7 @@ public class Pathfinder {
         populateMap(nodes, edges);
     }
 
-    //returns the shortest pathfinder_path (list of nodes) between two nodes from the algorithm_node_map
+    //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
     public void findShortestPath(String startID, String goalID){
         loadDBData();
         if(algorithm_node_map.size()==0){

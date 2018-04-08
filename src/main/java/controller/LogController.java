@@ -1,5 +1,6 @@
 package controller;
 
+import internationalization.AllText;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -8,21 +9,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import service.ServiceLogEntry;
 import user.User;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class LogController {
 
     @FXML
     TableView log_table;
+
+    @FXML
+    Label time;
 
     public void initialize() {
 
@@ -79,7 +88,9 @@ public class LogController {
             return p;
         });
 
-
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
 
     }
 
@@ -104,16 +115,18 @@ public class LogController {
         return_page = page;
     }
 
-    public void onBackClick(ActionEvent event) throws IOException {
+    @FXML
+    BorderPane main_pane;
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page));
-//             Parent user_parent = FXMLLoader.load(getClass().getResource(page));
+    public void onBackClick(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
         Parent user_parent = (Parent)loader.load();
         UserController controller = loader.<UserController>getController();
         controller.setUser(user);
         controller.setPage(return_page);
         controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent);
+        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
         user_stage.setScene(user_scene);

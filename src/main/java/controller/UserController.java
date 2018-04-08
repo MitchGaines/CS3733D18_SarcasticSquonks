@@ -1,22 +1,24 @@
 package controller;
 
-import javafx.collections.ObservableList;
+import internationalization.AllText;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import service.ServiceType;
 import user.User;
 
-import javax.xml.ws.Service;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class UserController{
@@ -24,9 +26,16 @@ public class UserController{
     @FXML
     Button logout_btn;
 
+    @FXML
+    BorderPane main_pane;
+
+    @FXML
+    Label time;
+
     public void onLogoutClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
-        Scene home_scene = new Scene(root);
+        Window window = main_pane.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
         home_stage.setScene(home_scene);
@@ -51,10 +60,11 @@ public class UserController{
     }
 
     public void openLog(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"));
+        Window window = main_pane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
         Parent root = loader.load();
         LogController log_controller = loader.getController();
-        Scene home_scene = new Scene(root);
+        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
         home_stage.setScene(home_scene);
@@ -95,6 +105,9 @@ public class UserController{
 
     public void initialize() {
         serviceAreaController.setParent(this);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        time.setText(dtf.format(now));
     }
 
 }
