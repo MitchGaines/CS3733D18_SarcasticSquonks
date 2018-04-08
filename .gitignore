@@ -13,3 +13,4 @@ derby.log
 newEdgeFile.csv
 newNodeFile.csv
 *.orig
+server/npm_modules/

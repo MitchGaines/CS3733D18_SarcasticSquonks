@@ -40,8 +40,8 @@ public class Map2D extends Map {
         path_polyline.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
         for (AStarNode node : path) {
-            x_coord = ((double)node.getX_coord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
-            y_coord = ((double)node.getY_coord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
+            x_coord = ((double)node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
+            y_coord = ((double)node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
             path_polyline.getPoints().addAll(x_coord, y_coord);
         }
         destination_img.setTranslateX(x_coord - destination_img.getFitWidth() / 2);

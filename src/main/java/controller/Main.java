@@ -6,20 +6,12 @@ import database.CSVWriter;
 import database.Storage;
 import internationalization.AllText;
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import pathfind.QRCode;
 import service.ServiceType;
 import user.LoginHandler;
-
-import javax.annotation.Resource;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 
 public class Main extends Application {

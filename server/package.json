@@ -1,0 +1,16 @@
+{
+  "name": "sarcastic_squonks",
+  "version": "1.0.0",
+  "description": "Server for back-end web functionality in CS3733 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CS3733 Team S",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "path": "^0.12.7"
+  }
+}

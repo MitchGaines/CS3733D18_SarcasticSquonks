@@ -1,11 +1,9 @@
 package controller;
 
-import data.Node;
 import internationalization.AllText;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,9 +17,8 @@ import javafx.stage.Window;
 import pathfind.*;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.net.MalformedURLException;
+import java.util.logging.Logger;
 
 public class PathfindController {
 
@@ -72,7 +69,12 @@ public class PathfindController {
         pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
         map.drawPath(pathfinder.path.getAStarNodePath());
 
-        QRCode qr = new QRCode(pathfinder.path.getPathDirections());
+        QRCode qr = null;
+        try {
+            qr = new QRCode(pathfinder.path.getPathDirections().toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 

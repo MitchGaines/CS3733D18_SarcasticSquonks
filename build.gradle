@@ -31,7 +31,8 @@ dependencies {
             [group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1'],
             [group: 'com.google.zxing', name: 'core', version: '3.2.1'],
-            fileTree(dir: 'lib', include: '*.jar')
+            fileTree(dir: 'lib', include: '*.jar'),
+            [group: 'commons-codec', name: 'commons-codec', version: '1.11']
     )
 }
 

@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminPageController extends UserController {
 

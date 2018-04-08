@@ -1,7 +1,5 @@
 package pathfind;
-import data.Node;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * AStarNode.java
@@ -19,13 +17,15 @@ public class AStarNode {
     private int x_coord, y_coord;
     private int x_coord_3d,y_coord_3d;
     String short_name;
+    String long_name;
     String id;
 
-    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name){
+    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name){
         this.id = id;
         this.x_coord = x_coord;
         this.y_coord = y_coord;
         this.short_name = short_name;
+        this.long_name = long_name;
         this.x_coord_3d = x_coord_3d;
         this.y_coord_3d = y_coord_3d;
     }
@@ -34,6 +34,7 @@ public class AStarNode {
     public String getShortName(){
         return this.short_name;
     }
+
     public double getGCost(){
         return this.g_cost;
     }
@@ -45,15 +46,6 @@ public class AStarNode {
     public double getFCost() {
         this.f_cost = this.g_cost + this.h_cost;
         return f_cost;
-    }
-
-    public AStarNode getParent(){
-        return this.parent;
-    }
-
-    //setters
-    public void setParent(AStarNode AStarNode){
-        this.parent = AStarNode;
     }
 
     //returns the euclidean to the given node
@@ -80,14 +72,35 @@ public class AStarNode {
         return this.id.equals(AStarNode1.id);
     }
 
-    public int getX_coord() {
+
+    public AStarNode getParent() {
+        return parent;
+    }
+
+    public void setParent(AStarNode parent) {
+        this.parent = parent;
+    }
+
+    public int getXCoord() {
         return x_coord;
     }
 
-    public int getY_coord() {
+    public int getYCoord() {
         return y_coord;
     }
 
+    public String getLongName() {
+        return long_name;
+    }
+
+    public double getHCost() {
+        return h_cost;
+    }
+
+    public String getId() {
+        return id;
+    }
+  
     public int getX_coord_3d() {
         return x_coord_3d;
     }

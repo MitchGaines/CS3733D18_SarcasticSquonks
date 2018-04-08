@@ -1,8 +1,6 @@
 package pathfind;
 import data.Node;
 import data.Edge;
-import database.ApacheDatabase;
-import database.CSVReader;
 import database.Storage;
 import java.util.*;
 
@@ -34,7 +32,7 @@ public class Pathfinder {
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
-            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName()));
+            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName(), node.getLongName()));
         }
 
         for(Edge connection: edges.values()){
@@ -72,24 +70,18 @@ public class Pathfinder {
         //search the starting node first
         open_a_star_nodes.add(this.start);
 
-        //run until there are no more searchable nodes (or program finds a path)
         while(!open_a_star_nodes.isEmpty()){
-            //take the lowest f score off the priority queue
             AStarNode current_node = open_a_star_nodes.poll();
-            //add the current_node to closed list
             closed_a_star_nodes.add(current_node);
 
             if(current_node.checkID(this.goal)){
                 reconstructPath(current_node);
                 return;
             }
-            //loop over the current_node node's neighbors
+
             for(AStarNode neighbor: current_node.neighbors){
-                //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
-                    //check if they haven't been discovered before
                     if(!open_a_star_nodes.contains(neighbor)){
-                        //add them to the open set of nodes and update parent, g, h, and f costs
                         neighbor.setParent(current_node);
                         neighbor.newGCost(current_node);
                         neighbor.newHCost(this.goal);
@@ -97,7 +89,6 @@ public class Pathfinder {
                         open_a_star_nodes.add(neighbor);
                     }
                     else{
-                        //check if they are a better path (lower gcost), if so, update their cost and parent
                         double temp_g_cost = current_node.getGCost() + current_node.distanceTo(neighbor);
                         if(temp_g_cost < neighbor.getGCost()){
                             neighbor.setParent(current_node);
@@ -111,7 +102,7 @@ public class Pathfinder {
         }
         String list = "";
         for (AStarNode nodes: closed_a_star_nodes){
-            list += nodes.getID() + System.lineSeparator();
+            list += nodes.getId() + System.lineSeparator();
         }
 
         return;
