@@ -17,6 +17,7 @@ import pathfind.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.logging.Logger;
 
 public class PathfindController {
 
@@ -64,7 +65,6 @@ public class PathfindController {
             System.out.println(pathfinder.path.getPathDirections().toString());
             qr = new QRCode(pathfinder.path.getPathDirections().toString());
         } catch (MalformedURLException e) {
-            //TODO Handle this
             e.printStackTrace();
         }
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
