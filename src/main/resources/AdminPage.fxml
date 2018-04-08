@@ -49,11 +49,8 @@
                   <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
                </children>
                <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-               <padding>
                   <Insets top="500.0" />
-               </padding>
+               </StackPane.margin>
             </VBox>
          </children>
       </StackPane>
