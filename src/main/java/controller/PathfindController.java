@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
@@ -26,6 +27,9 @@ public class PathfindController {
 
     private data.Node node1;
     private data.Node node2;
+
+    private enum mappingMode{MAP3D, MAP2D}
+    private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
 
     @FXML
     Button back_button;
@@ -58,7 +62,12 @@ public class PathfindController {
         this.node1 = node1;
         this.node2 = node2;
 
-        Map2D map = new Map2D(map_img, path_polyline, destination_img);
+        Map map;
+        if(mode == mappingMode.MAP2D)
+            map = new Map2D(map_img, path_polyline, destination_img);
+        else
+            map = new Map3D(map_img, path_polyline, destination_img);
+
         Pathfinder pathfinder = new Pathfinder();
         pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
         map.drawPath(pathfinder.path.getAStarNodePath());
@@ -66,4 +75,34 @@ public class PathfindController {
         QRCode qr = new QRCode(pathfinder.path.getPathDirections());
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
+
+    public void enable3DMapping(){
+        mode = mappingMode.MAP3D;
+        Image m = new Image("images/2-ICONS.png");
+        map_img.setImage(m);
+
+        if(node1 != null && node2 != null){
+            doPathfinding(node1, node2);
+        }
+    }
+
+    public void enable2DMapping(){
+        mode = mappingMode.MAP2D;
+        Image m = new Image("images/02_thesecondfloor.png");
+        map_img.setImage(m);
+
+        if(node1 != null && node2 != null){
+            doPathfinding(node1, node2);
+        }
+    }
+
+    public void toggleMappingType(){
+        if(mode == mappingMode.MAP2D){
+            enable3DMapping();
+        }
+        else if(mode == mappingMode.MAP3D) {
+            enable2DMapping();
+        }
+    }
+
 }
