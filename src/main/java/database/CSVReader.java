@@ -1,5 +1,7 @@
 package database;
 
+import user.User;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,11 +27,17 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
     private IDatabase database;
 
     /**
+     * Stores storage class
+     */
+    private Storage storage;
+
+    /**
      * Constructor for a CSVReader.
      * @param database the database that holds the tables.
      */
     public CSVReader(IDatabase database) {
         this.database = database;
+        storage = Storage.getInstance();
     }
 
     /**
@@ -81,6 +89,15 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
 
                     // add values to table
                     database.insert(table_name, values);
+                }
+            } else if (table_name.equals("USERS")) {
+                while ((line = buffered_reader.readLine()) != null) {
+
+                    // split line using comma delimiter
+                    String[] values = line.split(csv_delimiter);
+
+                    User user = new User(values[0], values[1], User.user_type.valueOf(values[2]), Boolean.valueOf(values[3]));
+                    storage.saveUser(user);
                 }
             }
         } catch (IOException e) {

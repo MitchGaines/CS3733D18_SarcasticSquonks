@@ -10,7 +10,7 @@ import user.User;
  */
 
 public class UserTests {
-    User doc1 = new User("doc1", "doc1", User.user_type.DOCTOR);
+    User doc1 = new User("doc1", "doc1", User.user_type.DOCTOR, false);
 
     @Test
     public void canModMap() {

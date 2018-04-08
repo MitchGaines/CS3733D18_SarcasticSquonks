@@ -1,7 +1,5 @@
 package database;
 
-
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -14,8 +12,7 @@ import java.sql.*;
  * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
  *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
  */
-public class CSVWriter { // TODO: the code seems a bit repetitive, but this is only called once at program shutdown
-
+public class CSVWriter {
 
    /**
     *Stores the database so we can see the table.
@@ -52,6 +49,8 @@ public class CSVWriter { // TODO: the code seems a bit repetitive, but this is o
                     "long_name,short_name,team_assigned,x_coord_3d,y_coord_3d";
         } else if (table_name.equals("EDGES")) {
             file_header = "edge_id,start_node,end_node";
+        } else if (table_name.equals("USERS")) {
+            file_header = "username,password,type,can_mod_map";
         }
 
         try {
@@ -102,6 +101,21 @@ public class CSVWriter { // TODO: the code seems a bit repetitive, but this is o
 
                     // write values to file, separated by commas
                     file_writer.append(edge_id + "," + start_node + "," + end_node + "\n");
+                }
+            } else if (table_name.equals("USERS")) {
+
+                // variables to hold values of each row
+                String username, password, user_type;
+                boolean can_mod_map;
+
+                while (r_set.next()) {
+                    username = r_set.getString("username");
+                    password = r_set.getString("password");
+                    user_type = r_set.getString("user_type");
+                    can_mod_map = r_set.getBoolean("can_mod_map");
+
+                    // write values to file, separated by commas
+                    file_writer.append(username + "," + password + "," + user_type + "," + can_mod_map + "\n");
                 }
             }
 
