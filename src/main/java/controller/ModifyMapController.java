@@ -82,12 +82,16 @@ public class ModifyMapController {
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"), AllText.getBundle());
-        Scene admin_scene = new Scene(admin_parent);
-        Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        admin_stage.setTitle("User");
-        admin_stage.setScene(admin_scene);
-        admin_stage.show();
+        Stage curr_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        curr_stage.setTitle("User");
+        curr_stage.setScene(returnScene);
+        curr_stage.show();
+    }
+
+    private Scene returnScene;
+
+    public void setReturnScene(Scene scene) {
+        returnScene = scene;
     }
 
     public void onAddLocClick() {

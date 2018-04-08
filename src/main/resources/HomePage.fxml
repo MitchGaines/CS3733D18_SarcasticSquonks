@@ -74,5 +74,11 @@
          </font>
       </Label>
       <Label fx:id="wrong_credentials" layoutX="645.0" layoutY="33.0" prefHeight="17.0" prefWidth="210.0" textFill="RED" />
+      <MenuButton fx:id="language_selector" layoutX="542.0" layoutY="37.0" mnemonicParsing="false" text="%language">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
    </children>
 </AnchorPane>
