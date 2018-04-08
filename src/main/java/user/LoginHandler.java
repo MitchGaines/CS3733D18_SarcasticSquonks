@@ -1,8 +1,11 @@
 package user;
 
-import java.util.ArrayList;
+import database.Storage;
+
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.LinkedList;
+
 public class LoginHandler {
     private static LinkedList<User> users = new LinkedList<User>();
 
