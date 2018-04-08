@@ -2,7 +2,6 @@ package database;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.*;
 /**
  * Parses a table and writes to a CSV file.

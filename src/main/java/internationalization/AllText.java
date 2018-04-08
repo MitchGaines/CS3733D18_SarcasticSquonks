@@ -1,7 +1,5 @@
 package internationalization;
 
-import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;

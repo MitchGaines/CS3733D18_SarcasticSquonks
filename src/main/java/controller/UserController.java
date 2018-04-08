@@ -1,11 +1,9 @@
 package controller;
 
 import internationalization.AllText;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,7 +15,6 @@ import javafx.stage.Window;
 import service.ServiceType;
 import user.User;
 
-import javax.xml.ws.Service;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
