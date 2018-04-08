@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -52,6 +55,7 @@ public class HomePageController {
     Label wrong_credentials;
 
     @FXML
+
     Label time, time2;
 
     @FXML
@@ -59,6 +63,7 @@ public class HomePageController {
 
     @FXML
     JFXComboBox<data.Node> combobox_start;
+
     @FXML
     JFXComboBox<data.Node> combobox_end;
 
