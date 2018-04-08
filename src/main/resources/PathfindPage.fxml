@@ -103,7 +103,7 @@
                   <Image url="@images/jpeg.jpg" />
                </image>
             </ImageView>
-            <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%3d_map" />
+            <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%3d_map" onAction="#toggleMappingType" />
          </children>
       </VBox>
    </right>

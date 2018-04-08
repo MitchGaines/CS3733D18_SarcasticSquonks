@@ -15,16 +15,31 @@ public class AStarNode {
     private double h_cost;
     private double g_cost;
     private int x_coord, y_coord;
+    private int x_coord_3d,y_coord_3d;
     String short_name;
     String long_name;
     String id;
 
-    public AStarNode(String id, int xcoord, int ycoord, String short_name, String long_name){
+    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name){
         this.id = id;
-        this.x_coord = xcoord;
-        this.y_coord = ycoord;
+        this.x_coord = x_coord;
+        this.y_coord = y_coord;
         this.short_name = short_name;
         this.long_name = long_name;
+        this.x_coord_3d = x_coord_3d;
+        this.y_coord_3d = y_coord_3d;
+    }
+
+    //getters
+    public String getShortName(){
+        return this.short_name;
+    }
+    public double getGCost(){
+        return this.g_cost;
+    }
+
+    public String getID(){
+        return this.id;
     }
 
     public double getFCost() {
@@ -81,7 +96,6 @@ public class AStarNode {
         return long_name;
     }
 
-
     public double getHCost() {
         return h_cost;
     }
@@ -92,5 +106,13 @@ public class AStarNode {
 
     public String getId() {
         return id;
+    }
+  
+    public int getX_coord_3d() {
+        return x_coord_3d;
+    }
+
+    public int getY_coord_3d() {
+        return y_coord_3d;
     }
 }
