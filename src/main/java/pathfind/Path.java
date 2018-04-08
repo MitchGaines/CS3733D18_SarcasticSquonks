@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
-    ArrayList<AStarNode> a_star_node_path = new ArrayList<>();
+    ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
 
     public Path(){ }
 
@@ -35,31 +35,31 @@ public class Path {
         String language = "en"; //TODO add multilangauge support
         String path  = "/" + language + "/";
 
-        if(this.a_star_node_path.size() == 0){
+        if(this.algorithm_node_path.size() == 0){
             return new URL(protocol, host, port, path);
         }
         String path_description = "";
-        path_description += "Directions from: " + a_star_node_path.get(0).getLongName()
-                + " to: " + a_star_node_path.get(a_star_node_path.size()-1).getLongName() + "."
+        path_description += "Directions from: " + algorithm_node_path.get(0).getLongName()
+                + " to: " + algorithm_node_path.get(algorithm_node_path.size()-1).getLongName() + "."
                 + System.lineSeparator();
 
-        path_description += "First, begin walking towards " + a_star_node_path.get(1).short_name + "."
+        path_description += "First, begin walking towards " + algorithm_node_path.get(1).short_name + "."
                 + System.lineSeparator();
-        for (int i = 1; i < (a_star_node_path.size()-1); i++) {
-            int distance = calcDistance(a_star_node_path.get(i-1), a_star_node_path.get(i));
+        for (int i = 1; i < (algorithm_node_path.size()-1); i++) {
+            int distance = calcDistance(algorithm_node_path.get(i-1), algorithm_node_path.get(i));
 
-            while(i + 1 < a_star_node_path.size() - 1
-                    && calcTurnDir(a_star_node_path.get(i), a_star_node_path.get(i + 1)) == 'S'){
-                distance += calcDistance(a_star_node_path.get(i), a_star_node_path.get(i + 1));
+            while(i + 1 < algorithm_node_path.size() - 1
+                    && calcTurnDir(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) == 'S'){
+                distance += calcDistance(algorithm_node_path.get(i), algorithm_node_path.get(i + 1));
                 i++;
             }
 
             path_description += "In " + distance + " feet, "
-                    + calcTurn(a_star_node_path.get(i),a_star_node_path.get(i+1))
+                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i+1))
                     + "." + System.lineSeparator();
         }
         path_description += "Destination is "
-                + calcDistance(a_star_node_path.get(a_star_node_path.size()-2), a_star_node_path.get(a_star_node_path.size()-1))
+                + calcDistance(algorithm_node_path.get(algorithm_node_path.size()-2), algorithm_node_path.get(algorithm_node_path.size()-1))
                 + " feet ahead.";
 
         byte[] path_bytes = path_description.getBytes();
@@ -122,10 +122,14 @@ public class Path {
     }
 
     public ArrayList<AStarNode> getAStarNodePath() {
-        return a_star_node_path;
+        return algorithm_node_path;
     }
 
     private double angle(int x1, int y1, int x2, int y2){
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
+    }
+
+    public void setAlgorithm_node_path(ArrayList<AStarNode> algorithm_node_path) {
+        this.algorithm_node_path = algorithm_node_path;
     }
 }
