@@ -54,6 +54,7 @@ public class HomePageController {
 
     @FXML
     JFXComboBox<data.Node> combobox_start;
+
     @FXML
     JFXComboBox<data.Node> combobox_end;
 

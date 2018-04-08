@@ -16,6 +16,8 @@
 <?import javafx.scene.layout.VBox?>
 
 
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomePageController">
    <top>
       <ExpansionPanel fx:id="exp_panel" prefWidth="1200.0" BorderPane.alignment="CENTER">
@@ -69,11 +71,18 @@
             </ImageView>
             <VBox alignment="TOP_CENTER" prefHeight="438.0" prefWidth="1200.0" spacing="50.0">
                <children>
-                  <JFXComboBox focusColor="#4863a0" labelFloat="true" promptText="%quick_locations" style="-fx-font-size: 23; -fx-text-align: center;" />
-                  <JFXComboBox fx:id="combobox_start" focusColor="#4863a0" labelFloat="true" promptText="%start_location" style="-fx-font-size: 23;" />
-                  <JFXComboBox fx:id="combobox_end" labelFloat="true" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
-                  <JFXToggleButton style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
-                  <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
+                   <JFXComboBox focusColor="#4863a0" labelFloat="true" promptText="%quick_locations" style="-fx-font-size: 23; -fx-text-align: center;" />
+                   <JFXComboBox fx:id="combobox_start" focusColor="#4863a0" labelFloat="true" promptText="%start_location" style="-fx-font-size: 23;" />
+                   <JFXComboBox fx:id="combobox_end" labelFloat="true" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
+                   <JFXToggleButton style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
+                   <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
+                   <MenuButton fx:id="language_selector" >
+                       <items>
+                           <MenuItem text="English" />
+                           <MenuItem text="Espanol" />
+                           <MenuItem text="Russian" />
+                       </items>
+                   </MenuButton>
                </children>
                <StackPane.margin>
                   <Insets top="40.0" />
