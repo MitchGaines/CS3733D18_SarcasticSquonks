@@ -8,7 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,13 +22,13 @@ public class AdminPageController extends UserController {
 
     @FXML
     Button modify_map_btn;
+    @FXML
+    BorderPane main_pane;
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
-        Parent modify_nodes_parent = loader.load();
-        ModifyMapController controller = loader.getController();
-        Scene modify_nodes_scene = new Scene(modify_nodes_parent);
-        controller.setReturnScene(modify_map_btn.getScene());
+        Window window = main_pane.getScene().getWindow();
+        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
+        Scene modify_nodes_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
         Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         modify_nodes_stage.setTitle("Modify Nodes");
         modify_nodes_stage.setScene(modify_nodes_scene);

@@ -12,8 +12,10 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import pathfind.*;
 
 import java.io.IOException;
@@ -42,10 +44,14 @@ public class PathfindController {
     @FXML
     Polyline path_polyline;
 
+    @FXML
+    BorderPane main_pane;
+
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root);
+        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
         home_stage.setScene(home_scene);
@@ -71,7 +77,6 @@ public class PathfindController {
     }
 
     public void enable3DMapping(){
-        System.out.println("enable 3d");
         mode = mappingMode.MAP3D;
         Image m = new Image("images/2-ICONS.png");
         map_img.setImage(m);
@@ -82,7 +87,6 @@ public class PathfindController {
     }
 
     public void enable2DMapping(){
-        System.out.println("enable 2d");
         mode = mappingMode.MAP2D;
         Image m = new Image("images/02_thesecondfloor.png");
         map_img.setImage(m);

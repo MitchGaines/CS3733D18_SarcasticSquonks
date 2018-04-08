@@ -472,9 +472,8 @@ public class Storage {
             User.user_type user_type = User.user_type.valueOf(r_set.getString("user_type"));
             boolean can_mod_map = r_set.getBoolean("can_mod_map");
 
-            User user = new User(username, password, user_type);
+            User user = new User(username, password, user_type, can_mod_map);
             user.setUserID(id);
-            user.setCanModMap(can_mod_map);
 
             return user;
 

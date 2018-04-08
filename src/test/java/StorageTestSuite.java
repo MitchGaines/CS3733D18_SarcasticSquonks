@@ -360,160 +360,148 @@ public class StorageTestSuite {
 
     // ------------------- USER TESTS -------------------- //
 
-//    /**
-//     * Test adding a user to the database TODO uncomment these tests
-//     */
-//    @Test
-//    public void testAddUser() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//
-//        storage.saveUser(new_user);
-//
-//        // check the length of the list of users returned
-//        List<User> users = storage.getAllUsers();
-//        Assert.assertEquals(users.size(), 1);
-//    }
-//
-//    /**
-//     * Test deleting a user from the database
-//     */
-//    @Test
-//    public void testDeleteUser() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//
-//        storage.saveUser(new_user2);
-//
-//        // delete a user from the database
-//        storage.deleteUser(new_user);
-//
-//        // check the length and the id of the remaining user
-//        List<User> users = storage.getAllUsers();
-//        Assert.assertEquals(users.size(), 1);
-//        Assert.assertEquals(users.get(0).getUserID(), 2);
-//    }
-//
-//    /**
-//     * Test updating a node in the database
-//     */
-//    @Test
-//    public void testUpdateUser() {
-//        User old_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        old_user.setUserID(1);
-//        old_user.setCanModMap(true);
-//
-//        storage.saveUser(old_user);
-//
-//        // change a field of the user
-//        old_user.setCanModMap(false);
-//
-//        // update database with new user
-//        storage.updateUser(old_user);
-//
-//        // check the field of the new user
-//        User u = storage.getUserByID(old_user.getUserID());
-//        Assert.assertFalse(u.canModMap());
-//    }
-//
-//    /**
-//     * Test getting a specific user by id
-//     */
-//    @Test
-//    public void testGetUserByID() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//
-//        storage.saveUser(new_user2);
-//
-//        // get one of the users by id and check its username
-//        User u = storage.getUserByID(new_user2.getUserID());
-//        Assert.assertEquals(u.getUsername(), "amanda");
-//    }
-//
-//    /**
-//     * Test getting a specific user by username
-//     */
-//    @Test
-//    public void testGetUserByName() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//
-//        storage.saveUser(new_user2);
-//
-//        // get one of the users by username and check its modifying privileges
-//        User u = storage.getUserByName(new_user.getUsername());
-//        Assert.assertTrue(u.canModMap());
-//    }
-//
-//    /**
-//     * Test getting a specific user by credentials
-//     */
-//    @Test
-//    public void testGetUserByCredentials() { // TODO this method uses the plain password as a check because of "'" character
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//        storage.saveUser(new_user2);
-//
-//        // get one of the users by id and check its username
-//        User u = storage.getUserByCredentials(new_user2.getUsername(), new_user2.getPlainPassword());
-//        Assert.assertEquals(u.getUsername(), "amanda");
-//    }
-//
-//    /**
-//     * Test getting all users from the users table
-//     */
-//    @Test
-//    public void testGetAllUsers() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//
-//        storage.saveUser(new_user2);
-//
-//        // get all of the users and check the length of the list returned
-//        List<User> users = storage.getAllUsers();
-//        Assert.assertEquals(users.size(), 2);
-//
-//        // also check the username of each entry
-//        Assert.assertEquals(users.get(0).getUsername(), "joe");
-//        Assert.assertEquals(users.get(1).getUsername(), "amanda");
-//    }
-//
+    /**
+     * Test adding a user to the database
+     */
+    @Test
+    public void testAddUser() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+
+        storage.saveUser(new_user);
+
+        // check the length of the list of users returned
+        List<User> users = storage.getAllUsers();
+        Assert.assertEquals(users.size(), 1);
+    }
+
+    /**
+     * Test deleting a user from the database
+     */
+    @Test
+    public void testDeleteUser() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+
+        storage.saveUser(new_user2);
+
+        // delete a user from the database
+        storage.deleteUser(new_user);
+
+        // check the length and the id of the remaining user
+        List<User> users = storage.getAllUsers();
+        Assert.assertEquals(users.size(), 1);
+        Assert.assertEquals(users.get(0).getUserID(), 2);
+    }
+
+    /**
+     * Test updating a node in the database
+     */
+    @Test
+    public void testUpdateUser() {
+        User old_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        old_user.setUserID(1);
+
+        storage.saveUser(old_user);
+
+        // change a field of the user
+        old_user.setCanModMap(false);
+
+        // update database with new user
+        storage.updateUser(old_user);
+
+        // check the field of the new user
+        User u = storage.getUserByID(old_user.getUserID());
+        Assert.assertFalse(u.canModMap());
+    }
+
+    /**
+     * Test getting a specific user by id
+     */
+    @Test
+    public void testGetUserByID() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+
+        storage.saveUser(new_user2);
+
+        // get one of the users by id and check its username
+        User u = storage.getUserByID(new_user2.getUserID());
+        Assert.assertEquals(u.getUsername(), "amanda");
+    }
+
+    /**
+     * Test getting a specific user by username
+     */
+    @Test
+    public void testGetUserByName() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+
+        storage.saveUser(new_user2);
+
+        // get one of the users by username and check its modifying privileges
+        User u = storage.getUserByName(new_user.getUsername());
+        Assert.assertFalse(u.canModMap());
+    }
+
+    /**
+     * Test getting a specific user by credentials
+     */
+    @Test
+    public void testGetUserByCredentials() { // TODO this method uses the plain password as a check because of "'" character
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        // get one of the users by id and check its username
+        User u = storage.getUserByCredentials(new_user2.getUsername(), new_user2.getPlainPassword());
+        Assert.assertEquals(u.getUsername(), "amanda");
+    }
+
+    /**
+     * Test getting all users from the users table
+     */
+    @Test
+    public void testGetAllUsers() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+
+        storage.saveUser(new_user2);
+
+        // get all of the users and check the length of the list returned
+        List<User> users = storage.getAllUsers();
+        Assert.assertEquals(users.size(), 2);
+
+        // also check the username of each entry
+        Assert.assertEquals(users.get(0).getUsername(), "joe");
+        Assert.assertEquals(users.get(1).getUsername(), "amanda");
+    }
+
 //    // ------------------- SERVICE TESTS -------------------- //
 //
 //    /**
@@ -846,7 +834,7 @@ public class StorageTestSuite {
         // drop tables at the end
         storage.getDatabase().dropTable("NODES");
         storage.getDatabase().dropTable("EDGES");
-//        storage.getDatabase().dropTable("USERS");
+        storage.getDatabase().dropTable("USERS");
 //        storage.getDatabase().dropTable("SERVICES");
     }
 }
