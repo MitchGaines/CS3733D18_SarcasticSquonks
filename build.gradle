@@ -9,6 +9,7 @@ targetCompatibility = 1.8
 version = '1.0'
 
 repositories {
+
 	mavenCentral()
     flatDir{
         dirs 'lib'
@@ -18,14 +19,14 @@ repositories {
 dependencies {
     testCompile(
             [group: 'junit', name: 'junit', version: '4.12'],
-            [group: 'com.jfoenix', name: 'jfoenix', version: '9.0.2'],
+            [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.3'],
             [group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1']
     )
     compile(
             [group: 'junit', name: 'junit', version: '4.12'],
-            [group: 'com.jfoenix', name: 'jfoenix', version: '9.0.2'],
+            [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.3'],
             [group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1'],
