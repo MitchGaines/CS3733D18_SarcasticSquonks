@@ -1,5 +1,6 @@
 package controller;
 
+import database.Storage;
 import internationalization.AllText;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -32,6 +33,7 @@ public class PathfindController {
 
     private data.Node node1;
     private data.Node node2;
+    private Storage db_storage;
 
     private enum mappingMode{MAP3D, MAP2D}
     private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
@@ -41,8 +43,6 @@ public class PathfindController {
 
     @FXML
     AnchorPane map_anchor_pane;
-    @FXML
-    AnchorPane scroll_anchor_pane;
 
     @FXML
     ScrollPane map_scroll_pane;
@@ -67,6 +67,7 @@ public class PathfindController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+        this.db_storage = Storage.getInstance();
         enable2DMapping();
     }
 
@@ -80,9 +81,9 @@ public class PathfindController {
         home_stage.show();
     }
 
-    public void doPathfinding(data.Node node1, data.Node node2) {
-        this.node1 = node1;
-        this.node2 = node2;
+    public void doPathfinding(String node1, String node2) {
+        this.node1 = db_storage.getNodeByID(node1);
+        this.node2 = db_storage.getNodeByID(node2);
 
         Map map;
         if(mode == mappingMode.MAP2D)
@@ -90,15 +91,35 @@ public class PathfindController {
         else
             map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
 
-        // Pathfinding and drawing on map
-        Pathfinder pathfinder = new Pathfinder();
-        pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
-        map.drawPath(pathfinder.path.getAStarNodePath());
+        Pathfinder pathfinder = new Pathfinder(new AStar());
+        pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
+        map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
+
+        QRCode qr = null;
+        try {
+            qr = new QRCode(pathfinder.pathfinder_path.getPathDirections().toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+    }
+
+    public void quickLocationFinding(String start_id, String goal_id){
+        Map map;
+        if(mode == mappingMode.MAP2D)
+            map = new Map2D(map_img, path_polyline, destination_img, map_scroll_pane);
+        else
+            map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
+        Pathfinder quickFinder = new Pathfinder(new BreadthFirst());
+        quickFinder.findShortestPath(start_id, goal_id);
+        map.drawPath(quickFinder.pathfinder_path.getAStarNodePath());
+        this.node1 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(0).getID());
+        this.node2 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(quickFinder.pathfinder_path.getAStarNodePath().size()-1).getID());
 
         // Building QR code and placing in scene
         QRCode qr = null;
         try {
-            qr = new QRCode(pathfinder.path.getPathDirections().toString());
+            qr = new QRCode(quickFinder.pathfinder_path.getPathDirections().toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -112,7 +133,7 @@ public class PathfindController {
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
 
         if(node1 != null && node2 != null){
-            doPathfinding(node1, node2);
+            doPathfinding(node1.getNodeID(), node2.getNodeID());
         }
     }
 
@@ -123,7 +144,7 @@ public class PathfindController {
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
 
         if(node1 != null && node2 != null){
-            doPathfinding(node1, node2);
+            doPathfinding(node1.getNodeID(), node2.getNodeID());
         }
     }
 
