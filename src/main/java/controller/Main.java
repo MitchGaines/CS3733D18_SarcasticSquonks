@@ -26,8 +26,10 @@ public class Main extends Application {
 
         // read from CSV files
         CSVReader csv_reader = new CSVReader(storage.getDatabase());
-        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
-        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
+//        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
+//        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
+        csv_reader.readCSVFile("csv/mergedNodes.csv", "NODES");
+        csv_reader.readCSVFile("csv/mergedEdges.csv", "EDGES");
         csv_reader.readCSVFile("csv/users.csv", "USERS");
 
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
