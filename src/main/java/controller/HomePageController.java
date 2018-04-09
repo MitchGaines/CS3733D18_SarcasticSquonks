@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
 import internationalization.AllText;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -118,6 +119,8 @@ public class HomePageController {
         for (String language : AllText.getLanguages()) {
             language_selector.getItems().add(AllText.get(language));
         }
+
+        login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
     }
 
     public void onLanguageChange() {
