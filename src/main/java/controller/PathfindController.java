@@ -9,8 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
@@ -38,6 +40,14 @@ public class PathfindController {
     Button back_button;
 
     @FXML
+    AnchorPane map_anchor_pane;
+    @FXML
+    AnchorPane scroll_anchor_pane;
+
+    @FXML
+    ScrollPane map_scroll_pane;
+
+    @FXML
     ImageView qr_img;
     @FXML
     ImageView map_img;
@@ -57,6 +67,7 @@ public class PathfindController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+        enable2DMapping();
     }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
@@ -75,14 +86,16 @@ public class PathfindController {
 
         Map map;
         if(mode == mappingMode.MAP2D)
-            map = new Map2D(map_img, path_polyline, destination_img);
+            map = new Map2D(map_img, path_polyline, destination_img, map_scroll_pane);
         else
-            map = new Map3D(map_img, path_polyline, destination_img);
+            map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
 
+        // Pathfinding and drawing on map
         Pathfinder pathfinder = new Pathfinder();
         pathfinder.findShortestPath(node1.getNodeID(), node2.getNodeID());
         map.drawPath(pathfinder.path.getAStarNodePath());
 
+        // Building QR code and placing in scene
         QRCode qr = null;
         try {
             qr = new QRCode(pathfinder.path.getPathDirections().toString());
@@ -96,6 +109,7 @@ public class PathfindController {
         mode = mappingMode.MAP3D;
         Image m = new Image("images/2-ICONS.png");
         map_img.setImage(m);
+        map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
 
         if(node1 != null && node2 != null){
             doPathfinding(node1, node2);
@@ -106,6 +120,7 @@ public class PathfindController {
         mode = mappingMode.MAP2D;
         Image m = new Image("images/02_thesecondfloor.png");
         map_img.setImage(m);
+        map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
 
         if(node1 != null && node2 != null){
             doPathfinding(node1, node2);
