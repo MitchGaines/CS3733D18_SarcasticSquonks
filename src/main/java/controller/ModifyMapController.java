@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class ModifyMapController {
 
     HashMap<data.Node, ImageView> nodes_list;
@@ -253,8 +254,6 @@ public class ModifyMapController {
         }
         return ("B" + ntype + String.format("%03d", currmax+1) + "02");
     }
-
-
 
     private String generateEdgeId(data.Node first_node, data.Node second_node) {
         return (first_node.getNodeID() + "_" + second_node.getNodeID());
