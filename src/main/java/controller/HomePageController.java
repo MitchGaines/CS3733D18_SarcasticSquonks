@@ -34,6 +34,8 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Window;
+import user.InvalidPasswordException;
+import user.InvalidUsernameException;
 import user.LoginHandler;
 import user.User;
 
@@ -79,6 +81,8 @@ public class HomePageController {
     @FXML
     ExpansionPanel exp_panel;
 
+    private LoginHandler loginHandler;
+
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
      * by pulling all nodes from the database
@@ -90,31 +94,31 @@ public class HomePageController {
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
-        populateLanguages();
+
+        loginHandler = new LoginHandler();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
         time2.setText(dtf.format(now));
+        language_selector.getItems().removeAll(language_selector.getItems());
+        for (String language : AllText.getLanguages()) {
+            language_selector.getItems().add(AllText.get(language));
+        }
     }
 
-    private void populateLanguages() {
-        String[] languages = AllText.getLanguages();
-        language_selector.getItems().removeAll(language_selector.getItems());
-        for (String language : languages) {
-            MenuItem menuItem  = new MenuItem(AllText.get(language));
-            menuItem.setOnAction(e -> {
-                AllText.changeLanguage(language);
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                    Stage primary_stage = (Stage)language_selector.getScene().getWindow();
-                    primary_stage.setTitle("Brigham and Women's");
-                    primary_stage.setScene(new Scene(root, 1200, 800));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-            });
-            language_selector.getItems().add(menuItem);
+    public void onLanguageChange() {
+        if (language_selector.getSelectionModel().isEmpty()) {
+            return;
+        }
+        try {
+            AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
+            Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Stage primary_stage = (Stage) language_selector.getScene().getWindow();
+            primary_stage.setTitle("Brigham and Women's");
+            primary_stage.setScene(new Scene(root, 1200, 800));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -142,17 +146,21 @@ public class HomePageController {
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
     public void onLoginClick(ActionEvent event) throws IOException {
-        String name = username.getText();
-        if (name.equals("doctor")) {
-            openUser(event, "/DoctorPage.fxml", LoginHandler.getUsers().get(0));
-        }
-        else if (name.equals("admin")) {
-            openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
-        }
-        else if (name.equals("regstaff")) {
-            openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
-        }
-        else {
+        try {
+            User user = loginHandler.login(username.getText(), password.getText());
+            System.out.println(user);
+            if (user.getType() == User.user_type.DOCTOR) {
+                openUser(event, "/DoctorPage.fxml", user);
+            }
+            else if (user.getType() == User.user_type.ADMIN_STAFF) {
+                openUser(event, "/AdminPage.fxml", user);
+            }
+            else if (user.getType() == User.user_type.REGULAR_STAFF) {
+                openUser(event, "/RegStaffPage.fxml", user);
+            }
+        } catch (InvalidPasswordException e) {
+            wrong_credentials.setText("Wrong username or password");
+        } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
     }
