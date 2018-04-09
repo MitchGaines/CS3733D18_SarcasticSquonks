@@ -141,6 +141,31 @@ public class ModifyMapController {
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes());
 
+        lop = FXCollections.observableArrayList();
+        lop.addAll("View Map","Add Location", "Add Path", "Delete Location");
+        location_or_path.setItems(lop);
+        location_or_path.getSelectionModel().selectFirst();
+
+        list_type = FXCollections.observableArrayList();
+        list_type.addAll("Conference","Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
+        loc_type.setItems(list_type);
+
+        //Hashmap for node constructor
+        short_name = new ArrayList<>();
+        short_name.add("CONF");
+        short_name.add("HALL");
+        short_name.add("DEPT");
+        short_name.add("INFO");
+        short_name.add("LABS");
+        short_name.add("REST");
+        short_name.add("STAI");
+        short_name.add("SERV");
+
+        locations = new HashMap<>();
+        for(int i = 0; i < list_type.size(); i++) {
+            locations.put(list_type.get(i), short_name.get(i));
+        }
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
