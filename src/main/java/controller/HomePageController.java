@@ -16,9 +16,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.time.Clock;
 import java.time.format.DateTimeFormatter;
 
@@ -91,6 +89,22 @@ public class HomePageController {
     public void initialize() {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
         locations.addAll(Storage.getInstance().getAllNodes());
+
+        ArrayList<data.Node> toRemove = new ArrayList<data.Node>();
+        for(data.Node location : locations){
+            if(location.getNodeType().equals("HALL") ||
+               location.getNodeType().equals("ELEV") ||
+               location.getNodeType().equals("STAI")){
+                toRemove.add(location);
+            }
+        }
+        locations.removeAll(toRemove);
+        Collections.sort(locations, new Comparator<data.Node>() {
+            @Override
+            public int compare(final data.Node object1, final data.Node object2) {
+                return object1.getLongName().compareTo(object2.getLongName());
+            }
+        });
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
