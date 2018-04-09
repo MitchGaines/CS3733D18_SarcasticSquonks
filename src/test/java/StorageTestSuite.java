@@ -19,6 +19,7 @@ import service.ServiceType;
 import user.LoginHandler;
 import user.User;
 
+import javax.xml.ws.Service;
 import java.util.List;
 
 public class StorageTestSuite {
@@ -502,7 +503,7 @@ public class StorageTestSuite {
         Assert.assertEquals(users.get(1).getUsername(), "amanda");
     }
 
-    // ------------------- SERVICE TESTS -------------------- //
+    // ------------------- SERVICE TESTS -------------------- // TODO check service request tests (add setID if needed)
 
     /**
      * Test adding a service request to the database
@@ -812,6 +813,40 @@ public class StorageTestSuite {
         List<ServiceRequest> requests = storage.getAllRequestsByUser(new_user2);
         Assert.assertEquals(requests.size(), 2);
         Assert.assertEquals(requests.get(0), request2);
+    }
+
+    // --------------------- SERVICE TYPE TESTS ------------------ //
+
+    /**
+     * Test adding service types to the database
+     */
+    @Test
+    public void testAddServiceType() {
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
+        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+        storage.saveServiceType(emergency);
+
+        // test the addition
+        List<ServiceType> types = storage.getAllServiceTypes();
+        Assert.assertEquals(types.size(), 2);
+        Assert.assertEquals(types.get(0), cleanUp);
+        Assert.assertEquals(types.get(1), emergency);
+    }
+
+    /**
+     * Tests getting a service type by name
+     */
+    @Test
+    public void testGetServiceTypeByName() {
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
+        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+        storage.saveServiceType(emergency);
+
+        // get the service type and check it
+        ServiceType type = storage.getServiceTypeByName(cleanUp.getName());
+        Assert.assertEquals(type, cleanUp);
     }
 
     @After
