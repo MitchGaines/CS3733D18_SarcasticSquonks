@@ -72,9 +72,6 @@ public class HomePageController {
     JFXComboBox<data.Node> combobox_end;
 
     @FXML
-    JFXComboBox quick_loc;
-
-    @FXML
     JFXComboBox language_selector;
 
     @FXML
@@ -102,9 +99,11 @@ public class HomePageController {
      */
     public void initialize() {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
-        locations.addAll(Storage.getInstance().getAllNodes());
+        Storage storage = Storage.getInstance();
+        locations.addAll(storage.getAllNodes());
 
         combobox_start.setItems(locations);
+        combobox_start.setValue(locations.iterator().next());
         combobox_end.setItems(locations);
 
         loginHandler = new LoginHandler();
