@@ -1,11 +1,9 @@
 import database.*;
-import org.junit.Assert;
 import org.junit.Test;
 import pathfind.*;
 import pathfind.Path;
 import pathfind.Pathfinder;
 
-import java.util.ArrayList;
 
 public class PathTests {
     private Pathfinder pathfinder = new Pathfinder(new AStar());
