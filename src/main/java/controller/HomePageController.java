@@ -94,7 +94,6 @@ public class HomePageController {
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
-        populateLanguages();
 
         loginHandler = new LoginHandler();
 
@@ -102,25 +101,24 @@ public class HomePageController {
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
         time2.setText(dtf.format(now));
+        language_selector.getItems().removeAll(language_selector.getItems());
+        for (String language : AllText.getLanguages()) {
+            language_selector.getItems().add(AllText.get(language));
+        }
     }
 
-    private void populateLanguages() {
-        String[] languages = AllText.getLanguages();
-        language_selector.getItems().removeAll(language_selector.getItems());
-        for (String language : languages) {
-            MenuItem menuItem  = new MenuItem(AllText.get(language));
-            menuItem.setOnAction(e -> {
-                AllText.changeLanguage(language);
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                    Stage primary_stage = (Stage)language_selector.getScene().getWindow();
-                    primary_stage.setTitle("Brigham and Women's");
-                    primary_stage.setScene(new Scene(root, 1200, 800));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-            });
-            language_selector.getItems().add(menuItem);
+    public void onLanguageChange() {
+        if (language_selector.getSelectionModel().isEmpty()) {
+            return;
+        }
+        try {
+            AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
+            Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Stage primary_stage = (Stage) language_selector.getScene().getWindow();
+            primary_stage.setTitle("Brigham and Women's");
+            primary_stage.setScene(new Scene(root, 1200, 800));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
