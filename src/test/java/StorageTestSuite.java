@@ -521,7 +521,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
 
         storage.saveRequest(request);
@@ -553,7 +553,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         storage.saveRequest(request);
 
@@ -562,7 +562,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         storage.saveRequest(request2);
 
@@ -592,13 +592,13 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         // now update a field of the request and update the database
-        request.setLocation("Room 224");
+        // request.setLocation("Room 224");
         storage.updateRequest(request);
 
         // check that the field was updated
@@ -628,7 +628,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request.setRequestID(1);
         request.setFulfiller(new_user);
@@ -639,7 +639,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request2.setRequestID(2);
         request2.setFulfiller(new_user);
@@ -676,7 +676,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         storage.saveRequest(request);
 
@@ -685,7 +685,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         storage.saveRequest(request2);
 
@@ -694,7 +694,7 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         storage.saveRequest(request3);
 
@@ -727,7 +727,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request.setRequestID(1);
         request.setFulfiller(new_user2);
@@ -738,7 +738,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request2.setRequestID(2);
         request2.setFulfiller(new_user2);
@@ -749,7 +749,7 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request3.setRequestID(3);
         request3.setFulfiller(new_user);
@@ -783,7 +783,7 @@ public class StorageTestSuite {
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request.setFulfiller(new_user2);
         storage.saveRequest(request);
@@ -793,7 +793,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request2.setFulfiller(new_user2);
         storage.saveRequest(request2);
@@ -803,7 +803,7 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                "BHALL03002"
+                null //"BHALL03002"
         );
         request3.setFulfiller(new_user);
         storage.saveRequest(request3);
