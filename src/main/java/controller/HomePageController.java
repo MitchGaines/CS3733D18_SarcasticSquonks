@@ -159,6 +159,9 @@ public class HomePageController {
     @FXML
     void onQuickClick(ActionEvent event) throws IOException{
         Button button = (Button) event.getSource();
+        if(combobox_start.getValue().getNodeID().contains(button.getId())){
+            return;
+        }
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
