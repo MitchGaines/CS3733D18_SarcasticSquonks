@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
 import internationalization.AllText;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -118,6 +119,8 @@ public class HomePageController {
         for (String language : AllText.getLanguages()) {
             language_selector.getItems().add(AllText.get(language));
         }
+
+        login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
     }
 
     public void onLanguageChange() {
@@ -126,7 +129,7 @@ public class HomePageController {
         }
         try {
             AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
-            Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Parent root     = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
             Stage primary_stage = (Stage) language_selector.getScene().getWindow();
             primary_stage.setTitle("Brigham and Women's");
             primary_stage.setScene(new Scene(root, 1200, 800));
@@ -145,6 +148,19 @@ public class HomePageController {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
+        if (combobox_start.getSelectionModel().isEmpty() || combobox_end.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Please select a starting and ending location");
+            alert.setHeaderText("Please select a starting and ending location");
+            alert.setContentText("You must select both a starting and ending location to get directions.");
+            alert.showAndWait();
+        } else if (combobox_start.getValue().equals(combobox_end.getValue())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Your starting and ending locations can't be the same");
+            alert.setHeaderText("Your starting and ending locations can't be the same");
+            alert.setContentText("You must select a starting and ending location that are different from each other.");
+            alert.showAndWait();
+        }
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
