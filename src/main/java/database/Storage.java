@@ -550,7 +550,7 @@ public class Storage {
      * @param id the id of the service request to retrieve
      * @return the service request corresponding to the given id
      */
-    public ServiceRequest getRequestByID(long id) {
+    public List<ServiceRequest> getRequestByID(long id) {
         ResultSet r_set = database.query(
                 "SERVICES",
                 null,
@@ -559,7 +559,7 @@ public class Storage {
                 null
         );
 
-        return getRequest(r_set);
+        return getRequests(r_set);
     }
 
     /**
@@ -635,6 +635,9 @@ public class Storage {
      */
     private List<ServiceRequest> getRequests(ResultSet r_set) {
         List<ServiceRequest> requests = new LinkedList<>();
+        List<Long> id_requesters = new LinkedList<Long>();
+        List<Long> id_fulfillers = new LinkedList<Long>();
+        List<String> types = new LinkedList<String>();
 
         // return an empty list if query didn't return anything
         if (r_set == null) {
@@ -643,7 +646,26 @@ public class Storage {
 
         ServiceRequest request;
         while ((request = getRequest(r_set)) != null) {
-            requests.add(request);
+            try {
+                id_requesters.add(r_set.getLong("requester_id"));
+                id_fulfillers.add(r_set.getLong("fulfiller_id"));
+                types.add(r_set.getString("service_type"));
+                requests.add(request);
+            } catch (SQLException e) {
+                // empty
+            }
+        }
+
+        // second for loop to create the service requests
+        int length = id_requesters.size();
+        for (int i = 0; i < length; i++) {
+            ServiceType serviceType = getServiceTypeByName(types.get(i));
+            User requester = getUserByID(id_requesters.get(i));
+            User fulfiller = getUserByID(id_fulfillers.get(i));
+
+            requests.get(i).setService_type(serviceType);
+            requests.get(i).setRequester(requester);
+            requests.get(i).setFulfiller(fulfiller);
         }
 
         return requests;
@@ -666,15 +688,10 @@ public class Storage {
             long service_id = r_set.getLong("service_id");
             String title = r_set.getString("title");
             String description = r_set.getString("description");
-            long request_id = r_set.getLong("requester_id");
-            long fulfill_id = r_set.getLong("fulfiller_id");
             String location = r_set.getString("location");
 
-            // construct service type and requester objects
-            ServiceType service_type = getServiceTypeByName(r_set.getString("service_type"));
-            User requester = getUserByID(fulfill_id);
-
-            ServiceRequest request = ServiceRequest.createService(title, description, service_type, requester, location);
+            // set some request fields to null, then fill them in after
+            ServiceRequest request = ServiceRequest.createService(title, description, null, null, location);
 
             return request;
 

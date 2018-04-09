@@ -514,6 +514,7 @@ public class StorageTestSuite {
         storage.saveUser(new_user);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -528,6 +529,7 @@ public class StorageTestSuite {
         // check the length of the list of requests returned
         List<ServiceRequest> requests = storage.getAllServiceRequests();
         Assert.assertEquals(requests.size(), 1);
+        Assert.assertEquals(requests.get(0), request);
     }
 
     /**
@@ -544,6 +546,7 @@ public class StorageTestSuite {
         storage.saveUser(new_user2);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -569,6 +572,7 @@ public class StorageTestSuite {
         // check the length of the list of requests returned
         List<ServiceRequest> requests = storage.getAllServiceRequests();
         Assert.assertEquals(requests.size(), 1);
+        Assert.assertEquals(requests.get(0), request2);
     }
 
     /**
@@ -581,6 +585,7 @@ public class StorageTestSuite {
         storage.saveUser(new_user);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -589,6 +594,7 @@ public class StorageTestSuite {
                 new_user,
                 "BHALL03002"
         );
+        request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         // now update a field of the request and update the database
@@ -615,6 +621,7 @@ public class StorageTestSuite {
         storage.saveUser(new_user2);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -623,6 +630,8 @@ public class StorageTestSuite {
                 new_user,
                 "BHALL03002"
         );
+        request.setRequestID(1);
+        request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         ServiceRequest request2 = ServiceRequest.createService(
@@ -632,13 +641,16 @@ public class StorageTestSuite {
                 new_user2,
                 "BHALL03002"
         );
+        request2.setRequestID(2);
+        request2.setFulfiller(new_user);
         storage.saveRequest(request2);
 
         // get the request by id
-        ServiceRequest gottenRequest = storage.getRequestByID(new_user.getUserID());
+        List<ServiceRequest> gottenRequest = storage.getRequestByID(request.getRequestID());
 
         // check the description of the request returned
-        Assert.assertEquals(gottenRequest.getDescription(), "Cleanup required near Room 223");
+        Assert.assertEquals(gottenRequest.get(0).getDescription(), "Cleanup required near Room 223");
+        Assert.assertEquals(gottenRequest.get(0), request);
     }
 
     /**
@@ -655,7 +667,9 @@ public class StorageTestSuite {
         storage.saveUser(new_user2);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+        storage.saveServiceType(emergency);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -687,6 +701,7 @@ public class StorageTestSuite {
         // get all requests of type cleanUp and check its length
         List<ServiceRequest> requests = storage.getRequestsByType(cleanUp);
         Assert.assertEquals(requests.size(), 2);
+        Assert.assertEquals(requests.get(1), request2);
     }
 
     /**
@@ -703,7 +718,9 @@ public class StorageTestSuite {
         storage.saveUser(new_user2);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+        storage.saveServiceType(emergency);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -712,6 +729,8 @@ public class StorageTestSuite {
                 new_user,
                 "BHALL03002"
         );
+        request.setRequestID(1);
+        request.setFulfiller(new_user2);
         storage.saveRequest(request);
 
         ServiceRequest request2 = ServiceRequest.createService(
@@ -721,6 +740,8 @@ public class StorageTestSuite {
                 new_user2,
                 "BHALL03002"
         );
+        request2.setRequestID(2);
+        request2.setFulfiller(new_user2);
         storage.saveRequest(request2);
 
         ServiceRequest request3 = ServiceRequest.createService(
@@ -730,10 +751,12 @@ public class StorageTestSuite {
                 new_user2,
                 "BHALL03002"
         );
+        request3.setRequestID(3);
+        request3.setFulfiller(new_user);
         storage.saveRequest(request3);
 
         // get all requests assigned to a user and check its length
-        List<ServiceRequest> requests = storage.getAllRequestsAssignedToUser(new_user);
+        List<ServiceRequest> requests = storage.getAllRequestsAssignedToUser(new_user2);
         Assert.assertEquals(requests.size(), 2);
     }
 
@@ -751,7 +774,9 @@ public class StorageTestSuite {
         storage.saveUser(new_user2);
 
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        storage.saveServiceType(cleanUp);
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+        storage.saveServiceType(emergency);
 
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
@@ -760,6 +785,7 @@ public class StorageTestSuite {
                 new_user,
                 "BHALL03002"
         );
+        request.setFulfiller(new_user2);
         storage.saveRequest(request);
 
         ServiceRequest request2 = ServiceRequest.createService(
@@ -769,6 +795,7 @@ public class StorageTestSuite {
                 new_user2,
                 "BHALL03002"
         );
+        request2.setFulfiller(new_user2);
         storage.saveRequest(request2);
 
         ServiceRequest request3 = ServiceRequest.createService(
@@ -778,11 +805,13 @@ public class StorageTestSuite {
                 new_user2,
                 "BHALL03002"
         );
+        request3.setFulfiller(new_user);
         storage.saveRequest(request3);
 
-        // get all requests assigned to a user and check its length
+        // get all requests assigned by a user and check its length
         List<ServiceRequest> requests = storage.getAllRequestsByUser(new_user2);
         Assert.assertEquals(requests.size(), 2);
+        Assert.assertEquals(requests.get(0), request2);
     }
 
     @After

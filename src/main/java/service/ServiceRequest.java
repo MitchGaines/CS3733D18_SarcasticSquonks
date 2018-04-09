@@ -3,6 +3,7 @@ package service;
 import user.User;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  *
@@ -15,6 +16,11 @@ public class ServiceRequest {
      * Stores a HashSet of Service Requests.
      */
     private static HashSet<ServiceRequest> service_requests = new HashSet<>();
+
+    /**
+     * id of the service request
+     */
+    private long id;
 
     /**
      * Stores the title and a description.
@@ -180,6 +186,12 @@ public class ServiceRequest {
     }
 
     /**
+     * Sets the fulfiller
+     * @param fulfiller the fulfiller to set
+     */
+    public void setFulfiller(User fulfiller) { this.fulfiller = fulfiller; }
+
+    /**
      * Retrieves the location of the request.
      * @return the location.
      */
@@ -195,8 +207,44 @@ public class ServiceRequest {
         this.location = location;
     }
 
+    public long getRequestID() { return this.id; }
+
+    public void setRequestID(long id) { this.id = id; }
+
     @Override
     public String toString() {
         return getTitle();
+    }
+
+//    // TODO for debugging
+//    @Override
+//    public String toString() {
+//        return "ServiceRequest{" +
+//                "title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", service_type=" + service_type +
+//                ", requester=" + requester +
+//                ", fulfiller=" + fulfiller +
+//                ", location='" + location + '\'' +
+//                '}';
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServiceRequest that = (ServiceRequest) o;
+        return Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(service_type, that.service_type) &&
+                Objects.equals(requester, that.requester) &&
+                Objects.equals(fulfiller, that.fulfiller) &&
+                Objects.equals(location, that.location);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title, description, service_type, requester, fulfiller, location);
     }
 }
