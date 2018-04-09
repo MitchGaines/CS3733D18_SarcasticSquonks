@@ -111,12 +111,7 @@ public class HomePageController {
             }
         }
         locations.removeAll(toRemove);
-        Collections.sort(locations, new Comparator<data.Node>() {
-            @Override
-            public int compare(final data.Node object1, final data.Node object2) {
-                return object1.getLongName().compareTo(object2.getLongName());
-            }
-        });
+        Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
 
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
