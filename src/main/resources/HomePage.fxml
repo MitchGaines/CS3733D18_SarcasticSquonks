@@ -84,7 +84,7 @@
             <HBox alignment="BOTTOM_LEFT" prefHeight="152.0" prefWidth="273.0" spacing="20.0" StackPane.alignment="BOTTOM_LEFT">
                <children>
                   <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18;" />
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
+                  <JFXButton buttonType="RAISED"  onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
                </children>
                <StackPane.margin>
                   <Insets bottom="10.0" left="10.0" top="700.0" />
