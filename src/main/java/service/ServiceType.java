@@ -58,6 +58,8 @@ public class ServiceType {
         return name;
     }
 
+    public void setName(String name) { this.name = name; }
+
     /**
      * Stores a HashSet of users.
      */

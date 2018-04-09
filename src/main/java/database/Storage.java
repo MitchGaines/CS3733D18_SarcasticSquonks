@@ -746,6 +746,44 @@ public class Storage {
     }
 
     /**
+     * Gets all service types from the database
+     * @return a List of all service types in the database
+     */
+    public List<ServiceType> getAllServiceTypes() {
+        ResultSet r_set = database.query(
+                "TYPES",
+                null,
+                null,
+                null,
+                null
+        );
+
+        return getServiceTypes(r_set);
+    }
+
+    /**
+     * Private method for parsing result set
+     * @param r_set a set of all of the entries in the table
+     * @return a List of ServiceTypes corresponding to table entries
+     */
+    private List<ServiceType> getServiceTypes(ResultSet r_set) {
+        List<ServiceType> types = new LinkedList<>();
+
+        // if there were no results from the query, return null
+        if (r_set == null) {
+            return types;
+        }
+
+        // loop through result set and add to list
+        ServiceType type;
+        while ((type = getServiceType(r_set)) != null) {
+            types.add(type);
+        }
+
+        return types;
+    }
+
+    /**
      * Retrieves a single service type from the table
      * @param r_set a single entry in the table
      * @return a service type object from the table
