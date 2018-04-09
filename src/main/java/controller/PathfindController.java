@@ -2,14 +2,18 @@ package controller;
 
 import database.Storage;
 import internationalization.AllText;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -148,13 +152,53 @@ public class PathfindController {
         }
     }
 
+    @FXML
+    Button toggle_map_btn;
+
     public void toggleMappingType(){
         if(mode == mappingMode.MAP2D){
             enable3DMapping();
+            toggle_map_btn.setText("2D Map"); //TODO language stuff
         }
         else if(mode == mappingMode.MAP3D) {
             enable2DMapping();
+            toggle_map_btn.setText("3D Map"); //TODO language stuff
         }
+    }
+
+    @FXML
+    ImageView expanded_qr;
+
+    public void onQRClick() {
+        ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
+        GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
+        adj.setInput(blur);
+        ObservableList<Node> list = main_pane.getChildren();
+        for (Node a_node : list) {
+            a_node.setEffect(adj);
+        }
+        Parent a_parent = expanded_qr.getParent();
+        a_parent.setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(0).setEffect(adj);
+        expanded_qr.setImage(qr_img.getImage());
+        expanded_qr.isPreserveRatio();
+        expanded_qr.setVisible(true);
+    }
+
+    @FXML
+    BorderPane header_pane;
+
+    public void onBigQRClick(){
+        expanded_qr.setVisible(false);
+        ObservableList<Node> list = main_pane.getChildren();
+        for (Node a_node : list) {
+            a_node.setStyle("-fx-background-color: null");
+            a_node.setEffect(null);
+        }
+        header_pane.setStyle("-fx-background-color:  #4863A0");
+        Parent a_parent = expanded_qr.getParent();
+        a_parent.setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
     }
 
 }
