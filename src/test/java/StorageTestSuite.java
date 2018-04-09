@@ -502,332 +502,288 @@ public class StorageTestSuite {
         Assert.assertEquals(users.get(1).getUsername(), "amanda");
     }
 
-//    // ------------------- SERVICE TESTS -------------------- //
-//
-//    /**
-//     * Test adding a service request to the database
-//     */
-//    @Test
-//    public void testAddRequest() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//
-//        storage.saveRequest(request);
-//
-//        // check the length of the list of requests returned
-//        List<ServiceRequest> requests = storage.getAllServiceRequests();
-//        Assert.assertEquals(requests.size(), 1);
-//    }
-//
-//    /**
-//     * Test deleting a request from the database
-//     */
-//    @Test
-//    public void testDeleteRequest() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//        storage.saveUser(new_user2);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        ServiceRequest request2 = ServiceRequest.createService(
-//                2,
-//                "Request assistance",
-//                "Patient in Room 223 needs help",
-//                cleanUp,
-//                new_user2.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request2);
-//
-//        // delete a request from the database
-//        storage.deleteRequest(request);
-//
-//        // check the length of the list of requests returned
-//        List<ServiceRequest> requests = storage.getAllServiceRequests();
-//        Assert.assertEquals(requests.size(), 1);
-//    }
-//
-//    /**
-//     * Test updating a request in the database
-//     */
-//    @Test
-//    public void testUpdateRequest() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        // now update a field of the request and update the database
-//        request.setLocation("Room 224");
-//        storage.updateRequest(request);
-//
-//        // check that the field was updated
-//        List<ServiceRequest> requests = storage.getAllServiceRequests();
-//        Assert.assertEquals(requests.size(), 1);
-//        Assert.assertEquals(requests.get(0).getLocation(), "Room 224");
-//    }
-//
-//    /**
-//     * Test getting a service request by id
-//     */
-//    @Test
-//    public void testGetRequestByID() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//        storage.saveUser(new_user2);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        ServiceRequest request2 = ServiceRequest.createService(
-//                2,
-//                "Request assistance",
-//                "Patient in Room 223 needs help",
-//                cleanUp,
-//                new_user2.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request2);
-//
-//        // get the request by id
-//        ServiceRequest gottenRequest = storage.getRequestByID(new_user.getUserID());
-//
-//        // check the description of the request returned
-//        Assert.assertEquals(gottenRequest.getDescription(), "Cleanup required near Room 223");
-//    }
-//
-//    /**
-//     * Test getting service requests by type
-//     */
-//    @Test
-//    public void testGetRequestsByType() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//        storage.saveUser(new_user2);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        ServiceRequest request2 = ServiceRequest.createService(
-//                2,
-//                "Request assistance",
-//                "Patient in Room 223 needs help",
-//                cleanUp,
-//                new_user2.getUserID(),
-//                0,
-//                "Room 223"
-//        );
-//        storage.saveRequest(request2);
-//
-//        ServiceRequest request3 = ServiceRequest.createService(
-//                3,
-//                "Request assistance",
-//                "Patient fell in hallway",
-//                emergency,
-//                new_user2.getUserID(),
-//                0,
-//                "Room 204"
-//        );
-//        storage.saveRequest(request3);
-//
-//        // get all requests of type cleanUp and check its length
-//        List<ServiceRequest> requests = storage.getRequestsByType(cleanUp);
-//        Assert.assertEquals(requests.size(), 2);
-//    }
-//
-//    /**
-//     * Test getting all service requests assigned to a given user
-//     */
-//    @Test
-//    public void testGetRequestsForUser() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                new_user2.getUserID(),
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        ServiceRequest request2 = ServiceRequest.createService(
-//                2,
-//                "Request assistance",
-//                "Patient in Room 223 needs help",
-//                cleanUp,
-//                new_user2.getUserID(),
-//                new_user.getUserID(),
-//                "Room 223"
-//        );
-//        storage.saveRequest(request2);
-//
-//        ServiceRequest request3 = ServiceRequest.createService(
-//                3,
-//                "Request assistance",
-//                "Patient fell in hallway",
-//                emergency,
-//                new_user2.getUserID(),
-//                new_user.getUserID(),
-//                "Room 204"
-//        );
-//        storage.saveRequest(request3);
-//
-//        // get all requests assigned to a user and check its length
-//        List<ServiceRequest> requests = storage.getAllRequestsAssignedToUser(new_user);
-//        Assert.assertEquals(requests.size(), 2);
-//    }
-//
-//    /**
-//     * Test getting all service requests by a given user
-//     */
-//    @Test
-//    public void testGetRequestsByUser() {
-//        User new_user = new User("joe", "joe", User.user_type.DOCTOR);
-//        new_user.setUserID(1);
-//        new_user.setCanModMap(true);
-//        storage.saveUser(new_user);
-//
-//        User new_user2 = new User("amanda", "amanda", User.user_type.REGULAR_STAFF);
-//        new_user2.setUserID(2);
-//        new_user2.setCanModMap(true);
-//        storage.saveUser(new_user2);
-//
-//        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
-//        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
-//
-//        ServiceRequest request = ServiceRequest.createService(
-//                1,
-//                "Request cleanup",
-//                "Cleanup required near Room 223",
-//                cleanUp,
-//                new_user.getUserID(),
-//                new_user2.getUserID(),
-//                "Room 223"
-//        );
-//        storage.saveRequest(request);
-//
-//        ServiceRequest request2 = ServiceRequest.createService(
-//                2,
-//                "Request assistance",
-//                "Patient in Room 223 needs help",
-//                cleanUp,
-//                new_user2.getUserID(),
-//                new_user.getUserID(),
-//                "Room 223"
-//        );
-//        storage.saveRequest(request2);
-//
-//        ServiceRequest request3 = ServiceRequest.createService(
-//                3,
-//                "Request assistance",
-//                "Patient fell in hallway",
-//                emergency,
-//                new_user2.getUserID(),
-//                new_user.getUserID(),
-//                "Room 204"
-//        );
-//        storage.saveRequest(request3);
-//
-//        // get all requests assigned to a user and check its length
-//        List<ServiceRequest> requests = storage.getAllRequestsByUser(new_user2);
-//        Assert.assertEquals(requests.size(), 2);
-//
-//        // TODO this test fails because of ServiceType issues
-//        //Assert.assertTrue(requests.get(1).getServiceType().isEmergency());
-//    }
+    // ------------------- SERVICE TESTS -------------------- //
+
+    /**
+     * Test adding a service request to the database
+     */
+    @Test
+    public void testAddRequest() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+
+        storage.saveRequest(request);
+
+        // check the length of the list of requests returned
+        List<ServiceRequest> requests = storage.getAllServiceRequests();
+        Assert.assertEquals(requests.size(), 1);
+    }
+
+    /**
+     * Test deleting a request from the database
+     */
+    @Test
+    public void testDeleteRequest() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        ServiceRequest request2 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient in Room 223 needs help",
+                cleanUp,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request2);
+
+        // delete a request from the database
+        storage.deleteRequest(request);
+
+        // check the length of the list of requests returned
+        List<ServiceRequest> requests = storage.getAllServiceRequests();
+        Assert.assertEquals(requests.size(), 1);
+    }
+
+    /**
+     * Test updating a request in the database
+     */
+    @Test
+    public void testUpdateRequest() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        // now update a field of the request and update the database
+        request.setLocation("Room 224");
+        storage.updateRequest(request);
+
+        // check that the field was updated
+        List<ServiceRequest> requests = storage.getAllServiceRequests();
+        Assert.assertEquals(requests.size(), 1);
+        Assert.assertEquals(requests.get(0).getLocation(), "Room 224");
+    }
+
+    /**
+     * Test getting a service request by id
+     */
+    @Test
+    public void testGetRequestByID() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        ServiceRequest request2 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient in Room 223 needs help",
+                cleanUp,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request2);
+
+        // get the request by id
+        ServiceRequest gottenRequest = storage.getRequestByID(new_user.getUserID());
+
+        // check the description of the request returned
+        Assert.assertEquals(gottenRequest.getDescription(), "Cleanup required near Room 223");
+    }
+
+    /**
+     * Test getting service requests by type
+     */
+    @Test
+    public void testGetRequestsByType() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        ServiceRequest request2 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient in Room 223 needs help",
+                cleanUp,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request2);
+
+        ServiceRequest request3 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient fell in hallway",
+                emergency,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request3);
+
+        // get all requests of type cleanUp and check its length
+        List<ServiceRequest> requests = storage.getRequestsByType(cleanUp);
+        Assert.assertEquals(requests.size(), 2);
+    }
+
+    /**
+     * Test getting all service requests assigned to a given user
+     */
+    @Test
+    public void testGetRequestsForUser() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        ServiceRequest request2 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient in Room 223 needs help",
+                cleanUp,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request2);
+
+        ServiceRequest request3 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient fell in hallway",
+                emergency,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request3);
+
+        // get all requests assigned to a user and check its length
+        List<ServiceRequest> requests = storage.getAllRequestsAssignedToUser(new_user);
+        Assert.assertEquals(requests.size(), 2);
+    }
+
+    /**
+     * Test getting all service requests by a given user
+     */
+    @Test
+    public void testGetRequestsByUser() {
+        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(1);
+        storage.saveUser(new_user);
+
+        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(2);
+        storage.saveUser(new_user2);
+
+        ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
+        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
+
+        ServiceRequest request = ServiceRequest.createService(
+                "cleanup",
+                "Cleanup required near Room 223",
+                cleanUp,
+                new_user,
+                "BHALL03002"
+        );
+        storage.saveRequest(request);
+
+        ServiceRequest request2 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient in Room 223 needs help",
+                cleanUp,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request2);
+
+        ServiceRequest request3 = ServiceRequest.createService(
+                "Request assistance",
+                "Patient fell in hallway",
+                emergency,
+                new_user2,
+                "BHALL03002"
+        );
+        storage.saveRequest(request3);
+
+        // get all requests assigned to a user and check its length
+        List<ServiceRequest> requests = storage.getAllRequestsByUser(new_user2);
+        Assert.assertEquals(requests.size(), 2);
+    }
 
     @After
     public void breakDown() {
@@ -835,7 +791,9 @@ public class StorageTestSuite {
         storage.getDatabase().dropTable("NODES");
         storage.getDatabase().dropTable("EDGES");
         storage.getDatabase().dropTable("USERS");
-//        storage.getDatabase().dropTable("SERVICES");
+        storage.getDatabase().dropTable("SERVICES");
+        storage.getDatabase().dropTable("TYPES");
+        storage.getDatabase().dropTable("FULFILLERS");
     }
 }
 

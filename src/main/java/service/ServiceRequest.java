@@ -57,7 +57,7 @@ public class ServiceRequest {
         return service_requests;
     }
 
-    private String location;
+    private String location; // TODO change to Node
 
     /**
      * Gets a hashset of all service requests that need to be fulfilled.
@@ -81,11 +81,12 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    public static void createService(String title, String description, ServiceType type, User requester, String location) {
+    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, String location) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
         service_requests.add(sr);
 
         ServiceLogEntry.log(sr, false);
+        return sr;
     }
 
     public User getRequester() {
