@@ -116,7 +116,7 @@ public class ServiceAreaController {
 
         title_text.setText(selected_request.getTitle());
         description_text.setText(selected_request.getDescription());
-        location_text.setText(selected_request.getLocation());
+        location_text.setText(selected_request.getLocation().getShortName());
 
         title_text.setVisible(true);
         location_text.setVisible(true);

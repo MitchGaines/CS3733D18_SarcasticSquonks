@@ -516,7 +516,7 @@ public class Storage {
                 database.addQuotes(request.getServiceType().getName()),
                 String.valueOf(request.getRequester().getUserID()),
                 fulfiller_string,
-                database.addQuotes(request.getLocation()) // TODO change to Node
+                "null" //database.addQuotes(request.getLocation()) // TODO change to Node
         });
     }
 
@@ -691,7 +691,7 @@ public class Storage {
             String location = r_set.getString("location");
 
             // set some request fields to null, then fill them in after
-            ServiceRequest request = ServiceRequest.createService(title, description, null, null, location);
+            ServiceRequest request = ServiceRequest.createService(title, description, null, null, null);
 
             return request;
 

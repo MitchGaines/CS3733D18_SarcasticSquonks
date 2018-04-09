@@ -1,5 +1,8 @@
 package service;
 
+import data.Node;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import user.User;
 
 import java.util.HashSet;
@@ -47,8 +50,9 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    private ServiceRequest(String title, String description, ServiceType type, User requester, String location) {
+    private ServiceRequest(String title, String description, ServiceType type, User requester, Node location) {
         this.title = title;
+        this.requestedDate = DateTime.now();
         this.description = description;
         this.service_type = type;
         this.requester = requester;
@@ -63,7 +67,7 @@ public class ServiceRequest {
         return service_requests;
     }
 
-    private String location; // TODO change to Node
+    private Node location;
 
     /**
      * Gets a hashset of all service requests that need to be fulfilled.
@@ -79,6 +83,24 @@ public class ServiceRequest {
         return to_return;
     }
 
+    DateTime requestedDate, fulfilledDate;
+
+    public DateTime getRequestedDate() {
+        return requestedDate;
+    }
+
+    public void setRequestedDate(DateTime requestedDate) {
+        this.requestedDate = requestedDate;
+    }
+
+    public DateTime getFulfilledDate() {
+        return fulfilledDate;
+    }
+
+    public void setFulfilledDate(DateTime fulfilledDate) {
+        this.fulfilledDate = fulfilledDate;
+    }
+
     /**
      * Creates a new service request.
      * @param title the title of the request.
@@ -87,7 +109,7 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, String location) {
+    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
         service_requests.add(sr);
 
@@ -107,6 +129,7 @@ public class ServiceRequest {
     public boolean fulfill(User user) {
         if (!isFulfilled()) {
             fulfiller = user;
+            fulfilledDate = DateTime.now();
             return true;
         } else {
             return false;
@@ -195,7 +218,7 @@ public class ServiceRequest {
      * Retrieves the location of the request.
      * @return the location.
      */
-    public String getLocation() {
+    public Node getLocation() {
         return location;
     }
 
@@ -203,7 +226,7 @@ public class ServiceRequest {
      * Sets the location of the request.
      * @param location the location of the request.
      */
-    public void setLocation(String location) {
+    public void setLocation(Node location) {
         this.location = location;
     }
 
