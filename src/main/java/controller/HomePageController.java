@@ -34,6 +34,8 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Window;
+import user.InvalidPasswordException;
+import user.InvalidUsernameException;
 import pathfind.AStar;
 import pathfind.BreadthFirst;
 import user.LoginHandler;
@@ -81,6 +83,8 @@ public class HomePageController {
     @FXML
     ExpansionPanel exp_panel;
 
+    private LoginHandler loginHandler;
+
     @FXML
     JFXButton REST;
 
@@ -103,6 +107,8 @@ public class HomePageController {
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
         populateLanguages();
+
+        loginHandler = new LoginHandler();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
@@ -169,17 +175,21 @@ public class HomePageController {
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
     public void onLoginClick(ActionEvent event) throws IOException {
-        String name = username.getText();
-        if (name.equals("doctor")) {
-            openUser(event, "/DoctorPage.fxml", LoginHandler.getUsers().get(0));
-        }
-        else if (name.equals("admin")) {
-            openUser(event, "/AdminPage.fxml", LoginHandler.getUsers().get(1));
-        }
-        else if (name.equals("regstaff")) {
-            openUser(event, "/RegStaffPage.fxml", LoginHandler.getUsers().get(2));
-        }
-        else {
+        try {
+            User user = loginHandler.login(username.getText(), password.getText());
+            System.out.println(user);
+            if (user.getType() == User.user_type.DOCTOR) {
+                openUser(event, "/DoctorPage.fxml", user);
+            }
+            else if (user.getType() == User.user_type.ADMIN_STAFF) {
+                openUser(event, "/AdminPage.fxml", user);
+            }
+            else if (user.getType() == User.user_type.REGULAR_STAFF) {
+                openUser(event, "/RegStaffPage.fxml", user);
+            }
+        } catch (InvalidPasswordException e) {
+            wrong_credentials.setText("Wrong username or password");
+        } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
     }
