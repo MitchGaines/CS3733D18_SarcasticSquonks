@@ -516,7 +516,7 @@ public class Storage {
                 database.addQuotes(request.getServiceType().getName()),
                 String.valueOf(request.getRequester().getUserID()),
                 fulfiller_string,
-                //database.addQuotes(request.getLocation()) // TODO change to Node
+                "null" //database.addQuotes(request.getLocation()) // TODO change to Node
         });
     }
 
