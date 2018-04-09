@@ -12,14 +12,16 @@ import java.util.*;
  */
 
 public class Pathfinder {
-    HashMap<String, AStarNode> a_star_node_map = new HashMap<>();
+    HashMap<String, AStarNode> algorithm_node_map = new HashMap<>();
     HashMap<String, Node> nodes = new HashMap();
     HashMap<String, Edge> edges = new HashMap();
     AStarNode goal;
     AStarNode start;
-    public Path path = new Path();
+    public Path pathfinder_path = new Path();
+    private ISearchAlgorithm algorithm;
 
-    public Pathfinder(){
+    public Pathfinder(ISearchAlgorithm algorithm){
+        this.algorithm = algorithm;
     }
 
     /**
@@ -32,13 +34,13 @@ public class Pathfinder {
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
-            a_star_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName(), node.getLongName()));
+            algorithm_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName(), node.getLongName()));
         }
 
         for(Edge connection: edges.values()){
-            if(a_star_node_map.containsKey(connection.getStartNode()) && a_star_node_map.containsKey(connection.getEndNode())){
-                a_star_node_map.get(connection.getStartNode()).neighbors.add(a_star_node_map.get(connection.getEndNode()));
-                a_star_node_map.get(connection.getEndNode()).neighbors.add(a_star_node_map.get(connection.getStartNode()));
+            if(algorithm_node_map.containsKey(connection.getStartNode()) && algorithm_node_map.containsKey(connection.getEndNode())){
+                algorithm_node_map.get(connection.getStartNode()).neighbors.add(algorithm_node_map.get(connection.getEndNode()));
+                algorithm_node_map.get(connection.getEndNode()).neighbors.add(algorithm_node_map.get(connection.getStartNode()));
             }
         }
     }
@@ -58,69 +60,28 @@ public class Pathfinder {
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
     public void findShortestPath(String startID, String goalID){
         loadDBData();
-        if(a_star_node_map.size()==0){
+        if(algorithm_node_map.size()==0){
             return;
         }
-        this.start = this.a_star_node_map.get(startID);
-        this.goal = this.a_star_node_map.get(goalID);
-        //queue of all Nodes generated but not yet searched (queued in order of increasing cost)
-        PriorityQueue<AStarNode> open_a_star_nodes = new PriorityQueue<>(10, heuristicComparator);
-        //list of searched nodes that shouldn't be searched again
-        LinkedList<AStarNode> closed_a_star_nodes = new LinkedList<>();
-        //search the starting node first
-        open_a_star_nodes.add(this.start);
+        this.start = algorithm_node_map.get(startID);
+        this.goal = algorithm_node_map.get(goalID);
 
-        while(!open_a_star_nodes.isEmpty()){
-            AStarNode current_node = open_a_star_nodes.poll();
-            closed_a_star_nodes.add(current_node);
-
-            if(current_node.checkID(this.goal)){
-                reconstructPath(current_node);
-                return;
-            }
-
-            for(AStarNode neighbor: current_node.neighbors){
-                if(!closed_a_star_nodes.contains(neighbor)){
-                    if(!open_a_star_nodes.contains(neighbor)){
-                        neighbor.setParent(current_node);
-                        neighbor.newGCost(current_node);
-                        neighbor.newHCost(this.goal);
-                        neighbor.calcFCost();
-                        open_a_star_nodes.add(neighbor);
-                    }
-                    else{
-                        double temp_g_cost = current_node.getGCost() + current_node.distanceTo(neighbor);
-                        if(temp_g_cost < neighbor.getGCost()){
-                            neighbor.setParent(current_node);
-                            neighbor.newGCost(current_node);
-                            neighbor.newHCost(this.goal);
-                            neighbor.calcFCost();
-                        }
-                    }
-                }
-            }
-        }
-        String list = "";
-        for (AStarNode nodes: closed_a_star_nodes){
-            list += nodes.getId() + System.lineSeparator();
-        }
-
+        //call the algorithm
+        reconstructPath(algorithm.findPath(startID, goalID, algorithm_node_map));
         return;
     }
-    //returns the path (ordered start ---> finish) given the last node
+
+    //returns the pathfinder_path (ordered start ---> finish) given the last node
     private Path reconstructPath(AStarNode end){
         AStarNode previous = end;
         while(true){
-            path.a_star_node_path.add(previous);
+            pathfinder_path.algorithm_node_path.add(previous);
             if(previous.checkID(this.start)){
 
-                Collections.reverse(path.a_star_node_path);
-                return path;
+                Collections.reverse(pathfinder_path.algorithm_node_path);
+                return pathfinder_path;
             }
             previous = previous.getParent();
         }
     }
-
-    //comparator to organize how the priority queue sorts items (based on heuristic)
-    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getFCost() - AStarNode2.getFCost());
 }

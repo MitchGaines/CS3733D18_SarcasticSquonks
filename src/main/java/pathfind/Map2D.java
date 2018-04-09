@@ -17,10 +17,10 @@ public class Map2D extends Map {
     private ImageView destination_img;
 
     /**
-     * Constructs a 2D map with path drawing capabilities
+     * Constructs a 2D map with pathfinder_path drawing capabilities
      * @param map FXML ImageView that the map refers to
      * @param path_polyline FXML Polyline used for drawing on the map
-     * @param destination_img FXML ImageView that will mark the destination of the path
+     * @param destination_img FXML ImageView that will mark the destination of the pathfinder_path
      * @author Will Lucca
      */
     public Map2D(ImageView map, Polyline path_polyline, ImageView destination_img){
@@ -30,7 +30,7 @@ public class Map2D extends Map {
     }
 
     /**
-     * Draws path on map
+     * Draws pathfinder_path on map
      * @param path List of nodes to draw along
      * @author Will Lucca
      */
