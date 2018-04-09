@@ -8,26 +8,18 @@ import internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
-import java.net.URL;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
-import java.time.Clock;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Comparator;
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -101,6 +93,17 @@ public class HomePageController {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
         Storage storage = Storage.getInstance();
         locations.addAll(storage.getAllNodes());
+
+        ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
+        for(data.Node location : locations){
+            if(location.getNodeType().equals("HALL") ||
+               location.getNodeType().equals("ELEV") ||
+               location.getNodeType().equals("STAI")){
+                to_remove.add(location);
+            }
+        }
+        locations.removeAll(to_remove);
+        Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
 
         combobox_start.setItems(locations);
         combobox_start.setValue(locations.iterator().next());
