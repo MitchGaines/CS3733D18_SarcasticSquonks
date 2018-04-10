@@ -81,7 +81,6 @@ public class JavaFxTests extends ApplicationTest {
                 csv_writer.writeCSVFile("csv/users.csv", "USERS");
             }
         });
-
     }
 
     //close after test so no other tests get messed up/IntelliJ (hopefully) doesn't crash
@@ -94,16 +93,15 @@ public class JavaFxTests extends ApplicationTest {
 
     /* Home screen tests */
 
-    @Test
     public void testPathfind() {
         clickOn("#combobox_start");
         clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
+        clickOn("Home");
     }
 
-    @Test
     public void testPathfindSpanish() {
         clickOn("#language_selector");
         clickOn("Spanish");
@@ -113,16 +111,9 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#combobox_end");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
+        clickOn("Home");
     }
 
-    @Test
-    public void testChangeLang() {
-        clickOn("#language_selector");
-        clickOn("Spanish");
-        clickOn("Confirm");
-    }
-
-    @Test
     public void testChangeLangBack() {
         clickOn("#language_selector");
         clickOn("Spanish");
@@ -130,5 +121,12 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#language_selector");
         clickOn("Inglés");
         clickOn("Confirm");
+    }
+
+    @Test
+    public void runTests() {
+        testPathfind();
+        testPathfind();
+        testChangeLangBack();
     }
 }
