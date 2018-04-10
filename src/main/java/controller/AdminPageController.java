@@ -1,6 +1,9 @@
 package controller;
 
+import com.jfoenix.controls.JFXComboBox;
 import internationalization.AllText;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,15 +15,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import pathfind.BreadthFirst;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 public class AdminPageController extends UserController {
 
+    private static int selected_path_algorithm = 0;
+    //UserController user = new UserController();
     UserController user = new UserController();
 
     @FXML
@@ -29,6 +36,19 @@ public class AdminPageController extends UserController {
     BorderPane main_pane;
     @FXML
     Label time;
+    @FXML
+    JFXComboBox<String> path_algorithm_box;
+
+
+    public void loadReportScreen(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
+        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/Report.fxml"), AllText.getBundle());
+        Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
+        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        modify_nodes_stage.setTitle("View Reports");
+        modify_nodes_stage.setScene(view_reports_scene);
+        modify_nodes_stage.show();
+    }
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -45,5 +65,18 @@ public class AdminPageController extends UserController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+        ObservableList<String> algorithms = FXCollections.observableArrayList();
+        algorithms.add(AllText.get("a_star"));
+        algorithms.add(AllText.get("depth_first"));
+        algorithms.add(AllText.get("breadth_first"));
+        path_algorithm_box.setItems(algorithms);
+
+    }
+    public void chooseAlgorithm(){
+        this.selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
+
+    }
+    public static int getChoosenAlg(){
+        return selected_path_algorithm;
     }
 }

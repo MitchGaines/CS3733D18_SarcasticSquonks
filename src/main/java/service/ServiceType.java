@@ -1,10 +1,14 @@
 package service;
 
+import javafx.collections.ObservableList;
+import org.joda.time.*;
 import user.LoginHandler;
 import user.User;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * Defines a ServiceType.
@@ -144,5 +148,24 @@ public class ServiceType {
     public int hashCode() {
 
         return Objects.hash(name, emergency, fulfillers);
+    }
+
+    ///////////////////// Fancy Reports ///////////////////////
+
+    private Stream<ServiceRequest> requestedInRange(DateTime start, DateTime end) {
+        return ServiceRequest.getServiceRequests().stream()
+                .filter(e -> e.service_type == this && e.requestedDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.requestedDate.toDateTime().isAfter(start.toDateTime().toInstant()));
+    }
+
+    public long getNumRequests(DateTime start, DateTime end) {
+        return requestedInRange(start, end).count();
+    }
+
+    public double getAverageFulfillmentTimeInHours(DateTime start, DateTime end) {
+        return requestedInRange(start, end)
+                .filter(ServiceRequest::isFulfilled)
+                .mapToDouble(e -> ((double)(e.fulfilledDate.getMillis() - e.requestedDate.getMillis())) / DateTimeConstants.MILLIS_PER_HOUR)
+                .average()
+                .orElse(0);
     }
 }
