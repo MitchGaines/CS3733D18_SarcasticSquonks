@@ -128,11 +128,11 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Inglés");
         clickOn("Confirm");
     }
-
+    */
 
     @Test
-    public void runTests() {
-        testChangeLangBack();
+    public void testChangeLang() {
+        clickOn("#language_selector");
+        clickOn("Spanish");
     }
-    */
 }
