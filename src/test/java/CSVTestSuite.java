@@ -47,6 +47,7 @@ public class CSVTestSuite {
     /**
      * Test that the files were read in correctly
      */
+    /*
     @Test
     public void testRead() {
 
@@ -79,10 +80,12 @@ public class CSVTestSuite {
         Assert.assertEquals(user2.getType(), User.user_type.ADMIN_STAFF);
         Assert.assertTrue(user2.canModMap());
     }
+    */
 
     /**
      * Test that the write worked correctly
      */
+    /*
     @Test
     public void testWrite() {
 
@@ -106,6 +109,7 @@ public class CSVTestSuite {
 //        List<User> users = storage.getAllUsers();
 //        Assert.assertEquals(users.size(), 3);
     }
+    */
 
     @After
     public void breakDown() {
