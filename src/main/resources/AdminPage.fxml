@@ -47,6 +47,7 @@
                <children>
                   <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%modify_map" />
                   <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
+                  <JFXButton fx:id="reports_button" buttonType="RAISED" onAction="#loadReportScreen" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Reports" />
                </children>
                <StackPane.margin>
                   <Insets top="500.0" />
