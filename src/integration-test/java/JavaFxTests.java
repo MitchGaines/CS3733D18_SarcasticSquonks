@@ -5,6 +5,7 @@ import database.CSVWriter;
 import database.Storage;
 import internationalization.AllText;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -132,7 +133,7 @@ public class JavaFxTests extends ApplicationTest {
     */
 
     @Test
-    public void testChangeLang() throws Exception {
+    public void testChangeLang() {
         clickOn("#language_selector");
         clickOn("Spanish");
     }
