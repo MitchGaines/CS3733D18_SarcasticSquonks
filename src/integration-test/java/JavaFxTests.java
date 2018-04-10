@@ -95,6 +95,41 @@ public class JavaFxTests extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
+    /* Functions to make my life easier */
+
+    public void loginAsDoctor() {
+        moveTo("#exp_panel");
+        moveBy(1155, -25);
+        clickOn();
+        clickOn("#username");
+        write("Doctor");
+        clickOn("#password");
+        write("Password");
+        clickOn("#login_btn");
+    }
+
+    public void loginAsAdmin() {
+        moveTo("#exp_panel");
+        moveBy(1155, -25);
+        clickOn();
+        clickOn("#username");
+        write("Admin");
+        clickOn("#password");
+        write("SecurePassword");
+        clickOn("#login_btn");
+    }
+
+    public void loginAsRegStaff() {
+        moveTo("#exp_panel");
+        moveBy(1155, -25);
+        clickOn();
+        clickOn("#username");
+        write("Bob");
+        clickOn("#password");
+        write("abc");
+        clickOn("#login_btn");
+    }
+
     /* Home screen tests */
 
     @Test
@@ -106,8 +141,6 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#pathfind");
         clickOn("Home");
     }
-
-
 
     @Test
     public void testPathfindSpanish() {
@@ -122,8 +155,6 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Home");
     }
 
-
-
     @Test
     public void testChangeLangBack() {
         clickOn("#language_selector");
@@ -134,11 +165,28 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Confirm");
     }
 
-
-
     @Test
     public void testChangeLang() {
         clickOn("#language_selector");
         clickOn("Spanish");
     }
+
+    /* Login Tests */
+
+    @Test
+    public void testDoctorLogin() {
+        loginAsDoctor();
+    }
+
+    @Test
+    public void testAdminLogin() {
+        loginAsAdmin();
+    }
+
+    @Test
+    public void testRegStaffLogin() {
+        loginAsRegStaff();
+    }
+
+
 }
