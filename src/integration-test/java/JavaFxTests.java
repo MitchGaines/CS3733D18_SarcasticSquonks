@@ -131,9 +131,4 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Inglés");
         clickOn("Confirm");
     }
-
-    @Test
-    public void testLogin() {
-
-    }
 }
