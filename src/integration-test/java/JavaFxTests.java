@@ -122,6 +122,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#back_button");
     }
 
+    /*
     @Test
     public void testMapScroll() {
         clickOn("#combobox_start");
@@ -137,6 +138,7 @@ public class JavaFxTests extends ApplicationTest {
         scroll(65, VerticalDirection.DOWN);
         clickOn("#back_button");
     }
+    */
 
     @Test
     public void testPathfindSpanish() {
@@ -179,6 +181,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#back_button");
     }
 
+    /*
     @Test
     public void testSwitchFloors() {
         clickOn("#combobox_start");
@@ -203,6 +206,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Up");
         clickOn("#back_button");
     }
+    */
 
     //these error when run all at once, but pass individually.
     /*
