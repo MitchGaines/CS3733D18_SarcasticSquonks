@@ -2,11 +2,16 @@ package controller;
 
 import com.jfoenix.controls.*;
 import internationalization.AllText;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.SelectionMode;
 import org.joda.time.DateTime;
 import service.ServiceType;
@@ -34,11 +39,18 @@ public class ReportsController extends UserController {
     @FXML
     JFXButton run_report_button;
 
+    @FXML
+    JFXToggleButton chart_toggle;
+
+    @FXML
+    Label instructions;
+
     @Override
     public void initialize() {
         populateReportTypes();
-        bar_chart.setVisible(false);
         setUpListView();
+        instructions.setWrapText(true);
+        service_type_list.getSelectionModel().selectedItemProperty().addListener(e -> onGoButton());
     }
 
     private void populateReportTypes() {
@@ -63,6 +75,9 @@ public class ReportsController extends UserController {
     }
 
     private org.joda.time.DateTime getStartTime() {
+        if (start_date_picker.getValue() == null || start_time_picker.getValue() == null) {
+            return null;
+        }
         LocalDate date = start_date_picker.getValue();
         LocalTime time = start_time_picker.getValue();
         java.time.LocalDateTime ldt = date.atTime(time);
@@ -71,12 +86,32 @@ public class ReportsController extends UserController {
 
 
     private DateTime getEndTime() {
+        if (end_date_picker.getValue() == null || end_time_picker.getValue() == null) {
+            return null;
+        }
         LocalDate date = end_date_picker.getValue();
         LocalTime time = end_time_picker.getValue();
         java.time.LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
 
+    public void onGoButton() {
+        generateChart();
+        generateTable();
+        onToggle();
+    }
+
+    public void onToggle() {
+        if (!empty) {
+            if (chart_toggle.selectedProperty().getValue()) {
+                main_pane.setCenter(chart);
+            } else {
+                main_pane.setCenter(table);
+            }
+        }
+    }
+
+    private boolean empty = true;
 
     public void generateChart() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {
@@ -104,8 +139,49 @@ public class ReportsController extends UserController {
 
         chart.setLegendVisible(false);
 
+        this.chart = chart;
+        empty = false;
+    }
 
-        main_pane.setCenter(chart);
-        chart.setVisible(true);
+    private BarChart chart;
+    private TableView table;
+
+    public void generateTable() {
+        if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {
+            return;
+        }
+
+        int selected = report_type_menu.getSelectionModel().getSelectedIndex();
+        TableView<ServiceType> table = new TableView<>();
+
+        TableColumn<ServiceType, String> service_type_col = new TableColumn<>("Service Type");
+        TableColumn<ServiceType, String> value_col = new TableColumn<>(String.format("%s (%s)", AllText.get(REPORT_TYPE_KEYS[selected]), AllText.get(REPORT_TYPE_UNIT_KEYS[selected])));
+        table.getColumns().addAll(service_type_col, value_col);
+
+        service_type_col.setCellValueFactory(e -> {
+            SimpleStringProperty p = new SimpleStringProperty();
+            p.setValue(e.getValue().getName());
+            return p;
+        });
+
+        value_col.setCellValueFactory(e -> {
+            SimpleStringProperty p = new SimpleStringProperty();
+            if (selected == 0) {
+                p.setValue("" + e.getValue().getNumRequests(getStartTime(), getEndTime()));
+            } else if (selected == 1) {
+                p.setValue("" + e.getValue().getAverageFulfillmentTimeInHours(getStartTime(), getEndTime()));
+            }
+            return p;
+        });
+
+
+        service_type_col.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+        value_col.prefWidthProperty().bind(table.widthProperty().multiply(0.6));
+
+        for (ServiceType type : service_type_list.getSelectionModel().getSelectedItems()) {
+            table.getItems().add(type);
+        }
+        empty = false;
+        this.table = table;
     }
 }

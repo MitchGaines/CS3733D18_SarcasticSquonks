@@ -46,13 +46,9 @@
             <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
             <VBox alignment="TOP_CENTER" spacing="40.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-                     <children>
-                        <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
-                        <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%modify_map" />
-                        <JFXButton fx:id="reports_button" buttonType="RAISED" onAction="#loadReportScreen" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Reports" />
-                     </children>
-                  </HBox>
+                  <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%modify_map" />
+                  <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
+                  <JFXButton fx:id="reports_button" buttonType="RAISED" onAction="#loadReportScreen" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Reports" />
                   <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;" />
                </children>
                <StackPane.margin>

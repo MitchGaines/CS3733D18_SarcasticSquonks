@@ -50,6 +50,7 @@ public class AdminPageController extends UserController {
         modify_nodes_stage.show();
     }
 
+
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
         Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
