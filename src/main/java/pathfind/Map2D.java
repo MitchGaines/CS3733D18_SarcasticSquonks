@@ -34,22 +34,25 @@ public class Map2D extends Map {
         double x_coord = 0;
         double y_coord = 0;
         path_polyline.getPoints().clear();
+        path_polyline_2.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
 
         boolean polyline_begun = false;
         boolean polyline_broken = false;
         for (AStarNode node : path){
             if (Map.floor_ids[this.floor].equals(node.floor)) {
+                polyline_begun = true;
                 x_coord = ((double) node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
                 y_coord = ((double) node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
-                path_polyline.getPoints().addAll(x_coord, y_coord);
                 if(polyline_broken)
                     path_polyline_2.getPoints().addAll(x_coord, y_coord);
                 else
                     path_polyline.getPoints().addAll(x_coord, y_coord);
             }
-            else if(polyline_begun)
+            else if(polyline_begun) {
                 polyline_broken = true;
+                polyline_begun = false;
+            }
         }
 
         // Positioning star

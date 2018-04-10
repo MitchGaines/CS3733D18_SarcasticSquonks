@@ -34,6 +34,7 @@ public class Map3D extends Map {
         double x_coord = 0;
         double y_coord = 0;
         path_polyline.getPoints().clear();
+        path_polyline_2.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
 
         boolean polyline_begun = false;
@@ -48,9 +49,12 @@ public class Map3D extends Map {
                 else
                     path_polyline.getPoints().addAll(x_coord, y_coord);
             }
-            else if(polyline_begun)
+            else if(polyline_begun) {
                 polyline_broken = true;
+                polyline_begun = false;
+            }
         }
+
 
         // Positioning star
         destination_img.setTranslateX(x_coord - destination_img.getFitWidth() / 2);
