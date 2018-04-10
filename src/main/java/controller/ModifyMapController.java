@@ -323,6 +323,7 @@ public class ModifyMapController {
         add_node_box.setVisible(false);
         location_or_path.getSelectionModel().selectFirst();
         confirm_3d.setVisible(false);
+        choose_floor.setVisible(true);
     }
 
     public void onMouseClick(MouseEvent click) {
@@ -372,6 +373,8 @@ public class ModifyMapController {
             pane.getChildren().add(pin);
             confirm_3d.setVisible(true);
             scene.setCursor(Cursor.DEFAULT);
+            add_node_box.setVisible(false);
+            choose_floor.setVisible(false);
             /*
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
