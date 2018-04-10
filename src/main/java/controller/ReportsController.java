@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.SelectionMode;
 import org.joda.time.DateTime;
 import service.ServiceType;
 
@@ -25,6 +26,9 @@ public class ReportsController extends UserController {
 
     @FXML
     JFXDatePicker start_date_picker, end_date_picker;
+
+    @FXML
+    BarChart<String, Number> bar_chart;
 
     @FXML
     JFXListView<ServiceType> service_type_list;
@@ -47,7 +51,6 @@ public class ReportsController extends UserController {
         setUpListView();
         instructions.setWrapText(true);
         service_type_list.getSelectionModel().selectedItemProperty().addListener(e -> onGoButton());
-    }
 
     private void populateReportTypes() {
         report_type_menu.getItems().removeAll(report_type_menu.getItems());
@@ -82,7 +85,6 @@ public class ReportsController extends UserController {
 
 
     private DateTime getEndTime() {
-
         if (end_date_picker.getValue() == null || end_time_picker.getValue() == null) {
             return null;
         }
@@ -110,7 +112,6 @@ public class ReportsController extends UserController {
 
     private boolean empty = true;
 
-
     public void generateChart() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {
             return;
@@ -136,7 +137,6 @@ public class ReportsController extends UserController {
         }
 
         chart.setLegendVisible(false);
-
 
         this.chart = chart;
         empty = false;
@@ -183,5 +183,4 @@ public class ReportsController extends UserController {
         empty = false;
         this.table = table;
     }
-
 }
