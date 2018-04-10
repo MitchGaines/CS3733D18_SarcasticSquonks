@@ -8,9 +8,12 @@ import com.kylecorry.matrix.Matrix;
 import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
 import internationalization.AllText;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -23,6 +26,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -36,6 +40,8 @@ import java.util.*;
 
 
 public class ModifyMapController {
+
+    double zoom_factor;
 
     HashMap<data.Node, ImageView> nodes_list;
     Storage storage;
@@ -87,6 +93,8 @@ public class ModifyMapController {
     @FXML
     private void initialize() {
         first_click = true;
+
+        zoom_factor = 1;
 
         scroll_pane.setVvalue(0.25);
         scroll_pane.setHvalue(0.25);
@@ -169,6 +177,30 @@ public class ModifyMapController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+    }
+
+    @FXML
+    ImageView zoom_out, zoom_in;
+
+    public void onZoomOut() {
+        if(zoom_factor > 0.5) {
+            zoom_factor -= 0.2;
+            scroll_pane.getContent().setScaleX(zoom_factor);
+            scroll_pane.setLayoutX(zoom_factor);
+            scroll_pane.getContent().setScaleY(zoom_factor);
+            scroll_pane.setLayoutY(zoom_factor);
+
+        }
+    }
+
+    public void onZoomIn() {
+        if (zoom_factor < 1.8) {
+            zoom_factor += 0.2;
+            scroll_pane.getContent().setScaleX(zoom_factor);
+            scroll_pane.setLayoutX(zoom_factor);
+            scroll_pane.getContent().setScaleY(zoom_factor);
+            scroll_pane.setLayoutY(zoom_factor);
+        }
     }
 
     @FXML
@@ -267,8 +299,43 @@ public class ModifyMapController {
     private data.Node first_loc;
     private data.Node second_loc;
 
+    data.Node new_node;
+
+    @FXML
+    Button confirm_3d;
+
+    ImageView pin;
+
+    public void onConfirm3dClick() {
+        pane.getChildren().clear();
+        pane.getChildren().add(map);
+        map.setImage(new Image("/images/02_thesecondfloor.png"));
+        makeMap(storage.getAllNodes());
+
+        ImageView pin = new ImageView("images/nodeIcon.png");
+        pin.setX(new_node.getXCoord());
+        pin.setY(new_node.getYCoord());
+        nodes_list.put(new_node, pin);
+        storage.saveNode(new_node);
+        pane.getChildren().add(pin);
+
+        endAddLoc();
+        add_node_box.setVisible(false);
+        location_or_path.getSelectionModel().selectFirst();
+        confirm_3d.setVisible(false);
+    }
+
     public void onMouseClick(MouseEvent click) {
-        if (location_or_path.getValue().toString().equals("Add Location")) {
+        if (confirm_3d.isVisible()) {
+            new_node.setXCoord3D((int)click.getX());
+            new_node.setYCoord3D((int)click.getY());
+            pane.getChildren().remove(pin);
+            pin.setX(new_node.getXCoord3D());
+            pin.setY(new_node.getYCoord3D());
+            pane.getChildren().add(pin);
+        }
+
+        else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
 
             List<data.Node> nn_nodes_list  = storage.getAllNodes();
@@ -293,20 +360,30 @@ public class ModifyMapController {
             Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
           
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
-            data.Node a_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
+            new_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1, 0));
-          
-            ImageView pin = new ImageView("images/mapIcons/nodeIcon.png");
+                    short_name.getText(), "S", 1000, 1000); //TODO: id function
+            pane.getChildren().clear();
+            pane.getChildren().add(map);
+            map.setImage(new Image("images/2-ICONS.png"));
+            pin = new ImageView("images/mapIcons/nodeIcon.png");
+            pin.setX(new_node.getXCoord3D());
+            pin.setY(new_node.getYCoord3D());
+            pane.getChildren().add(pin);
+            confirm_3d.setVisible(true);
+            scene.setCursor(Cursor.DEFAULT);
+            /*
+            ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
             pin.setY(click.getY());
-            nodes_list.put(a_node, pin);
-            storage.saveNode(a_node);
+            nodes_list.put(new_node, pin);
+            storage.saveNode(new_node);
             pane.getChildren().add(pin);
             scene.setCursor(Cursor.DEFAULT);
             endAddLoc();
             add_node_box.setVisible(false);
             location_or_path.getSelectionModel().selectFirst();
+            */
         }
 
         else if (location_or_path.getValue().toString().equals("Add Path") && first_click) {
