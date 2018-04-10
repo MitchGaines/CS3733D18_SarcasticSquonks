@@ -69,6 +69,8 @@ public class JavaFxTests extends ApplicationTest {
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
+        primaryStage.toFront();
+        primaryStage.requestFocus();
         //ServiceType.createDummyTypes();
         //TODO: actually use LoginHandler correctly.
         // before system shutdown
