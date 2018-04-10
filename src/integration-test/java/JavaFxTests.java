@@ -93,7 +93,7 @@ public class JavaFxTests extends ApplicationTest {
 
     /* Home screen tests */
 
-    
+    /*
     public void testPathfind() {
         clickOn("#combobox_start");
         clickOn("15 Francis Security Desk Floor 2");
@@ -102,6 +102,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#pathfind");
         clickOn("Home");
     }
+    */
 
 
     public void testPathfindSpanish() {
@@ -127,7 +128,6 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void runTests() {
-        testPathfind();
         testPathfindSpanish();
         testChangeLangBack();
     }
