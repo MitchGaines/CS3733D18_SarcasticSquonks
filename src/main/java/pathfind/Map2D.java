@@ -13,11 +13,6 @@ public class Map2D extends Map {
     private final int MAP_WIDTH = 5000;
     private final int MAP_HEIGHT = 3400;
 
-    private ImageView map;
-    private Polyline path_polyline;
-    private ImageView destination_img;
-    private ScrollPane scroll_pane;
-
     /**
      * Constructs a 2D map with path drawing capabilities.
      * @param map FXML ImageView that the map refers to.
@@ -26,27 +21,38 @@ public class Map2D extends Map {
      * @param scroll_pane FXML ScrollPane containing map image.
      * @author Will Lucca
      */
-    public Map2D(ImageView map, Polyline path_polyline, ImageView destination_img, ScrollPane scroll_pane){
+    public Map2D(ImageView map, Polyline path_polyline, Polyline path_polyline_2, ImageView destination_img, ScrollPane scroll_pane, int floor){
         this.map = map;
         this.path_polyline = path_polyline;
+        this.path_polyline_2 = path_polyline_2;
         this.destination_img = destination_img;
         this.scroll_pane = scroll_pane;
+        this.floor = floor;
     }
 
-    /**
-     * Draws path on map.
-     * @param path List of nodes to draw along.
-     * @author Will Lucca
-     */
-    public void drawPath(ArrayList<AStarNode> path) {
+    public void drawPath() {
         double x_coord = 0;
         double y_coord = 0;
         path_polyline.getPoints().clear();
+        path_polyline_2.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
-        for (AStarNode node : path) {
-            x_coord = ((double)node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
-            y_coord = ((double)node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
-            path_polyline.getPoints().addAll(x_coord, y_coord);
+
+        boolean polyline_begun = false;
+        boolean polyline_broken = false;
+        for (AStarNode node : path){
+            if (Map.floor_ids[this.floor].equals(node.floor)) {
+                polyline_begun = true;
+                x_coord = ((double) node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
+                y_coord = ((double) node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
+                if(polyline_broken)
+                    path_polyline_2.getPoints().addAll(x_coord, y_coord);
+                else
+                    path_polyline.getPoints().addAll(x_coord, y_coord);
+            }
+            else if(polyline_begun) {
+                polyline_broken = true;
+                polyline_begun = false;
+            }
         }
 
         // Positioning star
@@ -58,7 +64,7 @@ public class Map2D extends Map {
         int end_x = path.get(path.size() - 1).getXCoord();
         int start_y = path.get(0).getYCoord();
         int end_y = path.get(path.size() - 1).getYCoord();
-        scroll_pane.setHvalue(start_x + Math.abs((end_x - start_x) / 2));
-        scroll_pane.setVvalue(start_y + Math.abs((end_y - start_y) / 2));
+        scroll_pane.setHvalue(start_x); //+ Math.abs((end_x - start_x) / 2));
+        scroll_pane.setVvalue(start_y); //+ Math.abs((end_y - start_y) / 2));
     }
 }

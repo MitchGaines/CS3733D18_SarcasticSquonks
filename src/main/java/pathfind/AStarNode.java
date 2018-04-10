@@ -16,11 +16,12 @@ public class AStarNode {
     private double g_cost;
     private int x_coord, y_coord;
     private int x_coord_3d,y_coord_3d;
+    String floor;
     String short_name;
     String long_name;
     String id;
 
-    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name){
+    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name, String floor){
         this.id = id;
         this.x_coord = x_coord;
         this.y_coord = y_coord;
@@ -28,6 +29,7 @@ public class AStarNode {
         this.long_name = long_name;
         this.x_coord_3d = x_coord_3d;
         this.y_coord_3d = y_coord_3d;
+        this.floor = floor;
     }
 
     //getters
