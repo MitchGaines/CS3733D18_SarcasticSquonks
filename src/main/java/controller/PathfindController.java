@@ -97,7 +97,8 @@ public class PathfindController {
             map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
 
         Pathfinder pathfinder;
-        switch(AdminPageController.getChoosenAlg()){
+        int select = AdminPageController.getChoosenAlg();
+        switch(select){
             case 0 :
                 pathfinder = new Pathfinder(new AStar());
                 break;
