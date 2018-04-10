@@ -1,5 +1,6 @@
 package controller;
 
+import data.Node;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -66,12 +67,13 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-//        ServiceRequest.createService(
-//                service_title.getText(),
-//                description_field.getText(),
-//                request_type_selector.getSelectionModel().getSelectedItem(),
-//                user,
-//                service_location.getText());
+        ServiceRequest.createService(
+                service_title.getText(),
+                description_field.getText(),
+                request_type_selector.getSelectionModel().getSelectedItem(),
+                user,
+                new Node("BDEPT00302",2385,753,"2","45 Francis","DEPT",
+                        "Lee Bell Breast Center","DEPT B0302","Team B",2293,1320));
 
         populateRequestsBox();
 
@@ -116,7 +118,7 @@ public class ServiceAreaController {
 
         title_text.setText(selected_request.getTitle());
         description_text.setText(selected_request.getDescription());
-        location_text.setText(selected_request.getLocation());
+        location_text.setText(selected_request.getLocation().getShortName());
 
         title_text.setVisible(true);
         location_text.setVisible(true);
