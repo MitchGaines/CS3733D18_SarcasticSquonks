@@ -17,6 +17,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Polyline;
@@ -42,6 +43,9 @@ public class PathfindController {
     private enum mappingMode{MAP3D, MAP2D}
     private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
 
+    private int current_floor;
+    private Map map;
+
     @FXML
     Button back_button;
 
@@ -53,13 +57,17 @@ public class PathfindController {
 
     @FXML
     ImageView qr_img;
+
     @FXML
     ImageView map_img;
+
     @FXML
     ImageView destination_img;
 
     @FXML
     Polyline path_polyline;
+    @FXML
+    Polyline path_polyline_2;
 
     @FXML
     BorderPane main_pane;
@@ -72,6 +80,7 @@ public class PathfindController {
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
         this.db_storage = Storage.getInstance();
+        map = new Map2D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
         enable2DMapping();
     }
 
@@ -89,13 +98,35 @@ public class PathfindController {
         this.node1 = db_storage.getNodeByID(node1);
         this.node2 = db_storage.getNodeByID(node2);
 
-        Map map;
-        if(mode == mappingMode.MAP2D)
-            map = new Map2D(map_img, path_polyline, destination_img, map_scroll_pane);
-        else
-            map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
+        for(int i = 0; i < Map.floor_ids.length; i++){
+            if(Map.floor_ids[i].equals(this.node1.getNodeFloor()))
+                current_floor = i;
+        }
+        map.setFloor(current_floor);
+        updateMap();
 
-        Pathfinder pathfinder = new Pathfinder(new AStar());
+        if(mode == mappingMode.MAP2D)
+            map = new Map2D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
+        else
+            map = new Map3D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
+
+        Pathfinder pathfinder;
+        int select = AdminPageController.getChoosenAlg();
+        switch(select){
+            case 0 :
+                pathfinder = new Pathfinder(new AStar());
+                break;
+            case 1 :
+                pathfinder = new Pathfinder(new DepthFirst());
+                break;
+            case 2 :
+                pathfinder = new Pathfinder(new BreadthFirst());
+                break;
+            default:
+                pathfinder = new Pathfinder(new AStar());
+                break;
+        }
+
         pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
@@ -109,14 +140,23 @@ public class PathfindController {
     }
 
     public void quickLocationFinding(String start_id, String goal_id){
-        Map map;
+        data.Node node1 = db_storage.getNodeByID(start_id);
+        for(int i = 0; i < Map.floor_ids.length; i++){
+            if(Map.floor_ids[i].equals(node1.getNodeFloor()))
+                current_floor = i;
+        }
+        map.setFloor(current_floor);
+        updateMap();
+
         if(mode == mappingMode.MAP2D)
-            map = new Map2D(map_img, path_polyline, destination_img, map_scroll_pane);
+            map = new Map2D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
         else
-            map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
+            map = new Map3D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
+
         Pathfinder quickFinder = new Pathfinder(new BreadthFirst());
         quickFinder.findShortestPath(start_id, goal_id);
         map.drawPath(quickFinder.pathfinder_path.getAStarNodePath());
+
         this.node1 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(0).getID());
         this.node2 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(quickFinder.pathfinder_path.getAStarNodePath().size()-1).getID());
 
@@ -130,26 +170,30 @@ public class PathfindController {
         qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
-    public void enable3DMapping(){
-        mode = mappingMode.MAP3D;
-        Image m = new Image("images/2-ICONS.png");
+    public void updateMap(){
+        Image m = getFloorImage(current_floor, mode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
+    }
 
-        if(node1 != null && node2 != null){
-            doPathfinding(node1.getNodeID(), node2.getNodeID());
-        }
+    public void enable3DMapping(){
+        mode = mappingMode.MAP3D;
+        ArrayList<AStarNode> path = map.getPath();
+        map = new Map3D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
+        map.setPath(path);
+        updateMap();
+        if(node1 != null && node2 != null)
+            map.drawPath();
     }
 
     public void enable2DMapping(){
         mode = mappingMode.MAP2D;
-        Image m = new Image("images/02_thesecondfloor.png");
-        map_img.setImage(m);
-        map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
-
-        if(node1 != null && node2 != null){
-            doPathfinding(node1.getNodeID(), node2.getNodeID());
-        }
+        ArrayList<AStarNode> path = map.getPath();
+        map = new Map2D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
+        map.setPath(path);
+        updateMap();
+        if(node1 != null && node2 != null)
+            map.drawPath();
     }
 
     @FXML
@@ -199,6 +243,41 @@ public class PathfindController {
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
+    }
+
+    public void onMapUp() {
+        if(current_floor < 4){
+            current_floor++;
+            map.setFloor(current_floor);
+            map.drawPath();
+            updateMap();
+        }
+    }
+
+    public void onMapDown() {
+        if(current_floor > 0){
+            current_floor--;
+            map.setFloor(current_floor);
+            map.drawPath();
+            updateMap();
+        }
+    }
+
+    private static Image getFloorImage(int floor, mappingMode mode){
+        String[] images2d = {"images/00_thelowerlevel2.png",
+                "images/00_thelowerlevel1.png",
+                "images/01_thefirstfloor.png",
+                "images/02_thesecondfloor.png",
+                "images/03_thethirdfloor.png"};
+        String[] images3d = {"images/L2-NO-ICONS.png",
+                "images/L1-NO-ICONS.png",
+                "images/1-NO-ICONS.png",
+                "images/2-NO-ICONS.png",
+                "images/3-NO-ICONS.png"};
+        if(mode == mappingMode.MAP2D)
+            return new Image(images2d[floor]);
+        else
+            return new Image(images3d[floor]);
     }
 
 }

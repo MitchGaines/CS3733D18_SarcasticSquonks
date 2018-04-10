@@ -64,7 +64,29 @@
                                    <Shadow height="20.59" radius="10.5825" width="23.74" />
                                </bumpInput>
                                <light>
-                              <Light.Distant />
+                                   <Light.Distant />
+                               </light>
+                           </Lighting>
+                       </effect>
+                   </Polyline>
+                   <Polyline fx:id="path_polyline_2" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
+                       <points>
+                           <Double fx:value="-50.0" />
+                           <Double fx:value="-40.0" />
+                           <Double fx:value="50.0" />
+                           <Double fx:value="-40.0" />
+                           <Double fx:value="0.0" />
+                           <Double fx:value="60.0" />
+                           <Double fx:value="-50.0" />
+                           <Double fx:value="-40.0" />
+                       </points>
+                       <effect>
+                           <Lighting diffuseConstant="1.42" specularConstant="0.95" specularExponent="10.22" surfaceScale="2.9">
+                               <bumpInput>
+                                   <Shadow height="20.59" radius="10.5825" width="23.74" />
+                               </bumpInput>
+                               <light>
+                                   <Light.Distant />
                                </light>
                            </Lighting>
                        </effect>
@@ -107,8 +129,8 @@
             <JFXButton fx:id="toggle_map_btn" buttonType="RAISED" onAction="#toggleMappingType" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%3d_map" />
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%up" />
-                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%down" />
+                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%up" onMouseClicked="#onMapUp"/>
+                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%down" onMouseClicked="#onMapDown"/>
                </children>
             </HBox>
          </children>
@@ -148,6 +170,28 @@
                                  </Lighting>
                              </effect>
                          </Polyline>
+                         <Polyline fx:id="path_polyline_2" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
+                         <points>
+                             <Double fx:value="-50.0" />
+                             <Double fx:value="-40.0" />
+                             <Double fx:value="50.0" />
+                             <Double fx:value="-40.0" />
+                             <Double fx:value="0.0" />
+                             <Double fx:value="60.0" />
+                             <Double fx:value="-50.0" />
+                             <Double fx:value="-40.0" />
+                         </points>
+                         <effect>
+                             <Lighting diffuseConstant="1.42" specularConstant="0.95" specularExponent="10.22" surfaceScale="2.9">
+                                 <bumpInput>
+                                     <Shadow height="11.12" radius="8.215" width="23.74" />
+                                 </bumpInput>
+                                 <light>
+                                     <Light.Distant />
+                                 </light>
+                             </Lighting>
+                         </effect>
+                     </Polyline>
                         <ImageView fx:id="destination_img" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/destinationIcon.png" />

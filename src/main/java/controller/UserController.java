@@ -55,7 +55,7 @@ public class UserController{
 
 
     public void populateBoxes() {
-        serviceAreaController.populateRequestsBox();
+        serviceAreaController.populateRequestsBox(); //TODO: Fix this
         serviceAreaController.populateRequestTypes();
     }
 
