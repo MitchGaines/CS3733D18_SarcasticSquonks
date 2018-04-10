@@ -97,8 +97,6 @@ public class PathfindController {
     public void doPathfinding(String node1, String node2) {
         this.node1 = db_storage.getNodeByID(node1);
         this.node2 = db_storage.getNodeByID(node2);
-        Pathfinder pathfinder = new Pathfinder(new AStar());
-        pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
 
         for(int i = 0; i < Map.floor_ids.length; i++){
             if(Map.floor_ids[i].equals(this.node1.getNodeFloor()))
@@ -112,9 +110,25 @@ public class PathfindController {
         else
             map = new Map3D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, current_floor);
 
+        Pathfinder pathfinder;
+        int select = AdminPageController.getChoosenAlg();
+        switch(select){
+            case 0 :
+                pathfinder = new Pathfinder(new AStar());
+                break;
+            case 1 :
+                pathfinder = new Pathfinder(new DepthFirst());
+                break;
+            case 2 :
+                pathfinder = new Pathfinder(new BreadthFirst());
+                break;
+            default:
+                pathfinder = new Pathfinder(new AStar());
+                break;
+        }
+
+        pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
-
-
 
         QRCode qr = null;
         try {
