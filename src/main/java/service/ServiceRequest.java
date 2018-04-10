@@ -5,14 +5,13 @@ import database.Storage;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import user.User;
-
 import java.util.HashSet;
 import java.util.Objects;
 
 /**
- *
- *
- *
+ * This Class manages the ServiceRequest types.
+ * @author Mathew McMillan
+ * @version "%I%, %G%"
  */
 public class ServiceRequest {
 
@@ -66,7 +65,7 @@ public class ServiceRequest {
 
     /**
      * Returns all service requests, even completed ones.
-     * @return a hashset of all service requests, both completed and not.
+     * @return a HashSet of all service requests, both completed and not.
      */
     public static HashSet<ServiceRequest> getServiceRequests() {
         return service_requests;
@@ -75,7 +74,7 @@ public class ServiceRequest {
     private Node location;
 
     /**
-     * Gets a hashset of all service requests that need to be fulfilled.
+     * Gets a HashSet of all service requests that need to be fulfilled.
      * @return all services without a fulfiller.
      */
     public static HashSet<ServiceRequest> getUnfulfilledServiceRequests() {
@@ -122,6 +121,10 @@ public class ServiceRequest {
         return sr;
     }
 
+    /**
+     * Returns the one making the request.
+     * @return the person who made the request.
+     */
     public User getRequester() {
         return requester;
     }
