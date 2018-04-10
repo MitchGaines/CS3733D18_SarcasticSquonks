@@ -5,29 +5,22 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import database.Storage;
 import internationalization.AllText;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
-import java.net.URL;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
-import java.time.Clock;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Comparator;
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -83,6 +76,16 @@ public class HomePageController {
 
     private LoginHandler loginHandler;
 
+    @FXML
+    JFXButton REST;
+
+    @FXML
+    JFXButton DEPT;
+
+    @FXML
+    JFXButton INFO;
+
+
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
      * by pulling all nodes from the database
@@ -92,9 +95,19 @@ public class HomePageController {
         ObservableList<data.Node> locations = FXCollections.observableArrayList();
         locations.addAll(Storage.getInstance().getAllNodes());
 
+        ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
+        for(data.Node location : locations){
+            if(location.getNodeType().equals("HALL") ||
+               location.getNodeType().equals("ELEV") ||
+               location.getNodeType().equals("STAI")){
+                to_remove.add(location);
+            }
+        }
+        locations.removeAll(to_remove);
+        Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
+
         combobox_start.setItems(locations);
         combobox_end.setItems(locations);
-        populateLanguages();
 
         loginHandler = new LoginHandler();
 
@@ -102,25 +115,26 @@ public class HomePageController {
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
         time2.setText(dtf.format(now));
+        language_selector.getItems().removeAll(language_selector.getItems());
+        for (String language : AllText.getLanguages()) {
+            language_selector.getItems().add(AllText.get(language));
+        }
+
+        login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
     }
 
-    private void populateLanguages() {
-        String[] languages = AllText.getLanguages();
-        language_selector.getItems().removeAll(language_selector.getItems());
-        for (String language : languages) {
-            MenuItem menuItem  = new MenuItem(AllText.get(language));
-            menuItem.setOnAction(e -> {
-                AllText.changeLanguage(language);
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                    Stage primary_stage = (Stage)language_selector.getScene().getWindow();
-                    primary_stage.setTitle("Brigham and Women's");
-                    primary_stage.setScene(new Scene(root, 1200, 800));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-            });
-            language_selector.getItems().add(menuItem);
+    public void onLanguageChange() {
+        if (language_selector.getSelectionModel().isEmpty()) {
+            return;
+        }
+        try {
+            AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
+            Parent root     = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Stage primary_stage = (Stage) language_selector.getScene().getWindow();
+            primary_stage.setTitle("Brigham and Women's");
+            primary_stage.setScene(new Scene(root, 1200, 800));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -134,11 +148,42 @@ public class HomePageController {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
+        if (combobox_start.getSelectionModel().isEmpty() || combobox_end.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Please select a starting and ending location");
+            alert.setHeaderText("Please select a starting and ending location");
+            alert.setContentText("You must select both a starting and ending location to get directions.");
+            alert.showAndWait();
+        } else if (combobox_start.getValue().equals(combobox_end.getValue())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Your starting and ending locations can't be the same");
+            alert.setHeaderText("Your starting and ending locations can't be the same");
+            alert.setContentText("You must select a starting and ending location that are different from each other.");
+            alert.showAndWait();
+        }
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
-        pathfind_ctrl.doPathfinding(combobox_start.getValue(), combobox_end.getValue());
+        pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+
+        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        pathfind_stage.setTitle("Pathfinder");
+        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+        pathfind_stage.show();
+    }
+
+    @FXML
+    void onQuickClick(ActionEvent event) throws IOException{
+        Button button = (Button) event.getSource();
+        if(combobox_start.getValue().getNodeID().contains(button.getId())){
+            return;
+        }
+        Window window = main_pane.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
+        Parent pathfind_parent = (Parent)loader.load();
+        PathfindController pathfind_ctrl = loader.getController();
+        pathfind_ctrl.quickLocationFinding(combobox_start.getValue().getNodeID(), button.getId());
 
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
