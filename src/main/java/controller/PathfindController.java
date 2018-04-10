@@ -57,8 +57,10 @@ public class PathfindController {
 
     @FXML
     ImageView qr_img;
+
     @FXML
     ImageView map_img;
+
     @FXML
     ImageView destination_img;
 
