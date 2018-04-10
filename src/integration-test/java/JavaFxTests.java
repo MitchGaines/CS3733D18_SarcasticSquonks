@@ -130,6 +130,10 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#login_btn");
     }
 
+    public void logout() {
+        clickOn("#logout_btn");
+    }
+
     /* Home screen tests */
 
     @Test
@@ -155,6 +159,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Home");
     }
 
+    /*
     @Test
     public void testChangeLangBack() {
         clickOn("#language_selector");
@@ -164,6 +169,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Inglés");
         clickOn("Confirm");
     }
+    */
 
     @Test
     public void testChangeLang() {
@@ -188,5 +194,68 @@ public class JavaFxTests extends ApplicationTest {
         loginAsRegStaff();
     }
 
+    @Test
+    public void testLogout() {
+        loginAsDoctor();
+        logout();
+        //sleep(5000);
+        loginAsAdmin();
+        logout();
+        //sleep(5000);
+        loginAsRegStaff();
+        logout();
+    }
+
+    /* Tests for Doctor */
+
+    /*
+    @Test
+    public void testDoctorMakeRequest() {
+        loginAsDoctor();
+        clickOn("#request_type_selector");
+        clickOn("Medical");
+        clickOn("#service_title");
+        write("Medical issue");
+        clickOn("#service_location");
+        write("hospital");
+        clickOn("#description_field");
+        write("injury");
+        clickOn("#request_service");
+        clickOn("OK");
+        verifyThat("#emergency_label", hasText("EMERGENCY"));
+        verifyThat("#emergency_title", hasText("Medical issue, hospital"));
+        verifyThat("#emergency_details", hasText("injury"));
+        clickOn("View log");
+        clickOn("#back_btn");
+        clickOn("#active_requests_box");
+        clickOn("Medical issue");
+        clickOn("#mark_completed_btn");
+        logout();
+    }
+    */
+
+    /* Tests for RegStaff */
+    /*
+    @Test
+    public void testRegStaffMakeRequest() {
+        loginAsRegStaff();
+        clickOn("#request_type_selector");
+        clickOn("Custodial");
+        clickOn("#service_title");
+        write("Custodial issue");
+        clickOn("#service_location");
+        write("hospital");
+        clickOn("#description_field");
+        write("mess");
+        clickOn("#request_service");
+        clickOn("OK");
+        clickOn("View log");
+        clickOn("#back_btn");
+        clickOn("#active_requests_box");
+        clickOn("Custodial issue");
+        clickOn("#mark_completed_btn");
+        logout();
+    }
+    */
 
 }
