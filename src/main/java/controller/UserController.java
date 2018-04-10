@@ -51,11 +51,11 @@ public class UserController{
 
     @FXML
     // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
-    private ServiceAreaController serviceAreaController;
+    protected ServiceAreaController serviceAreaController;
 
 
     public void populateBoxes() {
-//        serviceAreaController.populateRequestsBox(); //TODO: Fix this
+        serviceAreaController.populateRequestsBox();
         serviceAreaController.populateRequestTypes();
     }
 
@@ -84,9 +84,9 @@ public class UserController{
     @FXML
     private Label emergency_title, emergency_details, emergency_label;
 
-    public void declareEmergency(String title, String location, String description) {
+    public void declareEmergency(String title, data.Node location, String description) {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {
-            emergency_title.setText(title + ", " + location);
+            emergency_title.setText(title + ", " + location.getShortName());
             emergency_details.setText(description);
             emergency_label.setVisible(true);
             emergency_title.setVisible(true);

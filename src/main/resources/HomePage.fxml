@@ -72,7 +72,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%find_nearest" textAlignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="23.0" />
                      </font>
                      <VBox.margin>
                         <Insets />
@@ -80,17 +80,17 @@
                   </Text>
                   <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
                      <children>
-                        <JFXButton fx:id="INFO" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6;" text="%information">
+                        <JFXButton fx:id="INFO" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%information">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="REST" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6;" text="%restroom">
+                        <JFXButton fx:id="REST" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%restroom">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="DEPT" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6;" text="%department">
+                        <JFXButton fx:id="DEPT" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%department">
                            <font>
                               <Font size="16.0" />
                            </font>
