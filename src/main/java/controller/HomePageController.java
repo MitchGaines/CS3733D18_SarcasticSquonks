@@ -17,7 +17,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
@@ -85,6 +88,7 @@ public class HomePageController {
     @FXML
     JFXButton INFO;
 
+    private ObservableList<data.Node> locations = FXCollections.observableArrayList();
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
@@ -92,7 +96,6 @@ public class HomePageController {
      * @author Will Lucca
      */
     public void initialize() {
-        ObservableList<data.Node> locations = FXCollections.observableArrayList();
         locations.addAll(Storage.getInstance().getAllNodes());
 
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
@@ -189,6 +192,52 @@ public class HomePageController {
         pathfind_stage.setTitle("Pathfinder");
         pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
         pathfind_stage.show();
+    }
+
+    /**
+     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
+     * in the edit field as a substring.
+     * @param e KeyEvent representing the key that was typed.
+     * @author Will Lucca
+     */
+    @FXML
+    void onKeyPressedComboBox(KeyEvent e) {
+        ComboBox<data.Node> combo_box = (ComboBox<data.Node>)(e.getSource());
+        ObservableList<data.Node> filteredItems = FXCollections.observableArrayList();
+        combo_box.show();
+        TextField editor = combo_box.getEditor();
+
+        if(editor.getText().equals("")
+                || e.getCode() == KeyCode.BACK_SPACE
+                || e.getCode() == KeyCode.DELETE
+                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
+            combo_box.setItems(locations);
+        }
+
+        Stream<data.Node> items_stream = combo_box.getItems().stream();
+        String user_text = editor.getText().toLowerCase();
+        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
+
+        if(!e.getCode().isArrowKey()) { // Doesn't change list while user is navigating dropdown with arrow keys
+            if(e.getCode() == KeyCode.ENTER) {
+                // Pressing enter clear the edit field if it was autocompleted. This prevents
+                // that by storing the editor text and putting it back in afterwards
+                String current_editor = editor.getText();
+                combo_box.setItems(filteredItems);
+                editor.setText(current_editor);
+            }
+            else {
+                combo_box.setItems(filteredItems);
+            }
+
+            // Resize drop down
+            int new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
+            if(new_visible_size != combo_box.getVisibleRowCount()) {
+                combo_box.hide();
+                combo_box.setVisibleRowCount(new_visible_size);
+                combo_box.show();
+            }
+        }
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
