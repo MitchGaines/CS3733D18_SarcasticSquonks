@@ -1,5 +1,11 @@
 package controller;
 
+import com.kylecorry.lann.NN;
+import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
+import com.kylecorry.lann.activation.Linear;
+import com.kylecorry.lann.activation.ReLU;
+import com.kylecorry.lann.activation.Softmax;
+import com.kylecorry.matrix.Matrix;
 import com.jfoenix.controls.JFXComboBox;
 import data.Edge;
 import database.Storage;
@@ -30,6 +36,7 @@ import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 public class ModifyMapController {
 
@@ -241,10 +248,33 @@ public class ModifyMapController {
     public void onMouseClick(MouseEvent click) {
         if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
+
+            List<data.Node> nn_nodes_list  = storage.getAllNodes();
+
+            PersistentMachineLearningAlgorithm nn = new NN.Builder()
+                    .addLayer(2,8, new Softmax())
+                    .addLayer(8, 2, new Linear())
+                    .build();
+
+            Matrix[] input_data = new Matrix[nn_nodes_list.size()];
+
+            Matrix[] output_data = new Matrix[nn_nodes_list.size()];
+
+            for(int i = 0; i < nn_nodes_list.size(); i++) {
+                input_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord() / 5000.0, (double) nn_nodes_list.get(i).getYCoord() / 3400.0); //2D
+                output_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord3D(), (double) nn_nodes_list.get(i).getYCoord3D()); //3D
+            }
+
+            nn.fit(input_data, output_data, 0.0001, 500);
+
+
+            Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
+          
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             data.Node a_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", 1, 1); //TODO: id function
+                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1, 0));
+          
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
             pin.setY(click.getY());

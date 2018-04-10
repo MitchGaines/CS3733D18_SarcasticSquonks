@@ -21,7 +21,7 @@ import java.util.List;
 
 public class AdminPageController extends UserController {
 
-    //UserController user = new UserController();
+    UserController user = new UserController();
 
     @FXML
     Button modify_map_btn;
@@ -29,6 +29,16 @@ public class AdminPageController extends UserController {
     BorderPane main_pane;
     @FXML
     Label time;
+
+    public void loadReportScreen(ActionEvent event) throws IOException {
+        Window window = main_pane.getScene().getWindow();
+        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/Report.fxml"), AllText.getBundle());
+        Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
+        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        modify_nodes_stage.setTitle("View Reports");
+        modify_nodes_stage.setScene(view_reports_scene);
+        modify_nodes_stage.show();
+    }
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -41,6 +51,7 @@ public class AdminPageController extends UserController {
     }
 
     public void initialize() {
+        serviceAreaController.setParent(this);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
