@@ -205,25 +205,24 @@ public class JavaFxTests extends ApplicationTest {
     }
 
     //these error when run all at once, but pass individually.
-
+    /*
     @Test
     public void testQuickLocationInfo() {
         clickOn("#INFO");
         clickOn("#back_button");
     }
 
-    /* currently not added
     @Test
     public void testQuickLocationRest() {
         clickOn("#REST");
         clickOn("#back_button");
     }
-    */
 
     @Test
     public void testQuickLocationDept() {
         clickOn("#DEPT");
         clickOn("#back_button");
     }
+    */
 
 }
