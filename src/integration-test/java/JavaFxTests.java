@@ -97,7 +97,7 @@ public class JavaFxTests extends ApplicationTest {
 
     /* Home screen tests */
 
-    /*
+    @Test
     public void testPathfind() {
         clickOn("#combobox_start");
         clickOn("15 Francis Security Desk Floor 2");
@@ -106,7 +106,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#pathfind");
         clickOn("Home");
     }
-    */
+
 
 
     /*
