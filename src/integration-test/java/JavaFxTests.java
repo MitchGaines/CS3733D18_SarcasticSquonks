@@ -105,6 +105,7 @@ public class JavaFxTests extends ApplicationTest {
     */
 
 
+    /*
     public void testPathfindSpanish() {
         clickOn("#language_selector");
         clickOn("Spanish");
@@ -116,6 +117,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#pathfind");
         clickOn("Home");
     }
+    */
 
     public void testChangeLangBack() {
         clickOn("#language_selector");
@@ -128,7 +130,6 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void runTests() {
-        testPathfindSpanish();
         testChangeLangBack();
     }
 }
