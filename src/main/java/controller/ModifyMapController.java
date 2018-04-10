@@ -1,5 +1,11 @@
 package controller;
 
+import com.kylecorry.lann.NN;
+import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
+import com.kylecorry.lann.activation.Linear;
+import com.kylecorry.lann.activation.ReLU;
+import com.kylecorry.lann.activation.Softmax;
+import com.kylecorry.matrix.Matrix;
 import data.Edge;
 import database.Storage;
 import internationalization.AllText;
@@ -143,9 +149,33 @@ public class ModifyMapController {
 
         else if (add_loc_cancel.isVisible()) {
             Scene scene = add_loc.getScene();
+
+            List<data.Node> nn_nodes_list  = storage.getAllNodes();
+
+            PersistentMachineLearningAlgorithm nn = new NN.Builder()
+                    .addLayer(2,8, new Softmax())
+                    .addLayer(8, 2, new Linear())
+                    .build();
+
+            Matrix[] input_data = new Matrix[nn_nodes_list.size()];
+
+            Matrix[] output_data = new Matrix[nn_nodes_list.size()];
+
+            for(int i = 0; i < nn_nodes_list.size(); i++) {
+                input_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord() / 5000.0, (double) nn_nodes_list.get(i).getYCoord() / 3400.0); //2D
+                output_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord3D(), (double) nn_nodes_list.get(i).getYCoord3D()); //3D
+            }
+
+            nn.fit(input_data, output_data, 0.0001, 500);
+
+
+            Matrix predict_3d = nn.predict((click.getX() + 2100 + 10)/5000.0, (click.getY() + 550 + 30)/3400.0);
+
             data.Node a_node = new data.Node(generateNodeId(loc_type.getText()), (int)click.getX() + 2100 + 10, (int)click.getY() + 550 + 30, //adding the offset of the image and the offset of the icon
                     floor.getText(), building.getText(), loc_type.getText(), long_name.getText(),
-                    short_name.getText(), "S", 1, 1); //TODO: id function
+                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1, 0));
+
+
             ImageView pin = new ImageView("images/nodeIcon.png");
             pin.setX(click.getX());
             pin.setY(click.getY());
