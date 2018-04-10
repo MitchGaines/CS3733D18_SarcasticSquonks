@@ -181,6 +181,25 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#back_button");
     }
 
+    @Test
+    public void testSwitchFloors() {
+        clickOn("#combobox_start");
+        clickOn("15 Francis Security Desk Floor 2");
+        clickOn("#combobox_end");
+        clickOn("15 Lobby Entrance Floor 2");
+        clickOn("#pathfind");
+        clickOn("#map_img");
+        clickOn("Up");
+        clickOn("Down");
+        clickOn("Up");
+        clickOn("#toggle_map_btn");
+        clickOn("#map_img");
+        clickOn("Up");
+        clickOn("Down");
+        clickOn("Up");
+        clickOn("#back_button");
+    }
+
     /*
     @Test
     public void testSwitchFloors() {
