@@ -2,12 +2,16 @@ package database;
 
 import data.Edge;
 import data.Node;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import service.ServiceRequest;
 import service.ServiceType;
 import user.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -30,8 +34,11 @@ public class Storage {
     private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
             "username", "password", "user_type", "can_mod_map");
 
-    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s )",
-            "title", "description", "service_type", "requester_id", "fulfiller_id", "location");
+    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
+            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
+
+    // to parse dates
+    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * Empty constructor for storage.
@@ -99,7 +106,23 @@ public class Storage {
                     String.format("%s VARCHAR (100)", "service_type"),
                     String.format("%s BIGINT", "requester_id"),
                     String.format("%s BIGINT", "fulfiller_id"),
-                    String.format("%s VARCHAR (100)", "location")
+                    String.format("%s VARCHAR (100)", "location"),
+                    String.format("%s TIMESTAMP", "request_time"),
+                    String.format("%s TIMESTAMP", "fulfill_time")
+            });
+        }
+
+        if(!database.doesTableExist("TYPES")) {
+            database.createTable("TYPES", new String[] {
+                    String.format("%s VARCHAR (100) PRIMARY KEY", "name"),
+                    String.format("%s BOOLEAN", "emergency"),
+            });
+        }
+
+        if(!database.doesTableExist("FULFILLERS")) {
+            database.createTable("FULFILLERS", new String[] {
+                    String.format("%s VARCHAR (100)", "name"),
+                    String.format("%s BIGINT", "fulfiller_id"),
             });
         }
     }
@@ -486,186 +509,332 @@ public class Storage {
 
     // ---------------- SERVICE REQUEST METHODS --------------- //
 
-//    /**
-//     * Inserts the fields of a new service request object into the services table
-//     * @param request the ServiceRequest object to store in the table
-//     */
-//    public void saveRequest(ServiceRequest request) {
-//        database.insert("SERVICES" + SERVICE_VALUES, new String[] {
-//                database.addQuotes(request.getTitle()),
-//                database.addQuotes(request.getDescription()),
-//                database.addQuotes(request.getServiceType().getName()),
-//                String.valueOf(request.getRequesterID()),
-//                String.valueOf(request.getFulfillerID()),
-//                database.addQuotes(request.getLocation())
-//        });
-//    }
-//
-//    /**
-//     * Removes a request from the requests table
-//     * @param request the request to remove from the table
-//     */
-//    public void deleteRequest(ServiceRequest request) {
-//        database.delete("SERVICES", "service_id = " + request.getRequestID(), null);
-//    }
-//
-//    /**
-//     * Updates a request in the requests table with new values
-//     * @param request the request to update in the database, with the new values
-//     */
-//    public void updateRequest(ServiceRequest request) {
-//        String[] values = new String[] {
-//                String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
-//                String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
-//                String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
-//                String.format("%s = %d", "requester_id", request.getRequesterID()),
-//                String.format("%s = %d", "fulfiller_id", request.getFulfillerID()),
-//                String.format("%s = '%s'", "location", request.getLocation())
-//        };
-//
-//        database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
-//    }
-//
-//    /**
-//     * Gets a service request from the table by id
-//     * @param id the id of the service request to retrieve
-//     * @return the service request corresponding to the given id
-//     */
-//    public ServiceRequest getRequestByID(long id) {
-//        ResultSet r_set = database.query(
-//                "SERVICES",
-//                null,
-//                "service_id = " + id,
-//                null,
-//                null
-//        );
-//
-//        return getRequest(r_set);
-//    }
-//
-//    /**
-//     * Gets all requests of a specific type
-//     * @return a List of service requests corresponding to a specific type
-//     */
-//    public List<ServiceRequest> getRequestsByType(ServiceType type) {
-//        ResultSet r_set = database.query(
-//                "SERVICES",
-//                null,
-//                "service_type = '" + type.getName() + "'",
-//                null,
-//                null
-//        );
-//
-//        return getRequests(r_set);
-//    }
-//
-//    /**
-//     * Gets all service requests by a specific user
-//     * @param user the user who requested services
-//     * @return a List of service requests from the given user
-//     */
-//    public List<ServiceRequest> getAllRequestsByUser(User user) {
-//        ResultSet r_set = database.query(
-//                "SERVICES",
-//                null,
-//                "requester_id = " + user.getUserID(),
-//                null,
-//                null
-//        );
-//
-//        return getRequests(r_set);
-//    }
-//
-//    /**
-//     * Gets all service requests assigned to a specific user
-//     * @param user the user to retrieve service requests for
-//     * @return a List of service requests for the given user
-//     */
-//    public List<ServiceRequest> getAllRequestsAssignedToUser(User user) {
-//        ResultSet r_set = database.query(
-//                "SERVICES",
-//                null,
-//                "fulfiller_id = " + user.getUserID(),
-//                null,
-//                null
-//        );
-//
-//        return getRequests(r_set);
-//    }
-//
-//    /**
-//     * Gets all service requests in the requests table
-//     * @return a List containing all of the requests in the table
-//     */
-//    public List<ServiceRequest> getAllServiceRequests() {
-//        ResultSet r_set = database.query(
-//                "SERVICES",
-//                null,
-//                null,
-//                null,
-//                null
-//        );
-//
-//        return getRequests(r_set);
-//    }
-//
-//    /**
-//     * private method for parsing result set
-//     * @param r_set the result set containing service requests
-//     * @return a List of the service request objects from the table
-//     */
-//    private List<ServiceRequest> getRequests(ResultSet r_set) {
-//        List<ServiceRequest> requests = new LinkedList<>();
-//
-//        // return an empty list if query didn't return anything
-//        if (r_set == null) {
-//            return requests;
-//        }
-//
-//        ServiceRequest request;
-//        while ((request = getRequest(r_set)) != null) {
-//            requests.add(request);
-//        }
-//
-//        return requests;
-//    }
-//
-//    /**
-//     * private method for parsing result set
-//     * @param r_set the result set consisting of a single table entry
-//     * @return the service request object corresponding to the request
-//     */
-//    private ServiceRequest getRequest(ResultSet r_set) {
-//
-//        try {
-//            // if we don't have anything in the result set
-//            if (r_set == null || !r_set.next()) {
-//                return null;
-//            }
-//
-//            // extract fields from result set and store in service request object
-//            long service_id = r_set.getLong("service_id");
-//            String title = r_set.getString("title");
-//            String description = r_set.getString("description");
-//            long request_id = r_set.getLong("requester_id");
-//            long fulfill_id = r_set.getLong("fulfiller_id");
-//            String location = r_set.getString("location");
-//
-//            // ServiceType is an object, so it must be created (default is non-emergency and no fulfillers) TODO
-//            ServiceType service_type;
-//            service_type = ServiceType.createServiceType(r_set.getString("service_type"), false, null);
-//
-//            ServiceRequest request = ServiceRequest.createService(service_id, title, description, service_type, request_id, fulfill_id, location);
-//
-//            return request;
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-//
+    /**
+     * Inserts the fields of a new service request object into the services table
+     * @param request the ServiceRequest object to store in the table
+     */
+    public void saveRequest(ServiceRequest request) {
+
+        // check if fulfiller id is null
+        String fulfiller_string = request.getFulfiller() == null ? "null" : String.valueOf(request.getFulfiller().getUserID());
+
+        database.insert("SERVICES" + SERVICE_VALUES, new String[] {
+                database.addQuotes(request.getTitle()),
+                database.addQuotes(request.getDescription()),
+                database.addQuotes(request.getServiceType().getName()),
+                String.valueOf(request.getRequester().getUserID()),
+                fulfiller_string,
+                database.addQuotes(request.getLocation().getNodeID()),
+                database.addQuotes(dtf.print(request.getRequestedDate())),
+                database.addQuotes(dtf.print(request.getFulfilledDate()))
+        });
+    }
+
+    /**
+     * Removes a request from the requests table
+     * @param request the request to remove from the table
+     */
+    public void deleteRequest(ServiceRequest request) {
+        database.delete("SERVICES", "service_id = " + request.getRequester().getUserID(), null);
+    }
+
+    /**
+     * Updates a request in the requests table with new values
+     * @param request the request to update in the database, with the new values
+     */
+    public void updateRequest(ServiceRequest request) {
+
+        String[] values = new String[] {
+                String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
+                String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
+                String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
+                String.format("%s = %d", "requester_id", request.getRequester().getUserID()),
+                String.format("%s = %d", "fulfiller_id", request.getFulfiller().getUserID()),
+                String.format("%s = '%s'", "location", request.getLocation().getNodeID()),
+                String.format("%s = '%s'", "request_time", dtf.print(request.getRequestedDate())),
+                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate()))
+        };
+
+        database.update("SERVICES", values, "service_id = " + request.getRequester().getUserID(), null);
+    }
+
+    /**
+     * Gets a service request from the table by id
+     * @param id the id of the service request to retrieve
+     * @return the service request corresponding to the given id
+     */
+    public List<ServiceRequest> getRequestByID(long id) {
+        ResultSet r_set = database.query(
+                "SERVICES",
+                null,
+                "service_id = " + id,
+                null,
+                null
+        );
+
+        return getRequests(r_set);
+    }
+
+    /**
+     * Gets all requests of a specific type
+     * @return a List of service requests corresponding to a specific type
+     */
+    public List<ServiceRequest> getRequestsByType(ServiceType type) {
+        ResultSet r_set = database.query(
+                "SERVICES",
+                null,
+                "service_type = '" + type.getName() + "'",
+                null,
+                null
+        );
+
+        return getRequests(r_set);
+    }
+
+    /**
+     * Gets all service requests by a specific user
+     * @param user the user who requested services
+     * @return a List of service requests from the given user
+     */
+    public List<ServiceRequest> getAllRequestsByUser(User user) {
+        ResultSet r_set = database.query(
+                "SERVICES",
+                null,
+                "requester_id = " + user.getUserID(),
+                null,
+                null
+        );
+
+        return getRequests(r_set);
+    }
+
+    /**
+     * Gets all service requests assigned to a specific user
+     * @param user the user to retrieve service requests for
+     * @return a List of service requests for the given user
+     */
+    public List<ServiceRequest> getAllRequestsAssignedToUser(User user) {
+        ResultSet r_set = database.query(
+                "SERVICES",
+                null,
+                "fulfiller_id = " + user.getUserID(),
+                null,
+                null
+        );
+
+        return getRequests(r_set);
+    }
+
+    /**
+     * Gets all service requests in the requests table
+     * @return a List containing all of the requests in the table
+     */
+    public List<ServiceRequest> getAllServiceRequests() {
+        ResultSet r_set = database.query(
+                "SERVICES",
+                null,
+                null,
+                null,
+                null
+        );
+
+        return getRequests(r_set);
+    }
+
+    /**
+     * private method for parsing result set
+     * @param r_set the result set containing service requests
+     * @return a List of the service request objects from the table
+     */
+    private List<ServiceRequest> getRequests(ResultSet r_set) {
+        List<ServiceRequest> requests = new LinkedList<>();
+        List<Long> id_requesters = new LinkedList<Long>();
+        List<Long> id_fulfillers = new LinkedList<Long>();
+        List<String> types = new LinkedList<String>();
+        List<String> locations = new LinkedList<String>();
+        List<DateTime> requestDateTimes = new LinkedList<DateTime>();
+        List<DateTime> fulfillDateTimes = new LinkedList<DateTime>();
+
+        // return an empty list if query didn't return anything
+        if (r_set == null) {
+            return requests;
+        }
+
+        ServiceRequest request;
+        while ((request = getRequest(r_set)) != null) {
+            try {
+                id_requesters.add(r_set.getLong("requester_id"));
+                id_fulfillers.add(r_set.getLong("fulfiller_id"));
+                types.add(r_set.getString("service_type"));
+                locations.add(r_set.getString("location"));
+                requestDateTimes.add(new DateTime(r_set.getDate("request_time")));
+                fulfillDateTimes.add(new DateTime(r_set.getDate("fulfill_time")));
+                requests.add(request);
+            } catch (SQLException e) {
+                // empty
+            }
+        }
+
+        // second for loop to create the service requests
+        int length = id_requesters.size();
+        for (int i = 0; i < length; i++) {
+            ServiceType serviceType = getServiceTypeByName(types.get(i));
+            User requester = getUserByID(id_requesters.get(i));
+            User fulfiller = getUserByID(id_fulfillers.get(i));
+            Node location = getNodeByID(locations.get(i));
+            DateTime requestDateTime = requestDateTimes.get(i);
+            DateTime fulfillDateTime = fulfillDateTimes.get(i);
+
+            requests.get(i).setService_type(serviceType);
+            requests.get(i).setRequester(requester);
+            requests.get(i).setFulfiller(fulfiller);
+            requests.get(i).setLocation(location);
+            requests.get(i).setRequestedDate(requestDateTime);
+            requests.get(i).setFulfilledDate(fulfillDateTime);
+        }
+
+        return requests;
+    }
+
+    /**
+     * private method for parsing result set
+     * @param r_set the result set consisting of a single table entry
+     * @return the service request object corresponding to the request
+     */
+    private ServiceRequest getRequest(ResultSet r_set) {
+
+        try {
+            // if we don't have anything in the result set
+            if (r_set == null || !r_set.next()) {
+                return null;
+            }
+
+            // extract fields from result set and store in service request object
+            long service_id = r_set.getLong("service_id");
+            String title = r_set.getString("title");
+            String description = r_set.getString("description");
+
+            // set some request fields to null, then fill them in after
+            ServiceRequest request = ServiceRequest.createService(title, description, null, null, null);
+            request.setRequestID(service_id);
+
+            return request;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // ------------------------- SERVICE TYPE OPERATIONS ----------------------- //
+
+    /**
+     * Inserts a service type into the service types table
+     * @param type the service type to add to the table
+     */
+    public void saveServiceType(ServiceType type) {
+        database.insert("TYPES", new String[] {
+                database.addQuotes(type.getName()),
+                String.valueOf(type.isEmergency())
+        });
+    }
+
+    /**
+     * Updates a service type in the service types table
+     * @param type the service type to be updated
+     */
+    public void updateServiceType(ServiceType type) {
+        String values[] = new String[] {
+                String.format("%s = '%s'", "name", type.getName()),
+                String.format("%s = %b", "emergency", type.isEmergency())
+        };
+
+        database.update("TYPES", values, "name = '" + type.getName() + "'", null);
+    }
+
+    /**
+     * gets a service request by name
+     * @param name the name of the service type
+     * @return the service type corresponding to the given name
+     */
+    public ServiceType getServiceTypeByName(String name) {
+        ResultSet r_set = database.query(
+                "TYPES",
+                null,
+                "name = '" + name + "'",
+                null,
+                null
+        );
+
+        return getServiceType(r_set);
+    }
+
+    /**
+     * Gets all service types from the database
+     * @return a List of all service types in the database
+     */
+    public List<ServiceType> getAllServiceTypes() {
+        ResultSet r_set = database.query(
+                "TYPES",
+                null,
+                null,
+                null,
+                null
+        );
+
+        return getServiceTypes(r_set);
+    }
+
+    /**
+     * Private method for parsing result set
+     * @param r_set a set of all of the entries in the table
+     * @return a List of ServiceTypes corresponding to table entries
+     */
+    private List<ServiceType> getServiceTypes(ResultSet r_set) {
+        List<ServiceType> types = new LinkedList<>();
+
+        // if there were no results from the query, return null
+        if (r_set == null) {
+            return types;
+        }
+
+        // loop through result set and add to list
+        ServiceType type;
+        while ((type = getServiceType(r_set)) != null) {
+            types.add(type);
+        }
+
+        return types;
+    }
+
+    /**
+     * Retrieves a single service type from the table
+     * @param r_set a single entry in the table
+     * @return a service type object from the table
+     */
+    private ServiceType getServiceType(ResultSet r_set) {
+        try {
+            // if we don't have anything in the result set
+            if (r_set == null || !r_set.next()) {
+                return null;
+            }
+
+            // extract fields from result set and store in user object
+            String name = r_set.getString("name");
+            boolean emergency = r_set.getBoolean("emergency");
+
+            ServiceType serviceType = ServiceType.createServiceType(name, emergency, new HashSet<User>());
+
+            return serviceType;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * Get database.
      * @return the database.

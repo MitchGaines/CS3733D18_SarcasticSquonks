@@ -1,7 +1,9 @@
 package user;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * User.java
@@ -100,4 +102,37 @@ public class User {
 
     // TODO unsafe!
     public String getPlainPassword() { return plainPassword; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", can_mod_map=" + can_mod_map +
+                ", username='" + username + '\'' +
+                ", password_salt=" + Arrays.toString(password_salt) +
+                ", enc_password=" + Arrays.toString(enc_password) +
+                ", plainPassword='" + plainPassword + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return user_id == user.user_id &&
+                can_mod_map == user.can_mod_map &&
+                Objects.equals(username, user.username) &&
+                type == user.type;
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(user_id, can_mod_map, username, type);
+//        result = 31 * result + Arrays.hashCode(password_salt); TODO might mess with hashing
+//        result = 31 * result + Arrays.hashCode(enc_password);
+        return result;
+    }
 }
