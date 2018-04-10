@@ -8,8 +8,8 @@ import java.util.Objects;
 
 /**
  * Defines a ServiceType.
- * @author Mathew McMillian
- * @version 1.0
+ * @author Mathew McMillan
+ * @version "%I%, %G%"
  *
  */
 public class ServiceType {
@@ -65,18 +65,39 @@ public class ServiceType {
      */
     private HashSet<User> fulfillers = new HashSet<>();
 
+    /**
+     * Stores a HashSet of ServiceTypes.
+     */
     private static HashSet<ServiceType> serviceTypes = new HashSet<>();
 
+    /**
+     * Constructs a ServiceType using a string for the name, a boolean to determine if the
+     * request is an immediate emergency, and a HashSet of users that can fulfill the request.
+     * @param name A string for the name of the ServiceType.
+     * @param emergency A boolean to to determine if the ServiceType is an emergency.
+     * @param fulfillers A HashSet of users able to fulfill the request.
+     */
     private ServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
         this.name = name;
         this.emergency = emergency;
         this.fulfillers = fulfillers;
     }
 
+    /**
+     * Retrieves the ServiceTypes created.
+     * @return a HashSet of ServiceTypes.
+     */
     public static HashSet<ServiceType> getServiceTypes() {
         return serviceTypes;
     }
 
+    /**
+     * Adds a ServiceType to the HashSet of ServiceTypes in the class and returns a new ServiceType.
+     * @param name the name of the ServiceType.
+     * @param emergency a boolean to determine whether the ServiceType is an emergency.
+     * @param fulfillers a HashSet of users that can fulfill the request.
+     * @return returns the new ServiceType.
+     */
     public static ServiceType createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
 
         if (fulfillers == null) {
@@ -101,7 +122,10 @@ public class ServiceType {
 //                ", fulfillers=" + fulfillers +
 //                '}';
 //    }
-
+    /**
+     * Retrieves the HashSet of Users that can fulfill a ServiceType.
+     * @return the HashSet of Users.
+     */
     public HashSet<User> getFulfillers() {
         return fulfillers;
     }
