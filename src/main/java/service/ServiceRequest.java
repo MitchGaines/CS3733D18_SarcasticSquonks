@@ -1,8 +1,13 @@
 package service;
 
+import data.Node;
+import database.Storage;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import user.User;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  *
@@ -15,6 +20,11 @@ public class ServiceRequest {
      * Stores a HashSet of Service Requests.
      */
     private static HashSet<ServiceRequest> service_requests = new HashSet<>();
+
+    /**
+     * id of the service request
+     */
+    private long id;
 
     /**
      * Stores the title and a description.
@@ -31,6 +41,10 @@ public class ServiceRequest {
      */
     private User requester, fulfiller;
 
+    /**
+     * Instance of the storage class
+     */
+    private static Storage storage = Storage.getInstance();
 
     /**
      * Creates a new service request. This method is only used within this class,
@@ -41,8 +55,9 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    private ServiceRequest(String title, String description, ServiceType type, User requester, String location) {
+    private ServiceRequest(String title, String description, ServiceType type, User requester, Node location) {
         this.title = title;
+        this.requestedDate = DateTime.now();
         this.description = description;
         this.service_type = type;
         this.requester = requester;
@@ -57,7 +72,7 @@ public class ServiceRequest {
         return service_requests;
     }
 
-    private String location;
+    private Node location;
 
     /**
      * Gets a hashset of all service requests that need to be fulfilled.
@@ -73,6 +88,24 @@ public class ServiceRequest {
         return to_return;
     }
 
+    DateTime requestedDate, fulfilledDate;
+
+    public DateTime getRequestedDate() {
+        return requestedDate;
+    }
+
+    public void setRequestedDate(DateTime requestedDate) {
+        this.requestedDate = requestedDate;
+    }
+
+    public DateTime getFulfilledDate() {
+        return fulfilledDate;
+    }
+
+    public void setFulfilledDate(DateTime fulfilledDate) {
+        this.fulfilledDate = fulfilledDate;
+    }
+
     /**
      * Creates a new service request.
      * @param title the title of the request.
@@ -81,11 +114,12 @@ public class ServiceRequest {
      * @param requester the user requesting the service.
      * @param location the location where the service is needed.
      */
-    public static void createService(String title, String description, ServiceType type, User requester, String location) {
+    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
         service_requests.add(sr);
-
+        storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
+        return sr;
     }
 
     public User getRequester() {
@@ -100,6 +134,7 @@ public class ServiceRequest {
     public boolean fulfill(User user) {
         if (!isFulfilled()) {
             fulfiller = user;
+            fulfilledDate = DateTime.now();
             return true;
         } else {
             return false;
@@ -179,10 +214,16 @@ public class ServiceRequest {
     }
 
     /**
+     * Sets the fulfiller
+     * @param fulfiller the fulfiller to set
+     */
+    public void setFulfiller(User fulfiller) { this.fulfiller = fulfiller; }
+
+    /**
      * Retrieves the location of the request.
      * @return the location.
      */
-    public String getLocation() {
+    public Node getLocation() {
         return location;
     }
 
@@ -190,12 +231,52 @@ public class ServiceRequest {
      * Sets the location of the request.
      * @param location the location of the request.
      */
-    public void setLocation(String location) {
+    public void setLocation(Node location) {
         this.location = location;
     }
+
+    public long getRequestID() { return this.id; }
+
+    public void setRequestID(long id) { this.id = id; }
 
     @Override
     public String toString() {
         return getTitle();
+    }
+
+    // TODO for debugging
+//    @Override
+//    public String toString() {
+//        return "ServiceRequest{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", service_type=" + service_type +
+//                ", requester=" + requester +
+//                ", fulfiller=" + fulfiller +
+//                ", location=" + location +
+//                ", requestedDate=" + requestedDate +
+//                ", fulfilledDate=" + fulfilledDate +
+//                '}';
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServiceRequest that = (ServiceRequest) o;
+        return id == that.id &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(service_type, that.service_type) &&
+                Objects.equals(requester, that.requester) &&
+                Objects.equals(fulfiller, that.fulfiller) &&
+                Objects.equals(location, that.location);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, description, service_type, requester, fulfiller, location, requestedDate, fulfilledDate);
     }
 }
