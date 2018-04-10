@@ -1,5 +1,6 @@
 package controller;
 
+import data.Node;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -25,7 +26,7 @@ public class ServiceAreaController {
     }
 
     public void populateRequestsBox() {
-        parent.dismissEmergency();
+//        parent.dismissEmergency();
         boolean emergency_declared = false;
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
@@ -66,12 +67,13 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-//        ServiceRequest.createService(
-//                service_title.getText(),
-//                description_field.getText(),
-//                request_type_selector.getSelectionModel().getSelectedItem(),
-//                user,
-//                service_location.getText());
+        ServiceRequest.createService(
+                service_title.getText(),
+                description_field.getText(),
+                request_type_selector.getSelectionModel().getSelectedItem(),
+                user,
+                new Node("BDEPT00302",2385,753,"2","45 Francis","DEPT",
+                        "Lee Bell Breast Center","DEPT B0302","Team B",2293,1320));
 
         populateRequestsBox();
 

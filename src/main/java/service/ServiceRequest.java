@@ -1,6 +1,7 @@
 package service;
 
 import data.Node;
+import database.Storage;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import user.User;
@@ -40,6 +41,10 @@ public class ServiceRequest {
      */
     private User requester, fulfiller;
 
+    /**
+     * Instance of the storage class
+     */
+    private static Storage storage = Storage.getInstance();
 
     /**
      * Creates a new service request. This method is only used within this class,
@@ -112,7 +117,7 @@ public class ServiceRequest {
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
         service_requests.add(sr);
-
+        storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
         return sr;
     }
@@ -234,26 +239,26 @@ public class ServiceRequest {
 
     public void setRequestID(long id) { this.id = id; }
 
-//    @Override
-//    public String toString() {
-//        return getTitle();
-//    }
-
-    // TODO for debugging
     @Override
     public String toString() {
-        return "ServiceRequest{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", service_type=" + service_type +
-                ", requester=" + requester +
-                ", fulfiller=" + fulfiller +
-                ", location=" + location +
-                ", requestedDate=" + requestedDate +
-                ", fulfilledDate=" + fulfilledDate +
-                '}';
+        return getTitle();
     }
+
+    // TODO for debugging
+//    @Override
+//    public String toString() {
+//        return "ServiceRequest{" +
+//                "id=" + id +
+//                ", title='" + title + '\'' +
+//                ", description='" + description + '\'' +
+//                ", service_type=" + service_type +
+//                ", requester=" + requester +
+//                ", fulfiller=" + fulfiller +
+//                ", location=" + location +
+//                ", requestedDate=" + requestedDate +
+//                ", fulfilledDate=" + fulfilledDate +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

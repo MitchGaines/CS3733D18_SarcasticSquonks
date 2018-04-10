@@ -34,8 +34,8 @@ public class Main extends Application {
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
-        //ServiceType.createDummyTypes();
-        //TODO: actually use LoginHandler correctly.
+        ServiceType.createDummyTypes();
+
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {
 
@@ -45,6 +45,7 @@ public class Main extends Application {
                 csv_writer.writeCSVFile("csv/MapBNodes.csv", "NODES");
                 csv_writer.writeCSVFile("csv/MapBEdges.csv", "EDGES");
                 csv_writer.writeCSVFile("csv/users.csv", "USERS");
+                //storage.getDatabase().dropTable("SERVICES");
             }
         });
 
