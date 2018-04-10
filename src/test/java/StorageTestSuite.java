@@ -16,10 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 import service.ServiceRequest;
 import service.ServiceType;
-import user.LoginHandler;
 import user.User;
 
-import javax.xml.ws.Service;
 import java.util.List;
 
 public class StorageTestSuite {
@@ -37,10 +35,6 @@ public class StorageTestSuite {
         data = new ApacheDatabase("apacheDB");
         storage = Storage.getInstance();
         storage.setDatabase(data);
-
-        // generate dummy users for database TODO perhaps apply to Nodes and Edges
-//        LoginHandler lh = new LoginHandler();
-//        lh.__generateDummyUsers();
     }
 
     // ------------------- NODE TESTS -------------------- //
@@ -517,14 +511,20 @@ public class StorageTestSuite {
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
         storage.saveServiceType(cleanUp);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
-
+        request.setRequestID(1);
+        request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         // check the length of the list of requests returned
@@ -549,13 +549,20 @@ public class StorageTestSuite {
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
         storage.saveServiceType(cleanUp);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request.setRequestID(1);
+        request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         ServiceRequest request2 = ServiceRequest.createService(
@@ -563,8 +570,10 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request2.setRequestID(2);
+        request2.setFulfiller(new_user);
         storage.saveRequest(request2);
 
         // delete a request from the database
@@ -588,24 +597,30 @@ public class StorageTestSuite {
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
         storage.saveServiceType(cleanUp);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request.setRequestID(1);
         request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         // now update a field of the request and update the database
-        // todo: uncomment this request.setLocation("Room 224");
+        request.setTitle("cleanUp");
         storage.updateRequest(request);
 
         // check that the field was updated
         List<ServiceRequest> requests = storage.getAllServiceRequests();
         Assert.assertEquals(requests.size(), 1);
-        // todo: uncomment this Assert.assertEquals(requests.get(0).getLocation(), "Room 224");
+        Assert.assertEquals(requests.get(0).getTitle(), "cleanUp");
     }
 
     /**
@@ -624,12 +639,17 @@ public class StorageTestSuite {
         ServiceType cleanUp = ServiceType.createServiceType("cleanup", false, null);
         storage.saveServiceType(cleanUp);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
         request.setRequestID(1);
         request.setFulfiller(new_user);
@@ -640,7 +660,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
         request2.setRequestID(2);
         request2.setFulfiller(new_user);
@@ -672,13 +692,20 @@ public class StorageTestSuite {
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
         storage.saveServiceType(emergency);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request.setRequestID(1);
+        request.setFulfiller(new_user);
         storage.saveRequest(request);
 
         ServiceRequest request2 = ServiceRequest.createService(
@@ -686,8 +713,10 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request2.setRequestID(2);
+        request2.setFulfiller(new_user);
         storage.saveRequest(request2);
 
         ServiceRequest request3 = ServiceRequest.createService(
@@ -695,8 +724,10 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request3.setRequestID(3);
+        request3.setFulfiller(new_user);
         storage.saveRequest(request3);
 
         // get all requests of type cleanUp and check its length
@@ -723,12 +754,17 @@ public class StorageTestSuite {
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
         storage.saveServiceType(emergency);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
         request.setRequestID(1);
         request.setFulfiller(new_user2);
@@ -739,7 +775,7 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
         request2.setRequestID(2);
         request2.setFulfiller(new_user2);
@@ -750,7 +786,7 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
         request3.setRequestID(3);
         request3.setFulfiller(new_user);
@@ -779,13 +815,19 @@ public class StorageTestSuite {
         ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
         storage.saveServiceType(emergency);
 
+        Node new_node = new Node(
+                "node1", 0, 0, "2", "45 Francis", "HALL",
+                "Hallway Intersection 38 Level 2", "Hallway B3802", "Team S", 0, 0);
+        storage.saveNode(new_node);
+
         ServiceRequest request = ServiceRequest.createService(
                 "cleanup",
                 "Cleanup required near Room 223",
                 cleanUp,
                 new_user,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request.setRequestID(1);
         request.setFulfiller(new_user2);
         storage.saveRequest(request);
 
@@ -794,8 +836,9 @@ public class StorageTestSuite {
                 "Patient in Room 223 needs help",
                 cleanUp,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request2.setRequestID(2);
         request2.setFulfiller(new_user2);
         storage.saveRequest(request2);
 
@@ -804,8 +847,9 @@ public class StorageTestSuite {
                 "Patient fell in hallway",
                 emergency,
                 new_user2,
-                null //"BHALL03002" todo: uncomment
+                new_node
         );
+        request3.setRequestID(3);
         request3.setFulfiller(new_user);
         storage.saveRequest(request3);
 

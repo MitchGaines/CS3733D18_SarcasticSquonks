@@ -1,5 +1,7 @@
 package data;
 
+import java.util.Objects;
+
 /**
  * A Node is an entity to hold Node information.
  * Nodes are the the pixel coordinates, and name of certain
@@ -274,6 +276,48 @@ public class Node { // TODO: add 3d coordinate fields
     @Override
     public String toString() {
         return long_name;
+    }
+
+    // TODO for debugging purposes
+//    @Override
+//    public String toString() {
+//        return "Node{" +
+//                "node_id='" + node_id + '\'' +
+//                ", x_coord=" + x_coord +
+//                ", y_coord=" + y_coord +
+//                ", floor='" + floor + '\'' +
+//                ", building='" + building + '\'' +
+//                ", node_type='" + node_type + '\'' +
+//                ", long_name='" + long_name + '\'' +
+//                ", short_name='" + short_name + '\'' +
+//                ", team_assigned='" + team_assigned + '\'' +
+//                ", x_coord_3d=" + x_coord_3d +
+//                ", y_coord_3d=" + y_coord_3d +
+//                '}';
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return x_coord == node.x_coord &&
+                y_coord == node.y_coord &&
+                x_coord_3d == node.x_coord_3d &&
+                y_coord_3d == node.y_coord_3d &&
+                Objects.equals(node_id, node.node_id) &&
+                Objects.equals(floor, node.floor) &&
+                Objects.equals(building, node.building) &&
+                Objects.equals(node_type, node.node_type) &&
+                Objects.equals(long_name, node.long_name) &&
+                Objects.equals(short_name, node.short_name) &&
+                Objects.equals(team_assigned, node.team_assigned);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(node_id, x_coord, y_coord, floor, building, node_type, long_name, short_name, team_assigned, x_coord_3d, y_coord_3d);
     }
 }
 

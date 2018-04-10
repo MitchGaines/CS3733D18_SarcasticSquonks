@@ -234,30 +234,34 @@ public class ServiceRequest {
 
     public void setRequestID(long id) { this.id = id; }
 
-    @Override
-    public String toString() {
-        return getTitle();
-    }
-
-//    // TODO for debugging
 //    @Override
 //    public String toString() {
-//        return "ServiceRequest{" +
-//                "title='" + title + '\'' +
-//                ", description='" + description + '\'' +
-//                ", service_type=" + service_type +
-//                ", requester=" + requester +
-//                ", fulfiller=" + fulfiller +
-//                ", location='" + location + '\'' +
-//                '}';
+//        return getTitle();
 //    }
+
+    // TODO for debugging
+    @Override
+    public String toString() {
+        return "ServiceRequest{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", service_type=" + service_type +
+                ", requester=" + requester +
+                ", fulfiller=" + fulfiller +
+                ", location=" + location +
+                ", requestedDate=" + requestedDate +
+                ", fulfilledDate=" + fulfilledDate +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServiceRequest that = (ServiceRequest) o;
-        return Objects.equals(title, that.title) &&
+        return id == that.id &&
+                Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(service_type, that.service_type) &&
                 Objects.equals(requester, that.requester) &&
@@ -268,6 +272,6 @@ public class ServiceRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(title, description, service_type, requester, fulfiller, location);
+        return Objects.hash(id, title, description, service_type, requester, fulfiller, location, requestedDate, fulfilledDate);
     }
 }

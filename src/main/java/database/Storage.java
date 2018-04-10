@@ -2,6 +2,9 @@ package database;
 
 import data.Edge;
 import data.Node;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import service.ServiceRequest;
 import service.ServiceType;
 import user.User;
@@ -31,8 +34,11 @@ public class Storage {
     private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
             "username", "password", "user_type", "can_mod_map");
 
-    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s )",
-            "title", "description", "service_type", "requester_id", "fulfiller_id", "location");
+    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
+            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
+
+    // to parse dates
+    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * Empty constructor for storage.
@@ -92,7 +98,7 @@ public class Storage {
             });
         }
 
-        if (!database.doesTableExist("SERVICES")) { // TODO add foreign key functionality if able
+        if (!database.doesTableExist("SERVICES")) {
             database.createTable("SERVICES", new String[] {
                     String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "service_id"),
                     String.format("%s VARCHAR (100)", "title"),
@@ -100,7 +106,9 @@ public class Storage {
                     String.format("%s VARCHAR (100)", "service_type"),
                     String.format("%s BIGINT", "requester_id"),
                     String.format("%s BIGINT", "fulfiller_id"),
-                    String.format("%s VARCHAR (100)", "location")
+                    String.format("%s VARCHAR (100)", "location"),
+                    String.format("%s TIMESTAMP", "request_time"),
+                    String.format("%s TIMESTAMP", "fulfill_time")
             });
         }
 
@@ -516,7 +524,9 @@ public class Storage {
                 database.addQuotes(request.getServiceType().getName()),
                 String.valueOf(request.getRequester().getUserID()),
                 fulfiller_string,
-                "null" //database.addQuotes(request.getLocation()) // TODO change to Node
+                database.addQuotes(request.getLocation().getNodeID()),
+                database.addQuotes(dtf.print(request.getRequestedDate())),
+                database.addQuotes(dtf.print(request.getFulfilledDate()))
         });
     }
 
@@ -533,13 +543,16 @@ public class Storage {
      * @param request the request to update in the database, with the new values
      */
     public void updateRequest(ServiceRequest request) {
+
         String[] values = new String[] {
                 String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
                 String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
                 String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
                 String.format("%s = %d", "requester_id", request.getRequester().getUserID()),
                 String.format("%s = %d", "fulfiller_id", request.getFulfiller().getUserID()),
-                String.format("%s = '%s'", "location", request.getLocation())
+                String.format("%s = '%s'", "location", request.getLocation().getNodeID()),
+                String.format("%s = '%s'", "request_time", dtf.print(request.getRequestedDate())),
+                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate()))
         };
 
         database.update("SERVICES", values, "service_id = " + request.getRequester().getUserID(), null);
@@ -638,6 +651,9 @@ public class Storage {
         List<Long> id_requesters = new LinkedList<Long>();
         List<Long> id_fulfillers = new LinkedList<Long>();
         List<String> types = new LinkedList<String>();
+        List<String> locations = new LinkedList<String>();
+        List<DateTime> requestDateTimes = new LinkedList<DateTime>();
+        List<DateTime> fulfillDateTimes = new LinkedList<DateTime>();
 
         // return an empty list if query didn't return anything
         if (r_set == null) {
@@ -650,6 +666,9 @@ public class Storage {
                 id_requesters.add(r_set.getLong("requester_id"));
                 id_fulfillers.add(r_set.getLong("fulfiller_id"));
                 types.add(r_set.getString("service_type"));
+                locations.add(r_set.getString("location"));
+                requestDateTimes.add(new DateTime(r_set.getDate("request_time")));
+                fulfillDateTimes.add(new DateTime(r_set.getDate("fulfill_time")));
                 requests.add(request);
             } catch (SQLException e) {
                 // empty
@@ -662,10 +681,16 @@ public class Storage {
             ServiceType serviceType = getServiceTypeByName(types.get(i));
             User requester = getUserByID(id_requesters.get(i));
             User fulfiller = getUserByID(id_fulfillers.get(i));
+            Node location = getNodeByID(locations.get(i));
+            DateTime requestDateTime = requestDateTimes.get(i);
+            DateTime fulfillDateTime = fulfillDateTimes.get(i);
 
             requests.get(i).setService_type(serviceType);
             requests.get(i).setRequester(requester);
             requests.get(i).setFulfiller(fulfiller);
+            requests.get(i).setLocation(location);
+            requests.get(i).setRequestedDate(requestDateTime);
+            requests.get(i).setFulfilledDate(fulfillDateTime);
         }
 
         return requests;
@@ -688,10 +713,10 @@ public class Storage {
             long service_id = r_set.getLong("service_id");
             String title = r_set.getString("title");
             String description = r_set.getString("description");
-            String location = r_set.getString("location");
 
             // set some request fields to null, then fill them in after
             ServiceRequest request = ServiceRequest.createService(title, description, null, null, null);
+            request.setRequestID(service_id);
 
             return request;
 
