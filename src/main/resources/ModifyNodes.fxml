@@ -46,7 +46,7 @@
                     <children>
                         <ImageView fx:id="map" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@images/01_thefirstfloor.png" />
+                                <Image url="@images/2dMaps/01_thefirstfloor.png" />
                             </image>
                         </ImageView>
                     </children>
