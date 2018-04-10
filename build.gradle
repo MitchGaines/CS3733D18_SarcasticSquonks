@@ -16,13 +16,38 @@ repositories {
     }
 }
 
+// You'll need to create an integration-test folder with the same structure as your test or main folders
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
+}
+// This will be the name of the task that you'll run to do only your integration tests
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
 dependencies {
     testCompile(
             [group: 'junit', name: 'junit', version: '4.12'],
             [group: 'com.jfoenix', name: 'jfoenix', version: '8.0.3'],
             [group: 'org.apache.derby', name: 'derby', version: '10.11.1.1'],
             [group: 'org.apache.derby', name: 'derbyclient', version: '10.11.1.1'],
-            [group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1']
+            [group: 'org.apache.derby', name: 'derbytools', version: '10.11.1.1'],
+            "org.testfx:openjfx-monocle:8u76-b04", // jdk-9+181 for Java 9,
+            "org.testfx:testfx-core:4.0.13-alpha",
+            "org.testfx:testfx-junit:4.0.13-alpha"
     )
     compile(
             [group: 'junit', name: 'junit', version: '4.12'],
@@ -35,6 +60,14 @@ dependencies {
             [group: 'commons-codec', name: 'commons-codec', version: '1.11']
     )
 }
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test
+// This allows your tests to be run multiple times in a row without needing to change the files
+test {
+    outputs.upToDateWhen { false }
+}
+
 
 jar {
 
