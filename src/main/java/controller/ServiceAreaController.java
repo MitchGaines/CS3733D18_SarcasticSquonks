@@ -26,7 +26,7 @@ public class ServiceAreaController {
     }
 
     public void populateRequestsBox() {
-//        parent.dismissEmergency();
+        parent.dismissEmergency();
         boolean emergency_declared = false;
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());

@@ -51,7 +51,7 @@ public class UserController{
 
     @FXML
     // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
-    private ServiceAreaController serviceAreaController;
+    protected ServiceAreaController serviceAreaController;
 
 
     public void populateBoxes() {

@@ -48,7 +48,7 @@ public class ServiceLogEntry {
     }
 
     private static boolean userInvolved(User user, ServiceRequest service_request) {
-        return (service_request.getFulfiller() != null && service_request.getServiceType().getFulfillers().contains(user)) ||
+        return (service_request.getServiceType().getFulfillers().contains(user)) ||
                 (service_request.getRequester() != null && service_request.getRequester() == user);
     }
 
