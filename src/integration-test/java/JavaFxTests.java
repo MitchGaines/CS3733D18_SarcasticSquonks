@@ -81,6 +81,7 @@ public class JavaFxTests extends ApplicationTest {
                 csv_writer.writeCSVFile("csv/users.csv", "USERS");
             }
         });
+
     }
 
     //close after test so no other tests get messed up/IntelliJ (hopefully) doesn't crash
@@ -131,7 +132,7 @@ public class JavaFxTests extends ApplicationTest {
     */
 
     @Test
-    public void testChangeLang() {
+    public void testChangeLang() throws Exception {
         clickOn("#language_selector");
         clickOn("Spanish");
     }
