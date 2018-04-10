@@ -21,7 +21,7 @@ import java.util.List;
 
 public class AdminPageController extends UserController {
 
-    //UserController user = new UserController();
+    UserController user = new UserController();
 
     @FXML
     Button modify_map_btn;
@@ -41,6 +41,7 @@ public class AdminPageController extends UserController {
     }
 
     public void initialize() {
+        serviceAreaController.setParent(this);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));

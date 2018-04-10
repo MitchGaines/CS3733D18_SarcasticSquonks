@@ -105,7 +105,7 @@ public class ServiceLogEntry {
      * @return True if the user is involved as the fulfiller or requester and false if they are not either.
      */
     private static boolean userInvolved(User user, ServiceRequest service_request) {
-        return (service_request.getFulfiller() != null && service_request.getServiceType().getFulfillers().contains(user)) ||
+        return (service_request.getServiceType().getFulfillers().contains(user)) ||
                 (service_request.getRequester() != null && service_request.getRequester() == user);
     }
 

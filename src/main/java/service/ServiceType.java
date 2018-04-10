@@ -4,6 +4,7 @@ import user.LoginHandler;
 import user.User;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Defines a ServiceType.
@@ -57,6 +58,8 @@ public class ServiceType {
         return name;
     }
 
+    public void setName(String name) { this.name = name; }
+
     /**
      * Stores a HashSet of users.
      */
@@ -96,6 +99,10 @@ public class ServiceType {
      * @return returns the new ServiceType.
      */
     public static ServiceType createServiceType(String name, boolean emergency, HashSet<User> fulfillers) {
+
+        if (fulfillers == null) {
+            fulfillers = new HashSet<>();
+        }
         ServiceType new_service = new ServiceType(name, emergency, fulfillers);
         serviceTypes.add(new_service);
         return new_service;
@@ -106,6 +113,15 @@ public class ServiceType {
         return getName();
     }
 
+    // TODO for debugging
+//    @Override
+//    public String toString() {
+//        return "ServiceType{" +
+//                "name='" + name + '\'' +
+//                ", emergency=" + emergency +
+//                ", fulfillers=" + fulfillers +
+//                '}';
+//    }
     /**
      * Retrieves the HashSet of Users that can fulfill a ServiceType.
      * @return the HashSet of Users.
@@ -114,4 +130,19 @@ public class ServiceType {
         return fulfillers;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ServiceType that = (ServiceType) o;
+        return emergency == that.emergency &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(fulfillers, that.fulfillers);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, emergency, fulfillers);
+    }
 }
