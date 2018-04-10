@@ -5,6 +5,8 @@ import database.CSVWriter;
 import database.Storage;
 import internationalization.AllText;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HorizontalDirection;
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,15 +42,7 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 public class JavaFxTests extends ApplicationTest {
 
-    /*
-    //launch Main
-    @Before
-    public void setUpClass() throws Exception {
-        ApplicationTest.launch(Main.class);
-    }
-    */
-
-    //show screen
+    //launch program
     @Override
     public void start(Stage primaryStage) throws Exception{
         AllText.changeLanguage("en");
@@ -95,71 +89,18 @@ public class JavaFxTests extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
-    /* Functions to make my life easier */
-
-    public void loginAsDoctor() {
-        moveTo("#exp_panel");
-        moveBy(1155, -25);
-        clickOn();
-        clickOn("#username");
-        write("Doctor");
-        clickOn("#password");
-        write("Password");
-        clickOn("#login_btn");
-    }
-
-    public void loginAsAdmin() {
-        moveTo("#exp_panel");
-        moveBy(1155, -25);
-        clickOn();
-        clickOn("#username");
-        write("Admin");
-        clickOn("#password");
-        write("SecurePassword");
-        clickOn("#login_btn");
-    }
-
-    public void loginAsRegStaff() {
-        moveTo("#exp_panel");
-        moveBy(1155, -25);
-        clickOn();
-        clickOn("#username");
-        write("Bob");
-        clickOn("#password");
-        write("abc");
-        clickOn("#login_btn");
-    }
-
-    public void logout() {
-        clickOn("#logout_btn");
-    }
 
     /* Home screen tests */
 
     @Test
-    public void testPathfind() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
-        clickOn("#combobox_end");
-        clickOn("15 Lobby Entrance Floor 2");
-        clickOn("#pathfind");
-        clickOn("Home");
-    }
-
-    @Test
-    public void testPathfindSpanish() {
+    public void testChangeLang() {
         clickOn("#language_selector");
         clickOn("Spanish");
         clickOn("Confirm");
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
-        clickOn("#combobox_end");
-        clickOn("15 Lobby Entrance Floor 2");
-        clickOn("#pathfind");
-        clickOn("Home");
+        verifyThat("#pathfind", hasText("Direcciones"));
     }
 
-    /*
+    /* Causes gradle to fail, passes on my machine. Possibly due to accented e in "Inglés"
     @Test
     public void testChangeLangBack() {
         clickOn("#language_selector");
@@ -172,90 +113,117 @@ public class JavaFxTests extends ApplicationTest {
     */
 
     @Test
-    public void testChangeLang() {
+    public void testPathfind() {
+        clickOn("#combobox_start");
+        clickOn("15 Francis Security Desk Floor 2");
+        clickOn("#combobox_end");
+        clickOn("15 Lobby Entrance Floor 2");
+        clickOn("#pathfind");
+        clickOn("#back_button");
+    }
+
+    @Test
+    public void testMapScroll() {
+        clickOn("#combobox_start");
+        moveTo("15 Francis Security Desk Floor 2");
+        scroll(100, VerticalDirection.DOWN);
+        clickOn("Watkins A Node 24 Floor 2 Floor 2");
+        clickOn("#combobox_end");
+        moveTo("15 Lobby Entrance Floor 2");
+        scroll(100, VerticalDirection.DOWN);
+        clickOn("Watkins B Node 35 Floor 2");
+        clickOn("#pathfind");
+        clickOn("#map_img");
+        scroll(65, VerticalDirection.DOWN);
+        clickOn("#back_button");
+    }
+
+    @Test
+    public void testPathfindSpanish() {
         clickOn("#language_selector");
         clickOn("Spanish");
-    }
-
-    /* Login Tests */
-
-    @Test
-    public void testDoctorLogin() {
-        loginAsDoctor();
-    }
-
-    @Test
-    public void testAdminLogin() {
-        loginAsAdmin();
+        clickOn("Confirm");
+        clickOn("#combobox_start");
+        clickOn("15 Francis Security Desk Floor 2");
+        clickOn("#combobox_end");
+        clickOn("15 Lobby Entrance Floor 2");
+        clickOn("#pathfind");
+        verifyThat("#toggle_map_btn", hasText("Mapa en 3D"));
+        clickOn("#back_button");
     }
 
     @Test
-    public void testRegStaffLogin() {
-        loginAsRegStaff();
+    public void testQRcodePopUp() {
+        clickOn("#combobox_start");
+        clickOn("15 Francis Security Desk Floor 2");
+        clickOn("#combobox_end");
+        clickOn("15 Lobby Entrance Floor 2");
+        clickOn("#pathfind");
+        clickOn("#qr_img");
+        clickOn("#expanded_qr");
+        clickOn("#back_button");
     }
 
     @Test
-    public void testLogout() {
-        loginAsDoctor();
-        logout();
-        //sleep(5000);
-        loginAsAdmin();
-        logout();
-        //sleep(5000);
-        loginAsRegStaff();
-        logout();
+    public void testMapSwitcher() {
+        clickOn("#combobox_start");
+        clickOn("15 Francis Security Desk Floor 2");
+        clickOn("#combobox_end");
+        clickOn("15 Lobby Entrance Floor 2");
+        clickOn("#pathfind");
+        verifyThat("#toggle_map_btn", hasText("3D Map"));
+        clickOn("#toggle_map_btn");
+        verifyThat("#toggle_map_btn", hasText("2D Map"));
+        clickOn("#toggle_map_btn");
+        verifyThat("#toggle_map_btn", hasText("3D Map"));
+        clickOn("#back_button");
     }
 
-    /* Tests for Doctor */
-
-    /*
     @Test
-    public void testDoctorMakeRequest() {
-        loginAsDoctor();
-        clickOn("#request_type_selector");
-        clickOn("Medical");
-        clickOn("#service_title");
-        write("Medical issue");
-        clickOn("#service_location");
-        write("hospital");
-        clickOn("#description_field");
-        write("injury");
-        clickOn("#request_service");
-        clickOn("OK");
-        verifyThat("#emergency_label", hasText("EMERGENCY"));
-        verifyThat("#emergency_title", hasText("Medical issue, hospital"));
-        verifyThat("#emergency_details", hasText("injury"));
-        clickOn("View log");
-        clickOn("#back_btn");
-        clickOn("#active_requests_box");
-        clickOn("Medical issue");
-        clickOn("#mark_completed_btn");
-        logout();
+    public void testSwitchFloors() {
+        clickOn("#combobox_start");
+        moveTo("15 Francis Security Desk Floor 2");
+        scroll(100, VerticalDirection.DOWN);
+        clickOn("Waiting Room 1 Floor 1");
+        clickOn("#combobox_end");
+        moveTo("15 Lobby Entrance Floor 2");
+        scroll(100, VerticalDirection.DOWN);
+        clickOn("Watkins B Node 35 Floor 2");
+        clickOn("#pathfind");
+        clickOn("#map_img");
+        scroll(65, VerticalDirection.DOWN);
+        clickOn("Up");
+        clickOn("Down");
+        clickOn("Up");
+        clickOn("#toggle_map_btn");
+        clickOn("#map_img");
+        scroll(20, VerticalDirection.UP);
+        clickOn("Up");
+        clickOn("Down");
+        clickOn("Up");
+        clickOn("#back_button");
+    }
+
+    //these error when run all at once, but pass individually.
+
+    @Test
+    public void testQuickLocationInfo() {
+        clickOn("#INFO");
+        clickOn("#back_button");
+    }
+
+    /* currently not added
+    @Test
+    public void testQuickLocationRest() {
+        clickOn("#REST");
+        clickOn("#back_button");
     }
     */
 
-    /* Tests for RegStaff */
-    /*
     @Test
-    public void testRegStaffMakeRequest() {
-        loginAsRegStaff();
-        clickOn("#request_type_selector");
-        clickOn("Custodial");
-        clickOn("#service_title");
-        write("Custodial issue");
-        clickOn("#service_location");
-        write("hospital");
-        clickOn("#description_field");
-        write("mess");
-        clickOn("#request_service");
-        clickOn("OK");
-        clickOn("View log");
-        clickOn("#back_btn");
-        clickOn("#active_requests_box");
-        clickOn("Custodial issue");
-        clickOn("#mark_completed_btn");
-        logout();
+    public void testQuickLocationDept() {
+        clickOn("#DEPT");
+        clickOn("#back_button");
     }
-    */
 
 }
