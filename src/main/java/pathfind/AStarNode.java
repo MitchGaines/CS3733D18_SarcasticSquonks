@@ -21,6 +21,7 @@ public class AStarNode {
     String long_name;
     String id;
 
+
     public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name, String floor){
         this.id = id;
         this.x_coord = x_coord;
@@ -62,7 +63,25 @@ public class AStarNode {
     }
 
     public void newGCost(AStarNode previous){
-        this.g_cost = previous.g_cost + this.distanceTo(previous);
+        int floor_cost = 0;
+        if(!this.floor.equals(previous.floor)){
+            int previous_floor = 0;
+            int next_floor = 0;
+            for(int i=0; i<Map.floor_ids.length; i++){
+                if(Map.floor_ids[i].equals(this.floor)){
+                    next_floor = i;
+                    break;
+                }
+            }
+            for(int i=0; i<Map.floor_ids.length; i++){
+                if(Map.floor_ids[i].equals(previous.floor)){
+                    previous_floor = i;
+                    break;
+                }
+            }
+            floor_cost = Math.abs(previous_floor-next_floor)*Map.FLOOR_CHANGE_COST;
+        }
+        this.g_cost = previous.g_cost + this.distanceTo(previous) + floor_cost;
     }
 
     public void newHCost(AStarNode goal){
