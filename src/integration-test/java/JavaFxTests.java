@@ -124,6 +124,7 @@ public class JavaFxTests extends ApplicationTest {
     */
 
     /*
+    @Test
     public void testChangeLangBack() {
         clickOn("#language_selector");
         clickOn("Spanish");
@@ -133,6 +134,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("Confirm");
     }
     */
+
 
     @Test
     public void testChangeLang() {
