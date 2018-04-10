@@ -2,12 +2,3 @@ username,password,type,can_mod_map
 Doctor,Password,DOCTOR,false
 Admin,SecurePassword,ADMIN_STAFF,true
 Bob,abc,REGULAR_STAFF,false
-Doctor,Password,DOCTOR,false
-Admin,SecurePassword,ADMIN_STAFF,true
-Bob,abc,REGULAR_STAFF,false
-Doctor,Password,DOCTOR,false
-Admin,SecurePassword,ADMIN_STAFF,true
-Bob,abc,REGULAR_STAFF,false
-Doctor,Password,DOCTOR,false
-Admin,SecurePassword,ADMIN_STAFF,true
-Bob,abc,REGULAR_STAFF,false

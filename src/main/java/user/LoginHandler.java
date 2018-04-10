@@ -16,8 +16,8 @@ public class LoginHandler {
     public LoginHandler(){
         Storage storage = Storage.getInstance();
 
-        users = (LinkedList<User>)storage.getAllUsers();
-        //__generateDummyUsers(); // TODO no need to generate dummies
+//        users = (LinkedList<User>)storage.getAllUsers();
+        __generateDummyUsers(); // TODO no need to generate dummies
     }
 
     /**
@@ -34,9 +34,9 @@ public class LoginHandler {
         users.add(u2);
         users.add(u3);
 
-        storage.saveUser(u1);
-        storage.saveUser(u2);
-        storage.saveUser(u3);
+//        storage.saveUser(u1);
+//        storage.saveUser(u2);
+//        storage.saveUser(u3);
     }
 
     public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {
