@@ -51,6 +51,7 @@ public class ReportsController extends UserController {
         setUpListView();
         instructions.setWrapText(true);
         service_type_list.getSelectionModel().selectedItemProperty().addListener(e -> onGoButton());
+    }
 
     private void populateReportTypes() {
         report_type_menu.getItems().removeAll(report_type_menu.getItems());

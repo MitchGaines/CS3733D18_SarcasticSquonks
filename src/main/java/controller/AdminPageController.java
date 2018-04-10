@@ -50,15 +50,6 @@ public class AdminPageController extends UserController {
         modify_nodes_stage.show();
     }
 
-    public void loadReportScreen(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/Report.fxml"), AllText.getBundle());
-        Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
-        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modify_nodes_stage.setTitle("View Reports");
-        modify_nodes_stage.setScene(view_reports_scene);
-        modify_nodes_stage.show();
-    }
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
