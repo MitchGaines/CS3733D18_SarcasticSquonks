@@ -39,6 +39,7 @@ public class PathfindController {
     private data.Node node2;
     private Storage db_storage;
 
+
     private enum mappingMode{MAP3D, MAP2D}
     private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
 
@@ -95,7 +96,22 @@ public class PathfindController {
         else
             map = new Map3D(map_img, path_polyline, destination_img, map_scroll_pane);
 
-        Pathfinder pathfinder = new Pathfinder(new AStar());
+        Pathfinder pathfinder;
+        switch(AdminPageController.getChoosenAlg()){
+            case 0 :
+                pathfinder = new Pathfinder(new AStar());
+                break;
+            case 1 :
+                pathfinder = new Pathfinder(new DepthFirst());
+                break;
+            case 2 :
+                pathfinder = new Pathfinder(new BreadthFirst());
+                break;
+            default:
+                pathfinder = new Pathfinder(new AStar());
+                break;
+        }
+
         pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 

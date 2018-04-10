@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -47,6 +48,7 @@
                <children>
                   <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%modify_map" />
                   <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
+                  <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" prefHeight="45.0" prefWidth="153.0" promptText="%choose_path_algorithm" />
                </children>
                <StackPane.margin>
                   <Insets top="500.0" />
