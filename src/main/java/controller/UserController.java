@@ -50,6 +50,7 @@ public class UserController{
     public void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
+        populateBoxes();
     }
 
     @FXML
@@ -59,6 +60,7 @@ public class UserController{
 
     public void populateBoxes() {
         serviceAreaController.populateRequestTypes();
+        serviceAreaController.populateRequestsBox();
     }
 
     public void openLog(ActionEvent event) throws IOException {
@@ -110,7 +112,6 @@ public class UserController{
 
     public void initialize() {
         serviceAreaController.setParent(this);
-        populateBoxes();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
