@@ -103,8 +103,10 @@ public class HomePageController {
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
         for(data.Node location : locations){
             if(location.getNodeType().equals("HALL") ||
-               location.getNodeType().equals("ELEV") ||
-               location.getNodeType().equals("STAI")){
+                    location.getNodeType().equals("ELEV") ||
+                    location.getNodeType().equals("STAI") ||
+                    location.getShortName().equals("CRN")){
+
                 to_remove.add(location);
             }
         }
