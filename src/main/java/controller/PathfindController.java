@@ -48,6 +48,12 @@ public class PathfindController {
     private int current_floor;
     private Map map;
 
+
+    double zoom_factor;
+
+    @FXML
+    ImageView zoom_in, zoom_out;
+
     private static boolean PATHFIND_READY = false;
 
     @FXML
@@ -77,15 +83,36 @@ public class PathfindController {
     BorderPane main_pane;
 
     @FXML
-    Label time;
+    Label time, floor_indicator;
 
     public void initialize() {
+        zoom_factor = 1;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
         this.db_storage = Storage.getInstance();
         map = new Map2D(map_img, path_polyline, path_polyline_2, destination_img, map_scroll_pane, map_anchor_pane, current_floor);
         enable2DMapping();
+    }
+
+    public void onZoomOut() {
+        if(zoom_factor > 0.5) {
+            zoom_factor -= 0.2;
+            map_scroll_pane.getContent().setScaleX(zoom_factor);
+            map_scroll_pane.setLayoutX(zoom_factor);
+            map_scroll_pane.getContent().setScaleY(zoom_factor);
+            map_scroll_pane.setLayoutY(zoom_factor);
+        }
+    }
+
+    public void onZoomIn()  {
+        if (zoom_factor < 1.8) {
+            zoom_factor += 0.2;
+            map_scroll_pane.getContent().setScaleX(zoom_factor);
+            map_scroll_pane.setLayoutX(zoom_factor);
+            map_scroll_pane.getContent().setScaleY(zoom_factor);
+            map_scroll_pane.setLayoutY(zoom_factor);
+        }
     }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
@@ -140,9 +167,8 @@ public class PathfindController {
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
         if(pathfinder.pathfinder_path.getAStarNodePath().size()>1){
-            // Centering ScrollPane on path
-            int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
-            int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
+            double start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
 
@@ -153,7 +179,7 @@ public class PathfindController {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+            expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
             PATHFIND_READY = true;
         }
     }
@@ -187,13 +213,14 @@ public class PathfindController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+        expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
     public void updateMap(){
         Image m = getFloorImage(current_floor, mode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
+        floor_indicator.setText(map.floor_ids.get(map.getFloor()));
     }
 
     public void enable3DMapping(){
@@ -202,8 +229,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -222,8 +249,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -264,13 +291,14 @@ public class PathfindController {
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(adj);
-        expanded_qr.setImage(qr_img.getImage());
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(adj);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(adj);
         expanded_qr.isPreserveRatio();
         expanded_qr.setVisible(true);
     }
 
     @FXML
-    BorderPane header_pane;
+    BorderPane header_pane, footer_pane;
 
     public void onBigQRClick(){
         expanded_qr.setVisible(false);
@@ -279,10 +307,13 @@ public class PathfindController {
             a_node.setStyle("-fx-background-color: null");
             a_node.setEffect(null);
         }
-        header_pane.setStyle("-fx-background-color:  #4863A0");
+        header_pane.setStyle("-fx-background-color: #4863A0");
+        footer_pane.setStyle("-fx-background-color: #4863A0");
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onMapUp() {
@@ -292,6 +323,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 
@@ -302,6 +334,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 

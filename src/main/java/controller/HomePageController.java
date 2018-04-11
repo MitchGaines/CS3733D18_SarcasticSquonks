@@ -18,7 +18,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
@@ -28,6 +31,7 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
 import user.InvalidPasswordException;
 import user.InvalidUsernameException;
 import pathfind.AStar;
@@ -38,6 +42,7 @@ import user.User;
 public class HomePageController {
 
     private static boolean include_stairs = true;
+    private static String KIOSK_DEFAULT_LOCATION = "BINFO00102";
 
     @FXML
     JFXButton pathfind;
@@ -86,6 +91,8 @@ public class HomePageController {
     @FXML
     JFXButton INFO;
 
+    private ObservableList<data.Node> locations = FXCollections.observableArrayList();
+
     @FXML
     JFXToggleButton stairs_toggle;
 
@@ -96,9 +103,29 @@ public class HomePageController {
      * @author Will Lucca
      */
     public void initialize() {
-        ObservableList<data.Node> locations = FXCollections.observableArrayList();
-        Storage storage = Storage.getInstance();
-        locations.addAll(storage.getAllNodes());
+        locations.addAll(Storage.getInstance().getAllNodes());
+        StringConverter<data.Node> string_node_converter = new StringConverter<data.Node>() {
+            @Override
+            public String toString(data.Node node) {
+                if (node == null) {
+                    return "";
+                } else {
+                    return node.toString();
+                }
+            }
+
+            @Override
+            public data.Node fromString(String long_name) {
+                for (data.Node node : locations) {
+                    if (node.getLongName().equals(long_name)) {
+                        return node;
+                    }
+                }
+                return null;
+            }
+        };
+        combobox_start.setConverter(string_node_converter);
+        combobox_end.setConverter(string_node_converter);
 
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
         for(data.Node location : locations){
@@ -112,9 +139,16 @@ public class HomePageController {
         }
         locations.removeAll(to_remove);
         Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
+        int default_index = 0;
+        for(int i = 0; i<locations.size(); i++){
+            if(locations.get(i).getNodeID().equals(KIOSK_DEFAULT_LOCATION)){
+                default_index = i;
+                break;
+            }
+        }
 
         combobox_start.setItems(locations);
-        combobox_start.setValue(locations.iterator().next());
+        combobox_start.setValue(locations.get(default_index));
         combobox_end.setItems(locations);
 
         loginHandler = new LoginHandler();
@@ -196,6 +230,11 @@ public class HomePageController {
     void onQuickClick(ActionEvent event) throws IOException{
         Button button = (Button) event.getSource();
         if(combobox_start.getValue().getNodeID().contains(button.getId())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Can't Get Directions");
+            alert.setHeaderText("You have specified a location, however you are already there");
+            alert.setContentText("Reason: You are already at the type location you have specified, please choose another quick-select location");
+            alert.showAndWait();
             return;
         }
         Window window = main_pane.getScene().getWindow();
@@ -213,6 +252,51 @@ public class HomePageController {
 
         pathfind_stage.setScene(pathfind_parent_scene);
         pathfind_stage.show();
+    }
+
+    /**
+     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
+     * in the edit field as a substring.
+     * @param e KeyEvent representing the key that was typed.
+     */
+    @FXML
+    void onKeyReleasedComboBox(KeyEvent e) {
+        ComboBox<data.Node> combo_box = (ComboBox<data.Node>)(e.getSource());
+        ObservableList<data.Node> filteredItems = FXCollections.observableArrayList();
+        combo_box.show();
+        TextField editor = combo_box.getEditor();
+
+        if (editor.getText().equals("")
+                || e.getCode() == KeyCode.BACK_SPACE
+                || e.getCode() == KeyCode.DELETE
+                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
+            combo_box.setItems(locations);
+        }
+
+        Stream<data.Node> items_stream = combo_box.getItems().stream();
+        String user_text = editor.getText().toLowerCase();
+        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
+
+        if (!e.getCode().isArrowKey()) { // Doesn't change list while user is navigating dropdown with arrow keys
+            if (e.getCode() == KeyCode.ENTER) {
+                // Pressing enter clear the edit field if it was autocompleted. This prevents
+                // that by storing the editor text and putting it back in afterwards
+                String current_editor = editor.getText();
+                combo_box.setItems(filteredItems);
+                editor.setText(current_editor);
+            }
+            else {
+                combo_box.setItems(filteredItems);
+            }
+
+            // Resize drop down
+            int new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
+            if (new_visible_size != combo_box.getVisibleRowCount()) {
+                combo_box.hide();
+                combo_box.setVisibleRowCount(new_visible_size);
+                combo_box.show();
+            }
+        }
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
@@ -257,5 +341,9 @@ public class HomePageController {
 
     public static boolean includeStairs(){
         return include_stairs;
+    }
+
+    public static void setKioskDefaultLocation(String kioskDefaultLocation) {
+        KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
     }
 }
