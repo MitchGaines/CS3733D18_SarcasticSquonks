@@ -173,11 +173,12 @@ public class HomePageController {
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
-
-        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
-        pathfind_stage.show();
+        if(PathfindController.isPathfindReady()){
+            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            pathfind_stage.setTitle("Pathfinder");
+            pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+            pathfind_stage.show();
+        }
     }
 
     @FXML
