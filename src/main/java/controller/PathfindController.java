@@ -81,7 +81,7 @@ public class PathfindController {
     BorderPane main_pane;
 
     @FXML
-    Label time;
+    Label time, floor_indicator;
 
     public void initialize() {
         zoom_factor = 1;
@@ -216,6 +216,7 @@ public class PathfindController {
         Image m = getFloorImage(current_floor, mode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
+        floor_indicator.setText(map.floor_ids.get(map.getFloor()));
     }
 
     public void enable3DMapping(){
@@ -318,6 +319,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 
@@ -328,6 +330,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 

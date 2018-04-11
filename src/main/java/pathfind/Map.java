@@ -46,6 +46,8 @@ public abstract class Map {
         this.floor = floor;
     }
 
+    public int getFloor() {return floor;}
+
     public abstract void drawPath();
 
 

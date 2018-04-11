@@ -131,6 +131,7 @@
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -141,10 +142,11 @@
                      <GridPane.margin>
                         <Insets right="10.0" />
                      </GridPane.margin></JFXButton>
-                  <JFXButton buttonType="RAISED" onMouseClicked="#onMapDown" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%down" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <JFXButton buttonType="RAISED" onMouseClicked="#onMapDown" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%down" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin></JFXButton>
+                  <Label fx:id="floor_indicator" alignment="CENTER" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
          </center>
