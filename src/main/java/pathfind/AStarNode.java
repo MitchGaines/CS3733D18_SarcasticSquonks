@@ -1,6 +1,7 @@
 package pathfind;
 import controller.HomePageController;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -208,11 +209,13 @@ public class AStarNode {
      */
     public ArrayList<AStarNode> getNeighbors() {
         if(!HomePageController.includeStairs()){
+            ArrayList<AStarNode> toRemove = new ArrayList<>();
             for(AStarNode neighbor: this.neighbors){
                 if(neighbor.getID().contains("STAI") && !this.floor.equals(neighbor.floor)){
-                    this.neighbors.remove(neighbor);
+                    toRemove.add(neighbor);
                 }
             }
+            this.neighbors.removeAll(toRemove);
         }
         return this.neighbors;
     }
