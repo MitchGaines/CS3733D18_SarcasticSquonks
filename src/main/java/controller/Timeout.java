@@ -27,7 +27,43 @@ import java.io.IOException;
 
 public class Timeout {
 
+    private static Thread timeout_thread = new Thread() {
+        public void run() {
+            try {
+                Thread.sleep(sleep_time);
+                while(!kill) {
+                    //System.out.println(DateTime.now().getMillis());
+                    //System.out.println(last_action.getMillis());
+                    if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
+                        AllText.changeLanguage("en");
+                        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+                        Platform.runLater(() -> curr_stage.setTitle("Brigham and Women's"));
+                        Scene primary_scene = new Scene(root, 1200, 800);
+                        addListenersToScene(primary_scene);
+                        Platform.runLater(() -> curr_stage.setScene(primary_scene));
+                        //last_action = DateTime.now();
+                        Thread.sleep(sleep_time);
+                    } else {
+                        long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
+                        if(new_sleep_time <= 0) {
+                            new_sleep_time = 10000;
+                        }
+                        //System.out.println("Sleeping for " + new_sleep_time);
+                        Thread.sleep(new_sleep_time);
+                    }
+                }
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (IOException io_exception) {
+                io_exception.printStackTrace();
+            }
+        }
+    };
+
     static DateTime last_action = DateTime.now();
+
+    private static boolean kill;
 
     static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
     static Stage curr_stage;
@@ -57,39 +93,12 @@ public class Timeout {
         curr_stage = stage;
     }
 
+    public static void stop() {
+        kill = true;
+        timeout_thread.interrupt();
+    }
+
     public static void start() {
-        new Thread() {
-            public void run() {
-                try {
-                    Thread.sleep(sleep_time);
-                    while(true) {
-                        //System.out.println(DateTime.now().getMillis());
-                        //System.out.println(last_action.getMillis());
-                        if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
-                            AllText.changeLanguage("en");
-                            Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                            Platform.runLater(() -> curr_stage.setTitle("Brigham and Women's"));
-                            Scene primary_scene = new Scene(root, 1200, 800);
-                            addListenersToScene(primary_scene);
-                            Platform.runLater(() -> curr_stage.setScene(primary_scene));
-                            //last_action = DateTime.now();
-                            Thread.sleep(sleep_time);
-                        } else {
-                            long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
-                            if(new_sleep_time <= 0) {
-                                new_sleep_time = 10000;
-                            }
-                            //System.out.println("Sleeping for " + new_sleep_time);
-                            Thread.sleep(new_sleep_time);
-                        }
-                    }
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (IOException io_exception) {
-                    io_exception.printStackTrace();
-                }
-            }
-        }.start();
+        timeout_thread.start();
     }
 }

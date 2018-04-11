@@ -10,21 +10,27 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class deals with the QR code image and methods relating to it.
+ * @author Mathew Puentes
+ * @author Mitch Gaines
+ * @version %I%, %G%
+ */
 public class QRCode {
 
     private String str2enc;
 
     /**
-     * Creates a new QRCode object form the string that needs to be encoded
-     * @param str2enc The string to be encoded as a QR-Code
+     * Creates a new QRCode object form the string that needs to be encoded.
+     * @param str2enc The string to be encoded as a QR-Code.
      */
     public QRCode(String str2enc) {
         this.str2enc = str2enc;
     }
 
     /**
-     * Creates a BufferedImage of the QR-Code that should be displayed
-     * @return the QR-Code image
+     * Creates a BufferedImage of the QR-Code that should be displayed.
+     * @return the QR-Code image.
      */
     public BufferedImage getQRCode(){
         QRCodeWriter qr_writer = new QRCodeWriter();

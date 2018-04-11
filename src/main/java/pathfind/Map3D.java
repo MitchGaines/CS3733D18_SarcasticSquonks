@@ -9,18 +9,34 @@ import javafx.scene.shape.Polyline;
 import jdk.nashorn.internal.ir.debug.ASTWriter;
 
 import java.util.ArrayList;
-
+/**
+ * Class that deals with the 3D version of the map and related methods.
+ * @author Will Lucca
+ * @author Mathew Puentes
+ * @author Mitch Gaines
+ * @version %I%, %G%
+ */
 public class Map3D extends Map {
 
-    public final int MAP_WIDTH = 5000;
-    public final int MAP_HEIGHT = 2774;
+
+    /**
+     * Stores the pixel count for the map width.
+     */
+    private final int MAP_WIDTH = 5000;
+    /**
+     * Stores the pixel count for the map height.
+     */
+    private final int MAP_HEIGHT = 2774;
 
     /**
      * Constructs a 3D map with path drawing capabilities
-     * @param map FXML ImageView that the map refers to
-     * @param path_polyline FXML Polyline used for drawing on the map
-     * @param destination_img FXML ImageView that will mark the destination of the path
-     * @author Will Lucca
+     * @param map FXML ImageView that the map refers to.
+     * @param path_polyline FXML Polyline used for drawing on the map.
+     * @param path_polyline_2
+     * @param destination_img FXML ImageView that will mark the destination of the path.
+     * @param destination_img
+     * @param scroll_pane
+     * @param floor
      */
     public Map3D(ImageView map, Polyline path_polyline, Polyline path_polyline_2, ImageView destination_img,
                  ScrollPane scroll_pane, AnchorPane map_anchor_pane, int floor){
@@ -33,7 +49,10 @@ public class Map3D extends Map {
         this.floor = floor;
     }
 
-
+    /**
+     * drawPath
+     * Draws a path onto of the map image by drawing a line between nodes in the path of the object.
+     */
     public void drawPath() {
         double x_coord = 0;
         double y_coord = 0;
