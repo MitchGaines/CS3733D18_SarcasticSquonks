@@ -46,6 +46,8 @@ public class PathfindController {
     private int current_floor;
     private Map map;
 
+    private static boolean PATHFIND_READY = false;
+
     @FXML
     Button back_button;
 
@@ -95,6 +97,7 @@ public class PathfindController {
     }
 
     public void doPathfinding(String node1, String node2) {
+        PATHFIND_READY = false;
         this.node1 = db_storage.getNodeByID(node1);
         this.node2 = db_storage.getNodeByID(node2);
         map.clearIcons();
@@ -131,19 +134,23 @@ public class PathfindController {
         pathfinder.findShortestPath(this.node1.getNodeID(), this.node2.getNodeID());
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
-        // Centering ScrollPane on path
-        int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
-        int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
-        map_scroll_pane.setHvalue(start_x);
-        map_scroll_pane.setVvalue(start_y);
+        if(pathfinder.pathfinder_path.getAStarNodePath().size()>1){
+            // Centering ScrollPane on path
+            int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
+            int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
+            map_scroll_pane.setHvalue(start_x);
+            map_scroll_pane.setVvalue(start_y);
 
-        QRCode qr = null;
-        try {
-            qr = new QRCode(pathfinder.pathfinder_path.getPathDirections().toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+          map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
+            QRCode qr = null;
+            try {
+                qr = new QRCode(pathfinder.pathfinder_path.getPathDirections().toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+            PATHFIND_READY = true;
         }
-        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
     public void quickLocationFinding(String start_id, String goal_id){
@@ -310,5 +317,9 @@ public class PathfindController {
             return new Image(images2d[floor]);
         else
             return new Image(images3d[floor]);
+    }
+
+    public static boolean isPathfindReady(){
+        return PATHFIND_READY;
     }
 }
