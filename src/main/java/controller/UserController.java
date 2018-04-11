@@ -50,6 +50,7 @@ public class UserController{
     public void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
+        populateBoxes();
     }
 
     @FXML
@@ -59,6 +60,7 @@ public class UserController{
 
     public void populateBoxes() {
         serviceAreaController.populateRequestTypes();
+        serviceAreaController.populateRequestsBox();
     }
 
     public void openLog(ActionEvent event) throws IOException {
