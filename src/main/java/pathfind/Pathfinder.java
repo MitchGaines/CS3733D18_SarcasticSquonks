@@ -8,31 +8,63 @@ import java.util.*;
 
 /**
  * Pathfinder.java
- * loads from database and calculates the fastest path between given nodes
- * Author: Noah Hillman
+ * Loads from database and calculates the fastest path between given nodes.
+ * @author Noah Hillman
+ * @version %I%, %G%
  * Date: April 2, 2018
  */
 
 public class Pathfinder {
+    /**
+     * Stores a HashMap of the Algorithm nodes on the map.
+     */
     HashMap<String, AStarNode> algorithm_node_map = new HashMap<>();
+
+    /**
+     * Stores a HashMap of the Nodes.
+     */
     HashMap<String, Node> nodes = new HashMap();
+
+    /**
+     * Stores a HashMap of the Edges.
+     */
     HashMap<String, Edge> edges = new HashMap();
+
+    /**
+     * Stores the Goal node.
+     */
     AStarNode goal;
+
+    /**
+     * Stores the Start node.
+     */
     AStarNode start;
+
+    /**
+     * Stores the path.
+     */
     public Path pathfinder_path = new Path();
+
+    /**
+     * Stores the path finding algorithm.
+     */
     private ISearchAlgorithm algorithm;
 
+    /**
+     * Sets the Path finding algorithm.
+     * @param algorithm
+     */
     public Pathfinder(ISearchAlgorithm algorithm){
         this.algorithm = algorithm;
     }
 
     /**
      * populateMap
-     * populates the fathfinder hashmap of a star nodes based on the given nodes and edges.
-     * updates the pathfinder path attribute
+     * populates the pathfinder HashMap of a star nodes based on the given nodes and edges
+     * updates the pathfinder path attribute.
      *
-     * @param nodes hashmap of nodes, with the nodes id as the key
-     * @param edges hashmap of edges, which contain node ids to be neighbored
+     * @param nodes HashMap of nodes, with the nodes id as the key.
+     * @param edges HashMap of edges, which contain node ids to be neighbored.
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges){
         for(Node node: nodes.values()){
@@ -47,6 +79,9 @@ public class Pathfinder {
         }
     }
 
+    /**
+     * Loads the Database info.
+     */
     private void loadDBData(){
         //TODO update once database gets fixed to pull nodes and edges
         Storage db_storage = Storage.getInstance();
@@ -60,6 +95,12 @@ public class Pathfinder {
     }
 
     //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
+
+    /**
+     * Finds the shortest path between nodes by taking in their Id's.
+     * @param startID Start node's Id.
+     * @param goalID Destination node's Id.
+     */
     public void findShortestPath(String startID, String goalID){
         loadDBData();
         if(algorithm_node_map.size()==0){
@@ -83,6 +124,12 @@ public class Pathfinder {
     }
 
     //returns the pathfinder_path (ordered start ---> finish) given the last node
+
+    /**
+     * Reconstructs the path by following the parent nodes to the start node.
+     * @param end The end node
+     * @return the reconstructed path.
+     */
     private Path reconstructPath(AStarNode end){
         AStarNode previous = end;
         while(true){
