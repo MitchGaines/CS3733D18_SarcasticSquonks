@@ -30,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
 import user.InvalidPasswordException;
 import user.InvalidUsernameException;
 import user.LoginHandler;
@@ -97,6 +98,28 @@ public class HomePageController {
      */
     public void initialize() {
         locations.addAll(Storage.getInstance().getAllNodes());
+        StringConverter<data.Node> string_node_converter = new StringConverter<data.Node>() {
+            @Override
+            public String toString(data.Node node) {
+                if (node == null) {
+                    return "";
+                } else {
+                    return node.toString();
+                }
+            }
+
+            @Override
+            public data.Node fromString(String long_name) {
+                for (data.Node node : locations) {
+                    if (node.getLongName().equals(long_name)) {
+                        return node;
+                    }
+                }
+                return null;
+            }
+        };
+        combobox_start.setConverter(string_node_converter);
+        combobox_end.setConverter(string_node_converter);
 
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
         for(data.Node location : locations){
@@ -198,16 +221,15 @@ public class HomePageController {
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
      * @param e KeyEvent representing the key that was typed.
-     * @author Will Lucca
      */
     @FXML
-    void onKeyPressedComboBox(KeyEvent e) {
+    void onKeyReleasedComboBox(KeyEvent e) {
         ComboBox<data.Node> combo_box = (ComboBox<data.Node>)(e.getSource());
         ObservableList<data.Node> filteredItems = FXCollections.observableArrayList();
         combo_box.show();
         TextField editor = combo_box.getEditor();
 
-        if(editor.getText().equals("")
+        if (editor.getText().equals("")
                 || e.getCode() == KeyCode.BACK_SPACE
                 || e.getCode() == KeyCode.DELETE
                 || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
@@ -218,8 +240,8 @@ public class HomePageController {
         String user_text = editor.getText().toLowerCase();
         items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
 
-        if(!e.getCode().isArrowKey()) { // Doesn't change list while user is navigating dropdown with arrow keys
-            if(e.getCode() == KeyCode.ENTER) {
+        if (!e.getCode().isArrowKey()) { // Doesn't change list while user is navigating dropdown with arrow keys
+            if (e.getCode() == KeyCode.ENTER) {
                 // Pressing enter clear the edit field if it was autocompleted. This prevents
                 // that by storing the editor text and putting it back in afterwards
                 String current_editor = editor.getText();
@@ -232,7 +254,7 @@ public class HomePageController {
 
             // Resize drop down
             int new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
-            if(new_visible_size != combo_box.getVisibleRowCount()) {
+            if (new_visible_size != combo_box.getVisibleRowCount()) {
                 combo_box.hide();
                 combo_box.setVisibleRowCount(new_visible_size);
                 combo_box.show();
