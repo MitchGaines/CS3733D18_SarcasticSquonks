@@ -96,7 +96,7 @@ public class ModifyMapController {
 
         zoom_factor = 1;
 
-        scroll_pane.setVvalue(0.25);
+        scroll_pane.setVvalue(0.5);
         scroll_pane.setHvalue(0.25);
 
         ObservableList<String> lop = FXCollections.observableArrayList();
@@ -290,9 +290,6 @@ public class ModifyMapController {
     TextField location_one, location_two, location_to_delete;
 
     @FXML
-    Button add_edge, cancel_edge;
-
-    @FXML
     VBox add_edge_box, delete_loc_box;
 
     private Boolean first_click;
@@ -309,10 +306,10 @@ public class ModifyMapController {
     public void onConfirm3dClick() {
         pane.getChildren().clear();
         pane.getChildren().add(map);
-        map.setImage(new Image("/images/02_thesecondfloor.png"));
+        map.setImage(new Image(choose2DMap()));
         makeMap(storage.getAllNodes());
 
-        ImageView pin = new ImageView("images/nodeIcon.png");
+        ImageView pin = new ImageView("images/mapIcons/nodeIcon.png");
         pin.setX(new_node.getXCoord());
         pin.setY(new_node.getYCoord());
         nodes_list.put(new_node, pin);
@@ -324,6 +321,29 @@ public class ModifyMapController {
         location_or_path.getSelectionModel().selectFirst();
         confirm_3d.setVisible(false);
         choose_floor.setVisible(true);
+    }
+
+    private String choose2DMap() {
+        String toReturn = "";
+        if (choose_floor.getValue().toString().equals("Ground Floor")) {
+            toReturn = "images/2dMaps/00_thegroundfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+            toReturn = "images/2dMaps/00_thelowerlevel1.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+            toReturn = "images/2dMaps/00_thelowerlevel2.png";
+        }
+        else if (choose_floor.getValue().toString().equals("First Floor")) {
+            toReturn = "images/2dMaps/01_thefirstfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+           toReturn = "images/2dMaps/02_thesecondfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+            toReturn = "images/2dMaps/03_thethirdfloor.png";
+        }
+        return toReturn;
     }
 
     public void onMouseClick(MouseEvent click) {
@@ -366,7 +386,7 @@ public class ModifyMapController {
                     short_name.getText(), "S", 1000, 1000); //TODO: id function
             pane.getChildren().clear();
             pane.getChildren().add(map);
-            map.setImage(new Image("images/2-ICONS.png"));
+            map.setImage(new Image(select3DMap()));
             pin = new ImageView("images/mapIcons/nodeIcon.png");
             pin.setX(new_node.getXCoord3D());
             pin.setY(new_node.getYCoord3D());
@@ -419,6 +439,29 @@ public class ModifyMapController {
                 }
             }
         }
+    }
+
+    private String select3DMap() {
+        String toReturn = "";
+        if (choose_floor.getValue().toString().equals("Ground Floor")) {
+            toReturn = "images/2dMaps/00_thegroundfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+            toReturn = "images/3dMaps/L1-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+            toReturn = "images/3dMaps/L2-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("First Floor")) {
+            toReturn = "images/3dMaps/1-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+            toReturn = "images/3dMaps/2-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+            toReturn = "images/3dMaps/3-NO-ICONS.png";
+        }
+        return toReturn;
     }
 
     private Map.Entry<data.Node, ImageView> entry_to_delete;
