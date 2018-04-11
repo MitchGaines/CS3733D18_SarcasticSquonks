@@ -131,12 +131,14 @@ public class ServiceAreaController {
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+        //populateRequestsBox();
     }
 
     private UserController parent;
 
     public void setParent(UserController user_controller) {
         parent = user_controller;
+        parent.dismissEmergency();
     }
 
 }
