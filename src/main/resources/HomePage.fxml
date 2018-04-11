@@ -100,8 +100,8 @@
                         <Insets top="-40.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXComboBox fx:id="combobox_start" focusColor="#4863a0" labelFloat="true" promptText="%start_location" style="-fx-font-size: 23;" />
-                  <JFXComboBox fx:id="combobox_end" focusColor="#4863a0" labelFloat="true" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
+                  <JFXComboBox fx:id="combobox_start" editable="true" focusColor="#4863a0" labelFloat="true" onKeyReleased="#onKeyReleasedComboBox" promptText="%start_location" style="-fx-font-size: 23;" />
+                  <JFXComboBox fx:id="combobox_end" editable="true" focusColor="#4863a0" labelFloat="true" onKeyReleased="#onKeyReleasedComboBox" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
                   <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
                   <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
                </children>
