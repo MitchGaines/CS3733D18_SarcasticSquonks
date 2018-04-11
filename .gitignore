@@ -6,7 +6,6 @@ classes/
 build/
 derby.log
 *.class
-*.jar
 *.lock
 *.iml
 .DS_Store
