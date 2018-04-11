@@ -194,13 +194,19 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#zoom_in");
         clickOn("#back_button");
     }
-    /*
+
     @Test
     public void testQuickLocationInfo() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Lobby");
+        clickOn("15 Lobby Entrance Floor 2");
         clickOn("#INFO");
         clickOn("#back_button");
     }
-    */
+
 
     @Test
     public void testQuickLocationRest() {
