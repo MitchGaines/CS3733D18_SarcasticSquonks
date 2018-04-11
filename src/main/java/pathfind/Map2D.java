@@ -8,19 +8,33 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Polyline;
 import java.util.ArrayList;
-
+/**
+ * Class that deals with the 2D version of the map and related methods.
+ * @author Will Lucca
+ * @author Mathew Puentes
+ * @author Mitch Gaines
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class Map2D extends Map {
 
-    public final int MAP_WIDTH = 5000;
-    public final int MAP_HEIGHT = 3400;
+    /**
+     * Stores the pixels count for the map width.
+     */
+    private final int MAP_WIDTH = 5000;
+    /**
+     * Stores the pixel count for the map height.
+     */
+    private final int MAP_HEIGHT = 3400;
 
     /**
+     * Map2D
      * Constructs a 2D map with path drawing capabilities.
      * @param map FXML ImageView that the map refers to.
      * @param path_polyline FXML Polyline used for drawing on the map.
      * @param destination_img FXML ImageView that will mark the destination of the path.
      * @param scroll_pane FXML ScrollPane containing map image.
-     * @author Will Lucca
+     * @param floor The floor the pathway is on.
      */
     public Map2D(ImageView map, Polyline path_polyline, Polyline path_polyline_2, ImageView destination_img,
                  ScrollPane scroll_pane, AnchorPane map_anchor_pane, int floor){
@@ -33,6 +47,10 @@ public class Map2D extends Map {
         this.floor = floor;
     }
 
+    /**
+     * drawPath
+     * Draws a path onto of the map image by drawing a line between nodes in the path of the object.
+     */
     public void drawPath() {
         double x_coord = 0;
         double y_coord = 0;
