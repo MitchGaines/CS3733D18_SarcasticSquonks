@@ -235,6 +235,9 @@ public class ModifyMapController {
         Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
         Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         admin_stage.setTitle("User");
+
+        Timeout.addListenersToScene(admin_scene);
+
         admin_stage.setScene(admin_scene);
         admin_stage.show();
     }

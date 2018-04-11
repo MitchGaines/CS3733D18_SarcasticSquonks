@@ -137,10 +137,14 @@ public class HomePageController {
         }
         try {
             AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
-            Parent root     = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Parent root   = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
             Stage primary_stage = (Stage) language_selector.getScene().getWindow();
             primary_stage.setTitle("Brigham and Women's");
-            primary_stage.setScene(new Scene(root, 1200, 800));
+            Scene primary_scene = new Scene(root, 1200, 800);
+
+            Timeout.addListenersToScene(primary_scene);
+
+            primary_stage.setScene(primary_scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,7 +182,12 @@ public class HomePageController {
         if(PathfindController.isPathfindReady()){
             Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             pathfind_stage.setTitle("Pathfinder");
-            pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+
+            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+
+            Timeout.addListenersToScene(pathfind_parent_scene);
+
+            pathfind_stage.setScene(pathfind_parent_scene);
             pathfind_stage.show();
         }
     }
@@ -197,7 +206,12 @@ public class HomePageController {
 
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+
+        Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+
+        Timeout.addListenersToScene(pathfind_parent_scene);
+
+        pathfind_stage.setScene(pathfind_parent_scene);
         pathfind_stage.show();
     }
 
@@ -234,6 +248,9 @@ public class HomePageController {
         Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
+
+        Timeout.addListenersToScene(user_scene);
+
         user_stage.setScene(user_scene);
         user_stage.show();
     } //END OF TEST

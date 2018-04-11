@@ -34,7 +34,16 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         primaryStage.setTitle("Brigham and Women's");
-        primaryStage.setScene(new Scene(root, 1200, 800));
+
+        Scene primary_scene = new Scene(root, 1200, 800);
+
+        Timeout.setCurrStage(primaryStage);
+
+        Timeout.addListenersToScene(primary_scene);
+
+        Timeout.start();
+
+        primaryStage.setScene(primary_scene);
         primaryStage.show();
 
         //ServiceType.createDummyTypes();
