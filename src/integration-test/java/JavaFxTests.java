@@ -114,6 +114,12 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testPathfind() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
@@ -126,6 +132,12 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#language_selector");
         clickOn("Spanish");
         clickOn("Confirm");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
@@ -136,6 +148,12 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testQRcodePopUp() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
@@ -147,6 +165,12 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testMapSwitcher() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
@@ -161,24 +185,41 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testSwitchFloors() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         clickOn("#map_img");
+        verifyThat("#floor_indicator", hasText("2"));
         clickOn("Up");
+        verifyThat("#floor_indicator", hasText("3"));
         clickOn("Down");
+        verifyThat("#floor_indicator", hasText("2"));
         clickOn("Up");
+        verifyThat("#floor_indicator", hasText("3"));
         clickOn("#toggle_map_btn");
         clickOn("#map_img");
-        clickOn("Up");
         clickOn("Down");
+        verifyThat("#floor_indicator", hasText("2"));
         clickOn("Up");
+        verifyThat("#floor_indicator", hasText("3"));
         clickOn("#back_button");
     }
 
     @Test
     public void testMapZoom() {
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        clickOn("#combobox_start");
+        write("15 Francis");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
         write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
