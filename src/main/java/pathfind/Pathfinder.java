@@ -39,8 +39,8 @@ public class Pathfinder {
 
         for(Edge connection: edges.values()){
             if(algorithm_node_map.containsKey(connection.getStartNode()) && algorithm_node_map.containsKey(connection.getEndNode())){
-                algorithm_node_map.get(connection.getStartNode()).neighbors.add(algorithm_node_map.get(connection.getEndNode()));
-                algorithm_node_map.get(connection.getEndNode()).neighbors.add(algorithm_node_map.get(connection.getStartNode()));
+                algorithm_node_map.get(connection.getStartNode()).addNeighbor(algorithm_node_map.get(connection.getEndNode()));
+                algorithm_node_map.get(connection.getEndNode()).addNeighbor(algorithm_node_map.get(connection.getStartNode()));
             }
         }
     }

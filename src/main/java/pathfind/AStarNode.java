@@ -1,4 +1,6 @@
 package pathfind;
+import controller.HomePageController;
+
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class AStarNode {
-    public ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
+    private ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
     private AStarNode parent = null;
     private double f_cost;
     private double h_cost;
@@ -128,5 +130,20 @@ public class AStarNode {
 
     public int getY_coord_3d() {
         return y_coord_3d;
+    }
+
+    public ArrayList<AStarNode> getNeighbors() {
+        if(!HomePageController.includeStairs()){
+            for(AStarNode neighbor: this.neighbors){
+                if(neighbor.getID().contains("STAI") && !this.floor.equals(neighbor.floor)){
+                    this.neighbors.remove(neighbor);
+                }
+            }
+        }
+        return this.neighbors;
+    }
+
+    public void addNeighbor(AStarNode neighbor){
+        this.neighbors.add(neighbor);
     }
 }
