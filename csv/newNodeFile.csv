@@ -1,4 +1,4 @@
-nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned,xcoord3d,ycoord3d
+node_id,x_coord,y_coord,floor,building,node_type,long_name,short_name,team_assigned,x_coord_3d,y_coord_3d
 BCONF00102,2150,1025,2,45 Francis,CONF,Duncan Reid Conference Room,Conf B0102,Team B,2014,1423
 BHALL03802,2279,786,2,45 Francis,HALL,Hallway Intersection 38 Level 2,Hallway B3802,Team B,2193,1323
 BDEPT00202,2166,1039,2,45 Francis,DEPT,Oral Medicine and Dentistry,DEPT B0202,Team B,2013,1435

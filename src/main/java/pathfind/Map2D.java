@@ -5,6 +5,7 @@ package pathfind;
 import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Polyline;
 import java.util.ArrayList;
 
@@ -21,12 +22,14 @@ public class Map2D extends Map {
      * @param scroll_pane FXML ScrollPane containing map image.
      * @author Will Lucca
      */
-    public Map2D(ImageView map, Polyline path_polyline, Polyline path_polyline_2, ImageView destination_img, ScrollPane scroll_pane, int floor){
+    public Map2D(ImageView map, Polyline path_polyline, Polyline path_polyline_2, ImageView destination_img,
+                 ScrollPane scroll_pane, AnchorPane map_anchor_pane, int floor){
         this.map = map;
         this.path_polyline = path_polyline;
         this.path_polyline_2 = path_polyline_2;
         this.destination_img = destination_img;
         this.scroll_pane = scroll_pane;
+        this.map_anchor_pane = map_anchor_pane;
         this.floor = floor;
     }
 
@@ -37,10 +40,12 @@ public class Map2D extends Map {
         path_polyline_2.getPoints().clear();
         Bounds img_bounds = map.getBoundsInParent();
 
+        String last_floor_accessed = "";
         boolean polyline_begun = false;
         boolean polyline_broken = false;
         for (AStarNode node : path){
-            if (Map.floor_ids[this.floor].equals(node.floor)) {
+            if (Map.floor_ids.get(this.floor).equals(node.floor)) {
+                last_floor_accessed = node.floor;
                 polyline_begun = true;
                 x_coord = ((double) node.getXCoord() / MAP_WIDTH) * img_bounds.getWidth() + img_bounds.getMinX();
                 y_coord = ((double) node.getYCoord() / MAP_HEIGHT) * img_bounds.getHeight() + img_bounds.getMinY();
@@ -48,8 +53,17 @@ public class Map2D extends Map {
                     path_polyline_2.getPoints().addAll(x_coord, y_coord);
                 else
                     path_polyline.getPoints().addAll(x_coord, y_coord);
+
+                if(path.indexOf(node) == 0){
+                    addIcon(x_coord, y_coord, "images/mapIcons/startingIcon.png");
+                }
             }
             else if(polyline_begun) {
+                if(Map.floor_ids.indexOf(node.floor) > Map.floor_ids.indexOf(last_floor_accessed)){
+                    addIcon(x_coord, y_coord, "images/mapIcons/up.png");
+                }else{
+                    addIcon(x_coord, y_coord, "images/mapIcons/down.png");
+                }
                 polyline_broken = true;
                 polyline_begun = false;
             }
@@ -58,13 +72,5 @@ public class Map2D extends Map {
         // Positioning star
         destination_img.setTranslateX(x_coord - destination_img.getFitWidth() / 2);
         destination_img.setTranslateY(y_coord - destination_img.getFitHeight() / 2);
-
-        // Centering ScrollPane on path
-        int start_x = path.get(0).getXCoord();
-        int end_x = path.get(path.size() - 1).getXCoord();
-        int start_y = path.get(0).getYCoord();
-        int end_y = path.get(path.size() - 1).getYCoord();
-        scroll_pane.setHvalue(start_x); //+ Math.abs((end_x - start_x) / 2));
-        scroll_pane.setVvalue(start_y); //+ Math.abs((end_y - start_y) / 2));
     }
 }
