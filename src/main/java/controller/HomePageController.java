@@ -42,6 +42,7 @@ import user.User;
 public class HomePageController {
 
     private static boolean include_stairs = true;
+    private static String KIOSK_DEFAULT_LOCATION = "BINFO00102";
 
     @FXML
     JFXButton pathfind;
@@ -138,9 +139,16 @@ public class HomePageController {
         }
         locations.removeAll(to_remove);
         Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
+        int default_index = 0;
+        for(int i = 0; i<locations.size(); i++){
+            if(locations.get(i).getNodeID().equals(KIOSK_DEFAULT_LOCATION)){
+                default_index = i;
+                break;
+            }
+        }
 
         combobox_start.setItems(locations);
-        combobox_start.setValue(locations.iterator().next());
+        combobox_start.setValue(locations.get(default_index));
         combobox_end.setItems(locations);
 
         loginHandler = new LoginHandler();
@@ -222,6 +230,11 @@ public class HomePageController {
     void onQuickClick(ActionEvent event) throws IOException{
         Button button = (Button) event.getSource();
         if(combobox_start.getValue().getNodeID().contains(button.getId())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Can't Get Directions");
+            alert.setHeaderText("You have specified a location, however you are already there");
+            alert.setContentText("Reason: You are already at the type location you have specified, please choose another quick-select location");
+            alert.showAndWait();
             return;
         }
         Window window = main_pane.getScene().getWindow();
@@ -328,5 +341,9 @@ public class HomePageController {
 
     public static boolean includeStairs(){
         return include_stairs;
+    }
+
+    public static void setKioskDefaultLocation(String kioskDefaultLocation) {
+        KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
     }
 }
