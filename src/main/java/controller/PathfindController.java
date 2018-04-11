@@ -4,6 +4,7 @@ import database.Storage;
 import internationalization.AllText;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +18,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -119,6 +121,9 @@ public class PathfindController {
         Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
+
+        Timeout.addListenersToScene(home_scene);
+
         home_stage.setScene(home_scene);
         home_stage.show();
     }
