@@ -206,6 +206,11 @@ public class PathfindController {
         this.node1 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(0).getID());
         this.node2 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(quickFinder.pathfinder_path.getAStarNodePath().size()-1).getID());
 
+        double start_x = quickFinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+        double start_y = quickFinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
+        map_scroll_pane.setHvalue(start_x);
+        map_scroll_pane.setVvalue(start_y);
+
         // Building QR code and placing in scene
         QRCode qr = null;
         try {
