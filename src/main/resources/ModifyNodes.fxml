@@ -117,6 +117,11 @@
                         <JFXButton fx:id="cancel_delete" buttonType="RAISED" onAction="#onDeleteLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge" />
                      </children>
                   </VBox>
+                  <JFXTextField fx:id="kiosk_location_name" alignment="CENTER" focusColor="#4863a0" promptText="%location" visible="false">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXTextField>
                </children>
             </StackPane>
             <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23;" />
