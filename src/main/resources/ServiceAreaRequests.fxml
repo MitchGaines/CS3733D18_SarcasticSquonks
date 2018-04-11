@@ -21,7 +21,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0">
+      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="27.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%make_request_label">
                <font>
@@ -37,14 +37,11 @@
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="service_location" alignment="CENTER" focusColor="#4863a0" promptText="%service_location">
-               <font>
-                  <Font size="23.0" />
-               </font>
+            <JFXComboBox fx:id="service_location" editable="true" onKeyReleased="#onKeyReleasedComboBox" focusColor="#4863a0" labelFloat="true" promptText="%service_location" style="-fx-font-size: 23;">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
-            </JFXTextField>
+            </JFXComboBox>
             <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="%service_description">
                <font>
                   <Font size="23.0" />
