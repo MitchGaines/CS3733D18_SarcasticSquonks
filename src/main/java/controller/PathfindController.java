@@ -167,9 +167,8 @@ public class PathfindController {
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
         if(pathfinder.pathfinder_path.getAStarNodePath().size()>1){
-            // Centering ScrollPane on path
-            int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
-            int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
+            double start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
 
@@ -229,8 +228,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -249,8 +248,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }

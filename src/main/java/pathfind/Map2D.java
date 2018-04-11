@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class Map2D extends Map {
 
-    private final int MAP_WIDTH = 5000;
-    private final int MAP_HEIGHT = 3400;
+    public final int MAP_WIDTH = 5000;
+    public final int MAP_HEIGHT = 3400;
 
     /**
      * Constructs a 2D map with path drawing capabilities.
