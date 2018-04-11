@@ -45,7 +45,7 @@ public class Main extends Application {
         primaryStage.setScene(primary_scene);
         primaryStage.show();
 
-        //ServiceType.createDummyTypes();
+        ServiceType.createDummyTypes();
         //TODO: actually use LoginHandler correctly.
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {
