@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * @version %I%, %G%
  */
 public class Map2D extends Map {
+
     /**
      * Stores the pixels count for the map width.
      */

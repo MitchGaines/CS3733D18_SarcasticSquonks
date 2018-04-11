@@ -30,6 +30,7 @@ public abstract class Map {
      */
     public final static int FLOOR_CHANGE_COST = 340; //in pixel cost (approx 12 pixels/second for walking speed)
 
+
     /**
      * Stores the Map image.
      */
@@ -106,6 +107,8 @@ public abstract class Map {
     public void setFloor(int floor){
         this.floor = floor;
     }
+
+    public int getFloor() {return floor;}
 
     public abstract void drawPath();
 

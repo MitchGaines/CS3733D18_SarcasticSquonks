@@ -68,6 +68,9 @@ public class ModifyMapController {
     TextField short_name;
 
     @FXML
+    TextField kiosk_location_name;
+
+    @FXML
     AnchorPane pane;
 
     @FXML
@@ -126,13 +129,13 @@ public class ModifyMapController {
         }
 
         ObservableList<String> floors = FXCollections.observableArrayList();
-        floors.addAll("Ground Floor", "Lower Level One", "Lower Level Two", "First Floor", "Second Floor", "Third Floor");
+        floors.addAll("Lower Level Two", "Lower Level One", "Ground Floor", "First Floor", "Second Floor", "Third Floor");
         choose_floor.setItems(floors);
 
         List<String> short_floor = new ArrayList<>();
-        short_floor.add("G");
-        short_floor.add("L1");
         short_floor.add("L2");
+        short_floor.add("L1");
+        short_floor.add("G");
         short_floor.add("1");
         short_floor.add("2");
         short_floor.add("3");
@@ -151,7 +154,7 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes());
 
         lop = FXCollections.observableArrayList();
-        lop.addAll("View Map","Add Location", "Add Path", "Delete Location");
+        lop.addAll("View Map","Add Location", "Add Path", "Delete Location", "Set Kiosk Location");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
@@ -235,6 +238,9 @@ public class ModifyMapController {
         Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
         Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         admin_stage.setTitle("User");
+
+        Timeout.addListenersToScene(admin_scene);
+
         admin_stage.setScene(admin_scene);
         admin_stage.show();
     }
@@ -266,26 +272,36 @@ public class ModifyMapController {
             add_edge_box.setVisible(true);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("Add Location")) {
             add_node_box.setVisible(true);
             add_edge_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("View Map")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("Delete Location")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(true);
+            kiosk_location_name.setVisible(false);
+        }
+        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+            add_edge_box.setVisible(false);
+            add_node_box.setVisible(false);
+            delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(true);
         }
     }
 
     @FXML
-    TextField location_one, location_two, location_to_delete;
+    TextField location_one, location_two, location_to_delete, kiosk_location;
 
     @FXML
     VBox add_edge_box, delete_loc_box;
@@ -422,6 +438,16 @@ public class ModifyMapController {
                 if (entry.getValue().contains(pt)) {
                     entry_to_delete = entry;
                     location_to_delete.setText(entry.getKey().getNodeID());
+                }
+            }
+        }
+
+        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+            Point2D pt = new Point2D(click.getX(), click.getY());
+            for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
+                if (entry.getValue().contains(pt)) {
+                    HomePageController.setKioskDefaultLocation(entry.getKey().getNodeID());
+                    kiosk_location_name.setText(entry.getKey().getShortName());
                 }
             }
         }
