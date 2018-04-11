@@ -3,6 +3,7 @@ package controller;
 import com.kylecorry.lann.NN;
 import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
 import com.kylecorry.lann.activation.Linear;
+import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.lann.activation.Softmax;
 import com.kylecorry.matrix.Matrix;
 import com.jfoenix.controls.JFXComboBox;
@@ -359,7 +360,7 @@ public class ModifyMapController {
             List<data.Node> nn_nodes_list  = storage.getAllNodes();
 
             PersistentMachineLearningAlgorithm nn = new NN.Builder()
-                    .addLayer(2,8, new Softmax())
+                    .addLayer(2,8, new ReLU())
                     .addLayer(8, 2, new Linear())
                     .build();
 
@@ -376,7 +377,7 @@ public class ModifyMapController {
 
 
             Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
-          
+
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
