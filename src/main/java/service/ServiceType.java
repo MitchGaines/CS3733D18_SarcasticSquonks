@@ -19,21 +19,36 @@ import java.util.stream.Stream;
 public class ServiceType {
 
     /**
-     * Creating three dummy types, adding appropriate staff as the fulfillers
+     * Creating dummy types, adding appropriate staff as the fulfillers
      */
     public static void createDummyTypes() {
         LoginHandler.__generateDummyUsers();
         HashSet<User> doctors = new HashSet<>();
         HashSet<User> staff = new HashSet<>();
         HashSet<User> admins = new HashSet<>();
+        HashSet<User> cardio = new HashSet<>();
+        HashSet<User> plasticspete = new HashSet<>();
+        HashSet<User> russians = new HashSet<>();
+        HashSet<User> spanish = new HashSet<>();
 
         doctors.add(LoginHandler.getUsers().get(0));
+        doctors.add(LoginHandler.getUsers().get(3));
+        doctors.add(LoginHandler.getUsers().get(4));
         admins.add(LoginHandler.getUsers().get(1));
         staff.add(LoginHandler.getUsers().get(2));
+        cardio.add(LoginHandler.getUsers().get(3));
+        plasticspete.add(LoginHandler.getUsers().get(4));
+        spanish.add(LoginHandler.getUsers().get(5));
+        russians.add(LoginHandler.getUsers().get(6));
+
 
         createServiceType("Medical", true, doctors);
         createServiceType("Custodial", false, staff);
         createServiceType("Administrative", false, admins);
+        createServiceType("Cardiology", true, cardio);
+        createServiceType("Plastics", false, plasticspete);
+        createServiceType("Spanish", true, spanish);
+        createServiceType("Russian", true, russians);
     }
 
     /**
