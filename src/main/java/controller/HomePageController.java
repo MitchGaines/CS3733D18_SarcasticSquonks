@@ -120,7 +120,6 @@ public class HomePageController {
                 break;
             }
         }
-        System.out.println("default location index = " + default_index);
 
         combobox_start.setItems(locations);
         combobox_start.setValue(locations.get(default_index));
