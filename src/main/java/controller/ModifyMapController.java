@@ -377,7 +377,7 @@ public class ModifyMapController {
 
 
             Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
-            System.out.println(predict_3d);
+
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
