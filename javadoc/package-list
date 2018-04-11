@@ -1,8 +1,8 @@
 
-controller
-data
-database
-internationalization
-pathfind
-service
-user
+edu.wpi.cs3733d18.teamS.controller
+edu.wpi.cs3733d18.teamS.data
+edu.wpi.cs3733d18.teamS.database
+edu.wpi.cs3733d18.teamS.internationalization
+edu.wpi.cs3733d18.teamS.pathfind
+edu.wpi.cs3733d18.teamS.service
+edu.wpi.cs3733d18.teamS.user

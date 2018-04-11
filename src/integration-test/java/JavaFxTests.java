@@ -1,9 +1,9 @@
-//import controller.Main;
-//import database.ApacheDatabase;
-//import database.CSVReader;
-//import database.CSVWriter;
-//import database.Storage;
-//import internationalization.AllText;
+//import edu.wpi.cs3733d18.teamS.controller.Main;
+//import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+//import edu.wpi.cs3733d18.teamS.database.CSVReader;
+//import edu.wpi.cs3733d18.teamS.database.CSVWriter;
+//import edu.wpi.cs3733d18.teamS.database.Storage;
+//import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 //import javafx.fxml.FXMLLoader;
 //import javafx.geometry.HorizontalDirection;
 //import javafx.geometry.VerticalDirection;
@@ -37,7 +37,7 @@
 //    do not run as expected. Tests also take much longer at
 //    higher resolutions.
 //
-//    All tests return user to home screen if not on it.
+//    All tests return edu.wpi.cs3733d18.teamS.user to home screen if not on it.
 // */
 //
 //public class JavaFxTests extends ApplicationTest {
@@ -47,7 +47,7 @@
 //    public void start(Stage primaryStage) throws Exception{
 //        AllText.changeLanguage("en");
 //
-//        // set database and storage class
+//        // set edu.wpi.cs3733d18.teamS.database and storage class
 //        Storage storage = Storage.getInstance();
 //        storage.setDatabase(new ApacheDatabase("apacheDB"));
 //
@@ -97,7 +97,7 @@
 //        clickOn("#language_selector");
 //        clickOn("Spanish");
 //        clickOn("Confirm");
-//        verifyThat("#pathfind", hasText("Direcciones"));
+//        verifyThat("#edu.wpi.cs3733d18.teamS.pathfind", hasText("Direcciones"));
 //    }
 //
 //    /* Causes gradle to fail, passes on my machine. Possibly due to accented e in "Inglés"
@@ -123,7 +123,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        clickOn("#back_button");
 //    }
 //
@@ -141,7 +141,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        verifyThat("#toggle_map_btn", hasText("Mapa en 3D"));
 //        clickOn("#back_button");
 //    }
@@ -157,7 +157,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        clickOn("Step-by-Step Directions");
 //        clickOn("#expanded_qr");
 //        clickOn("#back_button");
@@ -174,7 +174,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        verifyThat("#toggle_map_btn", hasText("3D Map"));
 //        clickOn("#toggle_map_btn");
 //        verifyThat("#toggle_map_btn", hasText("2D Map"));
@@ -194,7 +194,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        clickOn("#map_img");
 //        verifyThat("#floor_indicator", hasText("2"));
 //        clickOn("Up");
@@ -223,7 +223,7 @@
 //        clickOn("#combobox_end");
 //        write("15 Lobby");
 //        clickOn("15 Lobby Entrance Floor 2");
-//        clickOn("#pathfind");
+//        clickOn("#edu.wpi.cs3733d18.teamS.pathfind");
 //        clickOn("#zoom_out");
 //        clickOn("#zoom_out");
 //        clickOn("#zoom_in");

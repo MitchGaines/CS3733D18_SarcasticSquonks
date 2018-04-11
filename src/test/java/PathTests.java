@@ -1,8 +1,6 @@
-import database.*;
-import org.junit.Test;
-import pathfind.*;
-import pathfind.Path;
-import pathfind.Pathfinder;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.pathfind.Path;
+import edu.wpi.cs3733d18.teamS.pathfind.Pathfinder;
 
 
 public class PathTests {
@@ -11,7 +9,7 @@ public class PathTests {
 
 //    @Test
 //    public void testAStar() throws Exception{
-//        // set database and storage class
+//        // set edu.wpi.cs3733d18.teamS.database and storage class
 //        Storage storage = Storage.getInstance();
 //        storage.setDatabase(new ApacheDatabase("apacheDB"));
 //
@@ -29,7 +27,7 @@ public class PathTests {
 //
 //    @Test
 //    public void testBreadthFirstNearestLocation() {
-//        // set database and storage class
+//        // set edu.wpi.cs3733d18.teamS.database and storage class
 //        Storage storage = Storage.getInstance();
 //        storage.setDatabase(new ApacheDatabase("apacheDB"));
 //

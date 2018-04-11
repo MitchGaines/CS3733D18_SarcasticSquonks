@@ -5,18 +5,12 @@
  * Date: March 28, 2018
  */
 
-import java.util.List;
-import data.Node;
-import data.Edge;
-import database.ApacheDatabase;
-import database.CSVReader;
-import database.CSVWriter;
-import database.Storage;
+import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.CSVReader;
+import edu.wpi.cs3733d18.teamS.database.CSVWriter;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-import user.User;
 
 public class CSVTestSuite {
 

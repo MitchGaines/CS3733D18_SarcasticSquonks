@@ -5,18 +5,16 @@
  * Date: March 30, 2018
  */
 
-import data.Edge;
-import data.Node;
-import database.Storage;
-import database.IDatabase;
-import database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.data.Edge;
+import edu.wpi.cs3733d18.teamS.data.Node;
+import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
+import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import service.ServiceRequest;
-import service.ServiceType;
-import user.User;
+import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class StorageTestSuite {
     // ------------------- STORAGE TESTS -------------------- //
 
     /**
-     * Set up tests for the database
+     * Set up tests for the edu.wpi.cs3733d18.teamS.database
      */
     @Before
     public void setUp() {
@@ -40,7 +38,7 @@ public class StorageTestSuite {
     // ------------------- NODE TESTS -------------------- //
 
     /**
-     * Test adding a node to the database
+     * Test adding a node to the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testAddNode() {
@@ -65,7 +63,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test deleting a node from the database
+     * Test deleting a node from the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testDeleteNode() {
@@ -99,7 +97,7 @@ public class StorageTestSuite {
         );
         storage.saveNode(new_node_2);
 
-        // delete a node from the database
+        // delete a node from the edu.wpi.cs3733d18.teamS.database
         storage.deleteNode(new_node);
 
         // check the length and the id of the remaining node
@@ -109,7 +107,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test updating a node in the database
+     * Test updating a node in the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testUpdateNode() {
@@ -131,7 +129,7 @@ public class StorageTestSuite {
         // change a field of the node
         old_node.setNodeBuilding("46 Francis");
 
-        // update database with new node
+        // update edu.wpi.cs3733d18.teamS.database with new node
         storage.updateNode(old_node);
 
         // check the field of the new node
@@ -226,7 +224,7 @@ public class StorageTestSuite {
     // ------------------- EDGE TESTS -------------------- //
 
     /**
-     * Test adding an edge to the database
+     * Test adding an edge to the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testAddEdge() {
@@ -237,7 +235,7 @@ public class StorageTestSuite {
         );
         storage.saveEdge(new_edge);
 
-        // check length of list returned by database
+        // check length of list returned by edu.wpi.cs3733d18.teamS.database
         List<Edge> edges = storage.getAllEdges();
         Assert.assertEquals(edges.size(), 1);
 
@@ -248,7 +246,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test deleting an edge from the database
+     * Test deleting an edge from the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testDeleteEdge() {
@@ -265,7 +263,7 @@ public class StorageTestSuite {
                 "node3"
         );
 
-        // delete an edge from the database
+        // delete an edge from the edu.wpi.cs3733d18.teamS.database
         storage.deleteEdge(edge2);
 
         // check length and fields of remaining node
@@ -275,7 +273,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test updating an edge in the database
+     * Test updating an edge in the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testUpdateEdge() {
@@ -290,7 +288,7 @@ public class StorageTestSuite {
         old_edge.setStartNode("node2");
         old_edge.setEndNode("node3");
 
-        // update database with new fields
+        // update edu.wpi.cs3733d18.teamS.database with new fields
         storage.updateEdge(old_edge);
 
         // check updated fields of new Edge, and that size didn't change
@@ -356,7 +354,7 @@ public class StorageTestSuite {
     // ------------------- USER TESTS -------------------- //
 
     /**
-     * Test adding a user to the database
+     * Test adding a edu.wpi.cs3733d18.teamS.user to the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testAddUser() {
@@ -371,7 +369,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test deleting a user from the database
+     * Test deleting a edu.wpi.cs3733d18.teamS.user from the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testDeleteUser() {
@@ -385,17 +383,17 @@ public class StorageTestSuite {
 
         storage.saveUser(new_user2);
 
-        // delete a user from the database
+        // delete a edu.wpi.cs3733d18.teamS.user from the edu.wpi.cs3733d18.teamS.database
         storage.deleteUser(new_user);
 
-        // check the length and the id of the remaining user
+        // check the length and the id of the remaining edu.wpi.cs3733d18.teamS.user
         List<User> users = storage.getAllUsers();
         Assert.assertEquals(users.size(), 1);
         Assert.assertEquals(users.get(0).getUserID(), 2);
     }
 
     /**
-     * Test updating a node in the database
+     * Test updating a node in the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testUpdateUser() {
@@ -404,19 +402,19 @@ public class StorageTestSuite {
 
         storage.saveUser(old_user);
 
-        // change a field of the user
+        // change a field of the edu.wpi.cs3733d18.teamS.user
         old_user.setCanModMap(false);
 
-        // update database with new user
+        // update edu.wpi.cs3733d18.teamS.database with new edu.wpi.cs3733d18.teamS.user
         storage.updateUser(old_user);
 
-        // check the field of the new user
+        // check the field of the new edu.wpi.cs3733d18.teamS.user
         User u = storage.getUserByID(old_user.getUserID());
         Assert.assertFalse(u.canModMap());
     }
 
     /**
-     * Test getting a specific user by id
+     * Test getting a specific edu.wpi.cs3733d18.teamS.user by id
      */
     @Test
     public void testGetUserByID() {
@@ -436,7 +434,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test getting a specific user by username
+     * Test getting a specific edu.wpi.cs3733d18.teamS.user by username
      */
     @Test
     public void testGetUserByName() {
@@ -456,7 +454,7 @@ public class StorageTestSuite {
     }
 
     /**
-     * Test getting a specific user by credentials
+     * Test getting a specific edu.wpi.cs3733d18.teamS.user by credentials
      */
     @Test
     public void testGetUserByCredentials() { // TODO this method uses the plain password as a check because of "'" character
@@ -500,7 +498,7 @@ public class StorageTestSuite {
     // ------------------- SERVICE TESTS --------------------
 
 //    /**
-//     * Test adding a service request to the database
+//     * Test adding a edu.wpi.cs3733d18.teamS.service request to the edu.wpi.cs3733d18.teamS.database
 //     */
 //    @Test
 //    public void testAddRequest() {
@@ -534,7 +532,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Test deleting a request from the database
+//     * Test deleting a request from the edu.wpi.cs3733d18.teamS.database
 //     */
 //    @Test
 //    public void testDeleteRequest() {
@@ -576,7 +574,7 @@ public class StorageTestSuite {
 //        request2.setFulfiller(new_user);
 //        storage.saveRequest(request2);
 //
-//        // delete a request from the database
+//        // delete a request from the edu.wpi.cs3733d18.teamS.database
 //        storage.deleteRequest(request);
 //
 //        // check the length of the list of requests returned
@@ -586,7 +584,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Test updating a request in the database
+//     * Test updating a request in the edu.wpi.cs3733d18.teamS.database
 //     */
 //    @Test
 //    public void testUpdateRequest() {
@@ -613,7 +611,7 @@ public class StorageTestSuite {
 //        request.setFulfiller(new_user);
 //        storage.saveRequest(request);
 //
-//        // now update a field of the request and update the database
+//        // now update a field of the request and update the edu.wpi.cs3733d18.teamS.database
 //        request.setTitle("cleanUp");
 //        storage.updateRequest(request);
 //
@@ -624,7 +622,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Test getting a service request by id
+//     * Test getting a edu.wpi.cs3733d18.teamS.service request by id
 //     */
 //    @Test
 //    public void testGetRequestByID() {
@@ -675,7 +673,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Test getting service requests by type
+//     * Test getting edu.wpi.cs3733d18.teamS.service requests by type
 //     */
 //    @Test
 //    public void testGetRequestsByType() {
@@ -737,7 +735,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Test getting all service requests assigned to a given user
+//     * Test getting all edu.wpi.cs3733d18.teamS.service requests assigned to a given edu.wpi.cs3733d18.teamS.user
 //     */
 //    @Test
 //    public void testGetRequestsForUser() {
@@ -792,13 +790,13 @@ public class StorageTestSuite {
 //        request3.setFulfiller(new_user);
 //        storage.saveRequest(request3);
 //
-//        // get all requests assigned to a user and check its length
+//        // get all requests assigned to a edu.wpi.cs3733d18.teamS.user and check its length
 //        List<ServiceRequest> requests = storage.getAllRequestsAssignedToUser(new_user2);
 //        Assert.assertEquals(requests.size(), 2);
 //    }
 //
 //    /**
-//     * Test getting all service requests by a given user
+//     * Test getting all edu.wpi.cs3733d18.teamS.service requests by a given edu.wpi.cs3733d18.teamS.user
 //     */
 //    @Test
 //    public void testGetRequestsByUser() {
@@ -853,7 +851,7 @@ public class StorageTestSuite {
 //        request3.setFulfiller(new_user);
 //        storage.saveRequest(request3);
 //
-//        // get all requests assigned by a user and check its length
+//        // get all requests assigned by a edu.wpi.cs3733d18.teamS.user and check its length
 //        List<ServiceRequest> requests = storage.getAllRequestsByUser(new_user2);
 //        Assert.assertEquals(requests.size(), 2);
 //        Assert.assertEquals(requests.get(0), request2);
@@ -862,7 +860,7 @@ public class StorageTestSuite {
 //    // --------------------- SERVICE TYPE TESTS ------------------ //
 //
 //    /**
-//     * Test adding service types to the database
+//     * Test adding edu.wpi.cs3733d18.teamS.service types to the edu.wpi.cs3733d18.teamS.database
 //     */
 //    @Test
 //    public void testAddServiceType() {
@@ -879,7 +877,7 @@ public class StorageTestSuite {
 //    }
 //
 //    /**
-//     * Tests getting a service type by name
+//     * Tests getting a edu.wpi.cs3733d18.teamS.service type by name
 //     */
 //    @Test
 //    public void testGetServiceTypeByName() {
@@ -888,7 +886,7 @@ public class StorageTestSuite {
 //        ServiceType emergency = ServiceType.createServiceType("emergency", true, null);
 //        storage.saveServiceType(emergency);
 //
-//        // get the service type and check it
+//        // get the edu.wpi.cs3733d18.teamS.service type and check it
 //        ServiceType type = storage.getServiceTypeByName(cleanUp.getName());
 //        Assert.assertEquals(type, cleanUp);
 //    }
