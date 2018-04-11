@@ -175,7 +175,7 @@ public class PathfindController {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+            expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
             PATHFIND_READY = true;
         }
     }
@@ -286,6 +286,8 @@ public class PathfindController {
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(adj);
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(adj);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(adj);
         expanded_qr.isPreserveRatio();
         expanded_qr.setVisible(true);
     }
@@ -305,6 +307,8 @@ public class PathfindController {
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onMapUp() {
