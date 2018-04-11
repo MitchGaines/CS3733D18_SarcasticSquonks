@@ -126,13 +126,13 @@ public class ModifyMapController {
         }
 
         ObservableList<String> floors = FXCollections.observableArrayList();
-        floors.addAll("Ground Floor", "Lower Level One", "Lower Level Two", "First Floor", "Second Floor", "Third Floor");
+        floors.addAll("Lower Level Two", "Lower Level One", "Ground Floor", "First Floor", "Second Floor", "Third Floor");
         choose_floor.setItems(floors);
 
         List<String> short_floor = new ArrayList<>();
-        short_floor.add("G");
-        short_floor.add("L1");
         short_floor.add("L2");
+        short_floor.add("L1");
+        short_floor.add("G");
         short_floor.add("1");
         short_floor.add("2");
         short_floor.add("3");
