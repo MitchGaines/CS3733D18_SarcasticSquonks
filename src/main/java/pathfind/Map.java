@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Map {
     public static String[] floor_ids = {"L2", "L1", "1", "2", "3"};
+    public final static int FLOOR_CHANGE_COST = 340; //in pixel cost (approx 12 pixels/second for walking speed)
     ImageView map;
     Polyline path_polyline;
     Polyline path_polyline_2;

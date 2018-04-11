@@ -1,4 +1,6 @@
 package pathfind;
+import controller.HomePageController;
+
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class AStarNode {
-    public ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
+    private ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
     private AStarNode parent = null;
     private double f_cost;
     private double h_cost;
@@ -20,6 +22,7 @@ public class AStarNode {
     String short_name;
     String long_name;
     String id;
+
 
     public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name, String floor){
         this.id = id;
@@ -62,7 +65,25 @@ public class AStarNode {
     }
 
     public void newGCost(AStarNode previous){
-        this.g_cost = previous.g_cost + this.distanceTo(previous);
+        int floor_cost = 0;
+        if(!this.floor.equals(previous.floor)){
+            int previous_floor = 0;
+            int next_floor = 0;
+            for(int i=0; i<Map.floor_ids.length; i++){
+                if(Map.floor_ids[i].equals(this.floor)){
+                    next_floor = i;
+                    break;
+                }
+            }
+            for(int i=0; i<Map.floor_ids.length; i++){
+                if(Map.floor_ids[i].equals(previous.floor)){
+                    previous_floor = i;
+                    break;
+                }
+            }
+            floor_cost = Math.abs(previous_floor-next_floor)*Map.FLOOR_CHANGE_COST;
+        }
+        this.g_cost = previous.g_cost + this.distanceTo(previous) + floor_cost;
     }
 
     public void newHCost(AStarNode goal){
@@ -109,5 +130,20 @@ public class AStarNode {
 
     public int getY_coord_3d() {
         return y_coord_3d;
+    }
+
+    public ArrayList<AStarNode> getNeighbors() {
+        if(!HomePageController.includeStairs()){
+            for(AStarNode neighbor: this.neighbors){
+                if(neighbor.getID().contains("STAI") && !this.floor.equals(neighbor.floor)){
+                    this.neighbors.remove(neighbor);
+                }
+            }
+        }
+        return this.neighbors;
+    }
+
+    public void addNeighbor(AStarNode neighbor){
+        this.neighbors.add(neighbor);
     }
 }

@@ -45,7 +45,7 @@ public class DepthFirst implements ISearchAlgorithm {
                 return current_node;
             }
             //loop over the current_node node's neighbors
-            for(AStarNode neighbor: current_node.neighbors){
+            for(AStarNode neighbor: current_node.getNeighbors()){
                 //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
                     //check if they haven't been discovered before

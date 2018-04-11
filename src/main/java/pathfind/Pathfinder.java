@@ -2,6 +2,8 @@ package pathfind;
 import data.Node;
 import data.Edge;
 import database.Storage;
+import javafx.scene.control.Alert;
+
 import java.util.*;
 
 /**
@@ -39,8 +41,8 @@ public class Pathfinder {
 
         for(Edge connection: edges.values()){
             if(algorithm_node_map.containsKey(connection.getStartNode()) && algorithm_node_map.containsKey(connection.getEndNode())){
-                algorithm_node_map.get(connection.getStartNode()).neighbors.add(algorithm_node_map.get(connection.getEndNode()));
-                algorithm_node_map.get(connection.getEndNode()).neighbors.add(algorithm_node_map.get(connection.getStartNode()));
+                algorithm_node_map.get(connection.getStartNode()).addNeighbor(algorithm_node_map.get(connection.getEndNode()));
+                algorithm_node_map.get(connection.getEndNode()).addNeighbor(algorithm_node_map.get(connection.getStartNode()));
             }
         }
     }
@@ -67,7 +69,16 @@ public class Pathfinder {
         this.goal = algorithm_node_map.get(goalID);
 
         //call the algorithm
-        reconstructPath(algorithm.findPath(startID, goalID, algorithm_node_map));
+        AStarNode path_end = algorithm.findPath(startID, goalID, algorithm_node_map);
+        if(path_end.getID().contains(goalID)){
+            reconstructPath(path_end);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING); //TODO language alltext
+            alert.setTitle("Cannot Find Path");
+            alert.setHeaderText("There was no viable path generated to your goal");
+            alert.setContentText("Please select a new goal location or ask for assistance");
+            alert.showAndWait();
+        }
         return;
     }
 
