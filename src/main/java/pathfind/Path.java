@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 /**
  * Path.java
- * Holds path information from A-star and calculates text directions
- * Author: Noah Hillman, Mitch Gaines
+ * Holds path information from AStar and calculates text directions.
+ * @author Noah Hillman
+ * @author Mitch Gaines
+ * @version %I%, %G%
  * Date: April 2, 2018
  */
 
@@ -21,12 +23,10 @@ public class Path {
 
 
     /**
-     * Once path is generated, will generate text descriptions for turns based on the path nodes
-     *
-     * Logically, this only vaguely makes sense if you ignore basic logic behind programming,
-     * but it seems to work so I'm rolling with it. Over and out.
-     *
-     * @return URL based on calculated turns at each node
+     * getPathDirections
+     * Once path is generated, will generate text descriptions for turns based on the path nodes, it also manages and
+     * condenses repeated go straight instructions into a single, text instruction.
+     * @return URL based on calculated turns at each node.
      */
     public URL getPathDirections() throws MalformedURLException {
         String host = "159.203.189.146";
@@ -69,16 +69,23 @@ public class Path {
         return new URL(protocol, host, port, path);
     }
 
+    /**
+     * calcDistance
+     * Calculates and returns the distance between two node and converts it to feet.
+     * @param current_node The node the code is currently on.
+     * @param next_node The next node in the pathway.
+     * @return The Distance between two nodes.
+     */
     private int calcDistance(AStarNode current_node, AStarNode next_node){
         return (int)(current_node.distanceTo(next_node)* FEET_PER_PIXEL);
     }
 
     /**
-     * calcTurn
-     * returns a string for the turning directing based on where the user is walking from
-     * @param current_node node where the turn occurs
-     * @param next_node node where the turn will lead
-     * @return string for the turning direction: turn left, turn right, continue straight
+     * calcTurnDir
+     * Retrieves a Char for the turning directing based on where the user is walking from.
+     * @param current_node node where the turn occurs.
+     * @param next_node node where the turn will lead.
+     * @return string for the turning direction: L, R, S.
      */
     private char calcTurnDir(AStarNode current_node, AStarNode next_node){
         int previous_x = current_node.getParent().getXCoord();
@@ -101,6 +108,13 @@ public class Path {
         }
     }
 
+    /**
+     * calcTurn
+     * Retrieves a string for the turning directing based on where the user is walking from.
+     * @param current_node node where the turn occurs.
+     * @param next_node node where the turn will lead.
+     * @return string for the turning direction: turn left, turn right, continue straight.
+     */
     private String calcTurn(AStarNode current_node, AStarNode next_node){
         int previous_x = current_node.getParent().getXCoord();
         int previous_y = current_node.getParent().getYCoord();
@@ -121,14 +135,34 @@ public class Path {
         }
     }
 
+    /**
+     * getAStarNodePath
+     * Retrieves the algorithm node path.
+     * @return the algorithm node path.
+     */
     public ArrayList<AStarNode> getAStarNodePath() {
         return algorithm_node_path;
     }
 
+    /**
+     * angle
+     * Calculates the angle between two points based on there two dimensional coordinates, this takes in 4 ints that
+     * represent the x and y coordinates of two points.
+     * @param x1 x coordinate of the first point.
+     * @param y1 y coordinate of the first point.
+     * @param x2 x coordinate of the second point.
+     * @param y2 y coordinate of the second point.
+     * @return The angle as a double between the two points.
+     */
     private double angle(int x1, int y1, int x2, int y2){
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }
 
+    /**
+     * setAlgorithm_node_path
+     * Sets the algorithm node path.
+     * @param algorithm_node_path the algorithm node path.
+     */
     public void setAlgorithm_node_path(ArrayList<AStarNode> algorithm_node_path) {
         this.algorithm_node_path = algorithm_node_path;
     }

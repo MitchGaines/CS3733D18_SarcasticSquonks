@@ -3,6 +3,7 @@ package controller;
 import com.gluonhq.charm.glisten.control.ExpansionPanel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
 import database.Storage;
 import internationalization.AllText;
 import javafx.beans.binding.Bindings;
@@ -36,6 +37,8 @@ import user.User;
 
 public class HomePageController {
 
+    private static boolean include_stairs = true;
+
     @FXML
     JFXButton pathfind;
 
@@ -52,7 +55,6 @@ public class HomePageController {
     Label wrong_credentials;
 
     @FXML
-
     Label time, time2;
 
     @FXML
@@ -84,6 +86,9 @@ public class HomePageController {
     @FXML
     JFXButton INFO;
 
+    @FXML
+    JFXToggleButton stairs_toggle;
+
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
@@ -98,8 +103,10 @@ public class HomePageController {
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
         for(data.Node location : locations){
             if(location.getNodeType().equals("HALL") ||
-               location.getNodeType().equals("ELEV") ||
-               location.getNodeType().equals("STAI")){
+                    location.getNodeType().equals("ELEV") ||
+                    location.getNodeType().equals("STAI") ||
+                    location.getShortName().equals("CRN")){
+
                 to_remove.add(location);
             }
         }
@@ -130,10 +137,14 @@ public class HomePageController {
         }
         try {
             AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
-            Parent root     = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
+            Parent root   = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
             Stage primary_stage = (Stage) language_selector.getScene().getWindow();
             primary_stage.setTitle("Brigham and Women's");
-            primary_stage.setScene(new Scene(root, 1200, 800));
+            Scene primary_scene = new Scene(root, 1200, 800);
+
+            Timeout.addListenersToScene(primary_scene);
+
+            primary_stage.setScene(primary_scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -162,16 +173,23 @@ public class HomePageController {
             alert.setContentText("You must select a starting and ending location that are different from each other.");
             alert.showAndWait();
         }
+        include_stairs = stairs_toggle.isSelected();
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        if(PathfindController.isPathfindReady()){
+            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            pathfind_stage.setTitle("Pathfinder");
 
-        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
-        pathfind_stage.show();
+            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+
+            Timeout.addListenersToScene(pathfind_parent_scene);
+
+            pathfind_stage.setScene(pathfind_parent_scene);
+            pathfind_stage.show();
+        }
     }
 
     @FXML
@@ -188,7 +206,12 @@ public class HomePageController {
 
         Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+
+        Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+
+        Timeout.addListenersToScene(pathfind_parent_scene);
+
+        pathfind_stage.setScene(pathfind_parent_scene);
         pathfind_stage.show();
     }
 
@@ -225,7 +248,14 @@ public class HomePageController {
         Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
+
+        Timeout.addListenersToScene(user_scene);
+
         user_stage.setScene(user_scene);
         user_stage.show();
     } //END OF TEST
+
+    public static boolean includeStairs(){
+        return include_stairs;
+    }
 }

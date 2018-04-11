@@ -7,12 +7,14 @@ import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.lann.activation.Softmax;
 import com.kylecorry.matrix.Matrix;
 import com.jfoenix.controls.JFXComboBox;
-import data.Edge;
 import database.Storage;
 import internationalization.AllText;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -25,6 +27,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -32,13 +35,14 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
 public class ModifyMapController {
+
+    double zoom_factor;
 
     HashMap<data.Node, ImageView> nodes_list;
     Storage storage;
@@ -91,7 +95,9 @@ public class ModifyMapController {
     private void initialize() {
         first_click = true;
 
-        scroll_pane.setVvalue(0.25);
+        zoom_factor = 1;
+
+        scroll_pane.setVvalue(0.5);
         scroll_pane.setHvalue(0.25);
 
         ObservableList<String> lop = FXCollections.observableArrayList();
@@ -144,9 +150,55 @@ public class ModifyMapController {
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes());
 
+        lop = FXCollections.observableArrayList();
+        lop.addAll("View Map","Add Location", "Add Path", "Delete Location");
+        location_or_path.setItems(lop);
+        location_or_path.getSelectionModel().selectFirst();
+
+        list_type = FXCollections.observableArrayList();
+        list_type.addAll("Conference","Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
+        loc_type.setItems(list_type);
+
+        //Hashmap for node constructor
+        short_name = new ArrayList<>();
+        short_name.add("CONF");
+        short_name.add("HALL");
+        short_name.add("DEPT");
+        short_name.add("INFO");
+        short_name.add("LABS");
+        short_name.add("REST");
+        short_name.add("STAI");
+        short_name.add("SERV");
+
+        locations = new HashMap<>();
+        for(int i = 0; i < list_type.size(); i++) {
+            locations.put(list_type.get(i), short_name.get(i));
+        }
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+    }
+
+    public void onZoomOut() {
+        if(zoom_factor > 0.5) {
+            zoom_factor -= 0.2;
+            scroll_pane.getContent().setScaleX(zoom_factor);
+            scroll_pane.setLayoutX(zoom_factor);
+            scroll_pane.getContent().setScaleY(zoom_factor);
+            scroll_pane.setLayoutY(zoom_factor);
+
+        }
+    }
+
+    public void onZoomIn() {
+        if (zoom_factor < 1.8) {
+            zoom_factor += 0.2;
+            scroll_pane.getContent().setScaleX(zoom_factor);
+            scroll_pane.setLayoutX(zoom_factor);
+            scroll_pane.getContent().setScaleY(zoom_factor);
+            scroll_pane.setLayoutY(zoom_factor);
+        }
     }
 
     @FXML
@@ -157,22 +209,22 @@ public class ModifyMapController {
         nodes_list.clear();
         pane.getChildren().add(map);
         if (choose_floor.getValue().toString().equals("Ground Floor")) {
-            map.setImage(new Image("images/00_thegroundfloor.png"));
+            map.setImage(new Image("images/2dMaps/00_thegroundfloor.png"));
         }
         else if (choose_floor.getValue().toString().equals("Lower Level One")) {
-            map.setImage(new Image("images/00_thelowerlevel1.png"));
+            map.setImage(new Image("images/2dMaps/00_thelowerlevel1.png"));
         }
         else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
-            map.setImage(new Image("images/00_thelowerlevel2.png"));
+            map.setImage(new Image("images/2dMaps/00_thelowerlevel2.png"));
         }
         else if (choose_floor.getValue().toString().equals("First Floor")) {
-            map.setImage(new Image("images/01_thefirstfloor.png"));
+            map.setImage(new Image("images/2dMaps/01_thefirstfloor.png"));
         }
         else if (choose_floor.getValue().toString().equals("Second Floor")) {
-            map.setImage(new Image("images/02_thesecondfloor.png"));
+            map.setImage(new Image("images/2dMaps/02_thesecondfloor.png"));
         }
         else if (choose_floor.getValue().toString().equals("Third Floor")) {
-            map.setImage(new Image("images/03_thethirdfloor.png"));
+            map.setImage(new Image("images/2dMaps/03_thethirdfloor.png"));
         }
         makeMap(storage.getAllNodes());
     }
@@ -183,6 +235,9 @@ public class ModifyMapController {
         Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
         Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         admin_stage.setTitle("User");
+
+        Timeout.addListenersToScene(admin_scene);
+
         admin_stage.setScene(admin_scene);
         admin_stage.show();
     }
@@ -190,7 +245,7 @@ public class ModifyMapController {
     public void onAddLocClick() {
         if (!building.getText().equals("") && !loc_type.getSelectionModel().isEmpty() && !long_name.getText().equals("") && !short_name.getText().equals("")) {
             Scene scene = add_loc.getScene();
-            Image loc_cursor = new Image("images/nodeIcon.png");
+            Image loc_cursor = new Image("images/mapIcons/nodeIcon.png");
             scene.setCursor(new ImageCursor(loc_cursor));
             add_loc_cancel.setVisible(true);
             add_loc_fail.setText("");
@@ -236,23 +291,79 @@ public class ModifyMapController {
     TextField location_one, location_two, location_to_delete;
 
     @FXML
-    Button add_edge, cancel_edge;
-
-    @FXML
     VBox add_edge_box, delete_loc_box;
 
     private Boolean first_click;
     private data.Node first_loc;
     private data.Node second_loc;
 
+    data.Node new_node;
+
+    @FXML
+    Button confirm_3d;
+
+    ImageView pin;
+
+    public void onConfirm3dClick() {
+        pane.getChildren().clear();
+        pane.getChildren().add(map);
+        map.setImage(new Image(choose2DMap()));
+        makeMap(storage.getAllNodes());
+
+        ImageView pin = new ImageView("images/mapIcons/nodeIcon.png");
+        pin.setX(new_node.getXCoord());
+        pin.setY(new_node.getYCoord());
+        nodes_list.put(new_node, pin);
+        storage.saveNode(new_node);
+        pane.getChildren().add(pin);
+
+        endAddLoc();
+        add_node_box.setVisible(false);
+        location_or_path.getSelectionModel().selectFirst();
+        confirm_3d.setVisible(false);
+        choose_floor.setVisible(true);
+    }
+
+    private String choose2DMap() {
+        String toReturn = "";
+        if (choose_floor.getValue().toString().equals("Ground Floor")) {
+            toReturn = "images/2dMaps/00_thegroundfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+            toReturn = "images/2dMaps/00_thelowerlevel1.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+            toReturn = "images/2dMaps/00_thelowerlevel2.png";
+        }
+        else if (choose_floor.getValue().toString().equals("First Floor")) {
+            toReturn = "images/2dMaps/01_thefirstfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+           toReturn = "images/2dMaps/02_thesecondfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+            toReturn = "images/2dMaps/03_thethirdfloor.png";
+        }
+        return toReturn;
+    }
+
     public void onMouseClick(MouseEvent click) {
-        if (location_or_path.getValue().toString().equals("Add Location")) {
+        if (confirm_3d.isVisible()) {
+            new_node.setXCoord3D((int)click.getX());
+            new_node.setYCoord3D((int)click.getY());
+            pane.getChildren().remove(pin);
+            pin.setX(new_node.getXCoord3D());
+            pin.setY(new_node.getYCoord3D());
+            pane.getChildren().add(pin);
+        }
+
+        else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
 
             List<data.Node> nn_nodes_list  = storage.getAllNodes();
 
             PersistentMachineLearningAlgorithm nn = new NN.Builder()
-                    .addLayer(2,8, new Softmax())
+                    .addLayer(2,8, new ReLU())
                     .addLayer(8, 2, new Linear())
                     .build();
 
@@ -269,22 +380,22 @@ public class ModifyMapController {
 
 
             Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
-          
+
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
-            data.Node a_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
+            new_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1, 0));
-          
-            ImageView pin = new ImageView("images/nodeIcon.png");
-            pin.setX(click.getX());
-            pin.setY(click.getY());
-            nodes_list.put(a_node, pin);
-            storage.saveNode(a_node);
+                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1,0)); //TODO: id function
+            pane.getChildren().clear();
+            pane.getChildren().add(map);
+            map.setImage(new Image(select3DMap()));
+            pin = new ImageView("images/mapIcons/nodeIcon.png");
+            pin.setX(new_node.getXCoord3D());
+            pin.setY(new_node.getYCoord3D());
             pane.getChildren().add(pin);
+            confirm_3d.setVisible(true);
             scene.setCursor(Cursor.DEFAULT);
-            endAddLoc();
             add_node_box.setVisible(false);
-            location_or_path.getSelectionModel().selectFirst();
+            choose_floor.setVisible(false);
         }
 
         else if (location_or_path.getValue().toString().equals("Add Path") && first_click) {
@@ -317,6 +428,29 @@ public class ModifyMapController {
                 }
             }
         }
+    }
+
+    private String select3DMap() {
+        String toReturn = "";
+        if (choose_floor.getValue().toString().equals("Ground Floor")) {
+            toReturn = "images/2dMaps/00_thegroundfloor.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+            toReturn = "images/3dMaps/L1-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+            toReturn = "images/3dMaps/L2-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("First Floor")) {
+            toReturn = "images/3dMaps/1-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+            toReturn = "images/3dMaps/2-NO-ICONS.png";
+        }
+        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+            toReturn = "images/3dMaps/3-NO-ICONS.png";
+        }
+        return toReturn;
     }
 
     private Map.Entry<data.Node, ImageView> entry_to_delete;
@@ -356,7 +490,7 @@ public class ModifyMapController {
         String floor = choose_floor.getValue().toString();
         for(data.Node a_node: dataNodes) {
             if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
-                ImageView pin = new ImageView("images/nodeIcon.png");
+                ImageView pin = new ImageView("images/mapIcons/nodeIcon.png");
                 pin.setX(a_node.getXCoord() - 10); //  -10 for the icon offset
                 pin.setY(a_node.getYCoord() - 30); //  -30 for the icon offset
                 nodes_list.put(a_node, pin);

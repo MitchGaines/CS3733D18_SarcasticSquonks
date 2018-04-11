@@ -12,11 +12,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Polyline?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PathfindController">
    <top>
@@ -38,114 +38,15 @@
       </BorderPane>
    </top>
    <center>
-      <ScrollPane fx:id="map_scroll_pane" hmax="5000.0" pannable="true" prefHeight="690.0" prefWidth="900.0" vmax="3400.0" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane fx:id="map_anchor_pane" layoutX="-500.0" layoutY="-500.0" minHeight="0.0" minWidth="0.0" prefHeight="2000.0" prefWidth="2000.0">
-               <children>
-                  <ImageView fx:id="map_img" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/02_thesecondfloor.png" />
-                     </image>
-                  </ImageView>
-                   <Polyline fx:id="path_polyline" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
-                       <points>
-                           <Double fx:value="-50.0" />
-                           <Double fx:value="-40.0" />
-                           <Double fx:value="50.0" />
-                           <Double fx:value="-40.0" />
-                           <Double fx:value="0.0" />
-                           <Double fx:value="60.0" />
-                           <Double fx:value="-50.0" />
-                           <Double fx:value="-40.0" />
-                       </points>
-                       <effect>
-                           <Lighting diffuseConstant="1.42" specularConstant="0.95" specularExponent="10.22" surfaceScale="2.9">
-                               <bumpInput>
-                                   <Shadow height="20.59" radius="10.5825" width="23.74" />
-                               </bumpInput>
-                               <light>
-                                   <Light.Distant />
-                               </light>
-                           </Lighting>
-                       </effect>
-                   </Polyline>
-                   <Polyline fx:id="path_polyline_2" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
-                       <points>
-                           <Double fx:value="-50.0" />
-                           <Double fx:value="-40.0" />
-                           <Double fx:value="50.0" />
-                           <Double fx:value="-40.0" />
-                           <Double fx:value="0.0" />
-                           <Double fx:value="60.0" />
-                           <Double fx:value="-50.0" />
-                           <Double fx:value="-40.0" />
-                       </points>
-                       <effect>
-                           <Lighting diffuseConstant="1.42" specularConstant="0.95" specularExponent="10.22" surfaceScale="2.9">
-                               <bumpInput>
-                                   <Shadow height="20.59" radius="10.5825" width="23.74" />
-                               </bumpInput>
-                               <light>
-                                   <Light.Distant />
-                               </light>
-                           </Lighting>
-                       </effect>
-                   </Polyline>
-                  <ImageView fx:id="destination_img" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/destinationIcon.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-        </content>
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
-      </ScrollPane>
-   </center>
-   <right>
-      <VBox alignment="CENTER" spacing="50.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="TOP_CENTER">
-               <children>
-                  <Label layoutX="900.0" text="Scan QR Code For">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <Label text="Step By Step Instructions">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <ImageView fx:id="qr_img" fitHeight="291.0" fitWidth="278.0" onMouseClicked="#onQRClick" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/jpeg.jpg" />
-               </image>
-            </ImageView>
-            <JFXButton fx:id="toggle_map_btn" buttonType="RAISED" onAction="#toggleMappingType" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%3d_map" />
-            <HBox alignment="CENTER" spacing="30.0">
-               <children>
-                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%up" onMouseClicked="#onMapUp"/>
-                  <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%down" onMouseClicked="#onMapDown"/>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </right>
-   <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane hvalue="0.25" prefHeight="690.0" prefWidth="900.0" vvalue="0.25">
+            <ScrollPane fx:id="map_scroll_pane" hvalue="0.25" pannable="true" prefHeight="690.0" prefWidth="900.0" vvalue="0.25">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0">
+                <AnchorPane fx:id="map_anchor_pane" minHeight="0.0" minWidth="0.0">
                      <children>
                         <ImageView fx:id="map_img" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@images/02_thesecondfloor.png" />
+                              <Image url="@images/2dMaps/02_thesecondfloor.png" />
                            </image>
                         </ImageView>
                          <Polyline fx:id="path_polyline" fill="#ff000000" stroke="RED" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="8.0">
@@ -194,15 +95,66 @@
                      </Polyline>
                         <ImageView fx:id="destination_img" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@images/destinationIcon.png" />
+                              <Image url="@images/mapIcons/destinationIcon.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
+            <ImageView fx:id="zoom_out" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onZoomOut" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+               <image>
+                  <Image url="@images/minus.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="zoom_in" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onZoomIn" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+               <image>
+                  <Image url="@images/plus.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets left="40.0" />
+               </StackPane.margin>
+            </ImageView>
             <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" visible="false" />
          </children>
       </StackPane>
    </center>
+   <bottom>
+      <BorderPane fx:id="footer_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
+         <right>
+            <JFXButton fx:id="toggle_map_btn" buttonType="RAISED" onAction="#toggleMappingType" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%3d_map" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin></JFXButton>
+         </right>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXButton buttonType="RAISED" onMouseClicked="#onMapUp" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%up" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></JFXButton>
+                  <JFXButton buttonType="RAISED" onMouseClicked="#onMapDown" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%down" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin></JFXButton>
+               </children>
+            </GridPane>
+         </center>
+         <left>
+            <JFXButton buttonType="RAISED" onAction="#onQRClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%step_directions" BorderPane.alignment="CENTER_LEFT">
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+            </JFXButton>
+         </left>
+      </BorderPane>
+   </bottom>
 </BorderPane>

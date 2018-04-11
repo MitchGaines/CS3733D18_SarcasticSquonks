@@ -129,6 +129,9 @@ public class LogController {
         Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
         Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         user_stage.setTitle("User");
+
+        Timeout.addListenersToScene(user_scene);
+
         user_stage.setScene(user_scene);
         user_stage.show();
     }

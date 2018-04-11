@@ -5,8 +5,22 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+/**
+ * The Class manages the AStar path algorithm and primarily finds the path from a location.
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class AStar implements ISearchAlgorithm {
 
+    /**
+     * findPath (AStar edition)
+     * Finds the pathway between two points using the AStar algorithm, This takes in a starting node's id, and end
+     * locations id and takes in a HashMap that contains all the nodes of the hospital.
+     * @param start_id The String Id of the node that the person is starting at.
+     * @param goal_id The String Id of the node that the person wants to get to.
+     * @param algorithm_node_map The HashMap of all the nodes within the hospital.
+     * @return Returns an ArrayList of AStarNodes that results in the pathway.
+     */
     @Override
     public AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map) {
         AStarNode start = algorithm_node_map.get(start_id);
@@ -31,7 +45,7 @@ public class AStar implements ISearchAlgorithm {
                 return current_node;
             }
             //loop over the current_node node's neighbors
-            for(AStarNode neighbor: current_node.neighbors){
+            for(AStarNode neighbor: current_node.getNeighbors()){
                 //make sure they haven't been searched before
                 if(!closed_a_star_nodes.contains(neighbor)){
                     //check if they haven't been discovered before
@@ -60,5 +74,6 @@ public class AStar implements ISearchAlgorithm {
     }
 
     //comparator to organize how the priority queue sorts items (based on heuristic)
-    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getFCost() - AStarNode2.getFCost());
+    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) ->
+            (int) (AStarNode1.getFCost() - AStarNode2.getFCost());
 }
