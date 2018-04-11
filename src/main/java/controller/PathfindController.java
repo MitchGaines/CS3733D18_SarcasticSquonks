@@ -83,7 +83,7 @@ public class PathfindController {
     BorderPane main_pane;
 
     @FXML
-    Label time;
+    Label time, floor_indicator;
 
     public void initialize() {
         zoom_factor = 1;
@@ -167,9 +167,8 @@ public class PathfindController {
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
         if(pathfinder.pathfinder_path.getAStarNodePath().size()>1){
-            // Centering ScrollPane on path
-            int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
-            int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
+            double start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
 
@@ -207,6 +206,11 @@ public class PathfindController {
         this.node1 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(0).getID());
         this.node2 = db_storage.getNodeByID(quickFinder.pathfinder_path.getAStarNodePath().get(quickFinder.pathfinder_path.getAStarNodePath().size()-1).getID());
 
+        double start_x = quickFinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+        double start_y = quickFinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
+        map_scroll_pane.setHvalue(start_x);
+        map_scroll_pane.setVvalue(start_y);
+
         // Building QR code and placing in scene
         QRCode qr = null;
         try {
@@ -221,6 +225,7 @@ public class PathfindController {
         Image m = getFloorImage(current_floor, mode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
+        floor_indicator.setText(map.floor_ids.get(map.getFloor()));
     }
 
     public void enable3DMapping(){
@@ -229,8 +234,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -249,8 +254,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -323,6 +328,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 
@@ -333,6 +339,7 @@ public class PathfindController {
             map.setFloor(current_floor);
             map.drawPath();
             updateMap();
+            floor_indicator.setText(map.floor_ids.get(map.getFloor()));
         }
     }
 

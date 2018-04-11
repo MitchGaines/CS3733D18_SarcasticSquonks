@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import service.ServiceType;
-import user.LoginHandler;
 
 
 public class Main extends Application {
@@ -65,5 +64,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        Timeout.stop();
     }
 }
