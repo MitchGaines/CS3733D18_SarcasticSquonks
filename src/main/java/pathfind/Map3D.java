@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class Map3D extends Map {
 
-    private final int MAP_WIDTH = 5000;
-    private final int MAP_HEIGHT = 2774;
+    public final int MAP_WIDTH = 5000;
+    public final int MAP_HEIGHT = 2774;
 
     /**
      * Constructs a 3D map with path drawing capabilities
