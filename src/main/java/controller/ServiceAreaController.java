@@ -1,13 +1,23 @@
 package controller;
 
 import data.Node;
+import database.Storage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 import service.ServiceLogEntry;
 import service.ServiceRequest;
 import service.ServiceType;
 import user.User;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class ServiceAreaController {
 //
@@ -17,12 +27,39 @@ public class ServiceAreaController {
     @FXML
     ComboBox<ServiceRequest> active_requests_box;
 
+    @FXML
+    ComboBox<data.Node> service_location;
+
     private User user;
+    private ObservableList<Node> locations = FXCollections.observableArrayList();
 
     public void populateRequestTypes() {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
         request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
+        locations.addAll(Storage.getInstance().getAllNodes());
+        service_location.setConverter(new StringConverter<Node>() {
+            @Override
+            public String toString(data.Node node) {
+                if (node == null) {
+                    return "";
+                } else {
+                    return node.toString();
+                }
+            }
+
+            @Override
+            public data.Node fromString(String long_name) {
+                for (data.Node node : locations) {
+                    if (node.getLongName().equals(long_name)) {
+                        return node;
+                    }
+                }
+                return null;
+            }
+        });
+        Collections.sort(locations, Comparator.comparing(data.Node::getLongName));
+        service_location.setItems(locations);
     }
 
     public void populateRequestsBox() {
@@ -72,13 +109,12 @@ public class ServiceAreaController {
                 description_field.getText(),
                 request_type_selector.getSelectionModel().getSelectedItem(),
                 user,
-                new Node("BDEPT00302",2385,753,"2","45 Francis","DEPT",
-                        "Lee Bell Breast Center","DEPT B0302","Team B",2293,1320));
+                service_location.getValue());
 
         populateRequestsBox();
 
         service_title.setText("");
-        service_location.setText("");
+        service_location.getEditor().setText("");
         description_field.setText("");
         populateRequestTypes();
 
@@ -96,7 +132,7 @@ public class ServiceAreaController {
     private Text title_text, location_text;
 
     @FXML
-    private TextField service_title, service_location;
+    private TextField service_title;
 
     @FXML
     private TextArea description_field, description_text;
@@ -131,6 +167,52 @@ public class ServiceAreaController {
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+    }
+
+    /**
+     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
+     * in the edit field as a substring.
+     * @param e KeyEvent representing the key that was typed.
+     */
+    @FXML
+    void onKeyReleasedComboBox(KeyEvent e) {
+        ComboBox<data.Node> combo_box = (ComboBox<data.Node>)(e.getSource());
+        ObservableList<data.Node> filteredItems = FXCollections.observableArrayList();
+        combo_box.show();
+        TextField editor = combo_box.getEditor();
+
+        if (editor.getText().equals("")
+                || e.getCode() == KeyCode.BACK_SPACE
+                || e.getCode() == KeyCode.DELETE
+                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
+            combo_box.setItems(locations);
+        }
+
+        Stream<Node> items_stream = combo_box.getItems().stream();
+        String user_text = editor.getText().toLowerCase();
+        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
+
+        if (!e.getCode().isArrowKey()) { // Doesn't change list while user is navigating dropdown with arrow keys
+            if (e.getCode() == KeyCode.ENTER) {
+                // Pressing enter clear the edit field if it was autocompleted. This prevents
+                // that by storing the editor text and putting it back in afterwards
+                String current_editor = editor.getText();
+                combo_box.setItems(filteredItems);
+                editor.setText(current_editor);
+            }
+            else {
+                combo_box.setItems(filteredItems);
+            }
+
+            // Resize drop down
+            int new_visible_size;
+            new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
+            if (new_visible_size != combo_box.getVisibleRowCount()) {
+                combo_box.hide();
+                combo_box.setVisibleRowCount(new_visible_size);
+                combo_box.show();
+            }
+        }
     }
 
     private UserController parent;
