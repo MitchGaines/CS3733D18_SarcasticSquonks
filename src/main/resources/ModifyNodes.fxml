@@ -39,7 +39,6 @@
          </right>
       </BorderPane>
    </top>
-<<<<<<< HEAD
    <center>
         <ScrollPane fx:id="scroll_pane" pannable="true" prefHeight="690.0" prefWidth="900.0" BorderPane.alignment="CENTER">
             <content>
@@ -58,8 +57,6 @@
          </BorderPane.margin>
         </ScrollPane>
    </center>
-=======
->>>>>>> Set up the modify map to be able to set the 3D coords after the neural net estimates them, still a few bugs to iron out
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="740.0" prefWidth="242.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
