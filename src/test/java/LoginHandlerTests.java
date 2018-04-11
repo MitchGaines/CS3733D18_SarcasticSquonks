@@ -74,7 +74,7 @@ public class LoginHandlerTests {
         LoginHandler lh = new LoginHandler();
         lh.__generateDummyUsers();
         User u;
-        u = lh.login("Bob", "oh god no");
+        u = lh.login("doctor", "oh god no");
     }
 
     @Test(expected = InvalidUsernameException.class)
