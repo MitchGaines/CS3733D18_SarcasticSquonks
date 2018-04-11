@@ -30,7 +30,7 @@ public class LoginHandlerTests {
         lh.__generateDummyUsers();
         User u;
         try {
-            u = lh.login("Doctor", "Password");
+            u = lh.login("doctor", "doctor");
             Assert.assertTrue(u.getType() == User.user_type.DOCTOR);
         } catch (InvalidPasswordException e) {
             Assert.fail();
@@ -45,7 +45,7 @@ public class LoginHandlerTests {
         lh.__generateDummyUsers();
         User u;
         try {
-            u = lh.login("Admin", "SecurePassword");
+            u = lh.login("admin", "admin");
             Assert.assertTrue(u.getType() == User.user_type.ADMIN_STAFF);
         } catch (InvalidPasswordException e) {
             Assert.fail();
@@ -60,7 +60,7 @@ public class LoginHandlerTests {
         lh.__generateDummyUsers();
         User u;
         try {
-            u = lh.login("Bob", "abc");
+            u = lh.login("staff", "staff");
             Assert.assertTrue(u.getType() == User.user_type.REGULAR_STAFF);
         } catch (InvalidPasswordException e) {
             Assert.fail();
@@ -74,7 +74,7 @@ public class LoginHandlerTests {
         LoginHandler lh = new LoginHandler();
         lh.__generateDummyUsers();
         User u;
-        u = lh.login("Bob", "oh god no");
+        u = lh.login("doctor", "oh god no");
     }
 
     @Test(expected = InvalidUsernameException.class)

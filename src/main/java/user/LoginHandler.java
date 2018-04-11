@@ -27,16 +27,30 @@ public class LoginHandler {
     public static void __generateDummyUsers(){
         Storage storage = Storage.getInstance();
 
-        User u1 = new User("Doctor", "Password", User.user_type.DOCTOR, false);
-        User u2 = new User("Admin", "SecurePassword", User.user_type.ADMIN_STAFF, true);
-        User u3 = new User("Bob", "abc", User.user_type.REGULAR_STAFF, false);
+        User u1 = new User("doctor", "doctor", User.user_type.DOCTOR, false);
+        User u2 = new User("admin", "admin", User.user_type.ADMIN_STAFF, true);
+        User u3 = new User("staff", "staff", User.user_type.REGULAR_STAFF, false);
+        User u4 = new User("cardiocarl", "123", User.user_type.DOCTOR, false);
+        User u5 = new User("plasticspete", "123", User.user_type.DOCTOR, false);
+        User u6 = new User("spanishsue", "123", User.user_type.REGULAR_STAFF, false);
+        User u7 = new User("russianrima", "123", User.user_type.REGULAR_STAFF, false);
+
+
         users.add(u1);
         users.add(u2);
         users.add(u3);
+        users.add(u4);
+        users.add(u5);
+        users.add(u6);
+        users.add(u7);
 
-//        storage.saveUser(u1);
-//        storage.saveUser(u2);
-//        storage.saveUser(u3);
+        storage.saveUser(u1);
+        storage.saveUser(u2);
+        storage.saveUser(u3);
+        storage.saveUser(u4);
+        storage.saveUser(u5);
+        storage.saveUser(u6);
+        storage.saveUser(u7);
     }
 
     public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {
