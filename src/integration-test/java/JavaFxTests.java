@@ -122,24 +122,6 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#back_button");
     }
 
-    /*
-    @Test
-    public void testMapScroll() {
-        clickOn("#combobox_start");
-        moveTo("15 Francis Security Desk Floor 2");
-        scroll(100, VerticalDirection.DOWN);
-        clickOn("Watkins A Node 24 Floor 2 Floor 2");
-        clickOn("#combobox_end");
-        moveTo("15 Lobby Entrance Floor 2");
-        scroll(100, VerticalDirection.DOWN);
-        clickOn("Watkins B Node 35 Floor 2");
-        clickOn("#pathfind");
-        clickOn("#map_img");
-        scroll(65, VerticalDirection.DOWN);
-        clickOn("#back_button");
-    }
-    */
-
     @Test
     public void testPathfindSpanish() {
         clickOn("#language_selector");
@@ -161,7 +143,7 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#combobox_end");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
-        clickOn("#qr_img");
+        clickOn("Step-by-Step Directions");
         clickOn("#expanded_qr");
         clickOn("#back_button");
     }
@@ -200,40 +182,31 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#back_button");
     }
 
-    /*
     @Test
-    public void testSwitchFloors() {
+    public void testMapZoom() {
         clickOn("#combobox_start");
-        moveTo("15 Francis Security Desk Floor 2");
-        scroll(100, VerticalDirection.DOWN);
-        clickOn("Waiting Room 1 Floor 1");
+        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
-        moveTo("15 Lobby Entrance Floor 2");
-        scroll(100, VerticalDirection.DOWN);
-        clickOn("Watkins B Node 35 Floor 2");
+        clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
-        clickOn("#map_img");
-        scroll(65, VerticalDirection.DOWN);
-        clickOn("Up");
-        clickOn("Down");
-        clickOn("Up");
+        clickOn("#zoom_out");
+        clickOn("#zoom_out");
+        clickOn("#zoom_in");
+        clickOn("#zoom_in");
         clickOn("#toggle_map_btn");
-        clickOn("#map_img");
-        scroll(20, VerticalDirection.UP);
-        clickOn("Up");
-        clickOn("Down");
-        clickOn("Up");
+        clickOn("#zoom_out");
+        clickOn("#zoom_out");
+        clickOn("#zoom_in");
+        clickOn("#zoom_in");
         clickOn("#back_button");
     }
-    */
-
-    //these error when run all at once, but pass individually.
     /*
     @Test
     public void testQuickLocationInfo() {
         clickOn("#INFO");
         clickOn("#back_button");
     }
+    */
 
     @Test
     public void testQuickLocationRest() {
@@ -246,6 +219,6 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#DEPT");
         clickOn("#back_button");
     }
-    */
+
 
 }
