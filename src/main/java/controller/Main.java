@@ -45,8 +45,9 @@ public class Main extends Application {
 
         primaryStage.setScene(primary_scene);
         primaryStage.show();
-        ServiceType.createDummyTypes();
 
+        //ServiceType.createDummyTypes();
+        //TODO: actually use LoginHandler correctly.
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {
 
@@ -54,8 +55,8 @@ public class Main extends Application {
             if (Storage.getInstance().getDatabase() != null) {
                 CSVWriter csv_writer = new CSVWriter(Storage.getInstance().getDatabase());
                 csv_writer.writeCSVFile("csv/mergedNodes.csv", "NODES");
-                csv_writer.writeCSVFile("csv/mergedEdges.csv", "EDGES");
-                csv_writer.writeCSVFile("csv/users.csv", "USERS");
+                csv_writer.writeCSVFile("csv/mergedEdges_edited.csv", "EDGES");
+                csv_writer.writeCSVFile("csv/users_edited.csv", "USERS");
                 //storage.getDatabase().dropTable("SERVICES");
             }
         });

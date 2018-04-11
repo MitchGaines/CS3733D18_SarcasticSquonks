@@ -46,6 +46,9 @@ public class CSVWriter {
         if (table_name.equals("NODES")) {
             file_header = "node_id,x_coord,y_coord,floor,building,node_type," +
                     "long_name,short_name,team_assigned,x_coord_3d,y_coord_3d";
+//            file_header = "nodeID,xcoord,ycoord,floor,building,nodeType,longName," +
+//                    "shortName,teamAssigned,xcoord3d,ycoord3d"; //This is for the team F nodes
+
         } else if (table_name.equals("EDGES")) {
             file_header = "edge_id,start_node,end_node";
         } else if (table_name.equals("USERS")) {
