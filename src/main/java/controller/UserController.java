@@ -110,6 +110,7 @@ public class UserController{
 
     public void initialize() {
         serviceAreaController.setParent(this);
+        populateBoxes();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
