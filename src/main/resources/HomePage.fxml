@@ -58,9 +58,9 @@
       </ExpansionPanel>
    </top>
    <center>
-      <StackPane fx:id="stack_pane" prefHeight="652.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="stack_pane" prefHeight="650.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="692.0" fitWidth="593.0" opacity="0.05" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+            <ImageView fitHeight="669.0" fitWidth="593.0" opacity="0.05" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                <image>
                   <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
                </image>
@@ -109,16 +109,18 @@
                   <Insets top="40.0" />
                </StackPane.margin>
             </VBox>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="152.0" prefWidth="273.0" spacing="20.0" StackPane.alignment="BOTTOM_LEFT">
-               <children>
-                  <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18;" />
-                  <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-               </children>
-               <StackPane.margin>
-                  <Insets bottom="10.0" left="10.0" top="700.0" />
-               </StackPane.margin>
-            </HBox>
          </children>
       </StackPane>
    </center>
+   <bottom>
+      <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
+            <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
 </BorderPane>
