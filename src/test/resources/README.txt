@@ -1,4 +1,4 @@
-Put resources (data, images, FXML files, etc.) needed by your *test cases* here. Anything placed here will be
+Put resources (edu.wpi.cs3733d18.teamS.data, images, FXML files, etc.) needed by your *test cases* here. Anything placed here will be
 invisible to the main java program, and anything placed in the main resources folder will be invisible to your
 unit tests.
 

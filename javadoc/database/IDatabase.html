@@ -48,11 +48,11 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../database/CSVWriter.html" title="class in database"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../database/Storage.html" title="class in database"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../edu.wpi.cs3733d18.teamS.database/CSVWriter.html" title="class in edu.wpi.cs3733d18.teamS.database"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../edu.wpi.cs3733d18.teamS.database/Storage.html" title="class in edu.wpi.cs3733d18.teamS.database"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
-<li><a href="../index.html?database/IDatabase.html" target="_top">Frames</a></li>
+<li><a href="../index.html?edu.wpi.cs3733d18.teamS.database/IDatabase.html" target="_top">Frames</a></li>
 <li><a href="IDatabase.html" target="_top">No&nbsp;Frames</a></li>
 </ul>
 <ul class="navList" id="allclasses_navbar_top">
@@ -91,7 +91,7 @@ var activeTableTab = "activeTableTab";
 <!-- ========= END OF TOP NAVBAR ========= -->
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="subTitle">database</div>
+<div class="subTitle">edu.wpi.cs3733d18.teamS.database</div>
 <h2 title="Interface IDatabase" class="title">Interface IDatabase</h2>
 </div>
 <div class="contentContainer">
@@ -100,12 +100,12 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Known Implementing Classes:</dt>
-<dd><a href="../database/ApacheDatabase.html" title="class in database">ApacheDatabase</a></dd>
+<dd><a href="../edu.wpi.cs3733d18.teamS.database/ApacheDatabase.html" title="class in edu.wpi.cs3733d18.teamS.database">ApacheDatabase</a></dd>
 </dl>
 <hr>
 <br>
 <pre>public interface <span class="typeNameLabel">IDatabase</span></pre>
-<div class="block">An interface to help the classes work with in the database.</div>
+<div class="block">An interface to help the classes work with in the edu.wpi.cs3733d18.teamS.database.</div>
 </li>
 </ul>
 </div>
@@ -126,26 +126,26 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#addQuotes-java.lang.String-">addQuotes</a></span>(java.lang.String&nbsp;s)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#addQuotes-java.lang.String-">addQuotes</a></span>(java.lang.String&nbsp;s)</code>
 <div class="block">Adds quotes to a given string for SQL statements.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#connect--">connect</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#connect--">connect</a></span>()</code>
 <div class="block">Connects to the embedded driver.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#createTable-java.lang.String-java.lang.String:A-">createTable</a></span>(java.lang.String&nbsp;table_name,
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#createTable-java.lang.String-java.lang.String:A-">createTable</a></span>(java.lang.String&nbsp;table_name,
            java.lang.String[]&nbsp;columns)</code>
 <div class="block">Creates a table.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#delete-java.lang.String-java.lang.String-java.lang.String:A-">delete</a></span>(java.lang.String&nbsp;table_name,
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#delete-java.lang.String-java.lang.String-java.lang.String:A-">delete</a></span>(java.lang.String&nbsp;table_name,
       java.lang.String&nbsp;where_condition,
       java.lang.String[]&nbsp;where_args)</code>
 <div class="block">Removes an entry from the table with the given name.</div>
@@ -153,38 +153,38 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#disconnect--">disconnect</a></span>()</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#disconnect--">disconnect</a></span>()</code>
 <div class="block">Disconnects from the embedded driver.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#doesTableExist-java.lang.String-">doesTableExist</a></span>(java.lang.String&nbsp;table_name)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#doesTableExist-java.lang.String-">doesTableExist</a></span>(java.lang.String&nbsp;table_name)</code>
 <div class="block">Checks for a tables existence.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#dropTable-java.lang.String-">dropTable</a></span>(java.lang.String&nbsp;table_name)</code>
-<div class="block">Removes a given table from the database.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#dropTable-java.lang.String-">dropTable</a></span>(java.lang.String&nbsp;table_name)</code>
+<div class="block">Removes a given table from the edu.wpi.cs3733d18.teamS.database.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#getIsOpen--">getIsOpen</a></span>()</code>
-<div class="block">Gets the status of the database (open/closed).</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#getIsOpen--">getIsOpen</a></span>()</code>
+<div class="block">Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#insert-java.lang.String-java.lang.String:A-">insert</a></span>(java.lang.String&nbsp;table_name,
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#insert-java.lang.String-java.lang.String:A-">insert</a></span>(java.lang.String&nbsp;table_name,
       java.lang.String[]&nbsp;values)</code>
 <div class="block">Inserts an entry into a table.</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.sql.ResultSet</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#query-java.lang.String-java.lang.String:A-java.lang.String-java.lang.String:A-java.lang.String-">query</a></span>(java.lang.String&nbsp;tableName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#query-java.lang.String-java.lang.String:A-java.lang.String-java.lang.String:A-java.lang.String-">query</a></span>(java.lang.String&nbsp;tableName,
      java.lang.String[]&nbsp;columns,
      java.lang.String&nbsp;where_condition,
      java.lang.String[]&nbsp;where_args,
@@ -192,11 +192,11 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../database/IDatabase.html#update-java.lang.String-java.lang.String:A-java.lang.String-java.lang.String:A-">update</a></span>(java.lang.String&nbsp;table_name,
+<td class="colLast"><code><span class="memberNameLink"><a href="../edu.wpi.cs3733d18.teamS.database/IDatabase.html#update-java.lang.String-java.lang.String:A-java.lang.String-java.lang.String:A-">update</a></span>(java.lang.String&nbsp;table_name,
       java.lang.String[]&nbsp;values,
       java.lang.String&nbsp;where_condition,
       java.lang.String[]&nbsp;where_args)</code>
-<div class="block">Updates an entry (or multiple entries) in the database.</div>
+<div class="block">Updates an entry (or multiple entries) in the edu.wpi.cs3733d18.teamS.database.</div>
 </td>
 </tr>
 </table>
@@ -260,7 +260,7 @@ var activeTableTab = "activeTableTab";
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>table_name</code> - the name of the table.</dd>
-<dd><code>columns</code> - the columns (fields) of the database.</dd>
+<dd><code>columns</code> - the columns (fields) of the edu.wpi.cs3733d18.teamS.database.</dd>
 </dl>
 </li>
 </ul>
@@ -271,7 +271,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>dropTable</h4>
 <pre>void&nbsp;dropTable(java.lang.String&nbsp;table_name)</pre>
-<div class="block">Removes a given table from the database.</div>
+<div class="block">Removes a given table from the edu.wpi.cs3733d18.teamS.database.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>table_name</code> - the name of the table to remove.</dd>
@@ -317,7 +317,7 @@ var activeTableTab = "activeTableTab";
             java.lang.String[]&nbsp;values,
             java.lang.String&nbsp;where_condition,
             java.lang.String[]&nbsp;where_args)</pre>
-<div class="block">Updates an entry (or multiple entries) in the database.</div>
+<div class="block">Updates an entry (or multiple entries) in the edu.wpi.cs3733d18.teamS.database.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>table_name</code> - the name of the table.</dd>
@@ -366,7 +366,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <h4>getIsOpen</h4>
 <pre>boolean&nbsp;getIsOpen()</pre>
-<div class="block">Gets the status of the database (open/closed).</div>
+<div class="block">Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).</div>
 </li>
 </ul>
 </li>
@@ -396,11 +396,11 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../database/CSVWriter.html" title="class in database"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../database/Storage.html" title="class in database"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../edu.wpi.cs3733d18.teamS.database/CSVWriter.html" title="class in edu.wpi.cs3733d18.teamS.database"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../edu.wpi.cs3733d18.teamS.database/Storage.html" title="class in edu.wpi.cs3733d18.teamS.database"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
-<li><a href="../index.html?database/IDatabase.html" target="_top">Frames</a></li>
+<li><a href="../index.html?edu.wpi.cs3733d18.teamS.database/IDatabase.html" target="_top">Frames</a></li>
 <li><a href="IDatabase.html" target="_top">No&nbsp;Frames</a></li>
 </ul>
 <ul class="navList" id="allclasses_navbar_bottom">

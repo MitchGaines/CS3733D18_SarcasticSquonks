@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-mainClassName = "controller.Main"
+mainClassName = "edu.wpi.cs3733d18.teamS.controller.Main"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

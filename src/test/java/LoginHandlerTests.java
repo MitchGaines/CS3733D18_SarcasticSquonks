@@ -1,11 +1,11 @@
-import database.ApacheDatabase;
-import database.IDatabase;
-import database.Storage;
+import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import user.*;
+import edu.wpi.cs3733d18.teamS.user.*;
 
 public class LoginHandlerTests {
 /**
