@@ -5,8 +5,22 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+/**
+ * The Class manages the Depth First path algorithm and primarily finds the path from a location.
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class DepthFirst implements ISearchAlgorithm {
 
+    /**
+     * findPath (Depth First edition)
+     * Finds the pathway between two points using the Depth First algorithm, This takes in a starting node's id, and end
+     * locations id and takes in a HashMap that contains all the nodes of the hospital.
+     * @param start_id The String Id of the node that the person is starting at.
+     * @param goal_id The String Id of the node that the person wants to get to.
+     * @param algorithm_node_map The HashMap of all the nodes within the hospital.
+     * @return Returns an ArrayList of AStarNodes that results in the pathway.
+     */
     @Override
     public AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map) {
         AStarNode start = algorithm_node_map.get(start_id);
