@@ -68,6 +68,9 @@ public class ModifyMapController {
     TextField short_name;
 
     @FXML
+    TextField kiosk_location_name;
+
+    @FXML
     AnchorPane pane;
 
     @FXML
@@ -151,7 +154,7 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes());
 
         lop = FXCollections.observableArrayList();
-        lop.addAll("View Map","Add Location", "Add Path", "Delete Location");
+        lop.addAll("View Map","Add Location", "Add Path", "Delete Location", "Set Kiosk Location");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
@@ -269,26 +272,36 @@ public class ModifyMapController {
             add_edge_box.setVisible(true);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("Add Location")) {
             add_node_box.setVisible(true);
             add_edge_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("View Map")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(false);
         }
         else if (location_or_path.getValue().toString().equals("Delete Location")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(true);
+            kiosk_location_name.setVisible(false);
+        }
+        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+            add_edge_box.setVisible(false);
+            add_node_box.setVisible(false);
+            delete_loc_box.setVisible(false);
+            kiosk_location_name.setVisible(true);
         }
     }
 
     @FXML
-    TextField location_one, location_two, location_to_delete;
+    TextField location_one, location_two, location_to_delete, kiosk_location;
 
     @FXML
     VBox add_edge_box, delete_loc_box;
@@ -425,6 +438,16 @@ public class ModifyMapController {
                 if (entry.getValue().contains(pt)) {
                     entry_to_delete = entry;
                     location_to_delete.setText(entry.getKey().getNodeID());
+                }
+            }
+        }
+
+        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+            Point2D pt = new Point2D(click.getX(), click.getY());
+            for (Map.Entry<data.Node, ImageView> entry : nodes_list.entrySet()) {
+                if (entry.getValue().contains(pt)) {
+                    HomePageController.setKioskDefaultLocation(entry.getKey().getNodeID());
+                    kiosk_location_name.setText(entry.getKey().getShortName());
                 }
             }
         }
