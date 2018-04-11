@@ -11,12 +11,7 @@ public class AllText {
         return new String[] {"en", "es", "ru"};
     }
     public static String get(String key) {
-        try {
-            return new String(bundle.getString(key).getBytes(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return bundle.getString(key);
     }
 
     public static String getLanguage() {
