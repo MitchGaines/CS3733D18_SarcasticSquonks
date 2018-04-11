@@ -179,9 +179,6 @@ public class ModifyMapController {
         time.setText(dtf.format(now));
     }
 
-    @FXML
-    ImageView zoom_out, zoom_in;
-
     public void onZoomOut() {
         if(zoom_factor > 0.5) {
             zoom_factor -= 0.2;
@@ -383,7 +380,7 @@ public class ModifyMapController {
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", 1000, 1000); //TODO: id function
+                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1,0)); //TODO: id function
             pane.getChildren().clear();
             pane.getChildren().add(map);
             map.setImage(new Image(select3DMap()));
