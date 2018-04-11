@@ -3,6 +3,7 @@ package controller;
 import com.gluonhq.charm.glisten.control.ExpansionPanel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
 import database.Storage;
 import internationalization.AllText;
 import javafx.beans.binding.Bindings;
@@ -36,6 +37,8 @@ import user.User;
 
 public class HomePageController {
 
+    private static boolean include_stairs = true;
+
     @FXML
     JFXButton pathfind;
 
@@ -52,7 +55,6 @@ public class HomePageController {
     Label wrong_credentials;
 
     @FXML
-
     Label time, time2;
 
     @FXML
@@ -84,6 +86,9 @@ public class HomePageController {
     @FXML
     JFXButton INFO;
 
+    @FXML
+    JFXToggleButton stairs_toggle;
+
 
     /**
      * Performs this function during creation of Controller; sets up the ComboBoxes
@@ -98,8 +103,10 @@ public class HomePageController {
         ArrayList<data.Node> to_remove = new ArrayList<data.Node>();
         for(data.Node location : locations){
             if(location.getNodeType().equals("HALL") ||
-               location.getNodeType().equals("ELEV") ||
-               location.getNodeType().equals("STAI")){
+                    location.getNodeType().equals("ELEV") ||
+                    location.getNodeType().equals("STAI") ||
+                    location.getShortName().equals("CRN")){
+
                 to_remove.add(location);
             }
         }
@@ -162,16 +169,18 @@ public class HomePageController {
             alert.setContentText("You must select a starting and ending location that are different from each other.");
             alert.showAndWait();
         }
+        include_stairs = stairs_toggle.isSelected();
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
         Parent pathfind_parent = (Parent)loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
-
-        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        pathfind_stage.setTitle("Pathfinder");
-        pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
-        pathfind_stage.show();
+        if(PathfindController.isPathfindReady()){
+            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            pathfind_stage.setTitle("Pathfinder");
+            pathfind_stage.setScene(new Scene(pathfind_parent, window.getWidth(), window.getHeight()));
+            pathfind_stage.show();
+        }
     }
 
     @FXML
@@ -228,4 +237,8 @@ public class HomePageController {
         user_stage.setScene(user_scene);
         user_stage.show();
     } //END OF TEST
+
+    public static boolean includeStairs(){
+        return include_stairs;
+    }
 }
