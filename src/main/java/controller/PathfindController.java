@@ -264,16 +264,16 @@ public class PathfindController {
     }
 
     private static Image getFloorImage(int floor, mappingMode mode){
-        String[] images2d = {"images/00_thelowerlevel2.png",
-                "images/00_thelowerlevel1.png",
-                "images/01_thefirstfloor.png",
-                "images/02_thesecondfloor.png",
-                "images/03_thethirdfloor.png"};
+        String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
+                "images/2dMaps/00_thelowerlevel1.png",
+                "images/2dMaps/01_thefirstfloor.png",
+                "images/2dMaps/02_thesecondfloor.png",
+                "images/2dMaps/03_thethirdfloor.png"};
         String[] images3d = {"images/L2-NO-ICONS.png",
-                "images/L1-NO-ICONS.png",
-                "images/1-NO-ICONS.png",
-                "images/2-NO-ICONS.png",
-                "images/3-NO-ICONS.png"};
+                "images/3dMaps/L1-NO-ICONS.png",
+                "images/3dMaps/1-NO-ICONS.png",
+                "images/3dMaps/2-NO-ICONS.png",
+                "images/3dMaps/3-NO-ICONS.png"};
         if(mode == mappingMode.MAP2D)
             return new Image(images2d[floor]);
         else
