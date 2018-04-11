@@ -37,7 +37,7 @@ public class ServiceAreaController {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
         request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
-        locations.addAll(Storage.getInstance().getAllNodes());
+        //locations.addAll(Storage.getInstance().getAllNodes());
         service_location.setConverter(new StringConverter<Node>() {
             @Override
             public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
@@ -122,7 +122,7 @@ public class ServiceAreaController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Service Request Created");
         alert.setHeaderText("Service Request Created");
-        alert.setContentText("Your edu.wpi.cs3733d18.teamS.service request was created successfully.");
+        alert.setContentText("Your service request was created successfully.");
         alert.showAndWait();
 
     }
@@ -167,6 +167,8 @@ public class ServiceAreaController {
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+        locations.addAll(Storage.getInstance().getAllNodes());
+        request_service_button.setText("Request service");
         //populateRequestsBox();
     }
 
