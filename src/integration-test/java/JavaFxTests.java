@@ -114,9 +114,8 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testPathfind() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         clickOn("#back_button");
@@ -127,9 +126,8 @@ public class JavaFxTests extends ApplicationTest {
         clickOn("#language_selector");
         clickOn("Spanish");
         clickOn("Confirm");
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         verifyThat("#toggle_map_btn", hasText("Mapa en 3D"));
@@ -138,9 +136,8 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testQRcodePopUp() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         clickOn("Step-by-Step Directions");
@@ -150,9 +147,8 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testMapSwitcher() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         verifyThat("#toggle_map_btn", hasText("3D Map"));
@@ -165,9 +161,8 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testSwitchFloors() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         clickOn("#map_img");
@@ -184,9 +179,8 @@ public class JavaFxTests extends ApplicationTest {
 
     @Test
     public void testMapZoom() {
-        clickOn("#combobox_start");
-        clickOn("15 Francis Security Desk Floor 2");
         clickOn("#combobox_end");
+        write("15 Lobby");
         clickOn("15 Lobby Entrance Floor 2");
         clickOn("#pathfind");
         clickOn("#zoom_out");
