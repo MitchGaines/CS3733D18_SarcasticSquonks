@@ -48,6 +48,19 @@ public class Path {
         for (int i = 1; i < (algorithm_node_path.size()-1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i-1), algorithm_node_path.get(i));
 
+            int curr_floor = 0;
+            int next_floor = 0;
+
+            if(algorithm_node_path.get(i-1).floor.equals("L2")){ curr_floor = -2; }
+            else if (algorithm_node_path.get(i-1).floor.equals("L1")) { curr_floor = -1; }
+            else if (algorithm_node_path.get(i-1).floor.equals("G")) { curr_floor = 0; }
+            else { curr_floor = Integer.parseInt(algorithm_node_path.get(i-1).floor); }
+
+            if(algorithm_node_path.get(i).floor.equals("L2")){ next_floor = -2; }
+            else if (algorithm_node_path.get(i).floor.equals("L1")) { next_floor = -1; }
+            else if (algorithm_node_path.get(i).floor.equals("G")) { next_floor = 0; }
+            else { next_floor = Integer.parseInt(algorithm_node_path.get(i).floor); }
+
             while(i + 1 < algorithm_node_path.size() - 1
                     && calcTurnDir(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) == 'S'){
                 distance += calcDistance(algorithm_node_path.get(i), algorithm_node_path.get(i + 1));
@@ -57,6 +70,12 @@ public class Path {
             path_description += "In " + distance + " feet, "
                     + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i+1))
                     + "." + System.lineSeparator();
+
+            if(next_floor > curr_floor) {
+                path_description += "Use stairs/elevator to go up to floor " + algorithm_node_path.get(i).floor + "." + System.lineSeparator();
+            } else if (next_floor < curr_floor){
+                path_description += "Use stairs/elevator to go down to floor " + algorithm_node_path.get(i).floor + "." + System.lineSeparator();
+            }
         }
         path_description += "Destination is "
                 + calcDistance(algorithm_node_path.get(algorithm_node_path.size()-2), algorithm_node_path.get(algorithm_node_path.size()-1))

@@ -5,6 +5,7 @@ import internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -46,6 +48,9 @@ public class AdminPageController extends UserController {
         Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
         Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         modify_nodes_stage.setTitle("View Reports");
+
+        Timeout.addListenersToScene(view_reports_scene);
+
         modify_nodes_stage.setScene(view_reports_scene);
         modify_nodes_stage.show();
     }
@@ -57,6 +62,9 @@ public class AdminPageController extends UserController {
         Scene modify_nodes_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
         Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         modify_nodes_stage.setTitle("Modify Nodes");
+
+        Timeout.addListenersToScene(modify_nodes_scene);
+
         modify_nodes_stage.setScene(modify_nodes_scene);
         modify_nodes_stage.show();
     }
