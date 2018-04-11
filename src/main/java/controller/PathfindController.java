@@ -4,6 +4,7 @@ import database.Storage;
 import internationalization.AllText;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +18,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -45,6 +47,12 @@ public class PathfindController {
 
     private int current_floor;
     private Map map;
+
+
+    double zoom_factor;
+
+    @FXML
+    ImageView zoom_in, zoom_out;
 
     private static boolean PATHFIND_READY = false;
 
@@ -78,6 +86,7 @@ public class PathfindController {
     Label time;
 
     public void initialize() {
+        zoom_factor = 1;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
@@ -86,12 +95,35 @@ public class PathfindController {
         enable2DMapping();
     }
 
+    public void onZoomOut() {
+        if(zoom_factor > 0.5) {
+            zoom_factor -= 0.2;
+            map_scroll_pane.getContent().setScaleX(zoom_factor);
+            map_scroll_pane.setLayoutX(zoom_factor);
+            map_scroll_pane.getContent().setScaleY(zoom_factor);
+            map_scroll_pane.setLayoutY(zoom_factor);
+        }
+    }
+
+    public void onZoomIn()  {
+        if (zoom_factor < 1.8) {
+            zoom_factor += 0.2;
+            map_scroll_pane.getContent().setScaleX(zoom_factor);
+            map_scroll_pane.setLayoutX(zoom_factor);
+            map_scroll_pane.getContent().setScaleY(zoom_factor);
+            map_scroll_pane.setLayoutY(zoom_factor);
+        }
+    }
+
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
+
+        Timeout.addListenersToScene(home_scene);
+
         home_stage.setScene(home_scene);
         home_stage.show();
     }
@@ -135,9 +167,8 @@ public class PathfindController {
         map.drawPath(pathfinder.pathfinder_path.getAStarNodePath());
 
         if(pathfinder.pathfinder_path.getAStarNodePath().size()>1){
-            // Centering ScrollPane on path
-            int start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord();
-            int start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord();
+            double start_x = pathfinder.pathfinder_path.getAStarNodePath().get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = pathfinder.pathfinder_path.getAStarNodePath().get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
 
@@ -148,7 +179,7 @@ public class PathfindController {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+            expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
             PATHFIND_READY = true;
         }
     }
@@ -182,7 +213,7 @@ public class PathfindController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        qr_img.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
+        expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
     public void updateMap(){
@@ -197,8 +228,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -217,8 +248,8 @@ public class PathfindController {
         ArrayList<AStarNode> path = map.getPath();
 
         if(node1 != null && node2 != null){
-            int start_x = path.get(0).getXCoord();
-            int start_y = path.get(0).getYCoord();
+            double start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
+            double start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
             map_scroll_pane.setHvalue(start_x);
             map_scroll_pane.setVvalue(start_y);
         }
@@ -259,13 +290,14 @@ public class PathfindController {
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(adj);
-        expanded_qr.setImage(qr_img.getImage());
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(adj);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(adj);
         expanded_qr.isPreserveRatio();
         expanded_qr.setVisible(true);
     }
 
     @FXML
-    BorderPane header_pane;
+    BorderPane header_pane, footer_pane;
 
     public void onBigQRClick(){
         expanded_qr.setVisible(false);
@@ -274,10 +306,13 @@ public class PathfindController {
             a_node.setStyle("-fx-background-color: null");
             a_node.setEffect(null);
         }
-        header_pane.setStyle("-fx-background-color:  #4863A0");
+        header_pane.setStyle("-fx-background-color: #4863A0");
+        footer_pane.setStyle("-fx-background-color: #4863A0");
         Parent a_parent = expanded_qr.getParent();
         a_parent.setEffect(null);
         a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(1).setEffect(null);
+        a_parent.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onMapUp() {

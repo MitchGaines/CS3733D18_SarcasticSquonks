@@ -38,6 +38,9 @@ public class UserController{
         Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
+
+        Timeout.addListenersToScene(home_scene);
+
         home_stage.setScene(home_scene);
         home_stage.show();
     }
@@ -66,6 +69,9 @@ public class UserController{
         Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
         Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         home_stage.setTitle("Brigham and Women's");
+
+        Timeout.addListenersToScene(home_scene);
+
         home_stage.setScene(home_scene);
         log_controller.setUser(user);
         log_controller.setReturnPage(page);
