@@ -1,0 +1,4 @@
+username,password,type,can_mod_map
+doctor,doctor,DOCTOR,false
+admin,admin,ADMIN_STAFF,true
+staff,staff,REGULAR_STAFF,false
