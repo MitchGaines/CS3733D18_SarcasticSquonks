@@ -392,18 +392,6 @@ public class ModifyMapController {
             scene.setCursor(Cursor.DEFAULT);
             add_node_box.setVisible(false);
             choose_floor.setVisible(false);
-            /*
-            ImageView pin = new ImageView("images/nodeIcon.png");
-            pin.setX(click.getX());
-            pin.setY(click.getY());
-            nodes_list.put(new_node, pin);
-            storage.saveNode(new_node);
-            pane.getChildren().add(pin);
-            scene.setCursor(Cursor.DEFAULT);
-            endAddLoc();
-            add_node_box.setVisible(false);
-            location_or_path.getSelectionModel().selectFirst();
-            */
         }
 
         else if (location_or_path.getValue().toString().equals("Add Path") && first_click) {
