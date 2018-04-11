@@ -36,8 +36,9 @@ public class Main extends Application {
         primaryStage.setTitle("Brigham and Women's");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
-        ServiceType.createDummyTypes();
 
+        //ServiceType.createDummyTypes();
+        //TODO: actually use LoginHandler correctly.
         // before system shutdown
         primaryStage.setOnCloseRequest(windowEvent -> {
 
