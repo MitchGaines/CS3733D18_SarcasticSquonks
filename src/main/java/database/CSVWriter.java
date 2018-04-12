@@ -6,7 +6,7 @@ import java.sql.*;
 /**
  * Parses a table and writes to a CSV file.
  * @author Joseph Turcotte
- * @version 1.0
+ * @version %I%, %G%
  * Date: March 24, 2018
  * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
  *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
