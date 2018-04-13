@@ -12,6 +12,8 @@ import java.util.PriorityQueue;
  */
 public class DepthFirst implements ISearchAlgorithm {
 
+    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode2.getGCost() - AStarNode1.getGCost());
+
     /**
      * findPath (Depth First edition)
      * Finds the pathway between two points using the Depth First algorithm, This takes in a starting node's id, and end
@@ -69,7 +71,5 @@ public class DepthFirst implements ISearchAlgorithm {
         return start;
 
     }
-
-    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode2.getGCost() - AStarNode1.getGCost());
 }
 

@@ -14,50 +14,41 @@ import java.util.ArrayList;
  */
 public class AStarNode {
     /**
-     * Stores and ArrayList of AStarNodes for the neighboring nodes.
-     */
-    private ArrayList<AStarNode> neighbors = new ArrayList<>();
-
-    /**
-     * Stores the parent node of the current node.
-     */
-    private AStarNode parent = null;
-
-    /**
-     * Stores the f_cost which is the sum of the g and h cost.
-     */
-    private double f_cost;
-
-    /**
-     * Stores the heuristic cost.
-     */
-    private double h_cost;
-
-    /**
-     * Stores the goal cost.
-     */
-    private double g_cost;
-
-    /**
-     * Stores the 2D x and y coordinate of the node.
-     */
-    private int x_coord, y_coord;
-
-    /**
-     * Stores the 3D x and y coordinate of the node.
-     */
-    private int x_coord_3d,y_coord_3d;
-
-    /**
      * Stores the floor the node is on.
      */
     String floor;
-
     /**
      * Stores the abbreviated name of the node.
      */
     String short_name;
-
+    /**
+     * Stores and ArrayList of AStarNodes for the neighboring nodes.
+     */
+    private ArrayList<AStarNode> neighbors = new ArrayList<>();
+    /**
+     * Stores the parent node of the current node.
+     */
+    private AStarNode parent = null;
+    /**
+     * Stores the f_cost which is the sum of the g and h cost.
+     */
+    private double f_cost;
+    /**
+     * Stores the heuristic cost.
+     */
+    private double h_cost;
+    /**
+     * Stores the goal cost.
+     */
+    private double g_cost;
+    /**
+     * Stores the 2D x and y coordinate of the node.
+     */
+    private int x_coord, y_coord;
+    /**
+     * Stores the 3D x and y coordinate of the node.
+     */
+    private int x_coord_3d,y_coord_3d;
     /**
      * Stores the full official name of the node.
      */

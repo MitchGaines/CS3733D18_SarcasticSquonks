@@ -16,35 +16,29 @@ import java.util.*;
 
 public class Pathfinder {
     /**
+     * Stores the path.
+     */
+    public Path pathfinder_path = new Path();
+    /**
      * Stores a HashMap of the Algorithm nodes on the map.
      */
     private HashMap<String, AStarNode> algorithm_node_map = new HashMap<>();
-
     /**
      * Stores a HashMap of the Nodes.
      */
     private HashMap<String, Node> nodes = new HashMap();
-
     /**
      * Stores a HashMap of the Edges.
      */
     private HashMap<String, Edge> edges = new HashMap();
-
     /**
      * Stores the Goal node.
      */
     private AStarNode goal;
-
     /**
      * Stores the Start node.
      */
     private AStarNode start;
-
-    /**
-     * Stores the path.
-     */
-    public Path pathfinder_path = new Path();
-
     /**
      * Stores the path finding algorithm.
      */
