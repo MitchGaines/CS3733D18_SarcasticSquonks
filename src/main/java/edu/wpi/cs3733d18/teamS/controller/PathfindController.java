@@ -133,9 +133,9 @@ public class PathfindController {
 
         Pathfinder pathfinder;
         int select = AdminPageController.getChoosenAlg();
-        if (is_quick || select == 2) {
-            pathfinder = new Pathfinder(new BreadthFirst());
-        } else if (select == 1) {
+        if (is_quick || select == 1) {
+            pathfinder = new Pathfinder(new Dijkstras());
+        } else if (select == 2) {
             pathfinder = new Pathfinder(new DepthFirst());
         } else {
             pathfinder = new Pathfinder(new AStar());
