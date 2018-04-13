@@ -204,11 +204,11 @@ public class Path {
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }
 
-    private double[] getPoints(boolean is_3D, AStarNode node){
-        if(is_3D) {
-            return new double[] {node.getXCoord3D(), node.getYCoord3D()};
-        }else{
-            return new double[] {node.getXCoord(), node.getYCoord()};
+    private double[] getPoints(boolean is_3D, AStarNode node) {
+        if (is_3D) {
+            return new double[]{node.getXCoord3D(), node.getYCoord3D()};
+        } else {
+            return new double[]{node.getXCoord(), node.getYCoord()};
         }
     }
 
@@ -219,20 +219,20 @@ public class Path {
         double x;
         double y;
 
-        for(AStarNode node : algorithm_node_path){
+        for (AStarNode node : algorithm_node_path) {
             previous_floor = current_floor;
             current_floor = Map.floor_ids.indexOf(node.floor);
             double[] coords = getPoints(is_3D, node);
             x = coords[0];
             y = coords[1];
 
-            if(current_floor > previous_floor){
-                if(previous_floor == floor){
-                    icons.add(generateIcon(2,x,y));
+            if (current_floor > previous_floor) {
+                if (previous_floor == floor) {
+                    icons.add(generateIcon(2, x, y));
                 }
-            }else if(current_floor < previous_floor){
-                if(previous_floor == floor){
-                    icons.add(generateIcon(3,x,y));
+            } else if (current_floor < previous_floor) {
+                if (previous_floor == floor) {
+                    icons.add(generateIcon(3, x, y));
                 }
             }
         }
@@ -250,20 +250,19 @@ public class Path {
             x = coords[0];
             y = coords[1];
             if (node.floor.equals(Map.floor_ids.get(floor))) {
-                if(polyline_begun) {
-                    polylines.get(index).getPoints().addAll(x,y);
-                }
-                else {
+                if (polyline_begun) {
+                    polylines.get(index).getPoints().addAll(x, y);
+                } else {
                     polyline_begun = true;
                     index++;
                     polylines.add(new Polyline());
-                    polylines.get(index).getPoints().addAll(x,y);
+                    polylines.get(index).getPoints().addAll(x, y);
                 }
             } else {
                 polyline_begun = false;
             }
         }
-        for(Polyline p : polylines) {
+        for (Polyline p : polylines) {
             stylizePolyline(p);
         }
         return polylines;

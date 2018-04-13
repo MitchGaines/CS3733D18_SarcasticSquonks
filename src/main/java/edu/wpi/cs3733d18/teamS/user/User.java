@@ -15,19 +15,16 @@ import java.util.Objects;
  */
 
 public class User {
+    user_type type;
     private long user_id;
     private boolean can_mod_map;
     private String username;
     private byte[] password_salt;
     private byte[] enc_password;
-
     // for edu.wpi.cs3733d18.teamS.database storage purposes
     private String plainPassword; // TODO unencrypted passwords
 
-    public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
-    user_type type;
-
-    public User(String username, String password, user_type type, boolean can_mod_map){
+    public User(String username, String password, user_type type, boolean can_mod_map) {
         plainPassword = password;
         password_salt = new byte[16];
         new SecureRandom().nextBytes(password_salt);
@@ -36,8 +33,8 @@ public class User {
 
         byte[] password_unsalted = password.getBytes();
         byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
-        System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
-        System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
 
         enc_password = Base64.getEncoder().encode(password_salted);
 
@@ -66,6 +63,15 @@ public class User {
     }
 
     /**
+     * Returns the username of the current User
+     *
+     * @return username of the User
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
      * Takes a String as a parameter and changes the username of the current
      * User to the String in the parameter
      *
@@ -74,13 +80,6 @@ public class User {
     public void setUsername(String new_username) {
         username = new_username;
     }
-
-    /**
-     * Returns the username of the current User
-     *
-     * @return username of the User
-     */
-    public String getUsername() { return username; }
 
     public byte[] getEncodedPassword() {
         return enc_password;
@@ -94,14 +93,22 @@ public class User {
         return type;
     }
 
-    public void setType(user_type ut) { type = ut; }
+    public void setType(user_type ut) {
+        type = ut;
+    }
 
-    public long getUserID() { return user_id; }
+    public long getUserID() {
+        return user_id;
+    }
 
-    public void setUserID(long new_id) { user_id = new_id; }
+    public void setUserID(long new_id) {
+        user_id = new_id;
+    }
 
     // TODO unsafe!
-    public String getPlainPassword() { return plainPassword; }
+    public String getPlainPassword() {
+        return plainPassword;
+    }
 
     @Override
     public String toString() {
@@ -135,4 +142,6 @@ public class User {
 //        result = 31 * result + Arrays.hashCode(enc_password);
         return result;
     }
+
+    public enum user_type {DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
 }

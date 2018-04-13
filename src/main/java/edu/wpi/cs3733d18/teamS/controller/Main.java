@@ -5,20 +5,25 @@ import edu.wpi.cs3733d18.teamS.database.CSVReader;
 import edu.wpi.cs3733d18.teamS.database.CSVWriter;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
 
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+        Timeout.stop();
+    }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         AllText.changeLanguage("en");
-        
+
         // set edu.wpi.cs3733d18.teamS.database and storage class
         Storage storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
@@ -60,10 +65,5 @@ public class Main extends Application {
             }
         });
 
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-        Timeout.stop();
     }
 }
