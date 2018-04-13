@@ -117,16 +117,7 @@ public class PathfindController {
     }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        home_stage.show();
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
 
     void doPathfinding(String node1, String node2) {

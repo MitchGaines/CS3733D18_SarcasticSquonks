@@ -116,21 +116,9 @@ public class LogController {
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
-        Parent user_parent = loader.load();
-        UserController controller = loader.getController();
-        controller.setUser(user);
-        controller.setPage(return_page);
-        controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
-        Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        user_stage.setTitle("User");
+        UserController user_controller = (UserController)Main.switchScenes("User", return_page);
+        user_controller.setUp(user, return_page);
 
-        Timeout.addListenersToScene(user_scene);
-
-        user_stage.setScene(user_scene);
-        user_stage.show();
     }
 
 }

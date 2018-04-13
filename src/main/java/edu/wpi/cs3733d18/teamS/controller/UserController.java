@@ -47,13 +47,19 @@ public class UserController {
         home_stage.show();
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
         populateBoxes();
     }
 
-    public void populateBoxes() {
+    public void setUp(User user, String page) {
+        setUser(user);
+        setPage(page);
+        populateBoxes();
+    }
+
+    private void populateBoxes() {
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
     }
@@ -77,7 +83,7 @@ public class UserController {
         home_stage.show();
     }
 
-    public void setPage(String page) {
+    private void setPage(String page) {
         this.page = page;
     }
 
