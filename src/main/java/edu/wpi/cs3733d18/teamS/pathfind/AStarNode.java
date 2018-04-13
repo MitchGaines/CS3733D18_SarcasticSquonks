@@ -184,11 +184,11 @@ public class AStarNode {
         return id;
     }
   
-    public int getX_coord_3d() {
+    int getXCoord3D() {
         return x_coord_3d;
     }
 
-    public int getY_coord_3d() {
+    int getYCoord3D() {
         return y_coord_3d;
     }
 

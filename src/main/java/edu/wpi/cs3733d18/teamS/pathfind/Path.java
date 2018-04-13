@@ -206,7 +206,7 @@ public class Path {
 
     private double[] getPoints(boolean is_3D, AStarNode node){
         if(is_3D) {
-            return new double[] {node.getX_coord_3d(), node.getY_coord_3d()};
+            return new double[] {node.getXCoord3D(), node.getYCoord3D()};
         }else{
             return new double[] {node.getXCoord(), node.getYCoord()};
         }
