@@ -175,11 +175,11 @@ public class AStarNode {
         return id;
     }
   
-    int getXCoord3D() {
+    public int getXCoord3D() {
         return x_coord_3d;
     }
 
-    int getYCoord3D() {
+    public int getYCoord3D() {
         return y_coord_3d;
     }
 

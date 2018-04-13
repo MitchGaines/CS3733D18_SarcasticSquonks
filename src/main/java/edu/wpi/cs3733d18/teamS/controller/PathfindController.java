@@ -187,8 +187,8 @@ public class PathfindController {
             start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
             start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
         }else{
-            start_x = path.get(0).getX_coord_3d() / map_img.getImage().getWidth();
-            start_y = path.get(0).getY_coord_3d() / map_img.getImage().getHeight();
+            start_x = path.get(0).getXCoord3D() / map_img.getImage().getWidth();
+            start_y = path.get(0).getYCoord3D() / map_img.getImage().getHeight();
         }
 
         map_scroll_pane.setHvalue(start_x);
