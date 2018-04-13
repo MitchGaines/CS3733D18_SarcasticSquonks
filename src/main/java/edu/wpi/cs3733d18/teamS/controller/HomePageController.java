@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
@@ -126,7 +125,7 @@ public class HomePageController {
         combobox_start.setConverter(string_node_converter);
         combobox_end.setConverter(string_node_converter);
 
-        ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<edu.wpi.cs3733d18.teamS.data.Node>();
+        ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<>();
         for (edu.wpi.cs3733d18.teamS.data.Node location : locations) {
             if (location.getNodeType().equals("HALL") ||
                     location.getNodeType().equals("ELEV") ||
@@ -304,23 +303,25 @@ public class HomePageController {
         try {
             User user = loginHandler.login(username.getText(), password.getText());
             System.out.println(user);
-            if (user.getType() == User.user_type.DOCTOR) {
-                openUser(event, "/DoctorPage.fxml", user);
-            } else if (user.getType() == User.user_type.ADMIN_STAFF) {
-                openUser(event, "/AdminPage.fxml", user);
-            } else if (user.getType() == User.user_type.REGULAR_STAFF) {
-                openUser(event, "/RegStaffPage.fxml", user);
+            switch (user.getType()) {
+                case DOCTOR:
+                    openUser(event, "/DoctorPage.fxml", user);
+                    break;
+                case ADMIN_STAFF:
+                    openUser(event, "/AdminPage.fxml", user);
+                    break;
+                case REGULAR_STAFF:
+                    openUser(event, "/RegStaffPage.fxml", user);
+                    break;
             }
-        } catch (InvalidPasswordException e) {
-            wrong_credentials.setText("Wrong username or password");
-        } catch (InvalidUsernameException e) {
+        } catch (InvalidPasswordException | InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
     }
 
     //PART OF THE USER TEST
     public void openUser(ActionEvent event, String page, User user) throws IOException {
-        UserController user_controller = (UserController)Main.switchScenes("User", page);
+        UserController user_controller = (UserController) Main.switchScenes("User", page);
         user_controller.setUp(user, page);
 
     } //END OF TEST

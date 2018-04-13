@@ -292,16 +292,22 @@ public class Path {
 
     private ImageView generateIcon(int pic_num, double x, double y) {
         String path;
-        if (pic_num == 0) {
-            path = "images/mapIcons/destinationIcon.png";
-        } else if (pic_num == 1) {
-            path = "images/mapIcons/startingIcon.png";
-        } else if (pic_num == 2) {
-            path = "images/mapIcons/up.png";
-        } else if (pic_num == 3) {
-            path = "images/mapIcons/down.png";
-        } else {
-            path = "images/mapIcons/destinationIcon.png";
+        switch (pic_num) {
+            case 0:
+                path = "images/mapIcons/destinationIcon.png";
+                break;
+            case 1:
+                path = "images/mapIcons/startingIcon.png";
+                break;
+            case 2:
+                path = "images/mapIcons/up.png";
+                break;
+            case 3:
+                path = "images/mapIcons/down.png";
+                break;
+            default:
+                path = "images/mapIcons/destinationIcon.png";
+                break;
         }
 
         ImageView icon = new ImageView(new Image(path));

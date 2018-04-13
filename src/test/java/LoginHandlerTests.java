@@ -35,9 +35,7 @@ public class LoginHandlerTests {
         try {
             u = lh.login("doctor", "doctor");
             Assert.assertTrue(u.getType() == User.user_type.DOCTOR);
-        } catch (InvalidPasswordException e) {
-            Assert.fail();
-        } catch (InvalidUsernameException e) {
+        } catch (InvalidPasswordException | InvalidUsernameException e) {
             Assert.fail();
         }
     }
@@ -50,9 +48,7 @@ public class LoginHandlerTests {
         try {
             u = lh.login("admin", "admin");
             Assert.assertTrue(u.getType() == User.user_type.ADMIN_STAFF);
-        } catch (InvalidPasswordException e) {
-            Assert.fail();
-        } catch (InvalidUsernameException e) {
+        } catch (InvalidPasswordException | InvalidUsernameException e) {
             Assert.fail();
         }
     }
@@ -65,9 +61,7 @@ public class LoginHandlerTests {
         try {
             u = lh.login("staff", "staff");
             Assert.assertTrue(u.getType() == User.user_type.REGULAR_STAFF);
-        } catch (InvalidPasswordException e) {
-            Assert.fail();
-        } catch (InvalidUsernameException e) {
+        } catch (InvalidPasswordException | InvalidUsernameException e) {
             Assert.fail();
         }
     }

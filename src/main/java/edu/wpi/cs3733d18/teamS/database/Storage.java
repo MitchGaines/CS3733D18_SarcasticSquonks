@@ -604,12 +604,12 @@ public class Storage {
      */
     private List<ServiceRequest> getRequests(ResultSet r_set) {
         List<ServiceRequest> requests = new LinkedList<>();
-        List<Long> id_requesters = new LinkedList<Long>();
-        List<Long> id_fulfillers = new LinkedList<Long>();
-        List<String> types = new LinkedList<String>();
-        List<String> locations = new LinkedList<String>();
-        List<DateTime> requestDateTimes = new LinkedList<DateTime>();
-        List<DateTime> fulfillDateTimes = new LinkedList<DateTime>();
+        List<Long> id_requesters = new LinkedList<>();
+        List<Long> id_fulfillers = new LinkedList<>();
+        List<String> types = new LinkedList<>();
+        List<String> locations = new LinkedList<>();
+        List<DateTime> requestDateTimes = new LinkedList<>();
+        List<DateTime> fulfillDateTimes = new LinkedList<>();
 
         // return an empty list if query didn't return anything
         if (r_set == null) {
@@ -787,7 +787,7 @@ public class Storage {
             String name = r_set.getString("name");
             boolean emergency = r_set.getBoolean("emergency");
 
-            ServiceType serviceType = ServiceType.createServiceType(name, emergency, new HashSet<User>());
+            ServiceType serviceType = ServiceType.createServiceType(name, emergency, new HashSet<>());
 
             return serviceType;
 

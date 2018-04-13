@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0"
-            xmlns="http://javafx.com/javafx/8.0.141" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageController">
+            xmlns="http://javafx.com/javafx/8.0.141"
+            fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageController">
     <top>
         <ExpansionPanel fx:id="exp_panel" prefWidth="1200.0" BorderPane.alignment="CENTER">
             <expandedContent>

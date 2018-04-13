@@ -15,7 +15,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
