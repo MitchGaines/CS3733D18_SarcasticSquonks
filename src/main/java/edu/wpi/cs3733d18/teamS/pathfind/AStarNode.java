@@ -16,7 +16,7 @@ public class AStarNode {
     /**
      * Stores and ArrayList of AStarNodes for the neighboring nodes.
      */
-    private ArrayList<AStarNode> neighbors = new ArrayList<AStarNode>();
+    private ArrayList<AStarNode> neighbors = new ArrayList<>();
 
     /**
      * Stores the parent node of the current node.
@@ -61,12 +61,12 @@ public class AStarNode {
     /**
      * Stores the full official name of the node.
      */
-    String long_name;
+    private String long_name;
 
     /**
      * Stores the id of the node.
      */
-    String id;
+    private String id;
 
 
     /**
@@ -80,7 +80,7 @@ public class AStarNode {
      * @param long_name The long official name of the node.
      * @param floor The floor the node is on.
      */
-    public AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name, String floor){
+    AStarNode(String id, int x_coord, int y_coord, int x_coord_3d, int y_coord_3d, String short_name, String long_name, String floor){
         this.id = id;
         this.x_coord = x_coord;
         this.y_coord = y_coord;
@@ -93,19 +93,16 @@ public class AStarNode {
 
     //TODO write javadoc comments for getters and setters
     //getters
-    public String getShortName(){
-        return this.short_name;
-    }
 
-    public double getGCost(){
+    double getGCost(){
         return this.g_cost;
     }
 
-    public String getID(){
+    String getID(){
         return this.id;
     }
 
-    public double getFCost() {
+    double getFCost() {
         this.f_cost = this.g_cost + this.h_cost;
         return f_cost;
     }
@@ -117,7 +114,7 @@ public class AStarNode {
      * @param next The next node.
      * @return the distance in pixels in between nodes.
      */
-    public double distanceTo(AStarNode next){
+    double distanceTo(AStarNode next){
         double xDist = Math.abs(this.x_coord - next.x_coord);
         double yDist = Math.abs(this.y_coord - next.y_coord);
         return Math.sqrt((Math.pow(xDist,2) + Math.pow(yDist,2)));
@@ -126,7 +123,7 @@ public class AStarNode {
     /**
      * Calculates the F cost for the algorithm calculation which is the sum of the G and H cost.
      */
-    public void calcFCost(){
+    void calcFCost(){
         this.f_cost = this.g_cost + this.h_cost;
     }
 
@@ -134,7 +131,7 @@ public class AStarNode {
      * Calculates the new G cost based on the previous node.
      * @param previous the previous node on the path.
      */
-    public void newGCost(AStarNode previous){
+    void newGCost(AStarNode previous){
         int floor_cost = 0;
         if(!this.floor.equals(previous.floor)){
             int next_floor = Map.floor_ids.indexOf(this.floor);
@@ -149,18 +146,16 @@ public class AStarNode {
      * Calculates the new H Cost.
      * @param goal the destination node.
      */
-    public void newHCost(AStarNode goal){
+    void newHCost(AStarNode goal){
         this.h_cost = this.distanceTo(goal);
     }
-
-    //returns if the id's
 
     /**
      * Checks the id of an AStarNode and compares it with this one.
      * @param AStarNode1 A different AStarNode to compare to.
      * @return true if the ids equal each other false otherwise.
      */
-    public boolean checkID(AStarNode AStarNode1){
+    boolean checkID(AStarNode AStarNode1){
         return this.id.equals(AStarNode1.id);
     }
 
@@ -181,12 +176,8 @@ public class AStarNode {
         return y_coord;
     }
 
-    public String getLongName() {
+    String getLongName() {
         return long_name;
-    }
-
-    public double getHCost() {
-        return h_cost;
     }
 
     public String getId() {
@@ -206,7 +197,7 @@ public class AStarNode {
      * @return the ArrayList of neighboring nodes excluding stairs if the function on the
      * homepage edu.wpi.cs3733d18.teamS.controller is selected.
      */
-    public ArrayList<AStarNode> getNeighbors() {
+    ArrayList<AStarNode> getNeighbors() {
         if(!HomePageController.includeStairs()){
             ArrayList<AStarNode> toRemove = new ArrayList<>();
             for(AStarNode neighbor: this.neighbors){
@@ -223,7 +214,7 @@ public class AStarNode {
      * Adds a Neighbor to the neighbors ArrayList.
      * @param neighbor the neighboring node.
      */
-    public void addNeighbor(AStarNode neighbor){
+    void addNeighbor(AStarNode neighbor){
         this.neighbors.add(neighbor);
     }
 }
