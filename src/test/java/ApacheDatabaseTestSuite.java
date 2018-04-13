@@ -5,12 +5,14 @@
  * Date: March 28, 2018
  */
 
-import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.sql.*;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ApacheDatabaseTestSuite {
 
@@ -88,7 +90,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -105,7 +107,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs2 = data.query(table_name_edges, null, null, null, null);
         int length2 = 0;
         try {
-            while(rs2.next()) {
+            while (rs2.next()) {
                 length2++;
             }
         } catch (SQLException e) {
@@ -139,7 +141,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -162,7 +164,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs2 = data.query(table_name_edges, null, null, null, null);
         int length2 = 0;
         try {
-            while(rs2.next()) {
+            while (rs2.next()) {
                 length2++;
             }
         } catch (SQLException e) {
@@ -195,7 +197,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -338,7 +340,7 @@ public class ApacheDatabaseTestSuite {
         // test that we only have two entries
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
             Assert.assertEquals(length, 2);
@@ -378,7 +380,7 @@ public class ApacheDatabaseTestSuite {
             Assert.assertEquals(edge_id, "'3'");
 
             int length = 0;
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
             Assert.assertEquals(length, 1);

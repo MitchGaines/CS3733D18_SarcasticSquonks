@@ -1,32 +1,38 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class UserController{
+public class UserController {
 
+    @FXML
+    // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
+    protected ServiceAreaController serviceAreaController;
     @FXML
     Button logout_btn;
-
     @FXML
     BorderPane main_pane;
-
     @FXML
     Label time;
+    private User user;
+    private String page;
+    @FXML
+    private Label emergency_title, emergency_details, emergency_label;
 
     public void onLogoutClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -41,20 +47,19 @@ public class UserController{
         home_stage.show();
     }
 
-    private User user;
-
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
         populateBoxes();
     }
 
-    @FXML
-    // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
-    protected ServiceAreaController serviceAreaController;
+    public void setUp(User user, String page) {
+        setUser(user);
+        setPage(page);
+        populateBoxes();
+    }
 
-
-    public void populateBoxes() {
+    private void populateBoxes() {
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
     }
@@ -78,14 +83,9 @@ public class UserController{
         home_stage.show();
     }
 
-    private String page;
-
-    public void setPage(String page) {
+    private void setPage(String page) {
         this.page = page;
     }
-
-    @FXML
-    private Label emergency_title, emergency_details, emergency_label;
 
     public void declareEmergency(String title, edu.wpi.cs3733d18.teamS.data.Node location, String description) {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {

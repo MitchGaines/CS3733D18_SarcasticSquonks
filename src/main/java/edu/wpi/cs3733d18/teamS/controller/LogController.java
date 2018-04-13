@@ -1,6 +1,8 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,8 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -32,6 +32,10 @@ public class LogController {
 
     @FXML
     Label time;
+    @FXML
+    BorderPane main_pane;
+    private User user;
+    private String return_page;
 
     public void initialize() {
 
@@ -103,37 +107,18 @@ public class LogController {
 
     }
 
-    private User user;
-
     public void setUser(User user) {
         this.user = user;
     }
-
-    private String return_page;
 
     public void setReturnPage(String page) {
         return_page = page;
     }
 
-    @FXML
-    BorderPane main_pane;
-
     public void onBackClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
-        Parent user_parent = (Parent)loader.load();
-        UserController controller = loader.<UserController>getController();
-        controller.setUser(user);
-        controller.setPage(return_page);
-        controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
-        Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        user_stage.setTitle("User");
+        UserController user_controller = (UserController)Main.switchScenes("User", return_page);
+        user_controller.setUp(user, return_page);
 
-        Timeout.addListenersToScene(user_scene);
-
-        user_stage.setScene(user_scene);
-        user_stage.show();
     }
 
 }

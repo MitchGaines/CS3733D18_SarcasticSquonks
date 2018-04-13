@@ -1,13 +1,14 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 /**
  * This Class deals with the Map and related methods.
+ *
  * @author Will Lucca
  * @author Mathew Puentes
  * @author Mitch Gaines
@@ -43,9 +44,10 @@ public class Map {
 
     /**
      * Constructs a 3D map with path drawing capabilities
+     *
      * @param floor int
      */
-    public Map(AnchorPane map_anchor_pane, int floor, boolean is_3D){
+    public Map(AnchorPane map_anchor_pane, int floor, boolean is_3D) {
         this.map_anchor_pane = map_anchor_pane;
         this.floor = floor;
         this.is_3D = is_3D;
@@ -54,38 +56,44 @@ public class Map {
     /**
      * getPath
      * Retrieves the path.
+     *
      * @return the path of AStarNodes.
      */
-    public Path getPath(){
+    public Path getPath() {
         return path;
     }
 
     /**
      * setPath
      * Sets the Path, which is composed of and ArrayList of AStarNodes.
+     *
      * @param path List of nodes to draw along.
      */
-    public void setPath(Path path){
+    public void setPath(Path path) {
         this.path = path;
     }
 
-    public int getFloor() {return floor;}
+    public int getFloor() {
+        return floor;
+    }
 
     /**
      * setFloor
      * Sets the floor of the map.
+     *
      * @param floor the floor of the map.
      */
-    public void setFloor(int floor){
+    public void setFloor(int floor) {
         this.floor = floor;
     }
+
     /**
      * Clears the Icons from the map.
      */
-    public void clearIcons(){
+    public void clearIcons() {
         ArrayList<Node> toRemove = new ArrayList<>();
-        for(Node n : map_anchor_pane.getChildren()){
-            if(n.getId().equals("temporaryIcon")){
+        for (Node n : map_anchor_pane.getChildren()) {
+            if (n.getId().equals("temporaryIcon")) {
                 toRemove.add(n);
             }
         }

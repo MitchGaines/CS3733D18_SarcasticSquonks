@@ -4,14 +4,15 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import java.awt.Graphics2D;
-import java.awt.Color;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * This class deals with the QR code image and methods relating to it.
+ *
  * @author Mathew Puentes
  * @author Mitch Gaines
  * @version %I%, %G%
@@ -22,6 +23,7 @@ public class QRCode {
 
     /**
      * Creates a new QRCode object form the string that needs to be encoded.
+     *
      * @param str2enc The string to be encoded as a QR-Code.
      */
     public QRCode(String str2enc) {
@@ -30,9 +32,10 @@ public class QRCode {
 
     /**
      * Creates a BufferedImage of the QR-Code that should be displayed.
+     *
      * @return the QR-Code image.
      */
-    public BufferedImage getQRCode(){
+    public BufferedImage getQRCode() {
         QRCodeWriter qr_writer = new QRCodeWriter();
         int width = 300;
         int height = 300;

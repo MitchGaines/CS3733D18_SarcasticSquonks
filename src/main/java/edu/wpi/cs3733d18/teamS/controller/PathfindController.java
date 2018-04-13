@@ -2,37 +2,36 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import edu.wpi.cs3733d18.teamS.pathfind.*;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.net.MalformedURLException;
 
 public class PathfindController {
 
     private static boolean PATHFIND_READY = false;
-    private double zoom_factor;
     @FXML
     ImageView zoom_in, zoom_out;
     @FXML
@@ -53,12 +52,13 @@ public class PathfindController {
     Button toggle_map_btn;
     @FXML
     ImageView expanded_qr;
+    private double zoom_factor;
     private Storage db_storage;
     private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
     private int current_floor;
     private Map map;
 
-    private static Image getFloorImage(int floor, mappingMode mode){
+    private static Image getFloorImage(int floor, mappingMode mode) {
         String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
                 "images/2dMaps/00_thelowerlevel1.png",
                 "images/2dMaps/01_thefirstfloor.png",
@@ -71,13 +71,13 @@ public class PathfindController {
                 "images/3dMaps/2-NO-ICONS.png",
                 "images/3dMaps/3-NO-ICONS.png"};
 
-        if(mode == mappingMode.MAP2D)
+        if (mode == mappingMode.MAP2D)
             return new Image(images2d[floor]);
         else
             return new Image(images3d[floor]);
     }
 
-    static boolean isPathfindReady(){
+    static boolean isPathfindReady() {
         return PATHFIND_READY;
     }
 
@@ -93,12 +93,12 @@ public class PathfindController {
         updateMap();
     }
 
-    private void zoom(double zoom_amount){
+    private void zoom(double zoom_amount) {
         zoom_factor += zoom_amount;
-        if(zoom_factor > 0.5) {
+        if (zoom_factor > 0.5) {
             zoom_factor = 0.5;
         }
-        if(zoom_factor > 1.8) {
+        if (zoom_factor > 1.8) {
             zoom_factor = 1.8;
         }
         map_scroll_pane.getContent().setScaleX(zoom_factor);
@@ -112,28 +112,19 @@ public class PathfindController {
         zoom(-0.2);
     }
 
-    public void onZoomIn()  {
+    public void onZoomIn() {
         zoom(0.2);
     }
 
     public void onBackButtonClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        home_stage.show();
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
 
     void doPathfinding(String node1, String node2) {
         pathfind(node1, node2, false);
     }
 
-    void quickLocationFinding(String start_id, String goal_id){
+    void quickLocationFinding(String start_id, String goal_id) {
         pathfind(start_id, goal_id, true);
     }
 
@@ -146,11 +137,11 @@ public class PathfindController {
 
         Pathfinder pathfinder;
         int select = AdminPageController.getChoosenAlg();
-        if(is_quick || select == 2){
+        if (is_quick || select == 2) {
             pathfinder = new Pathfinder(new BreadthFirst());
-        }else if(select == 1){
+        } else if (select == 1) {
             pathfinder = new Pathfinder(new DepthFirst());
-        }else{
+        } else {
             pathfinder = new Pathfinder(new AStar());
         }
 
@@ -158,7 +149,7 @@ public class PathfindController {
 
         Path path = pathfinder.pathfinder_path;
 
-        if (path.getAStarNodePath().size()>1) {
+        if (path.getAStarNodePath().size() > 1) {
             PATHFIND_READY = true;
 
             current_floor = Map.floor_ids.indexOf(db_storage.getNodeByID(node1).getNodeFloor());
@@ -175,18 +166,18 @@ public class PathfindController {
         }
     }
 
-    private void scrollToPath(){
-        if(map.getPath() == null){
+    private void scrollToPath() {
+        if (map.getPath() == null) {
             return;
         }
         ArrayList<AStarNode> path = map.getPath().getAStarNodePath();
 
         double start_x;
         double start_y;
-        if(mode == mappingMode.MAP2D){
+        if (mode == mappingMode.MAP2D) {
             start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
             start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
-        }else{
+        } else {
             start_x = path.get(0).getXCoord3D() / map_img.getImage().getWidth();
             start_y = path.get(0).getYCoord3D() / map_img.getImage().getHeight();
         }
@@ -195,16 +186,17 @@ public class PathfindController {
         map_scroll_pane.setVvalue(start_y);
     }
 
-    private void generateQRCode(String directions){
+    private void generateQRCode(String directions) {
         QRCode qr;
         qr = new QRCode(directions);
         expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
-    private void updateMap(){
+    private void updateMap() {
         updateMap(true);
     }
-    private void updateMap(boolean scroll){
+
+    private void updateMap(boolean scroll) {
         Image m = getFloorImage(current_floor, mode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
@@ -213,33 +205,32 @@ public class PathfindController {
         map.clearIcons();
         map.setFloor(current_floor);
         map.drawPath();
-        if(scroll){
+        if (scroll) {
             scrollToPath();
         }
         floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
     }
 
-    public void toggleMappingType(){
+    public void toggleMappingType() {
         boolean is_3D = false;
-        if(mode == mappingMode.MAP3D){
+        if (mode == mappingMode.MAP3D) {
             toggle_map_btn.setText(AllText.get("2d_map"));
             mode = mappingMode.MAP2D;
-        }
-        else if(mode == mappingMode.MAP2D) {
+        } else if (mode == mappingMode.MAP2D) {
             toggle_map_btn.setText(AllText.get("3d_map"));
             mode = mappingMode.MAP3D;
             is_3D = true;
         }
 
         Path path = null;
-        if(map != null){
+        if (map != null) {
             map.clearIcons();
             path = map.getPath();
         }
 
         map = new Map(map_anchor_pane, current_floor, is_3D);
 
-        if(path != null){
+        if (path != null) {
             map.setPath(path);
         }
 
@@ -263,7 +254,7 @@ public class PathfindController {
         expanded_qr.setVisible(true);
     }
 
-    public void onBigQRClick(){
+    public void onBigQRClick() {
         expanded_qr.setVisible(false);
         ObservableList<Node> list = main_pane.getChildren();
         for (Node a_node : list) {
@@ -280,7 +271,7 @@ public class PathfindController {
     }
 
     public void onMapUp() {
-        if(current_floor < 4){
+        if (current_floor < 4) {
             current_floor++;
             updateMap(false);
             floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
@@ -288,12 +279,12 @@ public class PathfindController {
     }
 
     public void onMapDown() {
-        if(current_floor > 0){
+        if (current_floor > 0) {
             current_floor--;
             updateMap(false);
             floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
         }
     }
 
-    private enum mappingMode{MAP3D, MAP2D}
+    private enum mappingMode {MAP3D, MAP2D}
 }

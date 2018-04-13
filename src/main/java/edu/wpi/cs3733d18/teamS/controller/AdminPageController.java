@@ -35,6 +35,9 @@ public class AdminPageController extends UserController {
     @FXML
     JFXComboBox<String> path_algorithm_box;
 
+    public static int getChoosenAlg() {
+        return selected_path_algorithm;
+    }
 
     public void loadReportScreen(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -48,7 +51,6 @@ public class AdminPageController extends UserController {
         modify_nodes_stage.setScene(view_reports_scene);
         modify_nodes_stage.show();
     }
-
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
@@ -75,11 +77,9 @@ public class AdminPageController extends UserController {
         path_algorithm_box.setItems(algorithms);
 
     }
-    public void chooseAlgorithm(){
+
+    public void chooseAlgorithm() {
         this.selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
 
-    }
-    public static int getChoosenAlg(){
-        return selected_path_algorithm;
     }
 }

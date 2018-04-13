@@ -9,22 +9,21 @@ import java.util.LinkedList;
 public class LoginHandler {
     private static LinkedList<User> users = new LinkedList<User>();
 
-    public static LinkedList<User> getUsers() {
-        return users;
-    }
-
-    public LoginHandler(){
+    public LoginHandler() {
         Storage storage = Storage.getInstance();
 
 //        users = (LinkedList<User>)storage.getAllUsers();
         __generateDummyUsers(); // TODO no need to generate dummies
     }
 
+    public static LinkedList<User> getUsers() {
+        return users;
+    }
+
     /**
      * This class is used in place of an actual edu.wpi.cs3733d18.teamS.database implementation, used for testing purposes
-     *
      */
-    public static void __generateDummyUsers(){
+    public static void __generateDummyUsers() {
         Storage storage = Storage.getInstance();
 
         User u1 = new User("doctor", "doctor", User.user_type.DOCTOR, false);
@@ -54,7 +53,7 @@ public class LoginHandler {
     }
 
     public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {
-        for (User user:users) {
+        for (User user : users) {
             String user_username = user.getUsername();
 
             if (username.equals(user_username)) {
@@ -66,7 +65,7 @@ public class LoginHandler {
 
                 if (password.equals(decoded_password)) {
                     return user;
-                }else{
+                } else {
                     throw new InvalidPasswordException();
                 }
             }

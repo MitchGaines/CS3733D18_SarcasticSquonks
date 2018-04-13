@@ -7,6 +7,7 @@ import java.util.PriorityQueue;
 
 /**
  * The Class manages the Depth First path algorithm and primarily finds the path from a location.
+ *
  * @author Noah Hillman
  * @version %I%, %G%
  */
@@ -18,8 +19,9 @@ public class DepthFirst implements ISearchAlgorithm {
      * findPath (Depth First edition)
      * Finds the pathway between two points using the Depth First algorithm, This takes in a starting node's id, and end
      * locations id and takes in a HashMap that contains all the nodes of the hospital.
-     * @param start_id The String Id of the node that the person is starting at.
-     * @param goal_id The String Id of the node that the person wants to get to.
+     *
+     * @param start_id           The String Id of the node that the person is starting at.
+     * @param goal_id            The String Id of the node that the person wants to get to.
      * @param algorithm_node_map The HashMap of all the nodes within the hospital.
      * @return Returns an ArrayList of AStarNodes that results in the pathway.
      */
@@ -36,31 +38,30 @@ public class DepthFirst implements ISearchAlgorithm {
         open_a_star_nodes.add(start);
 
         //run until there are no more searchable nodes (or program finds a pathfinder_path)
-        while(!open_a_star_nodes.isEmpty()){
+        while (!open_a_star_nodes.isEmpty()) {
             //take the lowest f score off the priority queue
             AStarNode current_node = open_a_star_nodes.poll();
             //add the current_node to closed list
             closed_a_star_nodes.add(current_node);
 
-            if(current_node.checkID(goal)){
+            if (current_node.checkID(goal)) {
                 //System.out.println(closed_a_star_nodes.size() + " searched nodes");
                 return current_node;
             }
             //loop over the current_node node's neighbors
-            for(AStarNode neighbor: current_node.getNeighbors()){
+            for (AStarNode neighbor : current_node.getNeighbors()) {
                 //make sure they haven't been searched before
-                if(!closed_a_star_nodes.contains(neighbor)){
+                if (!closed_a_star_nodes.contains(neighbor)) {
                     //check if they haven't been discovered before
-                    if(!open_a_star_nodes.contains(neighbor)){
+                    if (!open_a_star_nodes.contains(neighbor)) {
                         //add them to the open set of nodes and update parent, g, h, and f costs
                         neighbor.setParent(current_node);
                         neighbor.newGCost(current_node);
                         open_a_star_nodes.add(neighbor);
-                    }
-                    else{
+                    } else {
                         //check if they are a better pathfinder_path (lower gcost), if so, update their cost and parent
                         double temp_g_cost = current_node.getGCost() + current_node.distanceTo(neighbor);
-                        if(temp_g_cost < neighbor.getGCost()){
+                        if (temp_g_cost < neighbor.getGCost()) {
                             neighbor.setParent(current_node);
                             neighbor.newGCost(current_node);
                         }

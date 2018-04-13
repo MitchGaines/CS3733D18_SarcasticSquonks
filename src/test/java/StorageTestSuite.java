@@ -7,20 +7,19 @@
 
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
-import edu.wpi.cs3733d18.teamS.database.Storage;
-import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
+import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.user.User;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.util.List;
 
 public class StorageTestSuite {
 
-    private IDatabase data;
     private Storage storage;
 
     // ------------------- STORAGE TESTS -------------------- //
@@ -30,7 +29,7 @@ public class StorageTestSuite {
      */
     @Before
     public void setUp() {
-        data = new ApacheDatabase("apacheDB");
+        IDatabase data = new ApacheDatabase("apacheDB");
         storage = Storage.getInstance();
         storage.setDatabase(data);
     }
@@ -257,7 +256,7 @@ public class StorageTestSuite {
         );
         storage.saveEdge(edge1);
 
-        Edge edge2 = new Edge (
+        Edge edge2 = new Edge(
                 "edge2",
                 "node2",
                 "node3"

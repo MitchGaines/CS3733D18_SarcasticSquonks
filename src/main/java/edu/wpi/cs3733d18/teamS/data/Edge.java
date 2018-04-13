@@ -28,9 +28,10 @@ public class Edge {
 
     /**
      * Constructs and Edge with an id, start node and end node.
-     * @param edge_id the edge id.
+     *
+     * @param edge_id    the edge id.
      * @param start_node the start node of the edge.
-     * @param end_node the end node of the edge.
+     * @param end_node   the end node of the edge.
      */
     public Edge(String edge_id, String start_node, String end_node) {
         this.edge_id = edge_id;
@@ -40,6 +41,7 @@ public class Edge {
 
     /**
      * Retrieves the edge id.
+     *
      * @return the edge id.
      */
     public String getEdgeID() {
@@ -48,6 +50,7 @@ public class Edge {
 
     /**
      * Sets the edge id.
+     *
      * @param edge_id the edge id.
      */
     public void setEdgeID(String edge_id) {
@@ -56,6 +59,7 @@ public class Edge {
 
     /**
      * Retrieves the start node.
+     *
      * @return the start node.
      */
     public String getStartNode() {
@@ -64,6 +68,7 @@ public class Edge {
 
     /**
      * Sets the start node.
+     *
      * @param start_node the start node.
      */
     public void setStartNode(String start_node) {
@@ -72,6 +77,7 @@ public class Edge {
 
     /**
      * Retrieves the end node.
+     *
      * @return the end node.
      */
     public String getEndNode() {
@@ -80,6 +86,7 @@ public class Edge {
 
     /**
      * Sets the end node.
+     *
      * @param end_node the end node.
      */
     public void setEndNode(String end_node) {

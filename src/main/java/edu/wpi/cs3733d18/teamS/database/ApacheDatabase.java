@@ -3,17 +3,19 @@ package edu.wpi.cs3733d18.teamS.database;
 /**
  * An implementation of a edu.wpi.cs3733d18.teamS.database that holds tables and processes
  * SQL statements.
+ *
  * @author Joseph Turcotte
  * @version 1.0
  * Date: March 24, 2018
  */
 
 import org.apache.derby.jdbc.EmbeddedDriver;
+
 import java.sql.*;
 
 
 public class ApacheDatabase implements IDatabase {
-    
+
     // fields
     private Connection connection; // establishes connection with driver
     private Statement statement; // statement to be executed
@@ -148,7 +150,7 @@ public class ApacheDatabase implements IDatabase {
     public void createTable(String table_name, String[] columns) {
 
         // silently return if table already exists or connection is closed
-        if(!is_open || doesTableExist(table_name)){
+        if (!is_open || doesTableExist(table_name)) {
             return;
         }
 

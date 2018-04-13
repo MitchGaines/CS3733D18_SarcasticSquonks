@@ -104,7 +104,6 @@ public class CSVTestSuite {
 //        Assert.assertEquals(users.size(), 3);
     }
     */
-
     @After
     public void breakDown() {
         // drop tables at the end
