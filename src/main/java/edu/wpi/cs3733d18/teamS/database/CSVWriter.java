@@ -107,7 +107,7 @@ public class CSVWriter {
                     end_node = r_set.getString("end_node");
 
                     // write values to file, separated by commas
-                    file_writer.append(edge_id + "," + start_node + "," + end_node + "\n");
+                    file_writer.append(edge_id).append(",").append(start_node).append(",").append(end_node).append("\n");
                 }
             } else if (table_name.equals("USERS")) {
 

@@ -28,19 +28,13 @@ public class Timeout {
     static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
     static DateTime last_action = DateTime.now();
     static Stage curr_stage;
-    static EventHandler<MouseEvent> mousePressed = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Mouse press");
-        }
+    static EventHandler<MouseEvent> mousePressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Mouse press");
     };
-    static EventHandler<KeyEvent> keyPressed = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Key press");
-        }
+    static EventHandler<KeyEvent> keyPressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Key press");
     };
     private static boolean kill;
     private static Thread timeout_thread = new Thread() {

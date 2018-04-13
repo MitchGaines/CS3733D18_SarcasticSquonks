@@ -35,10 +35,6 @@ public class Pathfinder {
      */
     private HashMap<String, Edge> edges = new HashMap();
     /**
-     * Stores the Goal node.
-     */
-    private AStarNode goal;
-    /**
      * Stores the Start node.
      */
     private AStarNode start;
@@ -106,7 +102,11 @@ public class Pathfinder {
             return;
         }
         this.start = algorithm_node_map.get(startID);
-        this.goal = algorithm_node_map.get(goalID);
+        /*
+      Stores the Goal node.
+     */ /**
+         * Stores the Goal node.
+         */AStarNode goal = algorithm_node_map.get(goalID);
 
         //call the algorithm
         AStarNode path_end = algorithm.findPath(startID, goalID, algorithm_node_map);

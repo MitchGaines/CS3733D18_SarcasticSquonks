@@ -68,7 +68,7 @@ public class ServiceAreaController {
                 return null;
             }
         });
-        Collections.sort(locations, Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
+        locations.sort(Comparator.comparing(Node::getLongName));
         service_location.setItems(locations);
     }
 

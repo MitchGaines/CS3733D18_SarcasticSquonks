@@ -118,8 +118,8 @@ public class LogController {
     public void onBackClick(ActionEvent event) throws IOException {
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
-        Parent user_parent = (Parent) loader.load();
-        UserController controller = loader.<UserController>getController();
+        Parent user_parent = loader.load();
+        UserController controller = loader.getController();
         controller.setUser(user);
         controller.setPage(return_page);
         controller.populateBoxes();

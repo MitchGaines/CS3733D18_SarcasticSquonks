@@ -80,7 +80,7 @@ public interface IDatabase {
      *
      * @param s the string to add quotes to.
      */
-    public String addQuotes(String s); // add quotes to a string
+    String addQuotes(String s); // add quotes to a string
 
     /**
      * Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).

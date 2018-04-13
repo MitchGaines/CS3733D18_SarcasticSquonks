@@ -20,7 +20,6 @@ import java.util.List;
 
 public class StorageTestSuite {
 
-    private IDatabase data;
     private Storage storage;
 
     // ------------------- STORAGE TESTS -------------------- //
@@ -30,7 +29,7 @@ public class StorageTestSuite {
      */
     @Before
     public void setUp() {
-        data = new ApacheDatabase("apacheDB");
+        IDatabase data = new ApacheDatabase("apacheDB");
         storage = Storage.getInstance();
         storage.setDatabase(data);
     }

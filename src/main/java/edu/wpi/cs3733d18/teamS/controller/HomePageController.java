@@ -137,7 +137,7 @@ public class HomePageController {
             }
         }
         locations.removeAll(to_remove);
-        Collections.sort(locations, Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
+        locations.sort(Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
         int default_index = 0;
         for (int i = 0; i < locations.size(); i++) {
             if (locations.get(i).getNodeID().equals(KIOSK_DEFAULT_LOCATION)) {
@@ -210,7 +210,7 @@ public class HomePageController {
         include_stairs = stairs_toggle.isSelected();
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = (Parent) loader.load();
+        Parent pathfind_parent = loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
         if (PathfindController.isPathfindReady()) {
@@ -239,7 +239,7 @@ public class HomePageController {
         }
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = (Parent) loader.load();
+        Parent pathfind_parent = loader.load();
         PathfindController pathfind_ctrl = loader.getController();
         pathfind_ctrl.quickLocationFinding(combobox_start.getValue().getNodeID(), button.getId());
 
@@ -322,8 +322,8 @@ public class HomePageController {
     public void openUser(ActionEvent event, String page, User user) throws IOException {
         Window window = main_pane.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page), AllText.getBundle());
-        Parent user_parent = (Parent) loader.load();
-        UserController controller = loader.<UserController>getController();
+        Parent user_parent = loader.load();
+        UserController controller = loader.getController();
         controller.setUser(user);
         controller.setPage(page);
         controller.populateBoxes();
