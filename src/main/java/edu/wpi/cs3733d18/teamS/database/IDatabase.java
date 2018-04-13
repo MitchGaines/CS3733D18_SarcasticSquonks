@@ -85,6 +85,6 @@ public interface IDatabase {
     /**
      * Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).
      */
-    public boolean getIsOpen(); // gets open status of edu.wpi.cs3733d18.teamS.database
+    boolean getIsOpen(); // gets open status of edu.wpi.cs3733d18.teamS.database
 }
 

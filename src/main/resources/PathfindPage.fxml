@@ -7,7 +7,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0"
-            xmlns="http://javafx.com/javafx/8.0.141" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
+            xmlns="http://javafx.com/javafx/8.0.141"
+            fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
     <top>
         <BorderPane fx:id="header_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;"
                     BorderPane.alignment="CENTER">

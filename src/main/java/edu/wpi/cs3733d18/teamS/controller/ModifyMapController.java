@@ -7,14 +7,14 @@ import com.kylecorry.lann.activation.Linear;
 import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.database.Storage;
-import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.*;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -25,8 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -221,18 +219,25 @@ public class ModifyMapController {
         pane.getChildren().clear();
         nodes_list.clear();
         pane.getChildren().add(map);
-        if (choose_floor.getValue().toString().equals("Ground Floor")) {
-            map.setImage(new Image("images/2dMaps/00_thegroundfloor.png"));
-        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
-            map.setImage(new Image("images/2dMaps/00_thelowerlevel1.png"));
-        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
-            map.setImage(new Image("images/2dMaps/00_thelowerlevel2.png"));
-        } else if (choose_floor.getValue().toString().equals("First Floor")) {
-            map.setImage(new Image("images/2dMaps/01_thefirstfloor.png"));
-        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
-            map.setImage(new Image("images/2dMaps/02_thesecondfloor.png"));
-        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
-            map.setImage(new Image("images/2dMaps/03_thethirdfloor.png"));
+        switch (choose_floor.getValue().toString()) {
+            case "Ground Floor":
+                map.setImage(new Image("images/2dMaps/00_thegroundfloor.png"));
+                break;
+            case "Lower Level One":
+                map.setImage(new Image("images/2dMaps/00_thelowerlevel1.png"));
+                break;
+            case "Lower Level Two":
+                map.setImage(new Image("images/2dMaps/00_thelowerlevel2.png"));
+                break;
+            case "First Floor":
+                map.setImage(new Image("images/2dMaps/01_thefirstfloor.png"));
+                break;
+            case "Second Floor":
+                map.setImage(new Image("images/2dMaps/02_thesecondfloor.png"));
+                break;
+            case "Third Floor":
+                map.setImage(new Image("images/2dMaps/03_thethirdfloor.png"));
+                break;
         }
         makeMap(storage.getAllNodes());
     }
@@ -260,31 +265,37 @@ public class ModifyMapController {
     }
 
     public void onChooseAction() {
-        if (location_or_path.getValue().toString().equals("Add Path")) {
-            add_edge_box.setVisible(true);
-            add_node_box.setVisible(false);
-            delete_loc_box.setVisible(false);
-            kiosk_location_name.setVisible(false);
-        } else if (location_or_path.getValue().toString().equals("Add Location")) {
-            add_node_box.setVisible(true);
-            add_edge_box.setVisible(false);
-            delete_loc_box.setVisible(false);
-            kiosk_location_name.setVisible(false);
-        } else if (location_or_path.getValue().toString().equals("View Map")) {
-            add_edge_box.setVisible(false);
-            add_node_box.setVisible(false);
-            delete_loc_box.setVisible(false);
-            kiosk_location_name.setVisible(false);
-        } else if (location_or_path.getValue().toString().equals("Delete Location")) {
-            add_edge_box.setVisible(false);
-            add_node_box.setVisible(false);
-            delete_loc_box.setVisible(true);
-            kiosk_location_name.setVisible(false);
-        } else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
-            add_edge_box.setVisible(false);
-            add_node_box.setVisible(false);
-            delete_loc_box.setVisible(false);
-            kiosk_location_name.setVisible(true);
+        switch (location_or_path.getValue().toString()) {
+            case "Add Path":
+                add_edge_box.setVisible(true);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(false);
+                break;
+            case "Add Location":
+                add_node_box.setVisible(true);
+                add_edge_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(false);
+                break;
+            case "View Map":
+                add_edge_box.setVisible(false);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(false);
+                break;
+            case "Delete Location":
+                add_edge_box.setVisible(false);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(true);
+                kiosk_location_name.setVisible(false);
+                break;
+            case "Set Kiosk Location":
+                add_edge_box.setVisible(false);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(true);
+                break;
         }
     }
 
@@ -310,18 +321,25 @@ public class ModifyMapController {
 
     private String choose2DMap() {
         String toReturn = "";
-        if (choose_floor.getValue().toString().equals("Ground Floor")) {
-            toReturn = "images/2dMaps/00_thegroundfloor.png";
-        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
-            toReturn = "images/2dMaps/00_thelowerlevel1.png";
-        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
-            toReturn = "images/2dMaps/00_thelowerlevel2.png";
-        } else if (choose_floor.getValue().toString().equals("First Floor")) {
-            toReturn = "images/2dMaps/01_thefirstfloor.png";
-        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
-            toReturn = "images/2dMaps/02_thesecondfloor.png";
-        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
-            toReturn = "images/2dMaps/03_thethirdfloor.png";
+        switch (choose_floor.getValue().toString()) {
+            case "Ground Floor":
+                toReturn = "images/2dMaps/00_thegroundfloor.png";
+                break;
+            case "Lower Level One":
+                toReturn = "images/2dMaps/00_thelowerlevel1.png";
+                break;
+            case "Lower Level Two":
+                toReturn = "images/2dMaps/00_thelowerlevel2.png";
+                break;
+            case "First Floor":
+                toReturn = "images/2dMaps/01_thefirstfloor.png";
+                break;
+            case "Second Floor":
+                toReturn = "images/2dMaps/02_thesecondfloor.png";
+                break;
+            case "Third Floor":
+                toReturn = "images/2dMaps/03_thethirdfloor.png";
+                break;
         }
         return toReturn;
     }
@@ -411,18 +429,25 @@ public class ModifyMapController {
 
     private String select3DMap() {
         String toReturn = "";
-        if (choose_floor.getValue().toString().equals("Ground Floor")) {
-            toReturn = "images/2dMaps/00_thegroundfloor.png";
-        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
-            toReturn = "images/3dMaps/L1-NO-ICONS.png";
-        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
-            toReturn = "images/3dMaps/L2-NO-ICONS.png";
-        } else if (choose_floor.getValue().toString().equals("First Floor")) {
-            toReturn = "images/3dMaps/1-NO-ICONS.png";
-        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
-            toReturn = "images/3dMaps/2-NO-ICONS.png";
-        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
-            toReturn = "images/3dMaps/3-NO-ICONS.png";
+        switch (choose_floor.getValue().toString()) {
+            case "Ground Floor":
+                toReturn = "images/2dMaps/00_thegroundfloor.png";
+                break;
+            case "Lower Level One":
+                toReturn = "images/3dMaps/L1-NO-ICONS.png";
+                break;
+            case "Lower Level Two":
+                toReturn = "images/3dMaps/L2-NO-ICONS.png";
+                break;
+            case "First Floor":
+                toReturn = "images/3dMaps/1-NO-ICONS.png";
+                break;
+            case "Second Floor":
+                toReturn = "images/3dMaps/2-NO-ICONS.png";
+                break;
+            case "Third Floor":
+                toReturn = "images/3dMaps/3-NO-ICONS.png";
+                break;
         }
         return toReturn;
     }

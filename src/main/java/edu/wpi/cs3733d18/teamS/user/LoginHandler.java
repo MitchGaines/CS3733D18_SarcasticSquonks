@@ -7,7 +7,7 @@ import java.util.Base64;
 import java.util.LinkedList;
 
 public class LoginHandler {
-    private static LinkedList<User> users = new LinkedList<User>();
+    private static LinkedList<User> users = new LinkedList<>();
 
     public LoginHandler() {
         Storage storage = Storage.getInstance();

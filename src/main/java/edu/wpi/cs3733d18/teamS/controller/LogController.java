@@ -1,22 +1,15 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -116,7 +109,7 @@ public class LogController {
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        UserController user_controller = (UserController)Main.switchScenes("User", return_page);
+        UserController user_controller = (UserController) Main.switchScenes("User", return_page);
         user_controller.setUp(user, return_page);
 
     }

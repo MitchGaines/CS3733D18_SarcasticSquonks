@@ -62,10 +62,8 @@ public class Timeout {
                         Thread.sleep(new_sleep_time);
                     }
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
-            } catch (IOException io_exception) {
-                io_exception.printStackTrace();
             }
         }
     };

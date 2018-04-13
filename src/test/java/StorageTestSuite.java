@@ -1,8 +1,8 @@
-/**
- * StorageTestSuite.java
- * A test suite for storage operations
- * Author: Joseph Turcotte
- * Date: March 30, 2018
+/*
+  StorageTestSuite.java
+  A test suite for storage operations
+  Author: Joseph Turcotte
+  Date: March 30, 2018
  */
 
 import edu.wpi.cs3733d18.teamS.data.Edge;

@@ -60,47 +60,51 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
             line = buffered_reader.readLine();
 
             // check the table type, then loop through each line of the CSV file
-            if (table_name.equals("NODES")) {
-                while ((line = buffered_reader.readLine()) != null) {
+            switch (table_name) {
+                case "NODES":
+                    while ((line = buffered_reader.readLine()) != null) {
 
-                    // split line using comma delimiter
-                    String[] values = line.split(csv_delimiter);
+                        // split line using comma delimiter
+                        String[] values = line.split(csv_delimiter);
 
-                    // add quotes so SQL won't complain
-                    values[0] = database.addQuotes(values[0]);
-                    values[3] = database.addQuotes(values[3]);
-                    values[4] = database.addQuotes(values[4]);
-                    values[5] = database.addQuotes(values[5]);
-                    values[6] = database.addQuotes(values[6]);
-                    values[7] = database.addQuotes(values[7]);
-                    values[8] = database.addQuotes(values[8]);
+                        // add quotes so SQL won't complain
+                        values[0] = database.addQuotes(values[0]);
+                        values[3] = database.addQuotes(values[3]);
+                        values[4] = database.addQuotes(values[4]);
+                        values[5] = database.addQuotes(values[5]);
+                        values[6] = database.addQuotes(values[6]);
+                        values[7] = database.addQuotes(values[7]);
+                        values[8] = database.addQuotes(values[8]);
 
-                    // add values to table
-                    database.insert(table_name, values);
-                }
-            } else if (table_name.equals("EDGES")) {
-                while ((line = buffered_reader.readLine()) != null) {
+                        // add values to table
+                        database.insert(table_name, values);
+                    }
+                    break;
+                case "EDGES":
+                    while ((line = buffered_reader.readLine()) != null) {
 
-                    // split line using comma delimiter
-                    String[] values = line.split(csv_delimiter);
+                        // split line using comma delimiter
+                        String[] values = line.split(csv_delimiter);
 
-                    // add quotes so SQL won't complain
-                    values[0] = database.addQuotes(values[0]);
-                    values[1] = database.addQuotes(values[1]);
-                    values[2] = database.addQuotes(values[2]);
+                        // add quotes so SQL won't complain
+                        values[0] = database.addQuotes(values[0]);
+                        values[1] = database.addQuotes(values[1]);
+                        values[2] = database.addQuotes(values[2]);
 
-                    // add values to table
-                    database.insert(table_name, values);
-                }
-            } else if (table_name.equals("USERS")) {
-                while ((line = buffered_reader.readLine()) != null) {
+                        // add values to table
+                        database.insert(table_name, values);
+                    }
+                    break;
+                case "USERS":
+                    while ((line = buffered_reader.readLine()) != null) {
 
-                    // split line using comma delimiter
-                    String[] values = line.split(csv_delimiter);
+                        // split line using comma delimiter
+                        String[] values = line.split(csv_delimiter);
 
-                    User user = new User(values[0], values[1], User.user_type.valueOf(values[2]), Boolean.valueOf(values[3]));
-                    storage.saveUser(user);
-                }
+                        User user = new User(values[0], values[1], User.user_type.valueOf(values[2]), Boolean.valueOf(values[3]));
+                        storage.saveUser(user);
+                    }
+                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();

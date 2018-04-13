@@ -10,8 +10,8 @@ version = '1.0'
 
 repositories {
 
-	mavenCentral()
-    flatDir{
+    mavenCentral()
+    flatDir {
         dirs 'lib'
     }
 }
@@ -79,5 +79,5 @@ jar {
 }
 
 task listJars << {
-    configurations.compile.each {File file -> println file.name}
+    configurations.compile.each { File file -> println file.name }
 }
