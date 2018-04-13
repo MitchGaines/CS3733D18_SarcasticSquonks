@@ -16,35 +16,29 @@ import java.util.*;
 
 public class Pathfinder {
     /**
-     * Stores a HashMap of the Algorithm nodes on the map.
-     */
-    HashMap<String, AStarNode> algorithm_node_map = new HashMap<>();
-
-    /**
-     * Stores a HashMap of the Nodes.
-     */
-    HashMap<String, Node> nodes = new HashMap();
-
-    /**
-     * Stores a HashMap of the Edges.
-     */
-    HashMap<String, Edge> edges = new HashMap();
-
-    /**
-     * Stores the Goal node.
-     */
-    AStarNode goal;
-
-    /**
-     * Stores the Start node.
-     */
-    AStarNode start;
-
-    /**
      * Stores the path.
      */
     public Path pathfinder_path = new Path();
-
+    /**
+     * Stores a HashMap of the Algorithm nodes on the map.
+     */
+    private HashMap<String, AStarNode> algorithm_node_map = new HashMap<>();
+    /**
+     * Stores a HashMap of the Nodes.
+     */
+    private HashMap<String, Node> nodes = new HashMap();
+    /**
+     * Stores a HashMap of the Edges.
+     */
+    private HashMap<String, Edge> edges = new HashMap();
+    /**
+     * Stores the Goal node.
+     */
+    private AStarNode goal;
+    /**
+     * Stores the Start node.
+     */
+    private AStarNode start;
     /**
      * Stores the path finding algorithm.
      */
@@ -52,7 +46,7 @@ public class Pathfinder {
 
     /**
      * Sets the Path finding algorithm.
-     * @param algorithm
+     * @param algorithm the algorithm to be used
      */
     public Pathfinder(ISearchAlgorithm algorithm){
         this.algorithm = algorithm;
@@ -120,7 +114,6 @@ public class Pathfinder {
             alert.setContentText("Please select a new goal location or ask for assistance");
             alert.showAndWait();
         }
-        return;
     }
 
     //returns the pathfinder_path (ordered start ---> finish) given the last node

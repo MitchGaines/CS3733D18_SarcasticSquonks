@@ -11,6 +11,8 @@ import java.util.PriorityQueue;
  */
 public class BreadthFirst implements ISearchAlgorithm{
 
+    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getGCost() - AStarNode2.getGCost());
+
     /**
      * findPath (Breadth First edition)
      * Finds the pathway between two points using the Breadth First algorithm, This takes in a starting node's id, and end
@@ -66,6 +68,4 @@ public class BreadthFirst implements ISearchAlgorithm{
         }
         return start;
     }
-
-    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getGCost() - AStarNode2.getGCost());
 }
