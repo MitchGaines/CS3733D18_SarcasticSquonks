@@ -6,9 +6,11 @@ import java.util.ResourceBundle;
 public class AllText {
     private static ResourceBundle bundle = ResourceBundle.getBundle("all_text", new Locale("en"));
     private static String language = "en";
+
     public static String[] getLanguages() {
-        return new String[] {"en", "es", "ru"};
+        return new String[]{"en", "es", "ru"};
     }
+
     public static String get(String key) {
         return bundle.getString(key);
     }

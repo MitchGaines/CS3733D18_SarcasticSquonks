@@ -2,22 +2,23 @@ package edu.wpi.cs3733d18.teamS.database;
 
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import edu.wpi.cs3733d18.teamS.user.User;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Storage.java
  * The edu.wpi.cs3733d18.teamS.controller for the Apache Database
+ *
  * @author Joseph Turcotte
  * @version 1.0
  * Date: March 29, 2018
@@ -25,18 +26,15 @@ import java.util.LinkedList;
  */
 public class Storage {
 
+    // to exclude auto-generated IDs from tables
+    private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
+            "username", "password", "user_type", "can_mod_map");
+    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
+            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
     /**
      * Stores the edu.wpi.cs3733d18.teamS.database.
      */
     private IDatabase database;
-
-    // to exclude auto-generated IDs from tables
-    private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
-            "username", "password", "user_type", "can_mod_map");
-
-    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
-            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
-
     // to parse dates
     private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -54,87 +52,12 @@ public class Storage {
     }
 
     /**
-     * Sets the edu.wpi.cs3733d18.teamS.database for the edu.wpi.cs3733d18.teamS.controller to interact with
-     * @param database the edu.wpi.cs3733d18.teamS.database to connect to
-     */
-    public void setDatabase(IDatabase database) {
-
-        // configure edu.wpi.cs3733d18.teamS.database and connect
-        this.database = database;
-        database.connect();
-
-        // create tables for edu.wpi.cs3733d18.teamS.database
-        if (!database.doesTableExist("NODES")) {
-            database.createTable("NODES", new String[]{
-                    String.format("%s VARCHAR (100) PRIMARY KEY", "node_id"),
-                    String.format("%s INT", "x_coord"),
-                    String.format("%s INT", "y_coord"),
-                    String.format("%s VARCHAR (100)", "floor"),
-                    String.format("%s VARCHAR (100)", "building"),
-                    String.format("%s VARCHAR (100)", "node_type"),
-                    String.format("%s VARCHAR (100)", "long_name"),
-                    String.format("%s VARCHAR (100)", "short_name"),
-                    String.format("%s VARCHAR (100)", "team_assigned"),
-                    String.format("%s INT", "x_coord_3d"),
-                    String.format("%s INT", "y_coord_3d")
-            });
-        }
-
-        if (!database.doesTableExist("EDGES")) {
-            database.createTable("EDGES", new String[]{
-                    String.format("%s VARCHAR (100) PRIMARY KEY", "edge_id"),
-                    String.format("%s VARCHAR (100)", "start_node"),
-                    String.format("%s VARCHAR (100)", "end_node")
-            });
-        }
-
-        if (!database.doesTableExist("USERS")) {
-            database.createTable("USERS", new String[]{
-                    String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "user_id"),
-                    String.format("%s VARCHAR (100)", "username"),
-                    String.format("%s VARCHAR (100)", "password"),
-                    String.format("%s VARCHAR (16)", "user_type"),
-                    String.format("%s BOOLEAN", "can_mod_map")
-            });
-        }
-
-        if (!database.doesTableExist("SERVICES")) {
-            database.createTable("SERVICES", new String[] {
-                    String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "service_id"),
-                    String.format("%s VARCHAR (100)", "title"),
-                    String.format("%s VARCHAR (100)", "description"),
-                    String.format("%s VARCHAR (100)", "service_type"),
-                    String.format("%s BIGINT", "requester_id"),
-                    String.format("%s BIGINT", "fulfiller_id"),
-                    String.format("%s VARCHAR (100)", "location"),
-                    String.format("%s TIMESTAMP", "request_time"),
-                    String.format("%s TIMESTAMP", "fulfill_time")
-            });
-        }
-
-        if(!database.doesTableExist("TYPES")) {
-            database.createTable("TYPES", new String[] {
-                    String.format("%s VARCHAR (100) PRIMARY KEY", "name"),
-                    String.format("%s BOOLEAN", "emergency"),
-            });
-        }
-
-        if(!database.doesTableExist("FULFILLERS")) {
-            database.createTable("FULFILLERS", new String[] {
-                    String.format("%s VARCHAR (100)", "name"),
-                    String.format("%s BIGINT", "fulfiller_id"),
-            });
-        }
-    }
-
-    // ----------- NODE METHODS ------------- //
-
-    /**
      * Inserts the fields of a new node into the nodes table
+     *
      * @param node the Node object to insert into the nodes table
      */
     public void saveNode(Node node) {
-        database.insert("NODES", new String[] {
+        database.insert("NODES", new String[]{
                 database.addQuotes(node.getNodeID()),
                 String.valueOf(node.getXCoord()),
                 String.valueOf(node.getYCoord()),
@@ -149,8 +72,11 @@ public class Storage {
         });
     }
 
+    // ----------- NODE METHODS ------------- //
+
     /**
      * Removes a node entry from the nodes table
+     *
      * @param node the Node object to delete from the nodes table
      */
     public void deleteNode(Node node) {
@@ -159,10 +85,11 @@ public class Storage {
 
     /**
      * Updates the nodes table entry for a given node
+     *
      * @param node the Node object to update in the nodes table
      */
     public void updateNode(Node node) {
-        String[] values = new String[] {
+        String[] values = new String[]{
                 String.format("%s = '%s'", "node_id", node.getNodeID()),
                 String.format("%s = %d", "x_coord", node.getXCoord()),
                 String.format("%s = %d", "y_coord", node.getYCoord()),
@@ -181,6 +108,7 @@ public class Storage {
 
     /**
      * Retrieves a specific node from the nodes table based on its id
+     *
      * @param node_id the id of the node to extract from the nodes table
      * @return a Node object corresponding to the node requested
      */
@@ -192,6 +120,7 @@ public class Storage {
 
     /**
      * Retrieves all nodes from the nodes table
+     *
      * @return a List of all of the nodes in the nodes table
      */
     public List<Node> getAllNodes() {
@@ -202,6 +131,7 @@ public class Storage {
 
     /**
      * Parses the nodes table and adds nodes to a list
+     *
      * @param result_set the table of node entries
      * @return a List of the node entries in the nodes table
      */
@@ -224,6 +154,7 @@ public class Storage {
 
     /**
      * Retrieves one node from the nodes table
+     *
      * @param result_set a single entry from the nodes table
      * @return a node corresponding to the nodes table entry
      */
@@ -260,22 +191,24 @@ public class Storage {
         return null;
     }
 
-    // ----------- EDGE METHODS ------------- //
-
     /**
      * Inserts the fields of a new edge into the edges table
+     *
      * @param edge the Edge to be inserted into the edges table
      */
     public void saveEdge(Edge edge) {
-        database.insert("EDGES", new String[] {
+        database.insert("EDGES", new String[]{
                 database.addQuotes(edge.getEdgeID()),
                 database.addQuotes(edge.getStartNode()),
                 database.addQuotes(edge.getEndNode())
         });
     }
 
+    // ----------- EDGE METHODS ------------- //
+
     /**
      * Deletes the edges table entry for the given edge
+     *
      * @param edge the Edge to be deleted from the edges table
      */
     public void deleteEdge(Edge edge) {
@@ -284,10 +217,11 @@ public class Storage {
 
     /**
      * Updates the edges table entry for the given edge
+     *
      * @param edge the Edge to be updated in the edges table
      */
     public void updateEdge(Edge edge) {
-        String[] values = new String[] {
+        String[] values = new String[]{
                 String.format("%s = '%s'", "edge_id", edge.getEdgeID()),
                 String.format("%s = '%s'", "start_node", edge.getStartNode()),
                 String.format("%s = '%s'", "end_node", edge.getEndNode())
@@ -298,6 +232,7 @@ public class Storage {
 
     /**
      * Retrieves a specific Edge from the edges table, based on its id
+     *
      * @param edge_id the id of the edge to retrieve from the edges table
      * @return an Edge object corresponding to the edge with the given id
      */
@@ -309,6 +244,7 @@ public class Storage {
 
     /**
      * Retrieves all edges from the edges table
+     *
      * @return a List containing all of the edges in the edges table
      */
     public List<Edge> getAllEdges() {
@@ -319,6 +255,7 @@ public class Storage {
 
     /**
      * Parses the edges table and adds edges to a list
+     *
      * @param result_set the table of edges to parse
      * @return a List containing the edges in the edges table
      */
@@ -341,6 +278,7 @@ public class Storage {
 
     /**
      * Retrieves one edge from the edges table
+     *
      * @param result_set a single entry in the edges table
      * @return an Edge corresponding to the entry in the edges table
      */
@@ -368,14 +306,13 @@ public class Storage {
         return null;
     }
 
-    // ---------------- USER METHODS ----------------- //
-
     /**
      * Inserts the fields of a new edu.wpi.cs3733d18.teamS.user object into the users table
+     *
      * @param user the User object to store in the table
      */
     public void saveUser(User user) { // TODO using plain password might be dangerous
-        database.insert("USERS" + USER_VALUES, new String[] {
+        database.insert("USERS" + USER_VALUES, new String[]{
                 database.addQuotes(user.getUsername()),
                 database.addQuotes(user.getPlainPassword()),
                 database.addQuotes(user.getType().toString()),
@@ -383,8 +320,11 @@ public class Storage {
         });
     }
 
+    // ---------------- USER METHODS ----------------- //
+
     /**
      * Deletes the given edu.wpi.cs3733d18.teamS.user from the users table
+     *
      * @param user the edu.wpi.cs3733d18.teamS.user to delete from the users table
      */
     public void deleteUser(User user) {
@@ -393,10 +333,11 @@ public class Storage {
 
     /**
      * Updates a edu.wpi.cs3733d18.teamS.user in the users table with new values
+     *
      * @param user the edu.wpi.cs3733d18.teamS.user to update in the edu.wpi.cs3733d18.teamS.database, with the new values
      */
     public void updateUser(User user) {
-        String[] values = new String[] {
+        String[] values = new String[]{
                 String.format("%s = '%s'", "username", user.getUsername().replaceAll("'", "''")),
                 String.format("%s = '%s'", "password", new String(user.getPasswordSalt()).replaceAll("'", "''")),
                 String.format("%s = '%s'", "user_type", user.getType().toString()),
@@ -408,6 +349,7 @@ public class Storage {
 
     /**
      * Gets a edu.wpi.cs3733d18.teamS.user from the users table by unique id
+     *
      * @param id the edu.wpi.cs3733d18.teamS.user id of the edu.wpi.cs3733d18.teamS.user in the table
      * @return the edu.wpi.cs3733d18.teamS.user with the given edu.wpi.cs3733d18.teamS.user id
      */
@@ -419,6 +361,7 @@ public class Storage {
 
     /**
      * Gets a edu.wpi.cs3733d18.teamS.user from the table by username only
+     *
      * @param username the username of the edu.wpi.cs3733d18.teamS.user to retrieve
      * @return a edu.wpi.cs3733d18.teamS.user with the given username
      */
@@ -430,6 +373,7 @@ public class Storage {
 
     /**
      * Gets a edu.wpi.cs3733d18.teamS.user from the users table by username and password
+     *
      * @param username username of the edu.wpi.cs3733d18.teamS.user to retrieve
      * @param password password of the edu.wpi.cs3733d18.teamS.user to retrieve
      * @return a edu.wpi.cs3733d18.teamS.user with the given name and password
@@ -448,6 +392,7 @@ public class Storage {
 
     /**
      * Gets a list of all users in the users table
+     *
      * @return a List of users in the users table
      */
     public List<User> getAllUsers() {
@@ -457,6 +402,7 @@ public class Storage {
 
     /**
      * Private method for parsing result set
+     *
      * @param r_set ResultSet containing table entries
      * @return a List of users from the table
      */
@@ -478,6 +424,7 @@ public class Storage {
 
     /**
      * Private method for retrieving a edu.wpi.cs3733d18.teamS.user from a edu.wpi.cs3733d18.teamS.database query
+     *
      * @param r_set The ResultSet containing a single table entry
      * @return a User object corresponding to the single table entry
      */
@@ -507,10 +454,9 @@ public class Storage {
         return null;
     }
 
-    // ---------------- SERVICE REQUEST METHODS --------------- //
-
     /**
      * Inserts the fields of a new edu.wpi.cs3733d18.teamS.service request object into the services table
+     *
      * @param request the ServiceRequest object to store in the table
      */
     public void saveRequest(ServiceRequest request) {
@@ -518,7 +464,7 @@ public class Storage {
         // check if fulfiller id is null
         String fulfiller_string = request.getFulfiller() == null ? "null" : String.valueOf(request.getFulfiller().getUserID());
 
-        database.insert("SERVICES" + SERVICE_VALUES, new String[] {
+        database.insert("SERVICES" + SERVICE_VALUES, new String[]{
                 database.addQuotes(request.getTitle()),
                 database.addQuotes(request.getDescription()),
                 database.addQuotes(request.getServiceType().getName()),
@@ -530,8 +476,11 @@ public class Storage {
         });
     }
 
+    // ---------------- SERVICE REQUEST METHODS --------------- //
+
     /**
      * Removes a request from the requests table
+     *
      * @param request the request to remove from the table
      */
     public void deleteRequest(ServiceRequest request) {
@@ -540,11 +489,12 @@ public class Storage {
 
     /**
      * Updates a request in the requests table with new values
+     *
      * @param request the request to update in the edu.wpi.cs3733d18.teamS.database, with the new values
      */
     public void updateRequest(ServiceRequest request) {
 
-        String[] values = new String[] {
+        String[] values = new String[]{
                 String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
                 String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
                 String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
@@ -560,6 +510,7 @@ public class Storage {
 
     /**
      * Gets a edu.wpi.cs3733d18.teamS.service request from the table by id
+     *
      * @param id the id of the edu.wpi.cs3733d18.teamS.service request to retrieve
      * @return the edu.wpi.cs3733d18.teamS.service request corresponding to the given id
      */
@@ -577,6 +528,7 @@ public class Storage {
 
     /**
      * Gets all requests of a specific type
+     *
      * @return a List of edu.wpi.cs3733d18.teamS.service requests corresponding to a specific type
      */
     public List<ServiceRequest> getRequestsByType(ServiceType type) {
@@ -593,6 +545,7 @@ public class Storage {
 
     /**
      * Gets all edu.wpi.cs3733d18.teamS.service requests by a specific edu.wpi.cs3733d18.teamS.user
+     *
      * @param user the edu.wpi.cs3733d18.teamS.user who requested services
      * @return a List of edu.wpi.cs3733d18.teamS.service requests from the given edu.wpi.cs3733d18.teamS.user
      */
@@ -610,6 +563,7 @@ public class Storage {
 
     /**
      * Gets all edu.wpi.cs3733d18.teamS.service requests assigned to a specific edu.wpi.cs3733d18.teamS.user
+     *
      * @param user the edu.wpi.cs3733d18.teamS.user to retrieve edu.wpi.cs3733d18.teamS.service requests for
      * @return a List of edu.wpi.cs3733d18.teamS.service requests for the given edu.wpi.cs3733d18.teamS.user
      */
@@ -627,6 +581,7 @@ public class Storage {
 
     /**
      * Gets all edu.wpi.cs3733d18.teamS.service requests in the requests table
+     *
      * @return a List containing all of the requests in the table
      */
     public List<ServiceRequest> getAllServiceRequests() {
@@ -643,6 +598,7 @@ public class Storage {
 
     /**
      * private method for parsing result set
+     *
      * @param r_set the result set containing edu.wpi.cs3733d18.teamS.service requests
      * @return a List of the edu.wpi.cs3733d18.teamS.service request objects from the table
      */
@@ -698,6 +654,7 @@ public class Storage {
 
     /**
      * private method for parsing result set
+     *
      * @param r_set the result set consisting of a single table entry
      * @return the edu.wpi.cs3733d18.teamS.service request object corresponding to the request
      */
@@ -727,25 +684,27 @@ public class Storage {
         return null;
     }
 
-    // ------------------------- SERVICE TYPE OPERATIONS ----------------------- //
-
     /**
      * Inserts a edu.wpi.cs3733d18.teamS.service type into the edu.wpi.cs3733d18.teamS.service types table
+     *
      * @param type the edu.wpi.cs3733d18.teamS.service type to add to the table
      */
     public void saveServiceType(ServiceType type) {
-        database.insert("TYPES", new String[] {
+        database.insert("TYPES", new String[]{
                 database.addQuotes(type.getName()),
                 String.valueOf(type.isEmergency())
         });
     }
 
+    // ------------------------- SERVICE TYPE OPERATIONS ----------------------- //
+
     /**
      * Updates a edu.wpi.cs3733d18.teamS.service type in the edu.wpi.cs3733d18.teamS.service types table
+     *
      * @param type the edu.wpi.cs3733d18.teamS.service type to be updated
      */
     public void updateServiceType(ServiceType type) {
-        String values[] = new String[] {
+        String values[] = new String[]{
                 String.format("%s = '%s'", "name", type.getName()),
                 String.format("%s = %b", "emergency", type.isEmergency())
         };
@@ -755,6 +714,7 @@ public class Storage {
 
     /**
      * gets a edu.wpi.cs3733d18.teamS.service request by name
+     *
      * @param name the name of the edu.wpi.cs3733d18.teamS.service type
      * @return the edu.wpi.cs3733d18.teamS.service type corresponding to the given name
      */
@@ -772,6 +732,7 @@ public class Storage {
 
     /**
      * Gets all edu.wpi.cs3733d18.teamS.service types from the edu.wpi.cs3733d18.teamS.database
+     *
      * @return a List of all edu.wpi.cs3733d18.teamS.service types in the edu.wpi.cs3733d18.teamS.database
      */
     public List<ServiceType> getAllServiceTypes() {
@@ -788,6 +749,7 @@ public class Storage {
 
     /**
      * Private method for parsing result set
+     *
      * @param r_set a set of all of the entries in the table
      * @return a List of ServiceTypes corresponding to table entries
      */
@@ -810,6 +772,7 @@ public class Storage {
 
     /**
      * Retrieves a single edu.wpi.cs3733d18.teamS.service type from the table
+     *
      * @param r_set a single entry in the table
      * @return a edu.wpi.cs3733d18.teamS.service type object from the table
      */
@@ -837,10 +800,86 @@ public class Storage {
 
     /**
      * Get edu.wpi.cs3733d18.teamS.database.
+     *
      * @return the edu.wpi.cs3733d18.teamS.database.
      */
     public IDatabase getDatabase() {
         return database;
+    }
+
+    /**
+     * Sets the edu.wpi.cs3733d18.teamS.database for the edu.wpi.cs3733d18.teamS.controller to interact with
+     *
+     * @param database the edu.wpi.cs3733d18.teamS.database to connect to
+     */
+    public void setDatabase(IDatabase database) {
+
+        // configure edu.wpi.cs3733d18.teamS.database and connect
+        this.database = database;
+        database.connect();
+
+        // create tables for edu.wpi.cs3733d18.teamS.database
+        if (!database.doesTableExist("NODES")) {
+            database.createTable("NODES", new String[]{
+                    String.format("%s VARCHAR (100) PRIMARY KEY", "node_id"),
+                    String.format("%s INT", "x_coord"),
+                    String.format("%s INT", "y_coord"),
+                    String.format("%s VARCHAR (100)", "floor"),
+                    String.format("%s VARCHAR (100)", "building"),
+                    String.format("%s VARCHAR (100)", "node_type"),
+                    String.format("%s VARCHAR (100)", "long_name"),
+                    String.format("%s VARCHAR (100)", "short_name"),
+                    String.format("%s VARCHAR (100)", "team_assigned"),
+                    String.format("%s INT", "x_coord_3d"),
+                    String.format("%s INT", "y_coord_3d")
+            });
+        }
+
+        if (!database.doesTableExist("EDGES")) {
+            database.createTable("EDGES", new String[]{
+                    String.format("%s VARCHAR (100) PRIMARY KEY", "edge_id"),
+                    String.format("%s VARCHAR (100)", "start_node"),
+                    String.format("%s VARCHAR (100)", "end_node")
+            });
+        }
+
+        if (!database.doesTableExist("USERS")) {
+            database.createTable("USERS", new String[]{
+                    String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "user_id"),
+                    String.format("%s VARCHAR (100)", "username"),
+                    String.format("%s VARCHAR (100)", "password"),
+                    String.format("%s VARCHAR (16)", "user_type"),
+                    String.format("%s BOOLEAN", "can_mod_map")
+            });
+        }
+
+        if (!database.doesTableExist("SERVICES")) {
+            database.createTable("SERVICES", new String[]{
+                    String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "service_id"),
+                    String.format("%s VARCHAR (100)", "title"),
+                    String.format("%s VARCHAR (100)", "description"),
+                    String.format("%s VARCHAR (100)", "service_type"),
+                    String.format("%s BIGINT", "requester_id"),
+                    String.format("%s BIGINT", "fulfiller_id"),
+                    String.format("%s VARCHAR (100)", "location"),
+                    String.format("%s TIMESTAMP", "request_time"),
+                    String.format("%s TIMESTAMP", "fulfill_time")
+            });
+        }
+
+        if (!database.doesTableExist("TYPES")) {
+            database.createTable("TYPES", new String[]{
+                    String.format("%s VARCHAR (100) PRIMARY KEY", "name"),
+                    String.format("%s BOOLEAN", "emergency"),
+            });
+        }
+
+        if (!database.doesTableExist("FULFILLERS")) {
+            database.createTable("FULFILLERS", new String[]{
+                    String.format("%s VARCHAR (100)", "name"),
+                    String.format("%s BIGINT", "fulfiller_id"),
+            });
+        }
     }
 
     /**

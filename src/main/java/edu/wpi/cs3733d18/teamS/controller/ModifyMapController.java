@@ -1,11 +1,11 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.kylecorry.lann.NN;
 import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
 import com.kylecorry.lann.activation.Linear;
 import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.collections.FXCollections;
@@ -14,12 +14,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.Node;
-import javafx.scene.ImageCursor;
-import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +31,10 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ModifyMapController {
@@ -88,6 +90,22 @@ public class ModifyMapController {
 
     @FXML
     ScrollPane scroll_pane;
+    @FXML
+    ImageView map;
+    @FXML
+    VBox add_node_box;
+    @FXML
+    TextField location_one, location_two, location_to_delete, kiosk_location;
+    @FXML
+    VBox add_edge_box, delete_loc_box;
+    edu.wpi.cs3733d18.teamS.data.Node new_node;
+    @FXML
+    Button confirm_3d;
+    ImageView pin;
+    private Boolean first_click;
+    private edu.wpi.cs3733d18.teamS.data.Node first_loc;
+    private edu.wpi.cs3733d18.teamS.data.Node second_loc;
+    private Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry_to_delete;
 
     @FXML
     private void initialize() {
@@ -99,12 +117,12 @@ public class ModifyMapController {
         scroll_pane.setHvalue(0.25);
 
         ObservableList<String> lop = FXCollections.observableArrayList();
-        lop.addAll("View Map","Add Location", "Add Path", "Delete Location");
+        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
         ObservableList<String> list_type = FXCollections.observableArrayList();
-        list_type.addAll("Conference","Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
+        list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
         loc_type.setItems(list_type);
 
         //Hashmap for node constructor
@@ -119,7 +137,7 @@ public class ModifyMapController {
         short_name.add("SERV");
 
         locations = new HashMap<>();
-        for(int i = 0; i < list_type.size(); i++) {
+        for (int i = 0; i < list_type.size(); i++) {
             locations.put(list_type.get(i), short_name.get(i));
         }
 
@@ -136,7 +154,7 @@ public class ModifyMapController {
         short_floor.add("3");
 
         floor_map = new HashMap<>();
-        for(int i = 0; i < floors.size(); i++) {
+        for (int i = 0; i < floors.size(); i++) {
             floor_map.put(floors.get(i), short_floor.get(i));
         }
 
@@ -149,12 +167,12 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes());
 
         lop = FXCollections.observableArrayList();
-        lop.addAll("View Map","Add Location", "Add Path", "Delete Location", "Set Kiosk Location");
+        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Set Kiosk Location");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
         list_type = FXCollections.observableArrayList();
-        list_type.addAll("Conference","Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
+        list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
         loc_type.setItems(list_type);
 
         //Hashmap for node constructor
@@ -169,7 +187,7 @@ public class ModifyMapController {
         short_name.add("SERV");
 
         locations = new HashMap<>();
-        for(int i = 0; i < list_type.size(); i++) {
+        for (int i = 0; i < list_type.size(); i++) {
             locations.put(list_type.get(i), short_name.get(i));
         }
 
@@ -179,7 +197,7 @@ public class ModifyMapController {
     }
 
     public void onZoomOut() {
-        if(zoom_factor > 0.5) {
+        if (zoom_factor > 0.5) {
             zoom_factor -= 0.2;
             scroll_pane.getContent().setScaleX(zoom_factor);
             scroll_pane.setLayoutX(zoom_factor);
@@ -199,45 +217,28 @@ public class ModifyMapController {
         }
     }
 
-    @FXML
-    ImageView map;
-
     public void onChooseFloorChange() {
         pane.getChildren().clear();
         nodes_list.clear();
         pane.getChildren().add(map);
         if (choose_floor.getValue().toString().equals("Ground Floor")) {
             map.setImage(new Image("images/2dMaps/00_thegroundfloor.png"));
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
             map.setImage(new Image("images/2dMaps/00_thelowerlevel1.png"));
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
             map.setImage(new Image("images/2dMaps/00_thelowerlevel2.png"));
-        }
-        else if (choose_floor.getValue().toString().equals("First Floor")) {
+        } else if (choose_floor.getValue().toString().equals("First Floor")) {
             map.setImage(new Image("images/2dMaps/01_thefirstfloor.png"));
-        }
-        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
             map.setImage(new Image("images/2dMaps/02_thesecondfloor.png"));
-        }
-        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
             map.setImage(new Image("images/2dMaps/03_thethirdfloor.png"));
         }
         makeMap(storage.getAllNodes());
     }
 
     public void onBackClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent admin_parent = FXMLLoader.load(getClass().getResource("/AdminPage.fxml"), AllText.getBundle());
-        Scene admin_scene = new Scene(admin_parent, window.getWidth(), window.getHeight());
-        Stage admin_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        admin_stage.setTitle("User");
-
-        Timeout.addListenersToScene(admin_scene);
-
-        admin_stage.setScene(admin_scene);
-        admin_stage.show();
+        Main.switchScenes("User", "/AdminPage.fxml");
     }
 
     public void onAddLocClick() {
@@ -247,8 +248,7 @@ public class ModifyMapController {
             scene.setCursor(new ImageCursor(loc_cursor));
             add_loc_cancel.setVisible(true);
             add_loc_fail.setText("");
-        }
-        else {
+        } else {
             add_loc_fail.setText("Please fill all fields");
         }
     }
@@ -259,58 +259,34 @@ public class ModifyMapController {
         add_loc_cancel.setVisible(false);
     }
 
-    @FXML
-    VBox add_node_box;
-
     public void onChooseAction() {
         if (location_or_path.getValue().toString().equals("Add Path")) {
             add_edge_box.setVisible(true);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
             kiosk_location_name.setVisible(false);
-        }
-        else if (location_or_path.getValue().toString().equals("Add Location")) {
+        } else if (location_or_path.getValue().toString().equals("Add Location")) {
             add_node_box.setVisible(true);
             add_edge_box.setVisible(false);
             delete_loc_box.setVisible(false);
             kiosk_location_name.setVisible(false);
-        }
-        else if (location_or_path.getValue().toString().equals("View Map")) {
+        } else if (location_or_path.getValue().toString().equals("View Map")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
             kiosk_location_name.setVisible(false);
-        }
-        else if (location_or_path.getValue().toString().equals("Delete Location")) {
+        } else if (location_or_path.getValue().toString().equals("Delete Location")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(true);
             kiosk_location_name.setVisible(false);
-        }
-        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+        } else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
             add_edge_box.setVisible(false);
             add_node_box.setVisible(false);
             delete_loc_box.setVisible(false);
             kiosk_location_name.setVisible(true);
         }
     }
-
-    @FXML
-    TextField location_one, location_two, location_to_delete, kiosk_location;
-
-    @FXML
-    VBox add_edge_box, delete_loc_box;
-
-    private Boolean first_click;
-    private edu.wpi.cs3733d18.teamS.data.Node first_loc;
-    private edu.wpi.cs3733d18.teamS.data.Node second_loc;
-
-    edu.wpi.cs3733d18.teamS.data.Node new_node;
-
-    @FXML
-    Button confirm_3d;
-
-    ImageView pin;
 
     public void onConfirm3dClick() {
         pane.getChildren().clear();
@@ -336,20 +312,15 @@ public class ModifyMapController {
         String toReturn = "";
         if (choose_floor.getValue().toString().equals("Ground Floor")) {
             toReturn = "images/2dMaps/00_thegroundfloor.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
             toReturn = "images/2dMaps/00_thelowerlevel1.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
             toReturn = "images/2dMaps/00_thelowerlevel2.png";
-        }
-        else if (choose_floor.getValue().toString().equals("First Floor")) {
+        } else if (choose_floor.getValue().toString().equals("First Floor")) {
             toReturn = "images/2dMaps/01_thefirstfloor.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Second Floor")) {
-           toReturn = "images/2dMaps/02_thesecondfloor.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
+            toReturn = "images/2dMaps/02_thesecondfloor.png";
+        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
             toReturn = "images/2dMaps/03_thethirdfloor.png";
         }
         return toReturn;
@@ -357,21 +328,19 @@ public class ModifyMapController {
 
     public void onMouseClick(MouseEvent click) {
         if (confirm_3d.isVisible()) {
-            new_node.setXCoord3D((int)click.getX());
-            new_node.setYCoord3D((int)click.getY());
+            new_node.setXCoord3D((int) click.getX());
+            new_node.setYCoord3D((int) click.getY());
             pane.getChildren().remove(pin);
             pin.setX(new_node.getXCoord3D());
             pin.setY(new_node.getYCoord3D());
             pane.getChildren().add(pin);
-        }
-
-        else if (location_or_path.getValue().toString().equals("Add Location")) {
+        } else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
 
-            List<edu.wpi.cs3733d18.teamS.data.Node> nn_nodes_list  = storage.getAllNodes();
+            List<edu.wpi.cs3733d18.teamS.data.Node> nn_nodes_list = storage.getAllNodes();
 
             PersistentMachineLearningAlgorithm nn = new NN.Builder()
-                    .addLayer(2,8, new ReLU())
+                    .addLayer(2, 8, new ReLU())
                     .addLayer(8, 2, new Linear())
                     .build();
 
@@ -379,7 +348,7 @@ public class ModifyMapController {
 
             Matrix[] output_data = new Matrix[nn_nodes_list.size()];
 
-            for(int i = 0; i < nn_nodes_list.size(); i++) {
+            for (int i = 0; i < nn_nodes_list.size(); i++) {
                 input_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord() / 5000.0, (double) nn_nodes_list.get(i).getYCoord() / 3400.0); //2D
                 output_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord3D(), (double) nn_nodes_list.get(i).getYCoord3D()); //3D
             }
@@ -387,12 +356,12 @@ public class ModifyMapController {
             nn.fit(input_data, output_data, 0.0001, 500);
 
 
-            Matrix predict_3d = nn.predict((click.getX() + 10)/5000.0, (click.getY() + 30)/3400.0);
+            Matrix predict_3d = nn.predict((click.getX() + 10) / 5000.0, (click.getY() + 30) / 3400.0);
 
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
-            new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int)click.getX() + 10, (int)click.getY() + 30, //adding the offset of the icon
+            new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX() + 10, (int) click.getY() + 30, //adding the offset of the icon
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", (int)predict_3d.get(0,0), (int)predict_3d.get(1,0)); //TODO: id function
+                    short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0)); //TODO: id function
             pane.getChildren().clear();
             pane.getChildren().add(map);
             map.setImage(new Image(select3DMap()));
@@ -404,9 +373,7 @@ public class ModifyMapController {
             scene.setCursor(Cursor.DEFAULT);
             add_node_box.setVisible(false);
             choose_floor.setVisible(false);
-        }
-
-        else if (location_or_path.getValue().toString().equals("Add Path") && first_click) {
+        } else if (location_or_path.getValue().toString().equals("Add Path") && first_click) {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
@@ -415,9 +382,7 @@ public class ModifyMapController {
                     location_one.setText(entry.getKey().getNodeID());
                 }
             }
-        }
-
-        else if (location_or_path.getValue().toString().equals("Add Path") && !first_click) {
+        } else if (location_or_path.getValue().toString().equals("Add Path") && !first_click) {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
@@ -425,9 +390,7 @@ public class ModifyMapController {
                     location_two.setText(entry.getKey().getNodeID());
                 }
             }
-        }
-
-        else if (location_or_path.getValue().toString().equals("Delete Location")) {
+        } else if (location_or_path.getValue().toString().equals("Delete Location")) {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
@@ -435,9 +398,7 @@ public class ModifyMapController {
                     location_to_delete.setText(entry.getKey().getNodeID());
                 }
             }
-        }
-
-        else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
+        } else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
@@ -452,26 +413,19 @@ public class ModifyMapController {
         String toReturn = "";
         if (choose_floor.getValue().toString().equals("Ground Floor")) {
             toReturn = "images/2dMaps/00_thegroundfloor.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level One")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level One")) {
             toReturn = "images/3dMaps/L1-NO-ICONS.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
+        } else if (choose_floor.getValue().toString().equals("Lower Level Two")) {
             toReturn = "images/3dMaps/L2-NO-ICONS.png";
-        }
-        else if (choose_floor.getValue().toString().equals("First Floor")) {
+        } else if (choose_floor.getValue().toString().equals("First Floor")) {
             toReturn = "images/3dMaps/1-NO-ICONS.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Second Floor")) {
+        } else if (choose_floor.getValue().toString().equals("Second Floor")) {
             toReturn = "images/3dMaps/2-NO-ICONS.png";
-        }
-        else if (choose_floor.getValue().toString().equals("Third Floor")) {
+        } else if (choose_floor.getValue().toString().equals("Third Floor")) {
             toReturn = "images/3dMaps/3-NO-ICONS.png";
         }
         return toReturn;
     }
-
-    private Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry_to_delete;
 
     public void onDeleteLocClick() {
         if (!location_to_delete.getText().trim().isEmpty()) {
@@ -506,7 +460,7 @@ public class ModifyMapController {
 
     private void makeMap(List<edu.wpi.cs3733d18.teamS.data.Node> dataNodes) {
         String floor = choose_floor.getValue().toString();
-        for(edu.wpi.cs3733d18.teamS.data.Node a_node: dataNodes) {
+        for (edu.wpi.cs3733d18.teamS.data.Node a_node : dataNodes) {
             if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
                 ImageView pin = new ImageView("images/mapIcons/nodeIcon.png");
                 pin.setX(a_node.getXCoord() - 10); //  -10 for the icon offset
@@ -538,23 +492,23 @@ public class ModifyMapController {
         }
     }
 
-    private String generateNodeId(String ntype){
+    private String generateNodeId(String ntype) {
         List<edu.wpi.cs3733d18.teamS.data.Node> nodes = storage.getAllNodes();  //get list of all nodes in edu.wpi.cs3733d18.teamS.database
 
         int currmax = 0;
-        for (edu.wpi.cs3733d18.teamS.data.Node n : nodes){  //count number of nodes of that type that already exist
-            if (n.getNodeType().equals(ntype)){
+        for (edu.wpi.cs3733d18.teamS.data.Node n : nodes) {  //count number of nodes of that type that already exist
+            if (n.getNodeType().equals(ntype)) {
                 String fullID = n.getNodeID();
-                fullID = fullID.substring(5,8);
+                fullID = fullID.substring(5, 8);
                 int id = Integer.parseInt(fullID);
-                if(id > currmax) {
+                if (id > currmax) {
                     currmax = id;
                 }
             }
         }
         String floor_track = floor_map.get(choose_floor.getValue().toString());
         String small_ft = ("00" + floor_track).substring(floor_track.length());
-        return ("B" + ntype + String.format("%03d", currmax+1) + small_ft);
+        return ("B" + ntype + String.format("%03d", currmax + 1) + small_ft);
     }
 
     private String generateEdgeId(edu.wpi.cs3733d18.teamS.data.Node first_node, edu.wpi.cs3733d18.teamS.data.Node second_node) {

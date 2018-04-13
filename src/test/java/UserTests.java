@@ -1,6 +1,6 @@
+import edu.wpi.cs3733d18.teamS.user.User;
 import org.junit.Assert;
 import org.junit.Test;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 /**
  * UserTests.java

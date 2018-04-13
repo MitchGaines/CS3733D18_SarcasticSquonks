@@ -5,20 +5,52 @@ import edu.wpi.cs3733d18.teamS.database.CSVReader;
 import edu.wpi.cs3733d18.teamS.database.CSVWriter;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
+import javafx.stage.Window;
+
+import java.io.IOException;
 
 
 public class Main extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+        Timeout.stop();
+    }
+
+    private static Stage primary_stage;
+
+    public static Object switchScenes(String title, String fxml_name) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml_name), AllText.getBundle());
+            Parent user_parent = loader.load();
+            Object controller = loader.getController();
+            Scene new_scene = new Scene(user_parent, primary_stage.getWidth(), primary_stage.getHeight());
+            primary_stage.setTitle(title);
+
+            Timeout.addListenersToScene(new_scene);
+
+            primary_stage.setScene(new_scene);
+            primary_stage.show();
+            return controller;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primary_stage) throws Exception {
         AllText.changeLanguage("en");
-        
+
+        this.primary_stage = primary_stage;
+
         // set edu.wpi.cs3733d18.teamS.database and storage class
         Storage storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
@@ -32,23 +64,23 @@ public class Main extends Application {
 //        csv_reader.readCSVFile("csv/users.csv", "USERS");
 
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        primaryStage.setTitle("Brigham and Women's");
+        primary_stage.setTitle("Brigham and Women's");
 
         Scene primary_scene = new Scene(root, 1200, 800);
 
-        Timeout.setCurrStage(primaryStage);
+        Timeout.setCurrStage(primary_stage);
 
         Timeout.addListenersToScene(primary_scene);
 
         Timeout.start();
 
-        primaryStage.setScene(primary_scene);
-        primaryStage.show();
+        primary_stage.setScene(primary_scene);
+        primary_stage.show();
 
         ServiceType.createDummyTypes();
         //TODO: actually use LoginHandler correctly.
         // before system shutdown
-        primaryStage.setOnCloseRequest(windowEvent -> {
+        primary_stage.setOnCloseRequest(windowEvent -> {
 
             // write to CSV files
             if (Storage.getInstance().getDatabase() != null) {
@@ -60,10 +92,5 @@ public class Main extends Application {
             }
         });
 
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-        Timeout.stop();
     }
 }

@@ -2,24 +2,28 @@ package edu.wpi.cs3733d18.teamS.database;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Parses a table and writes to a CSV file.
+ *
  * @author Joseph Turcotte
  * @version 1.0
  * Date: March 24, 2018
  * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
- *          https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
+ * https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
  */
 public class CSVWriter {
 
-   /**
-    *Stores the edu.wpi.cs3733d18.teamS.database so we can see the table.
-    */
+    /**
+     * Stores the edu.wpi.cs3733d18.teamS.database so we can see the table.
+     */
     private IDatabase database; // need the edu.wpi.cs3733d18.teamS.database so we can see the table
 
     /**
      * Constructor for a CSVWriter
+     *
      * @param database the edu.wpi.cs3733d18.teamS.database to read edu.wpi.cs3733d18.teamS.data from
      */
     public CSVWriter(IDatabase database) {
@@ -28,7 +32,8 @@ public class CSVWriter {
 
     /**
      * Reads from a JavaDB table and writes the entries to a csv file at the end of the program.
-     * @param csv_file the name of the file to write to.
+     *
+     * @param csv_file   the name of the file to write to.
      * @param table_name the name of the table to read from.
      */
     public void writeCSVFile(String csv_file, String table_name) {
@@ -38,7 +43,7 @@ public class CSVWriter {
         String file_header = ""; // header of CSV file
 
         // silently return if table doesn't exist
-        if(!database.doesTableExist(table_name)){
+        if (!database.doesTableExist(table_name)) {
             return;
         }
 
@@ -63,7 +68,7 @@ public class CSVWriter {
             file_writer.append("\n");
 
             // query the edu.wpi.cs3733d18.teamS.database to get the table
-            ResultSet r_set = database.query(table_name, null, null, null,null);
+            ResultSet r_set = database.query(table_name, null, null, null, null);
 
             // check type of table and then loop through it
             if (table_name.equals("NODES")) {
@@ -102,7 +107,7 @@ public class CSVWriter {
                     end_node = r_set.getString("end_node");
 
                     // write values to file, separated by commas
-                    file_writer.append(edge_id + "," + start_node + "," + end_node + "\n");
+                    file_writer.append(edge_id).append(",").append(start_node).append(",").append(end_node).append("\n");
                 }
             } else if (table_name.equals("USERS")) {
 

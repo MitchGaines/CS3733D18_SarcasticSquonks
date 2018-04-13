@@ -1,4 +1,4 @@
-import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.pathfind.AStar;
 import edu.wpi.cs3733d18.teamS.pathfind.Path;
 import edu.wpi.cs3733d18.teamS.pathfind.Pathfinder;
 

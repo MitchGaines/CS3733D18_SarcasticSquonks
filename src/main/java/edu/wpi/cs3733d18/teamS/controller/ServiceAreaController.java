@@ -2,6 +2,10 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
+import edu.wpi.cs3733d18.teamS.service.ServiceType;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,10 +14,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
-import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,9 +29,19 @@ public class ServiceAreaController {
 
     @FXML
     ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location;
-
+    @FXML
+    Button request_service_button;
+    @FXML
+    Button mark_completed_btn;
     private User user;
     private ObservableList<Node> locations = FXCollections.observableArrayList();
+    @FXML
+    private Text title_text, location_text;
+    @FXML
+    private TextField service_title;
+    @FXML
+    private TextArea description_field, description_text;
+    private UserController parent;
 
     public void populateRequestTypes() {
         request_type_selector.valueProperty().set(null);
@@ -58,7 +68,7 @@ public class ServiceAreaController {
                 return null;
             }
         });
-        Collections.sort(locations, Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
+        locations.sort(Comparator.comparing(Node::getLongName));
         service_location.setItems(locations);
     }
 
@@ -78,9 +88,6 @@ public class ServiceAreaController {
         }
     }
 
-    @FXML
-    Button request_service_button;
-
     public void markComplete() {
         ServiceRequest selected = active_requests_box.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -97,7 +104,6 @@ public class ServiceAreaController {
         ServiceLogEntry.log(selected, true);
 
     }
-
 
     public void doRequestService() {
         // todo: validation 4real
@@ -126,19 +132,6 @@ public class ServiceAreaController {
         alert.showAndWait();
 
     }
-
-
-    @FXML
-    private Text title_text, location_text;
-
-    @FXML
-    private TextField service_title;
-
-    @FXML
-    private TextArea description_field, description_text;
-
-    @FXML
-     Button mark_completed_btn;
 
     public void setUser(User user) {
         this.user = user;
@@ -175,11 +168,12 @@ public class ServiceAreaController {
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
+     *
      * @param e KeyEvent representing the key that was typed.
      */
     @FXML
     void onKeyReleasedComboBox(KeyEvent e) {
-        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>)(e.getSource());
+        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>) (e.getSource());
         ObservableList<edu.wpi.cs3733d18.teamS.data.Node> filteredItems = FXCollections.observableArrayList();
         combo_box.show();
         TextField editor = combo_box.getEditor();
@@ -202,8 +196,7 @@ public class ServiceAreaController {
                 String current_editor = editor.getText();
                 combo_box.setItems(filteredItems);
                 editor.setText(current_editor);
-            }
-            else {
+            } else {
                 combo_box.setItems(filteredItems);
             }
 
@@ -217,8 +210,6 @@ public class ServiceAreaController {
             }
         }
     }
-
-    private UserController parent;
 
     public void setParent(UserController user_controller) {
         parent = user_controller;

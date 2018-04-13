@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
@@ -13,36 +14,33 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.joda.time.DateTime;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
 public class ReportsController extends UserController {
+    private static final String[] REPORT_TYPE_KEYS = {"num_requests_report", "average_time_report"};
+    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "hours_unit"};
     @FXML
     JFXTimePicker start_time_picker, end_time_picker;
-
     @FXML
     JFXDatePicker start_date_picker, end_date_picker;
-
     @FXML
     BarChart<String, Number> bar_chart;
-
     @FXML
     JFXListView<ServiceType> service_type_list;
-
     @FXML
     JFXComboBox<String> report_type_menu;
-
     @FXML
     JFXButton run_report_button;
-
     @FXML
     JFXToggleButton chart_toggle;
-
     @FXML
     Label instructions;
+    private boolean empty = true;
+    private BarChart chart;
+    private TableView table;
 
     @Override
     public void initialize() {
@@ -59,10 +57,6 @@ public class ReportsController extends UserController {
             report_type_menu.getItems().add(AllText.get(key));
         }
     }
-
-    private static final String[] REPORT_TYPE_KEYS = {"num_requests_report", "average_time_report"};
-    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "hours_unit"};
-
 
     private void setUpListView() {
         service_type_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -82,7 +76,6 @@ public class ReportsController extends UserController {
         java.time.LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
-
 
     private DateTime getEndTime() {
         if (end_date_picker.getValue() == null || end_time_picker.getValue() == null) {
@@ -109,8 +102,6 @@ public class ReportsController extends UserController {
             }
         }
     }
-
-    private boolean empty = true;
 
     public void generateChart() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {
@@ -141,9 +132,6 @@ public class ReportsController extends UserController {
         this.chart = chart;
         empty = false;
     }
-
-    private BarChart chart;
-    private TableView table;
 
     public void generateTable() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {

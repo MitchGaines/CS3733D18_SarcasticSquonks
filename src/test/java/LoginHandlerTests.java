@@ -1,19 +1,22 @@
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
 import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.user.InvalidPasswordException;
+import edu.wpi.cs3733d18.teamS.user.InvalidUsernameException;
+import edu.wpi.cs3733d18.teamS.user.LoginHandler;
+import edu.wpi.cs3733d18.teamS.user.User;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import edu.wpi.cs3733d18.teamS.user.*;
 
 public class LoginHandlerTests {
-/**
- * LoginHandlerTests.java
- * Tests login functionality
- * Author: Matthew Puentes
- * Date: April 2, 2018
- */
+    /**
+     * LoginHandlerTests.java
+     * Tests login functionality
+     * Author: Matthew Puentes
+     * Date: April 2, 2018
+     */
 
     private Storage storage;
 
@@ -70,7 +73,7 @@ public class LoginHandlerTests {
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void invalidPassword() throws Exception{
+    public void invalidPassword() throws Exception {
         LoginHandler lh = new LoginHandler();
         lh.__generateDummyUsers();
         User u;
@@ -78,7 +81,7 @@ public class LoginHandlerTests {
     }
 
     @Test(expected = InvalidUsernameException.class)
-    public void invalidUsername() throws Exception{
+    public void invalidUsername() throws Exception {
         LoginHandler lh = new LoginHandler();
         lh.__generateDummyUsers();
         User u;

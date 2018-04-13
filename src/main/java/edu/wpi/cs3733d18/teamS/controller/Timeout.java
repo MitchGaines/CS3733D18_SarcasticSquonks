@@ -15,7 +15,7 @@ import java.io.IOException;
 
 /**
  * Timeout.java
- *
+ * <p>
  * Timeout causes a screen to revert to home after a certain period of time
  *
  * @Authors: Matthew McMillan and Danny Sullivan
@@ -25,11 +25,23 @@ import java.io.IOException;
 
 public class Timeout {
 
+    static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
+    static DateTime last_action = DateTime.now();
+    static Stage curr_stage;
+    static EventHandler<MouseEvent> mousePressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Mouse press");
+    };
+    static EventHandler<KeyEvent> keyPressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Key press");
+    };
+    private static boolean kill;
     private static Thread timeout_thread = new Thread() {
         public void run() {
             try {
                 Thread.sleep(sleep_time);
-                while(!kill) {
+                while (!kill) {
                     //System.out.println(DateTime.now().getMillis());
                     //System.out.println(last_action.getMillis());
                     if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
@@ -43,42 +55,18 @@ public class Timeout {
                         Thread.sleep(sleep_time);
                     } else {
                         long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
-                        if(new_sleep_time <= 0) {
+                        if (new_sleep_time <= 0) {
                             new_sleep_time = 10000;
                         }
                         //System.out.println("Sleeping for " + new_sleep_time);
                         Thread.sleep(new_sleep_time);
                     }
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (IOException io_exception) {
                 io_exception.printStackTrace();
             }
-        }
-    };
-
-    static DateTime last_action = DateTime.now();
-
-    private static boolean kill;
-
-    static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
-    static Stage curr_stage;
-
-    static EventHandler<MouseEvent> mousePressed = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Mouse press");
-        }
-    };
-
-    static EventHandler<KeyEvent> keyPressed = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Key press");
         }
     };
 
