@@ -6,28 +6,16 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the Breadth First path algorithm and primarily finds the path from a location.
+ * The Abstract class that holds common functions for the different types of path finding algorithms.
  *
  * @author Noah Hillman
  * @version %I%, %G%
  */
-public class BreadthFirst implements ISearchAlgorithm {
+public abstract class SearchAlgorithm {
 
-    private static Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) -> (int) (AStarNode1.getGCost() - AStarNode2.getGCost());
-
-    /**
-     * findPath (Breadth First edition)
-     * Finds the pathway between two points using the Breadth First algorithm, This takes in a starting node's id, and end
-     * locations id and takes in a HashMap that contains all the nodes of the hospital.
-     *
-     * @param start_id           The String Id of the node that the person is starting at.
-     * @param goal_id            The String Id of the node that the person wants to get to.
-     * @param algorithm_node_map The HashMap of all the nodes within the hospital.
-     * @return Returns an ArrayList of AStarNodes that results in the pathway.
-     */
-    @Override
-    public AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map) {
+    AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map){
         AStarNode start = algorithm_node_map.get(start_id);
+        AStarNode goal = algorithm_node_map.get(goal_id);
 
         //queue of all Nodes generated but not yet searched (queued in order of increasing cost)
         PriorityQueue<AStarNode> open_a_star_nodes = new PriorityQueue<>(10, heuristicComparator);
@@ -44,7 +32,6 @@ public class BreadthFirst implements ISearchAlgorithm {
             closed_a_star_nodes.add(current_node);
 
             if (current_node.getID().contains(goal_id)) {
-                //System.out.println(closed_a_star_nodes.size() + " searched nodes");
                 return current_node;
             }
             //loop over the current_node node's neighbors
@@ -54,15 +41,13 @@ public class BreadthFirst implements ISearchAlgorithm {
                     //check if they haven't been discovered before
                     if (!open_a_star_nodes.contains(neighbor)) {
                         //add them to the open set of nodes and update parent, g, h, and f costs
-                        neighbor.setParent(current_node);
-                        neighbor.newGCost(current_node);
+                        updateCosts(neighbor, current_node, goal);
                         open_a_star_nodes.add(neighbor);
                     } else {
                         //check if they are a better pathfinder_path (lower gcost), if so, update their cost and parent
                         double temp_g_cost = current_node.getGCost() + current_node.distanceTo(neighbor);
                         if (temp_g_cost < neighbor.getGCost()) {
-                            neighbor.setParent(current_node);
-                            neighbor.newGCost(current_node);
+                            updateCosts(neighbor, current_node, goal);
                         }
                     }
                 }
@@ -70,4 +55,12 @@ public class BreadthFirst implements ISearchAlgorithm {
         }
         return start;
     }
+
+    abstract void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal);
+
+    //comparator to organize how the priority queue sorts items (based on heuristic)
+    Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) ->
+            (int) (prioritySort(AStarNode1, AStarNode2));
+
+    abstract int prioritySort(AStarNode node1, AStarNode node2);
 }

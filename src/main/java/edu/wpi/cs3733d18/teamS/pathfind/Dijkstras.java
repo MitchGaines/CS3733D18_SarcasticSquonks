@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the Depth First path algorithm and primarily finds the path from a location.
+ * The Class manages the Breadth First path algorithm and primarily finds the path from a location.
  *
  * @author Noah Hillman
  * @version %I%, %G%
  */
-public class DepthFirst extends SearchAlgorithm {
+public class Dijkstras extends SearchAlgorithm {
     @Override
     void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal) {
         neighbor.setParent(current);
@@ -20,7 +20,6 @@ public class DepthFirst extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node2.getGCost() - node1.getGCost());
+        return (int)(node1.getGCost() - node2.getGCost());
     }
 }
-

@@ -72,8 +72,8 @@ public class AdminPageController extends UserController {
         time.setText(dtf.format(now));
         ObservableList<String> algorithms = FXCollections.observableArrayList();
         algorithms.add(AllText.get("a_star"));
+        algorithms.add(AllText.get("dijkstras"));
         algorithms.add(AllText.get("depth_first"));
-        algorithms.add(AllText.get("breadth_first"));
         path_algorithm_box.setItems(algorithms);
 
     }
