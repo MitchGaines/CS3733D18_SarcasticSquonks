@@ -66,8 +66,6 @@ public class Main extends Application {
 
         Scene primary_scene = new Scene(root, 1200, 800);
 
-        Timeout.setCurrStage(primary_stage);
-
         Timeout.addListenersToScene(primary_scene);
 
         Timeout.start();

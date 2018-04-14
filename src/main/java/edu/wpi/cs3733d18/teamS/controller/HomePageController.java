@@ -167,20 +167,8 @@ public class HomePageController {
         if (language_selector.getSelectionModel().isEmpty()) {
             return;
         }
-        try {
-            AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
-            Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-            Stage primary_stage = (Stage) language_selector.getScene().getWindow();
-            primary_stage.setTitle("Brigham and Women's");
-            Scene primary_scene = new Scene(root, 1200, 800);
-
-            Timeout.addListenersToScene(primary_scene);
-
-            primary_stage.setScene(primary_scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
 
     }
 
@@ -236,21 +224,10 @@ public class HomePageController {
             alert.showAndWait();
             return;
         }
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = loader.load();
-        PathfindController pathfind_ctrl = loader.getController();
+
+        PathfindController pathfind_ctrl = (PathfindController) Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
         pathfind_ctrl.quickLocationFinding(combobox_start.getValue().getNodeID(), button.getId());
 
-        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        pathfind_stage.setTitle("Pathfinder");
-
-        Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
-
-        Timeout.addListenersToScene(pathfind_parent_scene);
-
-        pathfind_stage.setScene(pathfind_parent_scene);
-        pathfind_stage.show();
     }
 
     /**
