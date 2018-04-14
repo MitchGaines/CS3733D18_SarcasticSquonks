@@ -49,17 +49,17 @@ public class Main extends Application {
 
         this.primary_stage = primary_stage;
 
-        // set edu.wpi.cs3733d18.teamS.database and storage class
+        // set database and storage class
         Storage storage = Storage.getInstance();
         storage.setDatabase(new ApacheDatabase("apacheDB"));
 
         // read from CSV files
         CSVReader csv_reader = new CSVReader(storage.getDatabase());
-//        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
-//        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
         csv_reader.readCSVFile("csv/mergedNodes.csv", "NODES");
         csv_reader.readCSVFile("csv/mergedEdges.csv", "EDGES");
-//        csv_reader.readCSVFile("csv/users.csv", "USERS");
+
+        // generate an initial list of service types for the database
+        ServiceType.createInitialServiceTypes();
 
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         primary_stage.setTitle("Brigham and Women's");
@@ -73,8 +73,6 @@ public class Main extends Application {
         primary_stage.setScene(primary_scene);
         primary_stage.show();
 
-        ServiceType.createDummyTypes();
-        //TODO: actually use LoginHandler correctly.
         // before system shutdown
         primary_stage.setOnCloseRequest(windowEvent -> {
 
@@ -83,8 +81,6 @@ public class Main extends Application {
                 CSVWriter csv_writer = new CSVWriter(Storage.getInstance().getDatabase());
                 csv_writer.writeCSVFile("csv/mergedNodes.csv", "NODES");
                 csv_writer.writeCSVFile("csv/mergedEdges_edited.csv", "EDGES");
-                csv_writer.writeCSVFile("csv/users_edited.csv", "USERS");
-                //storage.getDatabase().dropTable("SERVICES");
             }
         });
 

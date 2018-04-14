@@ -59,9 +59,9 @@ public class CSVWriter {
             case "EDGES":
                 file_header = "edge_id,start_node,end_node";
                 break;
-            case "USERS":
-                file_header = "username,password,type,can_mod_map";
-                break;
+//            case "USERS":
+//                file_header = "username,password,type,can_mod_map";
+//                break;
         }
 
         try {
@@ -116,22 +116,22 @@ public class CSVWriter {
                         file_writer.append(edge_id).append(",").append(start_node).append(",").append(end_node).append("\n");
                     }
                     break;
-                case "USERS":
-
-                    // variables to hold values of each row
-                    String username, password, user_type;
-                    boolean can_mod_map;
-
-                    while (r_set.next()) {
-                        username = r_set.getString("username");
-                        password = r_set.getString("password");
-                        user_type = r_set.getString("user_type");
-                        can_mod_map = r_set.getBoolean("can_mod_map");
-
-                        // write values to file, separated by commas
-                        file_writer.append(username + "," + password + "," + user_type + "," + can_mod_map + "\n");
-                    }
-                    break;
+//                case "USERS":
+//
+//                    // variables to hold values of each row
+//                    String username, password, user_type;
+//                    boolean can_mod_map;
+//
+//                    while (r_set.next()) {
+//                        username = r_set.getString("username");
+//                        password = r_set.getString("password");
+//                        user_type = r_set.getString("user_type");
+//                        can_mod_map = r_set.getBoolean("can_mod_map");
+//
+//                        // write values to file, separated by commas
+//                        file_writer.append(username + "," + password + "," + user_type + "," + can_mod_map + "\n");
+//                    }
+//                    break;
             }
 
             // close result set

@@ -21,13 +21,10 @@ public class User {
     private String username;
     private byte[] password_salt;
     private byte[] enc_password;
-    // for edu.wpi.cs3733d18.teamS.database storage purposes
-    private String plainPassword; // TODO unencrypted passwords
 
     public User(String username, String password, user_type type, boolean can_mod_map) {
-        plainPassword = password;
         password_salt = new byte[16];
-        new SecureRandom().nextBytes(password_salt);
+        //new SecureRandom().nextBytes(password_salt);
 
         this.username = username;
 
@@ -40,6 +37,23 @@ public class User {
 
         this.type = type;
         this.can_mod_map = can_mod_map;
+    }
+
+    /**
+     * Encodes a password
+     * @param password the password as a string
+     * @return the password, hashed and salted (as a String)
+     */
+    public static String encodePassword(String password) {
+        byte[] password_salt = new byte[16];
+        //new SecureRandom().nextBytes(password_salt);
+
+        byte[] password_unsalted = password.getBytes();
+        byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
+        System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
+
+        return new String(Base64.getEncoder().encode(password_salted));
     }
 
     /**
@@ -105,11 +119,6 @@ public class User {
         user_id = new_id;
     }
 
-    // TODO unsafe!
-    public String getPlainPassword() {
-        return plainPassword;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -118,7 +127,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password_salt=" + Arrays.toString(password_salt) +
                 ", enc_password=" + Arrays.toString(enc_password) +
-                ", plainPassword='" + plainPassword + '\'' +
                 ", type=" + type +
                 '}';
     }
@@ -138,8 +146,8 @@ public class User {
     public int hashCode() {
 
         int result = Objects.hash(user_id, can_mod_map, username, type);
-//        result = 31 * result + Arrays.hashCode(password_salt); TODO might mess with hashing
-//        result = 31 * result + Arrays.hashCode(enc_password);
+        result = 31 * result + Arrays.hashCode(password_salt);
+        result = 31 * result + Arrays.hashCode(enc_password);
         return result;
     }
 

@@ -30,12 +30,12 @@ public class LoginHandlerTests {
     @Test
     public void LoginDoctor() {
         LoginHandler lh = new LoginHandler();
-        lh.__generateDummyUsers();
+        lh.generateInitialUsers();
         User u;
         try {
             u = lh.login("doctor", "doctor");
             Assert.assertTrue(u.getType() == User.user_type.DOCTOR);
-        } catch (InvalidPasswordException | InvalidUsernameException e) {
+        } catch (InvalidUsernameException e) {
             Assert.fail();
         }
     }
@@ -43,12 +43,12 @@ public class LoginHandlerTests {
     @Test
     public void LoginAdmin() {
         LoginHandler lh = new LoginHandler();
-        lh.__generateDummyUsers();
+        lh.generateInitialUsers();
         User u;
         try {
             u = lh.login("admin", "admin");
             Assert.assertTrue(u.getType() == User.user_type.ADMIN_STAFF);
-        } catch (InvalidPasswordException | InvalidUsernameException e) {
+        } catch (InvalidUsernameException e) {
             Assert.fail();
         }
     }
@@ -56,20 +56,20 @@ public class LoginHandlerTests {
     @Test
     public void LoginRegular() {
         LoginHandler lh = new LoginHandler();
-        lh.__generateDummyUsers();
+        lh.generateInitialUsers();
         User u;
         try {
             u = lh.login("staff", "staff");
             Assert.assertTrue(u.getType() == User.user_type.REGULAR_STAFF);
-        } catch (InvalidPasswordException | InvalidUsernameException e) {
+        } catch (InvalidUsernameException e) {
             Assert.fail();
         }
     }
 
-    @Test(expected = InvalidPasswordException.class)
+    @Test(expected = InvalidUsernameException.class)
     public void invalidPassword() throws Exception {
         LoginHandler lh = new LoginHandler();
-        lh.__generateDummyUsers();
+        lh.generateInitialUsers();
         User u;
         u = lh.login("doctor", "oh god no");
     }
@@ -77,7 +77,7 @@ public class LoginHandlerTests {
     @Test(expected = InvalidUsernameException.class)
     public void invalidUsername() throws Exception {
         LoginHandler lh = new LoginHandler();
-        lh.__generateDummyUsers();
+        lh.generateInitialUsers();
         User u;
         u = lh.login("Wilson Wong", "Willy Wongka");
     }

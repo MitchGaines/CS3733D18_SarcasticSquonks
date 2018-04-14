@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 public class StorageTestSuite {
@@ -358,13 +359,13 @@ public class StorageTestSuite {
     @Test
     public void testAddUser() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         // check the length of the list of users returned
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 1);
+        Assert.assertEquals(users.size(), 8);
     }
 
     /**
@@ -373,12 +374,12 @@ public class StorageTestSuite {
     @Test
     public void testDeleteUser() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -387,8 +388,8 @@ public class StorageTestSuite {
 
         // check the length and the id of the remaining edu.wpi.cs3733d18.teamS.user
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 1);
-        Assert.assertEquals(users.get(0).getUserID(), 2);
+        Assert.assertEquals(users.size(), 8);
+        Assert.assertEquals(users.get(7).getUserID(), 9);
     }
 
     /**
@@ -397,7 +398,7 @@ public class StorageTestSuite {
     @Test
     public void testUpdateUser() {
         User old_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        old_user.setUserID(1);
+        old_user.setUserID(8);
 
         storage.saveUser(old_user);
 
@@ -418,12 +419,12 @@ public class StorageTestSuite {
     @Test
     public void testGetUserByID() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -438,12 +439,12 @@ public class StorageTestSuite {
     @Test
     public void testGetUserByName() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -456,17 +457,17 @@ public class StorageTestSuite {
      * Test getting a specific edu.wpi.cs3733d18.teamS.user by credentials
      */
     @Test
-    public void testGetUserByCredentials() { // TODO this method uses the plain password as a check because of "'" character
+    public void testGetUserByCredentials() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
         storage.saveUser(new_user);
 
         User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        new_user2.setUserID(9);
         storage.saveUser(new_user2);
 
         // get one of the users by id and check its username
-        User u = storage.getUserByCredentials(new_user2.getUsername(), new_user2.getPlainPassword());
+        User u = storage.getUserByCredentials(new_user2.getUsername(), new String(new_user2.getEncodedPassword(), Charset.forName("UTF-8")));
         Assert.assertEquals(u.getUsername(), "amanda");
     }
 
@@ -476,22 +477,22 @@ public class StorageTestSuite {
     @Test
     public void testGetAllUsers() {
         User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
         // get all of the users and check the length of the list returned
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 2);
+        Assert.assertEquals(users.size(), 9);
 
         // also check the username of each entry
-        Assert.assertEquals(users.get(0).getUsername(), "joe");
-        Assert.assertEquals(users.get(1).getUsername(), "amanda");
+        Assert.assertEquals(users.get(7).getUsername(), "joe");
+        Assert.assertEquals(users.get(8).getUsername(), "amanda");
     }
 
     // ------------------- SERVICE TESTS --------------------

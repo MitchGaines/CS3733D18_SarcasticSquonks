@@ -291,7 +291,7 @@ public class HomePageController {
                     openUser(event, "/RegStaffPage.fxml", user);
                     break;
             }
-        } catch (InvalidPasswordException | InvalidUsernameException e) {
+        } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
     }
