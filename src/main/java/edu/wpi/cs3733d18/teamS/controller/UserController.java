@@ -34,6 +34,9 @@ public class UserController {
     @FXML
     private Label emergency_title, emergency_details, emergency_label;
 
+    @FXML
+    protected RequestSidebarController requestSidebarController;
+
     public void onLogoutClick(ActionEvent event) throws IOException {
         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
@@ -54,6 +57,7 @@ public class UserController {
         serviceAreaController.populateRequestsBox();
     }
 
+    //TODO: Delete this method
     public void openLog(ActionEvent event) throws IOException {
         LogController log_controller = (LogController) Main.switchScenes("Servce Log", "/Log.fxml");
         log_controller.setUp(user, page);
@@ -80,6 +84,16 @@ public class UserController {
             emergency_details.setVisible(false);
         }
 
+    }
+
+    public void loadLog() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        LogController log_controller = loader.getController();
+        log_controller.setUser(user);
+        //log_controller.setReturnPage(page);
+        log_controller.populateTable();
+        main_pane.setCenter(root);
     }
 
     public void initialize() {

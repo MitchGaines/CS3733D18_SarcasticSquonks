@@ -39,6 +39,13 @@ public class AdminPageController extends UserController {
         return selected_path_algorithm;
     }
 
+    public void loadReports() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        //LogController log_controller = loader.getController();
+        main_pane.setCenter(root);
+    }
+
     public void loadReportScreen(ActionEvent event) throws IOException {
         Main.switchScenes("View Reports", "/Report.fxml");
     }
@@ -48,6 +55,9 @@ public class AdminPageController extends UserController {
     }
 
     public void initialize() {
+        System.out.println("in intialize");
+        requestSidebarController.setParent(this);
+        requestSidebarController.setAdminParent(this);
         serviceAreaController.setParent(this);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();

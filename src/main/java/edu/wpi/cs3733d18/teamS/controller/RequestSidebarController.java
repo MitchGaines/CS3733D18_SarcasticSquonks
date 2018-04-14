@@ -1,11 +1,30 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
 
 public class RequestSidebarController {
+
+    private UserController parent;
+    private AdminPageController adminParent;
+    private BorderPane main_pane;
+
     @FXML
-    Label create_req, my_req, view_log, reports, admin;
+    private Label create_req, my_req, view_log, reports, admin;
+
+    public void setParent(UserController user_controller) {
+        parent = user_controller;
+    }
+
+    public void setAdminParent(AdminPageController adminPageController) {
+        adminParent = adminPageController;
+    }
 
     public void onCreateReqClick() {
         clearColors();
@@ -17,14 +36,16 @@ public class RequestSidebarController {
         my_req.setStyle("-fx-background-color:  #91a1c6");
     }
 
-    public void onViewLogClick() {
+    public void onViewLogClick() throws IOException {
         clearColors();
         view_log.setStyle("-fx-background-color:  #91a1c6");
+        parent.loadLog();
     }
 
-    public void onReportsClick() {
+    public void onReportsClick() throws IOException {
         clearColors();
         reports.setStyle("-fx-background-color:  #91a1c6");
+        adminParent.loadReports();
     }
 
     public void onAdminClick() {
@@ -39,4 +60,6 @@ public class RequestSidebarController {
         reports.setStyle("-fx-background-color: #4863A0");
         admin.setStyle("-fx-background-color: #4863A0");
     }
+
+
 }

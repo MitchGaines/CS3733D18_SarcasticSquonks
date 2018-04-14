@@ -59,6 +59,6 @@
       </StackPane>
    </center>
    <left>
-      <fx:include source="RequestSidebar.fxml" />
+      <fx:include fx:id="requestSidebar" source="RequestSidebar.fxml" />
    </left>
 </BorderPane>
