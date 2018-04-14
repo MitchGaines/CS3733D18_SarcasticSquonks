@@ -1,1 +1,43 @@
-<%- path %>
+<html>
+<head>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+
+  <style>
+    li {
+        height: 60px;
+        padding: 0 10px;
+        list-style: none;
+        line-height: 60px;
+        color: #fff;
+        margin: 0 0 2px;
+    }
+
+    ul {
+        margin: 0 0 10px;
+        padding: 0;
+    }
+    .list1 li {
+      background: #f58160;
+    }
+  </style>
+</head>
+<body>
+  <%- path %>
+
+
+  <script>
+    var a1 = Swiped.init({
+        query: '.list1 li',
+        right: 400,
+        onOpen: function() {
+            this.destroy(true)
+        },
+        onClose: function() {
+            console.log('close')
+        }
+    });
+  </script>
+</body>
+</html>
