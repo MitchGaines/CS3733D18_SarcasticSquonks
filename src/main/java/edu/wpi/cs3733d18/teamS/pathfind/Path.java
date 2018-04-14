@@ -40,8 +40,8 @@ public class Path {
      * @return URL based on calculated turns at each node.
      */
     public URL getPathDirections() throws MalformedURLException {
-        //String host = "159.203.189.146";
-        String host = "localhost";
+        String host = "159.203.189.146";
+        //String host = "localhost";
         int port = 3000;
         String protocol = "http";
         String path = "/";
