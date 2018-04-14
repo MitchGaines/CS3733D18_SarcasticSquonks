@@ -4,11 +4,13 @@ import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
+import edu.wpi.cs3733d18.teamS.user.LoginHandler;
 import edu.wpi.cs3733d18.teamS.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.nio.charset.Charset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -51,6 +53,8 @@ public class Storage {
         return StorageHolder.instance;
     }
 
+    // ----------- NODE METHODS ------------- //
+
     /**
      * Inserts the fields of a new node into the nodes table
      *
@@ -71,8 +75,6 @@ public class Storage {
                 String.valueOf(node.getYCoord3D())
         });
     }
-
-    // ----------- NODE METHODS ------------- //
 
     /**
      * Removes a node entry from the nodes table
@@ -191,6 +193,8 @@ public class Storage {
         return null;
     }
 
+    // ----------- EDGE METHODS ------------- //
+
     /**
      * Inserts the fields of a new edge into the edges table
      *
@@ -203,8 +207,6 @@ public class Storage {
                 database.addQuotes(edge.getEndNode())
         });
     }
-
-    // ----------- EDGE METHODS ------------- //
 
     /**
      * Deletes the edges table entry for the given edge
@@ -306,21 +308,21 @@ public class Storage {
         return null;
     }
 
+    // ---------------- USER METHODS ----------------- //
+
     /**
      * Inserts the fields of a new edu.wpi.cs3733d18.teamS.user object into the users table
      *
      * @param user the User object to store in the table
      */
-    public void saveUser(User user) { // TODO using plain password might be dangerous
+    public void saveUser(User user) {
         database.insert("USERS" + USER_VALUES, new String[]{
                 database.addQuotes(user.getUsername()),
-                database.addQuotes(user.getPlainPassword()),
+                database.addQuotes(new String(user.getEncodedPassword(), Charset.forName("UTF-8"))),
                 database.addQuotes(user.getType().toString()),
                 String.valueOf(user.canModMap())
         });
     }
-
-    // ---------------- USER METHODS ----------------- //
 
     /**
      * Deletes the given edu.wpi.cs3733d18.teamS.user from the users table
@@ -339,7 +341,7 @@ public class Storage {
     public void updateUser(User user) {
         String[] values = new String[]{
                 String.format("%s = '%s'", "username", user.getUsername().replaceAll("'", "''")),
-                String.format("%s = '%s'", "password", new String(user.getPasswordSalt()).replaceAll("'", "''")),
+                String.format("%s = '%s'", "password", new String(user.getEncodedPassword(), Charset.forName("UTF-8")).replaceAll("'", "''")),
                 String.format("%s = '%s'", "user_type", user.getType().toString()),
                 String.format("%s = %b", "can_mod_map", user.canModMap())
         };
@@ -454,6 +456,8 @@ public class Storage {
         return null;
     }
 
+    // ---------------- SERVICE REQUEST METHODS --------------- //
+
     /**
      * Inserts the fields of a new edu.wpi.cs3733d18.teamS.service request object into the services table
      *
@@ -475,8 +479,6 @@ public class Storage {
                 database.addQuotes(dtf.print(request.getFulfilledDate()))
         });
     }
-
-    // ---------------- SERVICE REQUEST METHODS --------------- //
 
     /**
      * Removes a request from the requests table
@@ -684,6 +686,8 @@ public class Storage {
         return null;
     }
 
+    // ------------------------- SERVICE TYPE OPERATIONS ----------------------- //
+
     /**
      * Inserts a edu.wpi.cs3733d18.teamS.service type into the edu.wpi.cs3733d18.teamS.service types table
      *
@@ -695,8 +699,6 @@ public class Storage {
                 String.valueOf(type.isEmergency())
         });
     }
-
-    // ------------------------- SERVICE TYPE OPERATIONS ----------------------- //
 
     /**
      * Updates a edu.wpi.cs3733d18.teamS.service type in the edu.wpi.cs3733d18.teamS.service types table
@@ -851,6 +853,9 @@ public class Storage {
                     String.format("%s VARCHAR (16)", "user_type"),
                     String.format("%s BOOLEAN", "can_mod_map")
             });
+
+            // generate users and add to database
+            LoginHandler.generateInitialUsers();
         }
 
         if (!database.doesTableExist("SERVICES")) {

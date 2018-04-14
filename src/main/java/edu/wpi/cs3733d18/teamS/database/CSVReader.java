@@ -95,16 +95,16 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
                         database.insert(table_name, values);
                     }
                     break;
-                case "USERS":
-                    while ((line = buffered_reader.readLine()) != null) {
-
-                        // split line using comma delimiter
-                        String[] values = line.split(csv_delimiter);
-
-                        User user = new User(values[0], values[1], User.user_type.valueOf(values[2]), Boolean.valueOf(values[3]));
-                        storage.saveUser(user);
-                    }
-                    break;
+//                case "USERS":
+//                    while ((line = buffered_reader.readLine()) != null) {
+//
+//                        // split line using comma delimiter
+//                        String[] values = line.split(csv_delimiter);
+//
+//                        User user = new User(values[0], values[1], User.user_type.valueOf(values[2]), Boolean.valueOf(values[3]));
+//                        storage.saveUser(user);
+//                    }
+//                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();

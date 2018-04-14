@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.service;
 
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.user.LoginHandler;
 import edu.wpi.cs3733d18.teamS.user.User;
 import org.joda.time.DateTime;
@@ -50,10 +51,12 @@ public class ServiceType {
     }
 
     /**
-     * Creating dummy types, adding appropriate staff as the fulfillers
+     * Creating initial service types, adding appropriate staff as the fulfillers
      */
-    public static void createDummyTypes() {
-        LoginHandler.__generateDummyUsers();
+    public static void createInitialServiceTypes() {
+        Storage storage = Storage.getInstance();
+
+        // create new lists of possible fulfillers
         HashSet<User> doctors = new HashSet<>();
         HashSet<User> staff = new HashSet<>();
         HashSet<User> admins = new HashSet<>();
@@ -62,16 +65,16 @@ public class ServiceType {
         HashSet<User> russians = new HashSet<>();
         HashSet<User> spanish = new HashSet<>();
 
-        doctors.add(LoginHandler.getUsers().get(0));
-        doctors.add(LoginHandler.getUsers().get(3));
-        doctors.add(LoginHandler.getUsers().get(4));
-        admins.add(LoginHandler.getUsers().get(1));
-        staff.add(LoginHandler.getUsers().get(2));
-        cardio.add(LoginHandler.getUsers().get(3));
-        plasticspete.add(LoginHandler.getUsers().get(4));
-        spanish.add(LoginHandler.getUsers().get(5));
-        russians.add(LoginHandler.getUsers().get(6));
-
+        // add the appropriate users to each fulfiller set
+        doctors.add(storage.getUserByID(1));
+        doctors.add(storage.getUserByID(4));
+        doctors.add(storage.getUserByID(5));
+        admins.add(storage.getUserByID(2));
+        staff.add(storage.getUserByID(3));
+        cardio.add(storage.getUserByID(4));
+        plasticspete.add(storage.getUserByID(5));
+        spanish.add(storage.getUserByID(6));
+        russians.add(storage.getUserByID(7));
 
         createServiceType("Medical", true, doctors);
         createServiceType("Custodial", false, staff);
