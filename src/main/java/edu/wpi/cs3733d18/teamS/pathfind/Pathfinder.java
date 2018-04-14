@@ -41,14 +41,14 @@ public class Pathfinder {
     /**
      * Stores the path finding algorithm.
      */
-    private ISearchAlgorithm algorithm;
+    private SearchAlgorithm algorithm;
 
     /**
      * Sets the Path finding algorithm.
      *
      * @param algorithm the algorithm to be used
      */
-    public Pathfinder(ISearchAlgorithm algorithm) {
+    public Pathfinder(SearchAlgorithm algorithm) {
         this.algorithm = algorithm;
     }
 
