@@ -5,9 +5,8 @@ import java.sql.ResultSet;
 
 /**
  * An interface to help the classes work with in the edu.wpi.cs3733d18.teamS.database.
- *
  * @author Joseph Turcotte
- * @version 1.0
+ * @version %I%, %G%
  * Date: March 24, 2018
  */
 public interface IDatabase {

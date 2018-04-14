@@ -7,9 +7,8 @@ import java.sql.SQLException;
 
 /**
  * Parses a table and writes to a CSV file.
- *
  * @author Joseph Turcotte
- * @version 1.0
+ * @version %I%, %G%
  * Date: March 24, 2018
  * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
  * https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
@@ -32,7 +31,6 @@ public class CSVWriter {
 
     /**
      * Reads from a JavaDB table and writes the entries to a csv file at the end of the program.
-     *
      * @param csv_file   the name of the file to write to.
      * @param table_name the name of the table to read from.
      */
