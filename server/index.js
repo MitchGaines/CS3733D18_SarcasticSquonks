@@ -5,7 +5,6 @@ var path    = require("path");
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
-app.use('/js', express.static(__dirname + '/node_modules/swiped/dist'));
 app.set('view engine', 'ejs');
 
 app.get('/:steps', function(req, res){
@@ -14,9 +13,9 @@ app.get('/:steps', function(req, res){
 
   var buf = Buffer.from(steps_list, 'base64').toString('utf8');
 
-  path = buf.replace(/-/g, '<li>').replace(/\./g, '</li>');
+  path = buf.replace(/-/g, '<li class="list-group-item">').replace(/\./g, '</li>');
 
-  path = "<ul class='list1'>" + path + "</ul>";
+  path = "<ul class='list-group list-group-flush' id='path-list'>" + path + "</ul>";
 
   res.render('index', {
     path: path
