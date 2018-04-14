@@ -40,29 +40,11 @@ public class AdminPageController extends UserController {
     }
 
     public void loadReportScreen(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/Report.fxml"), AllText.getBundle());
-        Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
-        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modify_nodes_stage.setTitle("View Reports");
-
-        Timeout.addListenersToScene(view_reports_scene);
-
-        modify_nodes_stage.setScene(view_reports_scene);
-        modify_nodes_stage.show();
+        Main.switchScenes("View Reports", "/Report.fxml");
     }
 
     public void onModifyMapClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
-        Scene modify_nodes_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
-        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modify_nodes_stage.setTitle("Modify Nodes");
-
-        Timeout.addListenersToScene(modify_nodes_scene);
-
-        modify_nodes_stage.setScene(modify_nodes_scene);
-        modify_nodes_stage.show();
+        Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
     }
 
     public void initialize() {

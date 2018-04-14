@@ -27,7 +27,6 @@ public class Timeout {
 
     static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
     static DateTime last_action = DateTime.now();
-    static Stage curr_stage;
     static EventHandler<MouseEvent> mousePressed = event -> {
         last_action = DateTime.now();
         //System.out.println("Mouse press");
@@ -42,16 +41,9 @@ public class Timeout {
             try {
                 Thread.sleep(sleep_time);
                 while (!kill) {
-                    //System.out.println(DateTime.now().getMillis());
-                    //System.out.println(last_action.getMillis());
                     if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
                         AllText.changeLanguage("en");
-                        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                        Platform.runLater(() -> curr_stage.setTitle("Brigham and Women's"));
-                        Scene primary_scene = new Scene(root, 1200, 800);
-                        addListenersToScene(primary_scene);
-                        Platform.runLater(() -> curr_stage.setScene(primary_scene));
-                        //last_action = DateTime.now();
+                        Platform.runLater(() -> Main.switchScenes("Brigham and Women's", "/HomePage.fxml"));
                         Thread.sleep(sleep_time);
                     } else {
                         long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
@@ -62,7 +54,7 @@ public class Timeout {
                         Thread.sleep(new_sleep_time);
                     }
                 }
-            } catch (InterruptedException | IOException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -71,10 +63,6 @@ public class Timeout {
     public static void addListenersToScene(Scene scene) {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mousePressed);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressed);
-    }
-
-    public static void setCurrStage(Stage stage) {
-        curr_stage = stage;
     }
 
     public static void stop() {

@@ -35,22 +35,12 @@ public class UserController {
     private Label emergency_title, emergency_details, emergency_label;
 
     public void onLogoutClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        home_stage.show();
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
 
     private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
-        populateBoxes();
     }
 
     public void setUp(User user, String page) {
@@ -65,22 +55,8 @@ public class UserController {
     }
 
     public void openLog(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
-        Parent root = loader.load();
-        LogController log_controller = loader.getController();
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        log_controller.setUser(user);
-        log_controller.setReturnPage(page);
-        log_controller.populateTable();
-
-        home_stage.show();
+        LogController log_controller = (LogController) Main.switchScenes("Servce Log", "/Log.fxml");
+        log_controller.setUp(user, page);
     }
 
     private void setPage(String page) {

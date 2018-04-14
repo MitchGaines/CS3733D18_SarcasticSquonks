@@ -91,7 +91,7 @@ public class LogController {
 
     }
 
-    public void populateTable() {
+    private void populateTable() {
         if (user.getType() == User.user_type.ADMIN_STAFF) {
             log_table.setItems(FXCollections.observableArrayList(ServiceLogEntry.getOverallLog()));
         } else {
@@ -100,11 +100,17 @@ public class LogController {
 
     }
 
-    public void setUser(User user) {
+    public void setUp(User user, String return_page) {
+        setUser(user);
+        setReturnPage(return_page);
+        populateTable();
+    }
+
+    private void setUser(User user) {
         this.user = user;
     }
 
-    public void setReturnPage(String page) {
+    private void setReturnPage(String page) {
         return_page = page;
     }
 
