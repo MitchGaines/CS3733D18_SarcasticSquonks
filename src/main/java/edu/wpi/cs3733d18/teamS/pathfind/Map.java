@@ -40,7 +40,7 @@ public class Map {
      * Stores an ArrayList of AStarNodes for the path.
      */
     private Path path;
-    private boolean is_3D;
+    public boolean is_3D;
 
     /**
      * Constructs a 3D map with path drawing capabilities
@@ -111,4 +111,5 @@ public class Map {
         map_anchor_pane.getChildren().addAll(path.generatePolylines(is_3D, floor));
         map_anchor_pane.getChildren().addAll(path.generateIcons(is_3D, floor));
     }
+
 }

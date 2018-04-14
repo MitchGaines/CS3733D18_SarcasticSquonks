@@ -50,11 +50,11 @@ public class PathfindController {
     ImageView expanded_qr;
     private double zoom_factor;
     private Storage db_storage;
-    private mappingMode mode = mappingMode.MAP2D; //The pathfinder defaults to being in 2D mode.
+    private boolean in3DMode = false;
     private int current_floor;
     private Map map;
 
-    private static Image getFloorImage(int floor, mappingMode mode) {
+    private static Image getFloorImage(int floor, boolean is3D) {
         String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
                 "images/2dMaps/00_thelowerlevel1.png",
                 "images/2dMaps/01_thefirstfloor.png",
@@ -67,7 +67,7 @@ public class PathfindController {
                 "images/3dMaps/2-NO-ICONS.png",
                 "images/3dMaps/3-NO-ICONS.png"};
 
-        if (mode == mappingMode.MAP2D)
+        if (!is3D)
             return new Image(images2d[floor]);
         else
             return new Image(images3d[floor]);
@@ -86,7 +86,6 @@ public class PathfindController {
 
 
         map = new Map(map_anchor_pane, current_floor, false);
-        updateMap();
     }
 
     private void zoom(double zoom_amount) {
@@ -129,8 +128,6 @@ public class PathfindController {
 
         map.clearIcons();
 
-        map = new Map(map_anchor_pane, current_floor, (mode == mappingMode.MAP3D));
-
         Pathfinder pathfinder;
         int select = AdminPageController.getChoosenAlg();
         if (is_quick || select == 1) {
@@ -172,7 +169,7 @@ public class PathfindController {
 
         double start_x;
         double start_y;
-        if (mode == mappingMode.MAP2D) {
+        if (!in3DMode) {
             start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
             start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
         } else {
@@ -195,7 +192,7 @@ public class PathfindController {
     }
 
     private void updateMap(boolean scroll) {
-        Image m = getFloorImage(current_floor, mode);
+        Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
         floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
@@ -210,14 +207,14 @@ public class PathfindController {
     }
 
     public void toggleMappingType() {
-        boolean is_3D = false;
-        if (mode == mappingMode.MAP3D) {
+        if (map.is_3D) {
             toggle_map_btn.setText(AllText.get("2d_map"));
-            mode = mappingMode.MAP2D;
-        } else if (mode == mappingMode.MAP2D) {
+            in3DMode = false;
+            map.is_3D = false;
+        } else {
             toggle_map_btn.setText(AllText.get("3d_map"));
-            mode = mappingMode.MAP3D;
-            is_3D = true;
+            in3DMode = true;
+            map.is_3D = true;
         }
 
         Path path = null;
@@ -225,8 +222,6 @@ public class PathfindController {
             map.clearIcons();
             path = map.getPath();
         }
-
-        map = new Map(map_anchor_pane, current_floor, is_3D);
 
         if (path != null) {
             map.setPath(path);
@@ -271,7 +266,7 @@ public class PathfindController {
     public void onMapUp() {
         if (current_floor < 4) {
             current_floor++;
-            updateMap(false);
+            updateMap();
             floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
         }
     }
@@ -279,10 +274,10 @@ public class PathfindController {
     public void onMapDown() {
         if (current_floor > 0) {
             current_floor--;
-            updateMap(false);
+            updateMap();
             floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
         }
     }
 
-    private enum mappingMode {MAP3D, MAP2D}
+
 }
