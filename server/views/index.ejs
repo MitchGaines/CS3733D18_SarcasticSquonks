@@ -5,6 +5,12 @@
   <script src="/js/bootstrap.min.js"></script>
 
   <style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        font-family: Arial;
+    }
     li {
         height: 60px;
         padding: 0 10px;
@@ -19,12 +25,18 @@
         padding: 0;
     }
     .list1 li {
-      background: #f58160;
+        background: #f58160;
+    }
+    .wrapper {
+        overflow: hidden;
+        padding: 10px;
     }
   </style>
 </head>
 <body>
-  <%- path %>
+  <div class="wrapper">
+    <%- path %>
+  </div>
 
 
   <script>
