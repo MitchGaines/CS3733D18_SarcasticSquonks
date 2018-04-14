@@ -55,7 +55,8 @@ public class UserController {
     }
 
     public void openLog(ActionEvent event) throws IOException {
-        Main.switchScenes("Servce Log", "/Log.fxml");
+        LogController log_controller = (LogController) Main.switchScenes("Servce Log", "/Log.fxml");
+        log_controller.setUp(user, page);
     }
 
     private void setPage(String page) {
