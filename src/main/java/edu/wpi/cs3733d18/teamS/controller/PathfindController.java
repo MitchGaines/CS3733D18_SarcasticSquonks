@@ -137,8 +137,10 @@ public class PathfindController {
             pathfinder = new Pathfinder(new Dijkstras());
         } else if (select == 2) {
             pathfinder = new Pathfinder(new DepthFirst());
+        } else if (select == 3) {
+            pathfinder = new Pathfinder(new BreadthFirst());
         } else {
-            pathfinder = new Pathfinder(new AStar());
+                pathfinder = new Pathfinder(new AStar());
         }
 
         pathfinder.findShortestPath(node1, node2);

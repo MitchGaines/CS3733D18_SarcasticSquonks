@@ -15,7 +15,7 @@ public class DepthFirst extends SearchAlgorithm {
     @Override
     void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal) {
         neighbor.setParent(current);
-        neighbor.newGCost(current);
+        neighbor.setGCost(current.getGCost() + 1);
     }
 
     @Override
