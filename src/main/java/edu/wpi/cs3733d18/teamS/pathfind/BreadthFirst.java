@@ -1,5 +1,12 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+/**
+ * The Class manages the breadth First path algorithm changes and finds a path by searching outwards (not movement
+ * cost based).
+ *
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class BreadthFirst extends SearchAlgorithm {
     @Override
     void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal) {
