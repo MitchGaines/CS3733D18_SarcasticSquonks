@@ -300,6 +300,5 @@ public class HomePageController {
     public void openUser(ActionEvent event, String page, User user) throws IOException {
         UserController user_controller = (UserController) Main.switchScenes("User", page);
         user_controller.setUp(user, page);
-
     } //END OF TEST
 }

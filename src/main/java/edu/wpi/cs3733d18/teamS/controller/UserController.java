@@ -44,6 +44,8 @@ public class UserController {
     private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
+        requestSidebarController.setUser(user);
+        populateBoxes();
     }
 
     public void setUp(User user, String page) {
@@ -96,8 +98,24 @@ public class UserController {
         main_pane.setCenter(root);
     }
 
+    public void setSidebar() {
+        if(user.getType() != User.user_type.ADMIN_STAFF) {
+            requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
+            if(user.getType() == User.user_type.DOCTOR) {
+                requestSidebarController.setUserTypeLabel("Doctor");
+            }
+            else {
+                requestSidebarController.setUserTypeLabel("Staff");
+            }
+        }
+        else {
+            requestSidebarController.setUserTypeLabel("Admin");
+        }
+    }
+
     public void initialize() {
         serviceAreaController.setParent(this);
+        requestSidebarController.setParent(this);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
