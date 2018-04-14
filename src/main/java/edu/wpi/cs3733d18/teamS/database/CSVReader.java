@@ -8,12 +8,12 @@ import java.io.IOException;
 
 /**
  * Parses a CSV file and writes to a table.
- *
- * @version 1.0
+ * @author: Joseph Turcotte
+ * @version %I%, %G%
  * Date: March 24, 2018
  * Sources: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
  * https://examples.javacodegeeks.com/core-java/writeread-csv-files-in-java-example/
- * @Author: Joseph Turcotte
+ *
  */
 public class CSVReader { // TODO: the code seems a bit repetitive, but this is only called once at program startup
 
@@ -27,13 +27,12 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
     private IDatabase database;
 
     /**
-     * Stores storage class
+     * Stores storage class.
      */
     private Storage storage;
 
     /**
      * Constructor for a CSVReader.
-     *
      * @param database the edu.wpi.cs3733d18.teamS.database that holds the tables.
      */
     public CSVReader(IDatabase database) {
@@ -43,7 +42,6 @@ public class CSVReader { // TODO: the code seems a bit repetitive, but this is o
 
     /**
      * Loads a CSV file and populates a JavaDB table at the start of the program.
-     *
      * @param csv_file   the name of the csv file to read from.
      * @param table_name the name of the table to create.
      */
