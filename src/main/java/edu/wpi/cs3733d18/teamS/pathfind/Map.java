@@ -33,9 +33,18 @@ public class Map {
      * Stores an ArrayList of AStarNodes for the seg_path.
      */
     private Path path;
+
+    /**
+     * Stores a Boolean for whether or not the requested map needs to be in 3D or not.
+     */
     public boolean is_3D;
 
 
+    /**
+     * Constructs a Map by taking in the anchor pane and a Boolean for whether or not it is 3d.
+     * @param map_anchor_pane The anchor pane for the scene.
+     * @param is_3D boolean true if the map is 3d, false otherwise.
+     */
     public Map(AnchorPane map_anchor_pane, boolean is_3D) {
         this.map_anchor_pane = map_anchor_pane;
         this.is_3D = is_3D;
@@ -75,6 +84,11 @@ public class Map {
     }
 
 
+    /**
+     * Returns an ArrayList of Nodes for the Next segment of the path, which occurs whenever there is a floor change.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the Previous segment of the path.
+     */
     public ArrayList<Node> nextStep(boolean is_3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
         fx_nodes.addAll(path.nextSeg(is_3D));
@@ -82,6 +96,11 @@ public class Map {
         return fx_nodes;
     }
 
+    /**
+     * Returns an ArrayList of Nodes for the Previous segment of the path, which occurs whenever there is a floor change.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the Previous segment of the path.
+     */
     public ArrayList<Node> prevStep(boolean is_3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
         fx_nodes.addAll(path.prevSeg(is_3D));
@@ -89,6 +108,12 @@ public class Map {
         return fx_nodes;
     }
 
+    /**
+     * Returns an ArrayList of Nodes for the current segment of the path, which occurs whenever there is a floor change,
+     * this function is primarily used when changing from 2D to 3D map view or vice versa.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the current segment of the path.
+     */
     public ArrayList<Node> thisStep(boolean is_3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
         fx_nodes.addAll(path.thisSeg(is_3D));

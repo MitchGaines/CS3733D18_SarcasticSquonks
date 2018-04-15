@@ -27,34 +27,102 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PathfindController {
-
+    /**
+     * Stores a boolean for whether or not a path was correctly generated.
+     */
     private static boolean PATHFIND_READY = false;
+
+    /**
+     * Nodes for zooming in and out of the map.
+     */
     @FXML
     ImageView zoom_in, zoom_out;
+
+    /**
+     * Node for going to the previous segment of the path.
+     */
     @FXML
     Button back_button;
+
+    /**
+     * The AnchorPane for the scene.
+     */
     @FXML
     AnchorPane map_anchor_pane;
+
+    /**
+     * The ScrollPane for the map image.
+     */
     @FXML
     ScrollPane map_scroll_pane;
+
+    /**
+     * The map image.
+     */
     @FXML
     ImageView map_img;
+
+    /**
+     * The BorderPane.
+     */
     @FXML
     BorderPane main_pane;
+
+    /**
+     * The nodes for the time and current floor indicator.
+     */
     @FXML
     Label time, floor_indicator;
+
+    /**
+     * The Header and Footer BorderPanes.
+     */
     @FXML
     BorderPane header_pane, footer_pane;
+
+    /**
+     * The node for switching between 2D and 3D maps.
+     */
     @FXML
     Button toggle_map_btn;
+
+    /**
+     * Node for expanding the QR code with the step by step directions.
+     */
     @FXML
     ImageView expanded_qr;
+
+    /**
+     * Stores the zoom factor.
+     */
     private double zoom_factor;
+
+    /**
+     * Stores the controller between the database and the application.
+     */
     private Storage db_storage;
+
+    /**
+     * Stores a boolean to track whether or not the program is already in the 3D mode.
+     */
     private boolean in3DMode = false;
+
+    /**
+     * The current floor on the application.
+     */
     public static int current_floor;
+
+    /**
+     * Stores the Map.
+     */
     private Map map;
 
+    /**
+     * Returns the image of the floor based on whether or not the map is 3D or 2D.
+     * @param floor the floor requested.
+     * @param is3D boolean for whether the image needs to be 2D or 3D.
+     * @return The image of the particular floor.
+     */
     private static Image getFloorImage(int floor, boolean is3D) {
         String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
                 "images/2dMaps/00_thelowerlevel1.png",
@@ -74,6 +142,10 @@ public class PathfindController {
             return new Image(images3d[floor]);
     }
 
+    /**
+     * Retrieves the PATHFIND_READY boolean.
+     * @return The 
+     */
     static boolean isPathfindReady() {
         return PATHFIND_READY;
     }
