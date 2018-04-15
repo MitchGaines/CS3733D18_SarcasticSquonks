@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -27,6 +28,10 @@ public class LogController {
     Label time;
     @FXML
     BorderPane main_pane;
+
+    @FXML
+    Text user_name;
+
     private User user;
     private String return_page;
 
@@ -102,6 +107,7 @@ public class LogController {
 
     public void setUp(User user, String return_page) {
         setUser(user);
+        user_name.setText(user.getUsername());
         setReturnPage(return_page);
         populateTable();
     }
