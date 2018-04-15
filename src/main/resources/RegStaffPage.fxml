@@ -18,7 +18,7 @@
                </image>
             </ImageView>
             <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
-            <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log">
+            <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log">
                <StackPane.margin>
                   <Insets top="200.0" />
                </StackPane.margin>

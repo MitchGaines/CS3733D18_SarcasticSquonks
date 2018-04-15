@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -99,6 +100,10 @@ public class ModifyMapController {
     edu.wpi.cs3733d18.teamS.data.Node new_node;
     @FXML
     Button confirm_3d;
+
+    @FXML
+    Text user_name;
+
     ImageView pin;
     private Boolean first_click;
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;

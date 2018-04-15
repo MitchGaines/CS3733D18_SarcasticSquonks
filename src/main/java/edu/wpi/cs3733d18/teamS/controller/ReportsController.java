@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
 import java.time.LocalDate;
@@ -38,6 +40,8 @@ public class ReportsController extends UserController {
     JFXToggleButton chart_toggle;
     @FXML
     Label instructions;
+    @FXML
+    Text user_name;
     private boolean empty = true;
     private BarChart chart;
     private TableView table;
@@ -60,7 +64,7 @@ public class ReportsController extends UserController {
 
     private void setUpListView() {
         service_type_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        service_type_list.getItems().addAll(ServiceType.getServiceTypes());
+        service_type_list.getItems().addAll(Storage.getInstance().getAllServiceTypes());
     }
 
     private DateTime javaToJoda(java.time.LocalDateTime java_time) {

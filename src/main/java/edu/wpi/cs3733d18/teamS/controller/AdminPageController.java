@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -32,6 +33,8 @@ public class AdminPageController extends UserController {
     Label time;
     @FXML
     StackPane stack_pane;
+    @FXML
+    Text user_name;
 
     FXMLLoader loader;
 

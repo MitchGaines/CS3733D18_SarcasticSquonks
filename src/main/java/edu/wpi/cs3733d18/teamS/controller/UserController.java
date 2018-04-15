@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -33,6 +34,8 @@ public class UserController {
     private String page;
     @FXML
     private Label emergency_title, emergency_details, emergency_label;
+    @FXML
+    private Text user_name;
 
     @FXML
     protected RequestSidebarController requestSidebarController;
@@ -45,7 +48,7 @@ public class UserController {
         this.user = user;
         serviceAreaController.setUser(user);
         requestSidebarController.setUser(user);
-        //populateBoxes();
+        //user_name.setText(user.getUsername());
     }
 
     public void setUp(User user, String page) {
@@ -59,12 +62,6 @@ public class UserController {
         serviceAreaController.setParent(this);
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
-    }
-
-    //TODO: Delete this method
-    public void openLog(ActionEvent event) throws IOException {
-        LogController log_controller = (LogController) Main.switchScenes("Servce Log", "/Log.fxml");
-        log_controller.setUp(user, page);
     }
 
     private void setPage(String page) {

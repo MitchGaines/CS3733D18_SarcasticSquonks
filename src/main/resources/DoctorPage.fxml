@@ -58,7 +58,6 @@
                         <Font size="23.0" />
                      </font>
                   </Label>
-                  <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
                </children>
                <opaqueInsets>
                   <Insets />
