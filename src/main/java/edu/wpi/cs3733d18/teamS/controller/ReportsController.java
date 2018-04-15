@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
 import java.time.LocalDate;
@@ -38,6 +39,8 @@ public class ReportsController extends UserController {
     JFXToggleButton chart_toggle;
     @FXML
     Label instructions;
+    @FXML
+    Text user_name;
     private boolean empty = true;
     private BarChart chart;
     private TableView table;

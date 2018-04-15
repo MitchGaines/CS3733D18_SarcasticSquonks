@@ -24,8 +24,8 @@
             <right>
                 <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;"
-                              text="(Doctor Name)"/>
+                        <Text fx:id="user_name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                              style="-fx-font-size: 18;" text=""/>
                         <JFXButton fx:id="logout_btn" buttonType="RAISED" onAction="#onLogoutClick"
                                    style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%logout"/>
                     </children>
