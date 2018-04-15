@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class ServiceAreaController {
@@ -45,8 +46,7 @@ public class ServiceAreaController {
     public void populateRequestTypes() {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
-        request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
-        //locations.addAll(Storage.getInstance().getAllNodes());
+        request_type_selector.getItems().addAll(Storage.getInstance().getAllServiceTypes());
         service_location.setConverter(new StringConverter<Node>() {
             @Override
             public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {

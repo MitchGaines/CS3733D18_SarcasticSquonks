@@ -58,9 +58,6 @@ public class Main extends Application {
         csv_reader.readCSVFile("csv/mergedNodes.csv", "NODES");
         csv_reader.readCSVFile("csv/mergedEdges.csv", "EDGES");
 
-        // generate an initial list of service types for the database
-        ServiceType.createInitialServiceTypes();
-
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
         primary_stage.setTitle("Brigham and Women's");
 
