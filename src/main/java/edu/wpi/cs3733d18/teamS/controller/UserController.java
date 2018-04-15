@@ -101,15 +101,7 @@ public class UserController {
     public void setSidebar() {
         if(user.getType() != User.user_type.ADMIN_STAFF) {
             requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
-            if(user.getType() == User.user_type.DOCTOR) {
-                requestSidebarController.setUserTypeLabel("Doctor");
-            }
-            else {
-                requestSidebarController.setUserTypeLabel("Staff");
-            }
-        }
-        else {
-            requestSidebarController.setUserTypeLabel("Admin");
+            requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
         }
     }
 

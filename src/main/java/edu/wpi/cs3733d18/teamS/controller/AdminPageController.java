@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -34,20 +35,23 @@ public class AdminPageController extends UserController {
     Label time;
     @FXML
     JFXComboBox<String> path_algorithm_box;
+    @FXML
+    StackPane stack_pane;
+
+    FXMLLoader loader;
 
     public static int getChoosenAlg() {
         return selected_path_algorithm;
     }
 
     public void loadReports() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
+        loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
         Parent root = loader.load();
-        //LogController log_controller = loader.getController();
         main_pane.setCenter(root);
     }
 
-    public void loadReportScreen(ActionEvent event) throws IOException {
-        Main.switchScenes("View Reports", "/Report.fxml");
+    public void loadAdmin() {
+        main_pane.setCenter(stack_pane);
     }
 
     public void onModifyMapClick(ActionEvent event) throws IOException {

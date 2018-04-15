@@ -23,10 +23,6 @@ public class RequestSidebarController {
         this.user = user;
     }
 
-    public void setUserTypeLabel(String label) {
-        user_type_label.setText(label);
-    }
-
     public void initialize() {
         sidebar.setStyle("-fx-background-color: #4863A0");
     }
@@ -68,6 +64,7 @@ public class RequestSidebarController {
     public void onAdminClick() {
         clearColors();
         user_type_label.setStyle("-fx-background-color:  #91a1c6");
+        adminParent.loadAdmin();
     }
 
     private void clearColors() {
