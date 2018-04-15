@@ -105,6 +105,22 @@ public class UserController {
         }
     }
 
+    public void MakeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MakeRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        ServiceAreaController service_controller = loader.getController();
+        service_controller.setUpToMake();
+        main_pane.setCenter(root);
+    }
+
+    public void completeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/CompleteRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        ServiceAreaController service_controller = loader.getController();
+        service_controller.setUpToComplete();
+        main_pane.setCenter(root);
+    }
+
     public void initialize() {
         serviceAreaController.setParent(this);
         requestSidebarController.setParent(this);

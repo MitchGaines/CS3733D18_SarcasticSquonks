@@ -39,14 +39,18 @@ public class RequestSidebarController {
         adminParent = adminPageController;
     }
 
-    public void onCreateReqClick() {
+    public void onCreateReqClick() throws IOException {
         clearColors();
         create_req.setStyle("-fx-background-color:  #91a1c6");
+        parent.MakeRequest();
+        parent.populateBoxes();
     }
 
-    public void onMyReqClick() {
+    public void onMyReqClick() throws IOException {
         clearColors();
         my_req.setStyle("-fx-background-color:  #91a1c6");
+        parent.completeRequest();
+        parent.populateBoxes();
     }
 
     public void onViewLogClick() throws IOException {

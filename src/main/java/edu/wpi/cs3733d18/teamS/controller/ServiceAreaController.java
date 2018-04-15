@@ -154,14 +154,20 @@ public class ServiceAreaController {
         mark_completed_btn.setVisible(true);
     }
 
-    public void initialize() {
+    public void setUpToComplete() {
         title_text.setVisible(false);
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+    }
+
+    public void setUpToMake() {
         locations.addAll(Storage.getInstance().getAllNodes());
         request_service_button.setText("Request service");
-        //populateRequestsBox();
+    }
+
+    public void initialize() {
+
     }
 
     /**

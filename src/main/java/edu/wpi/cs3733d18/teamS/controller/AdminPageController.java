@@ -59,7 +59,6 @@ public class AdminPageController extends UserController {
     }
 
     public void initialize() {
-        System.out.println("in intialize");
         requestSidebarController.setParent(this);
         requestSidebarController.setAdminParent(this);
         serviceAreaController.setParent(this);
