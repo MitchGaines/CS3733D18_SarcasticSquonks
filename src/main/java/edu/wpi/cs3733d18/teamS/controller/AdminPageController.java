@@ -23,26 +23,17 @@ import java.time.format.DateTimeFormatter;
 
 public class AdminPageController extends UserController {
 
-    private static int selected_path_algorithm = 0;
     //UserController edu.wpi.cs3733d18.teamS.user = new UserController();
     UserController user = new UserController();
 
-    @FXML
-    Button modify_map_btn;
     @FXML
     BorderPane main_pane;
     @FXML
     Label time;
     @FXML
-    JFXComboBox<String> path_algorithm_box;
-    @FXML
     StackPane stack_pane;
 
     FXMLLoader loader;
-
-    public static int getChoosenAlg() {
-        return selected_path_algorithm;
-    }
 
     public void loadReports() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
@@ -50,13 +41,12 @@ public class AdminPageController extends UserController {
         main_pane.setCenter(root);
     }
 
-    public void loadAdmin() {
-        main_pane.setCenter(stack_pane);
+    public void loadAdmin() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
     }
 
-    public void onModifyMapClick(ActionEvent event) throws IOException {
-        Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
-    }
 
     public void initialize() throws IOException {
         requestSidebarController.setParent(this);
@@ -66,16 +56,6 @@ public class AdminPageController extends UserController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
-        ObservableList<String> algorithms = FXCollections.observableArrayList();
-        algorithms.add(AllText.get("a_star"));
-        algorithms.add(AllText.get("dijkstras"));
-        algorithms.add(AllText.get("depth_first"));
-        path_algorithm_box.setItems(algorithms);
-
     }
 
-    public void chooseAlgorithm() {
-        this.selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
-
-    }
 }
