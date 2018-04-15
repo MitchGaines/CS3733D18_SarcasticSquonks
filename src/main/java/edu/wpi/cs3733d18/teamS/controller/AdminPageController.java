@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -34,6 +35,8 @@ public class AdminPageController extends UserController {
     Label time;
     @FXML
     JFXComboBox<String> path_algorithm_box;
+    @FXML
+    Text user_name;
 
     public static int getChoosenAlg() {
         return selected_path_algorithm;
@@ -57,7 +60,6 @@ public class AdminPageController extends UserController {
         algorithms.add(AllText.get("dijkstras"));
         algorithms.add(AllText.get("depth_first"));
         path_algorithm_box.setItems(algorithms);
-
     }
 
     public void chooseAlgorithm() {

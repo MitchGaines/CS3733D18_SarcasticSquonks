@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -33,6 +34,8 @@ public class UserController {
     private String page;
     @FXML
     private Label emergency_title, emergency_details, emergency_label;
+    @FXML
+    private Text user_name;
 
     public void onLogoutClick(ActionEvent event) throws IOException {
         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
@@ -41,6 +44,7 @@ public class UserController {
     private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
+        user_name.setText(user.getUsername());
     }
 
     public void setUp(User user, String page) {
