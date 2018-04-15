@@ -1,6 +1,5 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.event.ActionEvent;
