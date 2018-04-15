@@ -42,7 +42,7 @@ public class PathfindController {
     @FXML
     BorderPane main_pane;
     @FXML
-    Label time, floor_indicator;
+    Label time, floor_indicator, step_indicator;
     @FXML
     BorderPane header_pane, footer_pane;
     @FXML
@@ -176,11 +176,12 @@ public class PathfindController {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
-        floor_indicator.setText(Map.floor_ids.get(current_floor));
 
         map.clearIcons();
         scrollToPath(nodes);
         map_anchor_pane.getChildren().addAll(nodes);
+        step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1));
+        floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
 
     public void toggleMappingType() {

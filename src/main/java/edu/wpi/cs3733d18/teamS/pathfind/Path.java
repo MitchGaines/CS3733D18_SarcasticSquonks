@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
-    private int seg_index = 0;
+    public int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
     ArrayList<PathSegment> path_segments = new ArrayList<>();
 
@@ -245,6 +245,13 @@ public class Path {
     public ArrayList<Node> genIcons(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
         return fx_nodes;
+    }
+
+    public int nextFloorChange() {
+        if (path_segments.size() > seg_index+1) {
+            return (Map.floor_ids.indexOf(this.path_segments.get(seg_index + 1).seg_path.get(0).floor) - PathfindController.current_floor);
+        }
+        return 0;
     }
 }
 
