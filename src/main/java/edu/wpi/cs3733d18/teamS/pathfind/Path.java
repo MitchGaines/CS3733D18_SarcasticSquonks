@@ -1,12 +1,11 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+import edu.wpi.cs3733d18.teamS.controller.PathfindController;
 import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import org.apache.commons.codec.binary.Base64;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Path.java
- * Holds path information from AStar and calculates text directions.
+ * Holds seg_path information from AStar and calculates text directions.
  *
  * @author Noah Hillman
  * @author Mitch Gaines
@@ -33,7 +32,7 @@ public class Path {
 
     /**
      * getPathDirections
-     * Once path is generated, will generate text descriptions for turns based on the path nodes, it also manages and
+     * Once seg_path is generated, will generate text descriptions for turns based on the seg_path nodes, it also manages and
      * condenses repeated go straight instructions into a single, text instruction.
      *
      * @return URL based on calculated turns at each node.
@@ -180,9 +179,9 @@ public class Path {
 
     /**
      * getAStarNodePath
-     * Retrieves the algorithm node path.
+     * Retrieves the algorithm node seg_path.
      *
-     * @return the algorithm node path.
+     * @return the algorithm node seg_path.
      */
     public ArrayList<AStarNode> getAStarNodePath() {
         return algorithm_node_path;
@@ -203,167 +202,65 @@ public class Path {
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }
 
-    private double[] getPoints(boolean is_3D, AStarNode node) {
-        if (is_3D) {
-            return new double[]{node.getXCoord3D(), node.getYCoord3D()};
-        } else {
-            return new double[]{node.getXCoord(), node.getYCoord()};
-        }
-    }
-
-    ArrayList<ImageView> generateIcons(boolean is_3D, int floor) {
-        int current_floor = -1;
-        int previous_floor;
-        ArrayList<ImageView> icons = new ArrayList<>();
-        double x;
-        double y;
-
-        for (AStarNode node : algorithm_node_path) {
-            previous_floor = current_floor;
-            current_floor = Map.floor_ids.indexOf(node.floor);
-            double[] coords = getPoints(is_3D, node);
-            x = coords[0];
-            y = coords[1];
-
-            if (current_floor > previous_floor) {
-                if (previous_floor == floor) {
-                    icons.add(generateIcon(2, x, y));
-                }
-            } else if (current_floor < previous_floor) {
-                if (previous_floor == floor) {
-                    icons.add(generateIcon(3, x, y));
-                }
-            }
-        }
-        return icons;
-    }
-
-    ArrayList<Polyline> generatePolylines(boolean is_3D, int floor) {
-        double x;
-        double y;
-        ArrayList<Polyline> polylines = new ArrayList<>();
-        int index = -1;
-        boolean polyline_begun = false;
-        for (AStarNode node : algorithm_node_path) {
-            double[] coords = getPoints(is_3D, node);
-            x = coords[0];
-            y = coords[1];
-            if (node.floor.equals(Map.floor_ids.get(floor))) {
-                if (polyline_begun) {
-                    polylines.get(index).getPoints().addAll(x, y);
-                } else {
-                    polyline_begun = true;
-                    index++;
-                    polylines.add(new Polyline());
-                    polylines.get(index).getPoints().addAll(x, y);
-                }
-            } else {
-                polyline_begun = false;
-            }
-        }
-        for (Polyline p : polylines) {
-            stylizePolyline(p);
-        }
-        return polylines;
-    }
-
-
-    private void stylizePolyline(Polyline p) {
-        p.setId("temporaryIcon");
-        p.setStyle("-fx-fill:#ff000000;" +
-                "-fx-stroke:#0012ff;" +
-                "-fx-stroke-line-cap:ROUND;" +
-                "-fx-stroke-line-join:ROUND;" +
-                "-fx-stroke-width:8.0");
-        p.setEffect(generatePolylineEffect());
-    }
-
-    private Effect generatePolylineEffect() {
-        Lighting polylineEffect = new Lighting();
-        Shadow s = new Shadow();
-        s.setHeight(11.12);
-        s.setRadius(8.215);
-        s.setWidth(23.74);
-        polylineEffect.setLight(new Light.Distant());
-        polylineEffect.setBumpInput(s);
-        return polylineEffect;
-    }
-
-    private ImageView generateIcon(int pic_num, double x, double y) {
-        String path;
-        switch (pic_num) {
-            case 0:
-                path = "images/mapIcons/destinationIcon.png";
-                break;
-            case 1:
-                path = "images/mapIcons/startingIcon.png";
-                break;
-            case 2:
-                path = "images/mapIcons/up.png";
-                break;
-            case 3:
-                path = "images/mapIcons/down.png";
-                break;
-            default:
-                path = "images/mapIcons/destinationIcon.png";
-                break;
-        }
-
-        ImageView icon = new ImageView(new Image(path));
-        icon.setId("temporaryIcon");
-        icon.setTranslateX(x - icon.getImage().getWidth() / 2);
-        icon.setTranslateY(y - icon.getImage().getHeight() / 2);
-
-        return icon;
-    }
-
-    public void genPathSegments(){
+    public void genPathSegments() {
         PathSegment seg = new PathSegment();
         String curr_floor = algorithm_node_path.get(0).floor;
-        for(AStarNode node: algorithm_node_path){
-            if(!node.floor.equals(curr_floor)){
-                if(seg.path.size()>1){
+        for (AStarNode node : algorithm_node_path) {
+            if (!node.floor.equals(curr_floor)) {
+                if (seg.seg_path.size() > 1) {
                     this.path_segments.add(seg);
                 }
                 seg = new PathSegment();
             }
-            seg.path.add(node);
+            seg.seg_path.add(node);
             curr_floor = node.floor;
         }
         this.path_segments.add(seg);
     }
 
-    public ArrayList<Node> prevSeg(boolean is3D){
+    public ArrayList<Node> prevSeg(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
-        if(seg_index > 0){
+        if (seg_index > 0) {
             this.seg_index--;
         }
         fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
         return fx_nodes;
     }
 
-    public ArrayList<Node> nextSeg(boolean is3D){
+    public ArrayList<Node> nextSeg(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
-        if(seg_index < this.path_segments.size()-1){
+        if (seg_index < this.path_segments.size() - 1) {
             this.seg_index++;
         }
         fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
         return fx_nodes;
     }
+
+    public ArrayList<Node> thisSeg(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> genIcons(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        return fx_nodes;
+    }
 }
 
 class PathSegment {
-    ArrayList<AStarNode> path = new ArrayList<>();
+    ArrayList<AStarNode> seg_path = new ArrayList<>();
 
-    Polyline genPolyline(boolean is3D){
+    Polyline genPolyline(boolean is3D) {
         Polyline polyline = new Polyline();
-        for(AStarNode node: this.path){
-            if(is3D){
-                polyline.getPoints().addAll((double)node.getXCoord3D(),(double)node.getYCoord3D());
+        for (AStarNode node : this.seg_path) {
+            if (is3D) {
+                polyline.getPoints().addAll((double) node.getXCoord3D(), (double) node.getYCoord3D());
             } else {
-                polyline.getPoints().addAll((double)node.getXCoord(),(double)node.getYCoord());
+                polyline.getPoints().addAll((double) node.getXCoord(), (double) node.getYCoord());
             }
         }
+        PathfindController.current_floor = Map.floor_ids.indexOf(seg_path.get(0).floor);
         stylizePolyline(polyline);
         return polyline;
     }
@@ -371,7 +268,7 @@ class PathSegment {
     private void stylizePolyline(Polyline p) {
         p.setId("temporaryIcon");
         p.setStyle("-fx-fill:#ff000000;" +
-                "-fx-stroke:#0012ff;" +
+                "-fx-stroke:rgba(13,14,255,0.8);" +
                 "-fx-stroke-line-cap:ROUND;" +
                 "-fx-stroke-line-join:ROUND;" +
                 "-fx-stroke-width:8.0");

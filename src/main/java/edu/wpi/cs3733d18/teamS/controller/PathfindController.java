@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -51,7 +52,7 @@ public class PathfindController {
     private double zoom_factor;
     private Storage db_storage;
     private boolean in3DMode = false;
-    private int current_floor;
+    public static int current_floor;
     private Map map;
 
     private static Image getFloorImage(int floor, boolean is3D) {
@@ -84,13 +85,12 @@ public class PathfindController {
         time.setText(dtf.format(now));
         this.db_storage = Storage.getInstance();
 
-
-        map = new Map(map_anchor_pane, current_floor, false);
+        map = new Map(map_anchor_pane, false);
     }
 
     private void zoom(double zoom_amount) {
         zoom_factor += zoom_amount;
-        if (zoom_factor > 0.5) {
+        if (zoom_factor < 0.5) {
             zoom_factor = 0.5;
         }
         if (zoom_factor > 1.8) {
@@ -137,11 +137,10 @@ public class PathfindController {
         } else if (select == 3) {
             pathfinder = new Pathfinder(new BreadthFirst());
         } else {
-                pathfinder = new Pathfinder(new AStar());
+            pathfinder = new Pathfinder(new AStar());
         }
 
         pathfinder.findShortestPath(node1, node2);
-        pathfinder.pathfinder_path.genPathSegments();
         Path path = pathfinder.pathfinder_path;
 
         if (path.getAStarNodePath().size() > 1) {
@@ -150,7 +149,7 @@ public class PathfindController {
             current_floor = Map.floor_ids.indexOf(db_storage.getNodeByID(node1).getNodeFloor());
 
             map.setPath(path);
-            updateMap();
+            updateMap(map.thisStep(map.is_3D));
 
             try {
                 String directions = path.getPathDirections().toString();
@@ -161,24 +160,10 @@ public class PathfindController {
         }
     }
 
-    private void scrollToPath() {
-        if (map.getPath() == null) {
-            return;
-        }
-        ArrayList<AStarNode> path = map.getPath().getAStarNodePath();
-
-        double start_x;
-        double start_y;
-        if (!in3DMode) {
-            start_x = path.get(0).getXCoord() / map_img.getImage().getWidth();
-            start_y = path.get(0).getYCoord() / map_img.getImage().getHeight();
-        } else {
-            start_x = path.get(0).getXCoord3D() / map_img.getImage().getWidth();
-            start_y = path.get(0).getYCoord3D() / map_img.getImage().getHeight();
-        }
-
-        map_scroll_pane.setHvalue(start_x);
-        map_scroll_pane.setVvalue(start_y);
+    private void scrollToPath(ArrayList<Node> nodes) {
+        Polyline p = (Polyline) nodes.get(0);
+        map_scroll_pane.setHvalue(p.getPoints().get(0) / map_img.getImage().getWidth());
+        map_scroll_pane.setVvalue(p.getPoints().get(1) / map_img.getImage().getHeight());
     }
 
     private void generateQRCode(String directions) {
@@ -187,23 +172,15 @@ public class PathfindController {
         expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
-    private void updateMap() {
-        updateMap(true);
-    }
-
-    private void updateMap(boolean scroll) {
+    private void updateMap(ArrayList<Node> nodes) {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
-        floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
+        floor_indicator.setText(Map.floor_ids.get(current_floor));
 
         map.clearIcons();
-        map.setFloor(current_floor);
-        map.drawPath();
-        if (scroll) {
-            scrollToPath();
-        }
-        floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
+        scrollToPath(nodes);
+        map_anchor_pane.getChildren().addAll(nodes);
     }
 
     public void toggleMappingType() {
@@ -227,7 +204,7 @@ public class PathfindController {
             map.setPath(path);
         }
 
-        updateMap();
+        updateMap(map.thisStep(map.is_3D));
     }
 
     public void onQRClick() {
@@ -264,20 +241,11 @@ public class PathfindController {
     }
 
     public void onMapUp() {
-        if (current_floor < 4) {
-            current_floor++;
-            updateMap();
-            floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
-        }
+        updateMap(map.prevStep(map.is_3D));
     }
 
     public void onMapDown() {
-        if (current_floor > 0) {
-            current_floor--;
-            updateMap();
-            floor_indicator.setText(Map.floor_ids.get(map.getFloor()));
-        }
+        updateMap(map.nextStep(map.is_3D));
     }
-
 
 }

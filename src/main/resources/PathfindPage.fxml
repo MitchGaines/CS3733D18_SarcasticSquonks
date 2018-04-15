@@ -93,14 +93,14 @@
                     </rowConstraints>
                     <children>
                         <JFXButton buttonType="RAISED" onMouseClicked="#onMapUp"
-                                   style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%up"
+                                   style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%previous"
                                    GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                             <GridPane.margin>
                                 <Insets right="10.0"/>
                             </GridPane.margin>
                         </JFXButton>
                         <JFXButton buttonType="RAISED" onMouseClicked="#onMapDown"
-                                   style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%down"
+                                   style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%next"
                                    GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                             <GridPane.margin>
                                 <Insets left="10.0"/>

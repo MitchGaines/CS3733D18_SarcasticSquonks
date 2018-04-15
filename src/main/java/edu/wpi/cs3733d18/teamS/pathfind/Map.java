@@ -17,47 +17,35 @@ import java.util.Arrays;
 public class Map {
 
     /**
-     * Stores the cost for changing floors used in path finding calculations.
+     * Stores the cost for changing floors used in seg_path finding calculations.
      */
     final static int FLOOR_CHANGE_COST = 340; //in pixel cost (approx 12 pixels/second for walking speed)
     /**
      * Stores an ArrayList of floor ids.
      */
     public static ArrayList<String> floor_ids = new ArrayList<>(Arrays.asList("L2", "L1", "1", "2", "3"));
-//    public static final int MAP_WIDTH_3D = 5000;
-//    public static final int MAP_HEIGHT_3D = 2774;
-//    public static final int MAP_WIDTH_2D = 5000;
-//    public static final int MAP_HEIGHT_2D = 3400;
     /**
      * Stores the image of the destination.
      */
     private AnchorPane map_anchor_pane;
+
     /**
-     * Stores the number of floors.
-     */
-    private int floor;
-    /**
-     * Stores an ArrayList of AStarNodes for the path.
+     * Stores an ArrayList of AStarNodes for the seg_path.
      */
     private Path path;
     public boolean is_3D;
 
-    /**
-     * Constructs a 3D map with path drawing capabilities
-     *
-     * @param floor int
-     */
-    public Map(AnchorPane map_anchor_pane, int floor, boolean is_3D) {
+
+    public Map(AnchorPane map_anchor_pane, boolean is_3D) {
         this.map_anchor_pane = map_anchor_pane;
-        this.floor = floor;
         this.is_3D = is_3D;
     }
 
     /**
      * getPath
-     * Retrieves the path.
+     * Retrieves the seg_path.
      *
-     * @return the path of AStarNodes.
+     * @return the seg_path of AStarNodes.
      */
     public Path getPath() {
         return path;
@@ -73,20 +61,6 @@ public class Map {
         this.path = path;
     }
 
-    public int getFloor() {
-        return floor;
-    }
-
-    /**
-     * setFloor
-     * Sets the floor of the map.
-     *
-     * @param floor the floor of the map.
-     */
-    public void setFloor(int floor) {
-        this.floor = floor;
-    }
-
     /**
      * Clears the Icons from the map.
      */
@@ -100,16 +74,25 @@ public class Map {
         map_anchor_pane.getChildren().removeAll(toRemove);
     }
 
-    /**
-     * drawPath
-     * Draws a path onto of the map image by drawing a line between nodes in the path of the object.
-     */
-    public void drawPath() {
-        if (path == null) {
-            return;
-        }
-        map_anchor_pane.getChildren().addAll(path.generatePolylines(is_3D, floor));
-        map_anchor_pane.getChildren().addAll(path.generateIcons(is_3D, floor));
+
+    public ArrayList<Node> nextStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.nextSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
     }
 
+    public ArrayList<Node> prevStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.prevSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> thisStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.thisSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
+    }
 }
