@@ -141,7 +141,7 @@ public class PathfindController {
         }
 
         pathfinder.findShortestPath(node1, node2);
-
+        pathfinder.pathfinder_path.genPathSegments();
         Path path = pathfinder.pathfinder_path;
 
         if (path.getAStarNodePath().size() > 1) {

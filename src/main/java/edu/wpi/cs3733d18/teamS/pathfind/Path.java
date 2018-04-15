@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -26,11 +27,9 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
+    private int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
-
-    public Path() {
-    }
-
+    ArrayList<PathSegment> path_segments = new ArrayList<>();
 
     /**
      * getPathDirections
@@ -316,5 +315,77 @@ public class Path {
         icon.setTranslateY(y - icon.getImage().getHeight() / 2);
 
         return icon;
+    }
+
+    public void genPathSegments(){
+        PathSegment seg = new PathSegment();
+        String curr_floor = algorithm_node_path.get(0).floor;
+        for(AStarNode node: algorithm_node_path){
+            if(!node.floor.equals(curr_floor)){
+                if(seg.path.size()>1){
+                    this.path_segments.add(seg);
+                }
+                seg = new PathSegment();
+            }
+            seg.path.add(node);
+            curr_floor = node.floor;
+        }
+        this.path_segments.add(seg);
+    }
+
+    public ArrayList<Node> prevSeg(boolean is3D){
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        if(seg_index > 0){
+            this.seg_index--;
+        }
+        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> nextSeg(boolean is3D){
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        if(seg_index < this.path_segments.size()-1){
+            this.seg_index++;
+        }
+        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        return fx_nodes;
+    }
+}
+
+class PathSegment {
+    ArrayList<AStarNode> path = new ArrayList<>();
+
+    Polyline genPolyline(boolean is3D){
+        Polyline polyline = new Polyline();
+        for(AStarNode node: this.path){
+            if(is3D){
+                polyline.getPoints().addAll((double)node.getXCoord3D(),(double)node.getYCoord3D());
+            } else {
+                polyline.getPoints().addAll((double)node.getXCoord(),(double)node.getYCoord());
+            }
+        }
+        stylizePolyline(polyline);
+        return polyline;
+    }
+
+    private void stylizePolyline(Polyline p) {
+        p.setId("temporaryIcon");
+        p.setStyle("-fx-fill:#ff000000;" +
+                "-fx-stroke:#0012ff;" +
+                "-fx-stroke-line-cap:ROUND;" +
+                "-fx-stroke-line-join:ROUND;" +
+                "-fx-stroke-width:8.0");
+        p.setEffect(generatePolylineEffect());
+    }
+
+    private Effect generatePolylineEffect() {
+        Lighting polylineEffect = new Lighting();
+        Shadow s = new Shadow();
+        s.setHeight(11.12);
+        s.setRadius(8.215);
+        s.setWidth(23.74);
+        polylineEffect.setLight(new Light.Distant());
+        polylineEffect.setBumpInput(s);
+        return polylineEffect;
     }
 }
