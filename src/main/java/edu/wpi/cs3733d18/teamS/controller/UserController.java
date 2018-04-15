@@ -45,16 +45,18 @@ public class UserController {
         this.user = user;
         serviceAreaController.setUser(user);
         requestSidebarController.setUser(user);
-        populateBoxes();
+        //populateBoxes();
     }
 
     public void setUp(User user, String page) {
         setUser(user);
         setPage(page);
         populateBoxes();
+        setSidebar();
     }
 
-    private void populateBoxes() {
+    protected void populateBoxes() {
+        serviceAreaController.setParent(this);
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
     }
@@ -108,22 +110,23 @@ public class UserController {
     public void MakeRequest() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MakeRequest.fxml"), AllText.getBundle());
         Parent root = loader.load();
-        ServiceAreaController service_controller = loader.getController();
-        service_controller.setUpToMake();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToMake(user);
         main_pane.setCenter(root);
     }
 
     public void completeRequest() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/CompleteRequest.fxml"), AllText.getBundle());
         Parent root = loader.load();
-        ServiceAreaController service_controller = loader.getController();
-        service_controller.setUpToComplete();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToComplete(user);
         main_pane.setCenter(root);
     }
 
-    public void initialize() {
+    public void initialize() throws IOException {
         serviceAreaController.setParent(this);
         requestSidebarController.setParent(this);
+        MakeRequest();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));

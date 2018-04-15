@@ -58,10 +58,11 @@ public class AdminPageController extends UserController {
         Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
     }
 
-    public void initialize() {
+    public void initialize() throws IOException {
         requestSidebarController.setParent(this);
         requestSidebarController.setAdminParent(this);
         serviceAreaController.setParent(this);
+        MakeRequest();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
