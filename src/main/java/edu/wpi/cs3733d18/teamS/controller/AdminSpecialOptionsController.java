@@ -20,41 +20,98 @@ import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
 
+/**
+ * This controller deals with special options for the admin users.
+ * @author Cormac Lynch-Collier
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class AdminSpecialOptionsController{
 
+    /**
+     * The default (AStar) path algorithm.
+     */
     private static int selected_path_algorithm = 0;
 
+    /**
+     * Stores the table columns for username, type, lastname, and firstname.
+     */
     TableColumn user_name, type, last_name, first_name;
 
+    /**
+     * Stores the selected user.
+     */
     User selected_user;
 
+    /**
+     * The boxes for modifying user data.
+     */
     @FXML
     VBox add_user_box, delete_user_box, modify_user_box;
+
+    /**
+     * The text fields for username, password, firstname, lastname, user to delete, modify firstname and modify lastname.
+     */
     @FXML
     JFXTextField username_field, password_field, first_name_field, last_name_field, user_to_delete, modify_firstname, modify_lastname;
+
+    /**
+     * The text fields for modifying the username and password.
+     */
     @FXML
     JFXTextField modify_username, modify_password;
+
+    /**
+     * Buttons for the modify map, delete user, add user, confirm delete and cancel delete.
+     */
     @FXML
     Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn;
+
+    /**
+     * The combo box for choosing the pathfind algorithm.
+     */
     @FXML
     JFXComboBox<String> path_algorithm_box;
+
+    /**
+     * The combo box for modifying users.
+     */
     @FXML
     JFXComboBox<User.user_type> type_user, type_user_modify;
+
+    /**
+     * The User table.
+     */
     @FXML
     TableView<User> user_table;
 
+    /**
+     * Retrieves the chosen algorithm.
+     * @return
+     */
     public static int getChoosenAlg() {
         return selected_path_algorithm;
     }
 
+    /**
+     * Switches scene to the modify map screen.
+     * @param event The click on the button.
+     * @throws IOException
+     */
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
     }
 
+    /**
+     * Sets the selected path algorithm value to the corresponding choice from the menu.
+     */
     public void chooseAlgorithm() {
         selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
     }
 
+    /**
+     * Adds a user to the database.
+     */
     public void onAddUser() {
         if(!first_name_field.getText().equals("") && !last_name_field.getText().equals("") && !username_field.getText().equals("")
                 && !password_field.getText().equals("") && !type_user.getSelectionModel().isEmpty()) {
@@ -73,6 +130,9 @@ public class AdminSpecialOptionsController{
         }
     }
 
+    /**
+     * Populates the user table.
+     */
     private void populateUserTable() {
         user_table.getColumns().removeAll(user_table.getColumns());
         last_name = new TableColumn("Last Name");
@@ -91,6 +151,9 @@ public class AdminSpecialOptionsController{
         user_table.getColumns().addAll(last_name, first_name, user_name, type);
     }
 
+    /**
+     * Deletes a user.
+     */
     public void onDeleteUser() {
         if(selected_user != null) {
             add_user_box.setVisible(false);
@@ -99,6 +162,9 @@ public class AdminSpecialOptionsController{
         }
     }
 
+    /**
+     * Confirms a user to be deleted.
+     */
     public void onConfirmDelete() {
         Storage.getInstance().deleteUser(selected_user);
         populateUserTable();
@@ -107,12 +173,18 @@ public class AdminSpecialOptionsController{
         delete_user_box.setVisible(false);
     }
 
+    /**
+     * Cancels a user being deleted.
+     */
     public void onCancelDelete() {
         add_user_box.setVisible(true);
         delete_user_box.setVisible(false);
         user_to_delete.setText("");
     }
 
+    /**
+     * Modifies a users data.
+     */
     public void onModifyUser() {
         if(selected_user != null) {
             add_user_box.setVisible(false);
@@ -127,6 +199,9 @@ public class AdminSpecialOptionsController{
         }
     }
 
+    /**
+     * Confirms the changes made to the user.
+     */
     public void onConfirmModify() {
         if(!type_user_modify.getSelectionModel().isEmpty() && !modify_firstname.getText().equals("") && !modify_lastname.getText().equals("")
                 && !modify_password.getText().equals("") && !modify_username.getText().equals("")) {
@@ -142,15 +217,24 @@ public class AdminSpecialOptionsController{
         }
     }
 
+    /**
+     * cancels changes made to the user.
+     */
     public void onCancelModify() {
         modify_user_box.setVisible(false);
         add_user_box.setVisible(true);
     }
 
+    /**
+     * sets the selected user.
+     */
     public void onUserChoose() {
         selected_user = user_table.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Initializes the scene.
+     */
     public void initialize() {
         ObservableList<String> algorithms = FXCollections.observableArrayList();
         algorithms.add(AllText.get("a_star"));
