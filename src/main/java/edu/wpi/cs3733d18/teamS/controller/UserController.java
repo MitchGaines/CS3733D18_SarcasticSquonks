@@ -98,7 +98,7 @@ public class UserController {
     }
 
     public void setSidebar() {
-        if(user.getType() != User.user_type.ADMIN_STAFF) {
+        if (user.getType() != User.user_type.ADMIN_STAFF) {
             requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
             requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
         }

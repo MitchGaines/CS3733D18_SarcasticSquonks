@@ -33,8 +33,6 @@ public class AdminPageController extends UserController {
     Label time;
     @FXML
     StackPane stack_pane;
-    @FXML
-    Text user_name;
 
     FXMLLoader loader;
 
