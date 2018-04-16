@@ -48,7 +48,7 @@ public class UserController {
         this.user = user;
         serviceAreaController.setUser(user);
         requestSidebarController.setUser(user);
-        //user_name.setText(user.getUsername());
+        user_name.setText(user.getFirstName() + " " + user.getLastName());
     }
 
     public void setUp(User user, String page) {
