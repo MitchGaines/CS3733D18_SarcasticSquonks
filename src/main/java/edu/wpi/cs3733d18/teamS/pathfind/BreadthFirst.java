@@ -1,7 +1,7 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
 /**
- * The Class manages the breadth First seg_path algorithm changes and finds a seg_path by searching outwards (not movement
+ * The Class manages the breadth First path algorithm changes and finds a path by searching outwards (not movement
  * cost based).
  *
  * @author Noah Hillman

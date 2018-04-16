@@ -29,7 +29,7 @@ public class Map {
      */
     private AnchorPane map_anchor_pane;
     /**
-     * Stores an ArrayList of AStarNodes for the seg_path.
+     * Stores an ArrayList of AStarNodes for the path.
      */
     private Path path;
 

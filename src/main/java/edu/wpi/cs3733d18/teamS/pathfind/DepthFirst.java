@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the Depth First seg_path algorithm changes and finds a seg_path (**not optimal**).
+ * The Class manages the Depth First path algorithm changes and finds a path (**not optimal**).
  *
  * @author Noah Hillman
  * @version %I%, %G%

@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * Pathfinder.java
- * Loads from edu.wpi.cs3733d18.teamS.database and calculates the fastest seg_path between given nodes.
+ * Loads from edu.wpi.cs3733d18.teamS.database and calculates the fastest path between given nodes.
  *
  * @author Noah Hillman
  * @version %I%, %G%
@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class Pathfinder {
     /**
-     * Stores the seg_path.
+     * Stores the path.
      */
     public Path pathfinder_path = new Path();
     /**
@@ -39,7 +39,7 @@ public class Pathfinder {
      */
     private AStarNode start;
     /**
-     * Stores the seg_path finding algorithm.
+     * Stores the path finding algorithm.
      */
     private SearchAlgorithm algorithm;
 
@@ -55,7 +55,7 @@ public class Pathfinder {
     /**
      * populateMap
      * populates the pathfinder HashMap of a star nodes based on the given nodes and edges
-     * updates the pathfinder seg_path attribute.
+     * updates the pathfinder path attribute.
      *
      * @param nodes HashMap of nodes, with the nodes id as the key.
      * @param edges HashMap of edges, which contain node ids to be neighbored.
@@ -91,7 +91,7 @@ public class Pathfinder {
     //returns the shortest seg_path (list of nodes) between two nodes from the a_star_node_map
 
     /**
-     * Finds the shortest seg_path between nodes by taking in their Id's.
+     * Finds the shortest path between nodes by taking in their Id's.
      *
      * @param startID Start node's Id.
      * @param goalID  Destination node's Id.
@@ -116,7 +116,7 @@ public class Pathfinder {
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING); //TODO language alltext
             alert.setTitle("Cannot Find Path");
-            alert.setHeaderText("There was no viable seg_path generated to your goal");
+            alert.setHeaderText("There was no viable path generated to your goal");
             alert.setContentText("Please select a new goal location or ask for assistance");
             alert.showAndWait();
         }
@@ -125,10 +125,10 @@ public class Pathfinder {
     //returns the pathfinder_path (ordered start ---> finish) given the last node
 
     /**
-     * Reconstructs the seg_path by following the parent nodes to the start node.
+     * Reconstructs the path by following the parent nodes to the start node.
      *
      * @param end The end node
-     * @return the reconstructed seg_path.
+     * @return the reconstructed path.
      */
     private Path reconstructPath(AStarNode end) {
         AStarNode previous = end;

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the Dijkstras seg_path algorithm and finds the seg_path from a location based on lowest movement costs.
+ * The Class manages the Dijkstras path algorithm and finds the path from a location based on lowest movement costs.
  *
  * @author Noah Hillman
  * @version %I%, %G%

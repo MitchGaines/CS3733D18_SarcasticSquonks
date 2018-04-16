@@ -125,7 +125,7 @@ public class AStarNode {
     /**
      * Calculates the new G cost based on the previous node.
      *
-     * @param previous the previous node on the seg_path.
+     * @param previous the previous node on the path.
      */
     void newGCost(AStarNode previous) {
         int floor_cost = 0;

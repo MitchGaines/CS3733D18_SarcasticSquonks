@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Abstract class that holds common functions for the different types of seg_path finding algorithms.
+ * The Abstract class that holds common functions for the different types of path finding algorithms.
  *
  * @author Noah Hillman
  * @version %I%, %G%
@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 public abstract class SearchAlgorithm {
 
     /**
-     * finds seg_path using a priority queue of unsearched nodes, each algorithm sorts and compares the priority queue
+     * finds path using a priority queue of unsearched nodes, each algorithm sorts and compares the priority queue
      * differently
      *
      * @param start_id
