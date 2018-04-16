@@ -14,6 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -257,28 +258,57 @@ public class Path {
 
     public ArrayList<Node> genIcons(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
-        AStarNode end_node = path_segments.get(seg_index).seg_path.get(path_segments.get(seg_index).seg_path.size()-1);
+        //adding icons for starting location
+        AStarNode start_node = path_segments.get(seg_index).seg_path.get(0);
+        ImageView start_icon;
+        if(seg_index == 0) {
+            start_icon = new ImageView("images/mapIcons/start_flag.png");
+        } else {
+            start_icon = new ImageView("images/mapIcons/middle_flag.png");
+        }
+
+        start_icon.setPreserveRatio(true);
+        start_icon.setFitHeight(120);
+        if (is3D) {
+            start_icon.setX(start_node.getXCoord3D() - (start_icon.getFitHeight()/2));
+            start_icon.setY(start_node.getYCoord3D() - (start_icon.getFitHeight()/2));
+        } else {
+            start_icon.setX(start_node.getXCoord() - (start_icon.getFitHeight()/2));
+            start_icon.setY(start_node.getYCoord() - (start_icon.getFitHeight()/2));
+        }
+        start_icon.setId("temporaryIcon");
+        start_icon.smoothProperty().setValue(true);
+        fx_nodes.add(start_icon);
+
+        //adding icons for end of path
+        AStarNode end_node = path_segments.get(seg_index).seg_path.get(path_segments.get(seg_index).seg_path.size() - 1);
         double x_pos;
         double y_pos;
         ImageView icon;
-        if(is3D){
+        if (is3D) {
             x_pos = end_node.getXCoord3D();
             y_pos = end_node.getYCoord3D();
-        } else{
+        } else {
             x_pos = end_node.getXCoord();
             y_pos = end_node.getYCoord();
         }
-        if(nextFloorChange()<0){
-            icon = new ImageView("images/mapIcons/down.png");
-            icon.setId("temporaryIcon");
-        } else if(nextFloorChange()>0){
-            icon = new ImageView("images/mapIcons/up.png");
+        if (nextFloorChange() < 0) {
+            icon = new ImageView("images/mapIcons/elevator_down.png");
+            icon.setPreserveRatio(true);
+            icon.setFitHeight(50);
+        } else if (nextFloorChange() > 0) {
+            icon = new ImageView("images/mapIcons/elevator_up.png");
+            icon.setPreserveRatio(true);
+            icon.setFitHeight(50);
         } else {
-            icon = new ImageView("images/mapIcons/destinationIcon.png");
+            icon = new ImageView("images/mapIcons/goal_flag.png");
+            icon.setPreserveRatio(true);
+            icon.setFitHeight(120);
         }
         icon.setId("temporaryIcon");
-        icon.setX(x_pos);
-        icon.setY(y_pos);
+        icon.smoothProperty().setValue(true);
+        icon.setX(x_pos - (icon.getFitHeight()/2));
+        icon.setY(y_pos - (icon.getFitHeight()/2));
         fx_nodes.add(icon);
         return fx_nodes;
     }
