@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,8 +11,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
     <top>
@@ -33,7 +37,7 @@
         </BorderPane>
     </top>
     <center>
-        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <StackPane fx:id="stack_pane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <ScrollPane fx:id="map_scroll_pane" hvalue="0.25" pannable="true" prefHeight="690.0" prefWidth="900.0" vvalue="0.25">
                     <content>
@@ -61,7 +65,30 @@
                         <Insets left="40.0" />
                     </StackPane.margin>
                 </ImageView>
-                <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" visible="false" />
+            <HBox fx:id="directions_box" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" visible="false">
+               <children>
+                      <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER" prefHeight="700.0" prefWidth="419.0" spacing="20.0">
+                     <children>
+                        <ScrollPane fx:id="directions_pane" hbarPolicy="NEVER" prefHeight="425.0" prefWidth="277.0" vbarPolicy="ALWAYS">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </ScrollPane>
+                        <HBox alignment="CENTER" prefHeight="17.0" prefWidth="277.0" spacing="20.0">
+                           <children>
+                              <JFXTextField fx:id="phone_field" alignment="CENTER" promptText="Phone Number" style="-fx-background-color: #ffffff;">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXButton fx:id="call_btn" buttonType="RAISED" onMouseClicked="#onMapUp" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
             </children>
         </StackPane>
     </center>
