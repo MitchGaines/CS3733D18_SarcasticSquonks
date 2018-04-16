@@ -105,17 +105,19 @@ public class ServiceAreaController {
     }
 
     public void doRequestService() {
-        // todo: validation 4real
+        Storage storage = Storage.getInstance();
         if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-        ServiceRequest.createService(
-                service_title.getText(),
-                description_field.getText(),
-                request_type_selector.getSelectionModel().getSelectedItem(),
-                user,
-                service_location.getValue());
-
+        ServiceRequest sr =
+                ServiceRequest.createService(
+                    service_title.getText(),
+                    description_field.getText(),
+                    request_type_selector.getSelectionModel().getSelectedItem(),
+                    user,
+                    service_location.getValue());
+        storage.saveRequest(sr);
+        ServiceLogEntry.log(sr, false);
         populateRequestsBox();
 
         service_title.setText("");
