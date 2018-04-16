@@ -59,7 +59,6 @@ dependencies {
             fileTree(dir: 'lib', include: '*.jar'),
             [group: 'joda-time', name: 'joda-time', version: '2.9.9'],
             [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
-            [group: 'com.google.apis', name: 'google-api-services-urlshortener', version: 'v1-rev50-1.23.0']
     )
 }
 

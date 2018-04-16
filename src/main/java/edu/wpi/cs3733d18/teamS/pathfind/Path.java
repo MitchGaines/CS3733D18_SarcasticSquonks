@@ -1,6 +1,5 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
-import com.google.api.services.urlshortener.model.Url;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -9,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import org.apache.commons.codec.binary.Base64;
-import com.google.api.services.urlshortener.Urlshortener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,8 +39,8 @@ public class Path {
      * @return URL based on calculated turns at each node.
      */
     public URL getPathDirections() throws MalformedURLException {
-        //String host = "159.203.189.146";
-        String host = "localhost";
+        String host = "159.203.189.146";
+        //String host = "localhost";
         int port = 3000;
         String protocol = "http";
         String path = "/";
@@ -108,6 +106,7 @@ public class Path {
         String enc_bytes = Base64.encodeBase64String(path_bytes);
         path += enc_bytes;
 
+        System.out.println(new URL(protocol, host, port, path).toString());
         return new URL(protocol, host, port, path);
     }
 
