@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController">
    <center>
@@ -28,34 +28,93 @@
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <TableView prefHeight="265.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="user_table" onMouseClicked="#onUserChoose" prefHeight="265.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn prefWidth="75.0" text="C1" />
                       <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn prefWidth="75.0" text="Column X" />
+                        <TableColumn prefWidth="75.0" text="Column X" />
                     </columns>
                   </TableView>
-                  <JFXButton fx:id="modify_map_btn11" alignment="CENTER" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Delete User" visible="false" />
+                  <HBox alignment="CENTER" prefHeight="22.0" prefWidth="300.0" spacing="10.0">
+                     <children>
+                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Delete User" />
+                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Modify User" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <JFXTextField alignment="CENTER" promptText="Username">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextField alignment="CENTER" promptText="Password">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXComboBox promptText="Type of User" style="-fx-font-size: 18;" />
-                  <JFXButton buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Add User" />
+                  <VBox fx:id="add_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="First Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="Last Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="Username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="Password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="type_user" promptText="Type of User" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Add User" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="delete_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="user_to_delete" alignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="confirm_delete_btn" alignment="CENTER" buttonType="RAISED" onAction="#onConfirmDelete" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Confirm Delete" />
+                        <JFXButton fx:id="cancel_delete_btn" alignment="CENTER" buttonType="RAISED" onAction="#onCancelDelete" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Cancel" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="modify_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="modify_firstname" alignment="CENTER" promptText="First Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_lastname" alignment="CENTER" promptText="Last Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_username" alignment="CENTER" promptText="Username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_password" alignment="CENTER" promptText="Enter New Password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="type_user_modify" promptText="Type of User" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="confirm_modify_btn" buttonType="RAISED" onAction="#onConfirmModify" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Confirm Modify User" />
+                        <JFXButton fx:id="cancel_modify_btn" buttonType="RAISED" onAction="#onCancelModify" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Cancel" />
+                     </children>
+                  </VBox>
                </children>
-               <GridPane.margin>
-                  <Insets left="20.0" right="20.0" />
-               </GridPane.margin>
-            </VBox>
+            </StackPane>
          </children>
       </GridPane>
    </center>

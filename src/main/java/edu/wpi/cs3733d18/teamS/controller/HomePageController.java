@@ -279,7 +279,6 @@ public class HomePageController {
     public void onLoginClick(ActionEvent event) throws IOException {
         try {
             User user = loginHandler.login(username.getText(), password.getText());
-            System.out.println(user);
             switch (user.getType()) {
                 case DOCTOR:
                     openUser(event, "/DoctorPage.fxml", user);
