@@ -28,8 +28,8 @@ import java.util.List;
 public class Storage {
 
     // to exclude auto-generated IDs from tables
-    private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
-            "username", "password", "user_type", "can_mod_map");
+    private final String USER_VALUES = String.format("( %s, %s, %s, %s, %s, %s )",
+            "username", "password", "first_name", "last_name", "user_type", "can_mod_map");
     private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
             "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
     /**
@@ -318,6 +318,8 @@ public class Storage {
         database.insert("USERS" + USER_VALUES, new String[]{
                 database.addQuotes(user.getUsername()),
                 database.addQuotes(new String(user.getEncodedPassword(), Charset.forName("UTF-8"))),
+                database.addQuotes(user.getFirstName()),
+                database.addQuotes(user.getLastName()),
                 database.addQuotes(user.getType().toString()),
                 String.valueOf(user.canModMap())
         });
@@ -341,6 +343,8 @@ public class Storage {
         String[] values = new String[]{
                 String.format("%s = '%s'", "username", user.getUsername().replaceAll("'", "''")),
                 String.format("%s = '%s'", "password", new String(user.getEncodedPassword(), Charset.forName("UTF-8")).replaceAll("'", "''")),
+                String.format("%s = '%s'", "first_name", user.getFirstName().replaceAll("'", "''")),
+                String.format("%s = '%s'", "last_name", user.getLastName().replaceAll("'", "''")),
                 String.format("%s = '%s'", "user_type", user.getType().toString()),
                 String.format("%s = %b", "can_mod_map", user.canModMap())
         };
@@ -440,10 +444,12 @@ public class Storage {
             long id = r_set.getLong("user_id");
             String username = r_set.getString("username");
             String password = r_set.getString("password");
+            String first_name = r_set.getString("first_name");
+            String last_name = r_set.getString("last_name");
             User.user_type user_type = User.user_type.valueOf(r_set.getString("user_type"));
             boolean can_mod_map = r_set.getBoolean("can_mod_map");
 
-            User user = new User(username, password, user_type, can_mod_map);
+            User user = new User(username, password, first_name, last_name, user_type, can_mod_map);
             user.setUserID(id);
 
             return user;
@@ -756,6 +762,8 @@ public class Storage {
      */
     private List<ServiceType> getServiceTypes(ResultSet r_set) {
         List<ServiceType> types = new LinkedList<>();
+        //List<String> type_names = new LinkedList<>();
+        //List<HashSet<User>> fulfiller_list = new LinkedList<>();
 
         // if there were no results from the query, return null
         if (r_set == null) {
@@ -765,7 +773,15 @@ public class Storage {
         // loop through result set and add to list
         ServiceType type;
         while ((type = getServiceType(r_set)) != null) {
+            //type_names.add(type.getName());
             types.add(type);
+        }
+
+        // second for loop to set fulfillers
+        int length = types.size();
+        for (int i = 0; i < length; i++) {
+            HashSet<User> users = getAllFulfillersByType(types.get(i));
+            types.get(i).setFulfillers(users);
         }
 
         return types;
@@ -784,13 +800,110 @@ public class Storage {
                 return null;
             }
 
-            // extract fields from result set and store in edu.wpi.cs3733d18.teamS.user object
+            // extract fields from result set and store in service type object
             String name = r_set.getString("name");
             boolean emergency = r_set.getBoolean("emergency");
 
+            // create unfinished service type and fill in later
             ServiceType serviceType = ServiceType.createServiceType(name, emergency, new HashSet<>());
 
             return serviceType;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // --------------------- FULFILLER METHODS ------------------- //
+
+    /**
+     * Inserts a fulfiller into the fulfillers table
+     *
+     * @param type the service type the fulfiller is associated with
+     * @param fulfiller the user representing the fulfiller
+     */
+    public void saveFulfiller(ServiceType type, User fulfiller) {
+        database.insert("FULFILLERS", new String[]{
+                database.addQuotes(type.getName()),
+                String.valueOf(fulfiller.getUserID())
+        });
+    }
+
+    /**
+     * Gets all fulfillers of a specific type from the table
+     *
+     * @return a List containing all of the fulfillers of the given type in the table
+     */
+    public HashSet<User> getAllFulfillersByType(ServiceType type) {
+        ResultSet r_set = database.query(
+                "FULFILLERS",
+                null,
+                "service_type = '" + type.getName() + "'",
+                null,
+                null
+        );
+
+        return getFulfillers(r_set);
+    }
+
+    /**
+     * Private method for parsing result set
+     *
+     * @param r_set a set of all of the entries in the table
+     * @return a List of Users corresponding to table entries
+     */
+    private HashSet<User> getFulfillers(ResultSet r_set) {
+        HashSet<User> fulfillers = new HashSet<>();
+        List<Long> fulfiller_ids = new LinkedList<>();
+
+        // if there were no results from the query, return null
+        if (r_set == null) {
+            return fulfillers;
+        }
+
+        // loop through result set and add to list
+        User fulfiller;
+        while ((fulfiller = getFulfiller(r_set)) != null) {
+            try {
+                // extract user ids from result set and add to arrays
+                long id = r_set.getLong("fulfiller_user_id");
+
+                fulfiller_ids.add(id);
+            } catch (SQLException e) {
+                // empty
+            }
+        }
+
+        // second for loop to construct fulfiller array
+        int length = fulfiller_ids.size();
+        for (int i = 0; i < length; i++) {
+            User fulfiller_user = getUserByID(fulfiller_ids.get(i));
+
+            fulfillers.add(fulfiller_user);
+        }
+
+        return fulfillers;
+    }
+
+    /**
+     * Retrieves a single fulfiller from the table
+     *
+     * @param r_set a single entry in the table
+     * @return a User object from the table
+     */
+    private User getFulfiller(ResultSet r_set) {
+        try {
+            // if we don't have anything in the result set
+            if (r_set == null || !r_set.next()) {
+                return null;
+            }
+
+            // set fields as garbage values, then fill in later
+            User fulfiller = new User("", "", "","",null, false);
+
+            return fulfiller;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -849,6 +962,8 @@ public class Storage {
                     String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "user_id"),
                     String.format("%s VARCHAR (100)", "username"),
                     String.format("%s VARCHAR (100)", "password"),
+                    String.format("%s VARCHAR (100)", "first_name"),
+                    String.format("%s VARCHAR (100)", "last_name"),
                     String.format("%s VARCHAR (16)", "user_type"),
                     String.format("%s BOOLEAN", "can_mod_map")
             });
@@ -871,18 +986,21 @@ public class Storage {
             });
         }
 
-        if (!database.doesTableExist("TYPES")) {
-            database.createTable("TYPES", new String[]{
-                    String.format("%s VARCHAR (100) PRIMARY KEY", "name"),
-                    String.format("%s BOOLEAN", "emergency"),
+        if (!database.doesTableExist("FULFILLERS")) {
+            database.createTable("FULFILLERS", new String[]{
+                    String.format("%s VARCHAR (100)", "service_type"),
+                    String.format("%s BIGINT", "fulfiller_user_id"),
             });
         }
 
-        if (!database.doesTableExist("FULFILLERS")) {
-            database.createTable("FULFILLERS", new String[]{
-                    String.format("%s VARCHAR (100)", "name"),
-                    String.format("%s BIGINT", "fulfiller_id"),
+        if (!database.doesTableExist("TYPES")) {
+            database.createTable("TYPES", new String[]{
+                    String.format("%s VARCHAR (100) PRIMARY KEY", "name"),
+                    String.format("%s BOOLEAN", "emergency")
             });
+
+            // generate an initial list of service types for the database
+            ServiceType.createInitialServiceTypes();
         }
     }
 

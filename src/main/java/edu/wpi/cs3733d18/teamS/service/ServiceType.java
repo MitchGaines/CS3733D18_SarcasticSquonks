@@ -17,11 +17,6 @@ import java.util.stream.Stream;
  * @version "%I%, %G%"
  */
 public class ServiceType {
-
-    /**
-     * Stores a HashSet of ServiceTypes.
-     */
-    private static HashSet<ServiceType> serviceTypes = new HashSet<>();
     /**
      * Stores the name of the Service Type.
      */
@@ -35,6 +30,11 @@ public class ServiceType {
      * Stores a HashSet of users.
      */
     private HashSet<User> fulfillers = new HashSet<>();
+
+    /**
+     * Stores instance of Storage class
+     */
+    private static Storage storage = Storage.getInstance();
 
     /**
      * Constructs a ServiceType using a string for the name, a boolean to determine if the
@@ -56,42 +56,48 @@ public class ServiceType {
     public static void createInitialServiceTypes() {
         Storage storage = Storage.getInstance();
 
-        // create new lists of possible fulfillers
-        HashSet<User> doctors = new HashSet<>();
-        HashSet<User> staff = new HashSet<>();
-        HashSet<User> admins = new HashSet<>();
-        HashSet<User> cardio = new HashSet<>();
-        HashSet<User> plasticspete = new HashSet<>();
-        HashSet<User> russians = new HashSet<>();
-        HashSet<User> spanish = new HashSet<>();
+        // create service types and save them to the database
+        ServiceType medical = createServiceType("Medical", true, null);
+        storage.saveServiceType(medical);
+        ServiceType custodial = createServiceType("Custodial", false, null);
+        storage.saveServiceType(custodial);
+        ServiceType administrative = createServiceType("Administrative", false, null);
+        storage.saveServiceType(administrative);
+        ServiceType cardiology = createServiceType("Cardiology", true, null);
+        storage.saveServiceType(cardiology);
+        ServiceType plastics = createServiceType("Plastics", false, null);
+        storage.saveServiceType(plastics);
+        ServiceType span = createServiceType("Spanish", true, null);
+        storage.saveServiceType(span);
+        ServiceType russian = createServiceType("Russian", true, null);
+        storage.saveServiceType(russian);
 
-        // add the appropriate users to each fulfiller set
-        doctors.add(storage.getUserByID(1));
-        doctors.add(storage.getUserByID(4));
-        doctors.add(storage.getUserByID(5));
-        admins.add(storage.getUserByID(2));
-        staff.add(storage.getUserByID(3));
-        cardio.add(storage.getUserByID(4));
-        plasticspete.add(storage.getUserByID(5));
-        spanish.add(storage.getUserByID(6));
-        russians.add(storage.getUserByID(7));
+        // populate fulfiller table with potential fulfillers for each service type
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(1));
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(4));
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(5));
+        storage.saveFulfiller(storage.getServiceTypeByName("Custodial"), storage.getUserByID(3));
+        storage.saveFulfiller(storage.getServiceTypeByName("Administrative"), storage.getUserByID(2));
+        storage.saveFulfiller(storage.getServiceTypeByName("Cardiology"), storage.getUserByID(4));
+        storage.saveFulfiller(storage.getServiceTypeByName("Plastics"), storage.getUserByID(5));
+        storage.saveFulfiller(storage.getServiceTypeByName("Spanish"), storage.getUserByID(6));
+        storage.saveFulfiller(storage.getServiceTypeByName("Russian"), storage.getUserByID(7));
 
-        createServiceType("Medical", true, doctors);
-        createServiceType("Custodial", false, staff);
-        createServiceType("Administrative", false, admins);
-        createServiceType("Cardiology", true, cardio);
-        createServiceType("Plastics", false, plasticspete);
-        createServiceType("Spanish", true, spanish);
-        createServiceType("Russian", true, russians);
-    }
-
-    /**
-     * Retrieves the ServiceTypes created.
-     *
-     * @return a HashSet of ServiceTypes.
-     */
-    public static HashSet<ServiceType> getServiceTypes() {
-        return serviceTypes;
+        // save sets of fulfillers to each service type
+        HashSet<User> doctors = storage.getAllFulfillersByType(medical);
+        medical.setFulfillers(doctors);
+        HashSet<User> staff = storage.getAllFulfillersByType(custodial);
+        custodial.setFulfillers(staff);
+        HashSet<User> admins = storage.getAllFulfillersByType(administrative);
+        administrative.setFulfillers(admins);
+        HashSet<User> cardio = storage.getAllFulfillersByType(cardiology);
+        administrative.setFulfillers(cardio);
+        HashSet<User> plastic = storage.getAllFulfillersByType(plastics);
+        plastics.setFulfillers(plastic);
+        HashSet<User> spanish = storage.getAllFulfillersByType(span);
+        span.setFulfillers(spanish);
+        HashSet<User> russ = storage.getAllFulfillersByType(russian);
+        russian.setFulfillers(russ);
     }
 
     /**
@@ -108,7 +114,6 @@ public class ServiceType {
             fulfillers = new HashSet<>();
         }
         ServiceType new_service = new ServiceType(name, emergency, fulfillers);
-        serviceTypes.add(new_service);
         return new_service;
     }
 
@@ -158,6 +163,15 @@ public class ServiceType {
         return fulfillers;
     }
 
+    /**
+     * Sets fulfillers of a service type
+     *
+     * @param fulfillers a HashSet of users associated with a service type
+     */
+    public void setFulfillers(HashSet<User> fulfillers) {
+        this.fulfillers = fulfillers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -178,7 +192,7 @@ public class ServiceType {
 
     private Stream<ServiceRequest> requestedInRange(DateTime start, DateTime end) {
         return ServiceRequest.getServiceRequests().stream()
-                .filter(e -> e.service_type == this && e.requestedDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.requestedDate.toDateTime().isAfter(start.toDateTime().toInstant()));
+                .filter(e -> e.service_type.getName().equals(this.getName()) && e.requestedDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.requestedDate.toDateTime().isAfter(start.toDateTime().toInstant()));
     }
 
     public long getNumRequests(DateTime start, DateTime end) {
