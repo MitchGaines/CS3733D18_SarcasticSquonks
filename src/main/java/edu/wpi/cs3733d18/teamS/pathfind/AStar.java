@@ -16,7 +16,7 @@ public class AStar extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node1.getFCost() - node2.getFCost());
+        return (int) (node1.getFCost() - node2.getFCost());
     }
 
     @Override

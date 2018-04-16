@@ -166,7 +166,7 @@ public class AStarNode {
         this.parent = parent;
     }
 
-    public void setGCost(double cost){
+    public void setGCost(double cost) {
         this.g_cost = cost;
     }
 
