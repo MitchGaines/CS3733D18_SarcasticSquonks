@@ -41,8 +41,9 @@ public class Map {
 
     /**
      * Constructs a Map by taking in the anchor pane and a Boolean for whether or not it is 3d.
+     *
      * @param map_anchor_pane The anchor pane for the scene.
-     * @param is_3D boolean true if the map is 3d, false otherwise.
+     * @param is_3D           boolean true if the map is 3d, false otherwise.
      */
     public Map(AnchorPane map_anchor_pane, boolean is_3D) {
         this.map_anchor_pane = map_anchor_pane;
@@ -85,6 +86,7 @@ public class Map {
 
     /**
      * Returns an ArrayList of Nodes for the Next segment of the path, which occurs whenever there is a floor change.
+     *
      * @param is_3D True if the map is in 3d mode, false if in 2D.
      * @return The Nodes for the Previous segment of the path.
      */
@@ -97,6 +99,7 @@ public class Map {
 
     /**
      * Returns an ArrayList of Nodes for the Previous segment of the path, which occurs whenever there is a floor change.
+     *
      * @param is_3D True if the map is in 3d mode, false if in 2D.
      * @return The Nodes for the Previous segment of the path.
      */
@@ -110,6 +113,7 @@ public class Map {
     /**
      * Returns an ArrayList of Nodes for the current segment of the path, which occurs whenever there is a floor change,
      * this function is primarily used when changing from 2D to 3D map view or vice versa.
+     *
      * @param is_3D True if the map is in 3d mode, false if in 2D.
      * @return The Nodes for the current segment of the path.
      */

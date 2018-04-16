@@ -16,6 +16,6 @@ public class BreadthFirst extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node1.getGCost() - node2.getGCost());
+        return (int) (node1.getGCost() - node2.getGCost());
     }
 }

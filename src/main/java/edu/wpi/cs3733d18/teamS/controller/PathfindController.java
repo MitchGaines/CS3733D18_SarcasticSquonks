@@ -84,7 +84,7 @@ public class PathfindController {
      * The node for switching between 2D and 3D maps.
      */
     @FXML
-    Button toggle_map_btn;
+    Button toggle_map_btn, next_btn, prev_btn;
 
     /**
      * Node for expanding the QR code with the step by step directions.
@@ -135,8 +135,9 @@ public class PathfindController {
 
     /**
      * Returns the image of the floor based on whether or not the map is 3D or 2D.
+     *
      * @param floor the floor requested.
-     * @param is3D boolean for whether the image needs to be 2D or 3D.
+     * @param is3D  boolean for whether the image needs to be 2D or 3D.
      * @return The image of the particular floor.
      */
     private static Image getFloorImage(int floor, boolean is3D) {
@@ -280,6 +281,9 @@ public class PathfindController {
                 e.printStackTrace();
             }
         }
+        if (path.path_segments.size() < 2) {
+            next_btn.disableProperty().setValue(true);
+        }
     }
 
     /**
@@ -385,17 +389,29 @@ public class PathfindController {
     }
 
     /**
-     * Updates the map to show the next segment of the path.
+     * Updates the map to show the previous segment of the path.
      */
-    public void onMapUp() {
+    public void onPrevClick() {
         updateMap(map.prevStep(map.is_3D));
+        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
+            next_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index <= 0) {
+            prev_btn.disableProperty().setValue(true);
+        }
     }
 
     /**
-     * Updates the map to show the previous segment of the path.
+     * Updates the map to show the next segment of the path.
      */
-    public void onMapDown() {
+    public void onNextClick() {
         updateMap(map.nextStep(map.is_3D));
+        if (map.getPath().seg_index > 0 && prev_btn.disableProperty().getValue()) {
+            prev_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index >= map.getPath().path_segments.size() - 1) {
+            next_btn.disableProperty().setValue(true);
+        }
     }
 
 }

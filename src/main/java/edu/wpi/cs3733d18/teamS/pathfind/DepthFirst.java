@@ -20,7 +20,7 @@ public class DepthFirst extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node2.getGCost() - node1.getGCost());
+        return (int) (node2.getGCost() - node1.getGCost());
     }
 }
 
