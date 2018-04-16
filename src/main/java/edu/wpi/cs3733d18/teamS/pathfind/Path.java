@@ -275,6 +275,7 @@ public class Path {
         }
         start_icon.setId("temporaryIcon");
         start_icon.smoothProperty().setValue(true);
+        start_icon.setOpacity(.8);
         fx_nodes.add(start_icon);
 
         //adding icons for end of path
@@ -301,6 +302,7 @@ public class Path {
             icon = new ImageView("images/mapIcons/goal_flag.png");
             icon.setPreserveRatio(true);
             icon.setFitHeight(120);
+            icon.setOpacity(.8);
         }
         icon.setId("temporaryIcon");
         icon.smoothProperty().setValue(true);

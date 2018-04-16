@@ -26,6 +26,8 @@ public class Main extends Application {
 
     public static Object switchScenes(String title, String fxml_name) {
         try {
+            double old_height = primary_stage.getHeight();
+            double old_width = primary_stage.getWidth();
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml_name), AllText.getBundle());
             Parent user_parent = loader.load();
             Object controller = loader.getController();
@@ -35,6 +37,8 @@ public class Main extends Application {
             Timeout.addListenersToScene(new_scene);
 
             primary_stage.setScene(new_scene);
+            primary_stage.setHeight(old_height);
+            primary_stage.setWidth(old_width);
             primary_stage.show();
             return controller;
         } catch (IOException e) {
