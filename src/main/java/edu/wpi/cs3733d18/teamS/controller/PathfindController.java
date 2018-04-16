@@ -17,7 +17,9 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
@@ -93,21 +95,7 @@ public class PathfindController {
     ImageView expanded_qr;
 
     @FXML
-    StackPane stack_pane;
-
-    @FXML
-    HBox directions_box;
-
-    @FXML
-    ScrollPane directions_pane;
-
-    @FXML
-    TextField phone_field;
-
-    @FXML
-    Button call_btn;
-
-
+    HBox phone_number_form;
     /**
      * Stores the zoom factor.
      */
