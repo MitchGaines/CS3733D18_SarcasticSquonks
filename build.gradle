@@ -58,7 +58,8 @@ dependencies {
             [group: 'com.google.zxing', name: 'core', version: '3.2.1'],
             fileTree(dir: 'lib', include: '*.jar'),
             [group: 'joda-time', name: 'joda-time', version: '2.9.9'],
-            [group: 'commons-codec', name: 'commons-codec', version: '1.11']
+            [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
+            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0']
     )
 }
 
