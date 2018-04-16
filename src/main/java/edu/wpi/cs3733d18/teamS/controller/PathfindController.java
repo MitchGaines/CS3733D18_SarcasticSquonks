@@ -95,21 +95,7 @@ public class PathfindController {
     ImageView expanded_qr;
 
     @FXML
-    StackPane stack_pane;
-
-    @FXML
-    HBox directions_box;
-
-    @FXML
-    ScrollPane directions_pane;
-
-    @FXML
-    TextField phone_field;
-
-    @FXML
-    Button call_btn;
-
-
+    HBox phone_number_form;
     /**
      * Stores the zoom factor.
      */
