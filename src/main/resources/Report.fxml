@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import com.jfoenix.controls.JFXTimePicker?>
-<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-
-<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportsController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0"
+            xmlns="http://javafx.com/javafx/8.0.141"
+            fx:controller="edu.wpi.cs3733d18.teamS.controller.ReportsController">
     <top>
-        <BorderPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
+        <BorderPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;"
+                    BorderPane.alignment="CENTER">
             <left>
-                <Label fx:id="time" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30" BorderPane.alignment="CENTER">
+                <Label fx:id="time" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30"
+                       BorderPane.alignment="CENTER">
                     <BorderPane.margin>
-                        <Insets left="10.0" />
+                        <Insets left="10.0"/>
                     </BorderPane.margin>
                 </Label>
             </left>
             <right>
                 <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="(Admin Name)" />
-                        <JFXButton fx:id="logout_btn" buttonType="RAISED" onAction="#onLogoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%logout" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;"
+                              text="(Admin Name)"/>
+                        <JFXButton fx:id="logout_btn" buttonType="RAISED" onAction="#onLogoutClick"
+                                   style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%logout"/>
                     </children>
                     <padding>
-                        <Insets right="10.0" />
+                        <Insets right="10.0"/>
                     </padding>
                 </HBox>
             </right>
@@ -39,31 +37,31 @@
     <right>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <JFXDatePicker fx:id="start_date_picker" onAction="#onGoButton" promptText="%start_date" />
-                <JFXTimePicker fx:id="start_time_picker" onAction="#onGoButton" promptText="%start_time" />
-                <JFXDatePicker fx:id="end_date_picker" onAction="#onGoButton" promptText="%end_date" />
-                <JFXTimePicker fx:id="end_time_picker" onAction="#onGoButton" promptText="%end_time" />
+                <JFXDatePicker fx:id="start_date_picker" onAction="#onGoButton" promptText="%start_date"/>
+                <JFXTimePicker fx:id="start_time_picker" onAction="#onGoButton" promptText="%start_time"/>
+                <JFXDatePicker fx:id="end_date_picker" onAction="#onGoButton" promptText="%end_date"/>
+                <JFXTimePicker fx:id="end_time_picker" onAction="#onGoButton" promptText="%end_time"/>
                 <HBox alignment="CENTER">
                     <children>
-                        <Label text="%table" />
-                        <JFXToggleButton fx:id="chart_toggle" onAction="#onToggle" text="%chart" />
+                        <Label text="%table"/>
+                        <JFXToggleButton fx:id="chart_toggle" onAction="#onToggle" text="%chart"/>
                     </children>
                 </HBox>
             </children>
         </VBox>
     </right>
     <bottom>
-        <HBox BorderPane.alignment="CENTER" />
+        <HBox BorderPane.alignment="CENTER"/>
     </bottom>
     <left>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <JFXComboBox fx:id="report_type_menu" onAction="#onGoButton" promptText="%report_types" />
-                <JFXListView fx:id="service_type_list" VBox.vgrow="ALWAYS" />
+                <JFXComboBox fx:id="report_type_menu" onAction="#onGoButton" promptText="%report_types"/>
+                <JFXListView fx:id="service_type_list" VBox.vgrow="ALWAYS"/>
             </children>
         </VBox>
     </left>
     <center>
-        <Label fx:id="instructions" text="%report_instructions" BorderPane.alignment="CENTER" />
+        <Label fx:id="instructions" text="%report_instructions" BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

@@ -1,96 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<GridPane prefHeight="400.0" prefWidth="1174.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServiceAreaController">
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-   </rowConstraints>
-   <children>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%make_request_label">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <JFXComboBox fx:id="request_type_selector" focusColor="#4863a0" promptText="%service_type" style="-fx-font-size: 23;" />
-            <JFXTextField fx:id="service_title" alignment="CENTER" focusColor="#4863a0" promptText="%service_title">
-               <font>
-                  <Font size="23.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="70.0" right="70.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField fx:id="service_location" alignment="CENTER" focusColor="#4863a0" promptText="%service_location">
-               <font>
-                  <Font size="23.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="70.0" right="70.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" promptText="%service_description">
-               <font>
-                  <Font size="23.0" />
-               </font></TextArea>
-            <JFXButton fx:id="request_service_button" buttonType="RAISED" onAction="#doRequestService" style="-fx-background-color: #B7B8B6;" text="%service_request_button">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </JFXButton>
-         </children>
-         <padding>
-            <Insets left="30.0" right="30.0" top="25.0" />
-         </padding>
-      </VBox>
-      <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0" GridPane.columnIndex="1">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%to_be_completed_label">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Text>
-            <JFXComboBox fx:id="active_requests_box" focusColor="#4863a0" onAction="#loadRequestInfo" promptText="%my_requests" style="-fx-font-size: 23;" />
-            <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-               <font>
-                  <Font size="23.0" />
-               </font></Text>
-            <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-               <font>
-                  <Font size="23.0" />
-               </font></Text>
-            <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0">
-               <font>
-                  <Font size="23.0" />
-               </font></TextArea>
-            <JFXButton fx:id="mark_completed_btn" buttonType="RAISED" onAction="#markComplete" style="-fx-background-color: #B7B8B6;" text="%mark_completed_button">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </JFXButton>
-         </children>
-         <padding>
-            <Insets left="30.0" right="30.0" top="25.0" />
-         </padding>
-      </VBox>
-   </children>
-   <padding>
-      <Insets top="40.0" />
-   </padding>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="1174.0"
+          xmlns="http://javafx.com/javafx/8.0.141"
+          fx:controller="edu.wpi.cs3733d18.teamS.controller.ServiceAreaController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="27.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%make_request_label">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Text>
+                <JFXComboBox fx:id="request_type_selector" focusColor="#4863a0" promptText="%service_type"
+                             style="-fx-font-size: 23;"/>
+                <JFXTextField fx:id="service_title" alignment="CENTER" focusColor="#4863a0" promptText="%service_title">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets left="70.0" right="70.0"/>
+                    </VBox.margin>
+                </JFXTextField>
+                <JFXComboBox fx:id="service_location" editable="true" onKeyReleased="#onKeyReleasedComboBox"
+                             focusColor="#4863a0" labelFloat="true" promptText="%service_location"
+                             style="-fx-font-size: 23;">
+                    <VBox.margin>
+                        <Insets left="70.0" right="70.0"/>
+                    </VBox.margin>
+                </JFXComboBox>
+                <TextArea fx:id="description_field" maxHeight="-Infinity" prefHeight="50.0" prefWidth="200.0"
+                          promptText="%service_description">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </TextArea>
+                <JFXButton fx:id="request_service_button" buttonType="RAISED" onAction="#doRequestService"
+                           style="-fx-background-color: #B7B8B6;" text="%service_request_button">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </JFXButton>
+            </children>
+            <padding>
+                <Insets left="30.0" right="30.0" top="25.0"/>
+            </padding>
+        </VBox>
+        <VBox alignment="TOP_CENTER" prefHeight="220.0" prefWidth="210.0" spacing="20.0" GridPane.columnIndex="1">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%to_be_completed_label">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                </Text>
+                <JFXComboBox fx:id="active_requests_box" focusColor="#4863a0" onAction="#loadRequestInfo"
+                             promptText="%my_requests" style="-fx-font-size: 23;"/>
+                <Text fx:id="title_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </Text>
+                <Text fx:id="location_text" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </Text>
+                <TextArea fx:id="description_text" editable="false" maxHeight="-Infinity" prefHeight="50.0"
+                          prefWidth="200.0">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </TextArea>
+                <JFXButton fx:id="mark_completed_btn" buttonType="RAISED" onAction="#markComplete"
+                           style="-fx-background-color: #B7B8B6;" text="%mark_completed_button">
+                    <font>
+                        <Font size="23.0"/>
+                    </font>
+                </JFXButton>
+            </children>
+            <padding>
+                <Insets left="30.0" right="30.0" top="25.0"/>
+            </padding>
+        </VBox>
+    </children>
+    <padding>
+        <Insets top="40.0"/>
+    </padding>
 </GridPane>

@@ -2,3 +2,14 @@ username,password,type,can_mod_map
 doctor,doctor,DOCTOR,false
 admin,admin,ADMIN_STAFF,true
 staff,staff,REGULAR_STAFF,false
+cardiocarl,123,DOCTOR,false
+plasticspete,123,DOCTOR,false
+spanishsue,123,REGULAR_STAFF,false
+russianrima,123,REGULAR_STAFF,false
+doctor,doctor,DOCTOR,false
+admin,admin,ADMIN_STAFF,true
+staff,staff,REGULAR_STAFF,false
+cardiocarl,123,DOCTOR,false
+plasticspete,123,DOCTOR,false
+spanishsue,123,REGULAR_STAFF,false
+russianrima,123,REGULAR_STAFF,false

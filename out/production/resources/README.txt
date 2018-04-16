@@ -1,4 +1,4 @@
-Put resources needed by your application here, e.g. data files, images, FXML files, etc. Anything stored here
+Put resources needed by your application here, e.g. edu.wpi.cs3733d18.teamS.data files, images, FXML files, etc. Anything stored here
 will be packaged at the top level of the jar file, so to access "hello.png", just use .getResource("hello.png");
 If you organize your resources into folders, the same hierarchy applies; e.g. if you store "hello.png" here in
 a folder called "images", you'd use .getResource("images/hello.png");

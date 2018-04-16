@@ -1,16 +1,18 @@
 /**
  * ApacheDatabaseTestSuite.java
- * A test suite for database operations
+ * A test suite for edu.wpi.cs3733d18.teamS.database operations
  * Author: Joseph Turcotte
  * Date: March 28, 2018
  */
 
-import database.IDatabase;
-import database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.sql.*;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ApacheDatabaseTestSuite {
 
@@ -21,7 +23,7 @@ public class ApacheDatabaseTestSuite {
     // ------------------- APACHE DATABASE TESTS -------------------- //
 
     /**
-     * Set up tests for the database
+     * Set up tests for the edu.wpi.cs3733d18.teamS.database
      */
     @Before
     public void setUp() {
@@ -30,11 +32,11 @@ public class ApacheDatabaseTestSuite {
     }
 
     /**
-     * Test that we can connect to the database
+     * Test that we can connect to the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testConnection() {
-        // connect to the database
+        // connect to the edu.wpi.cs3733d18.teamS.database
         data.connect();
 
         // assert that the connection worked
@@ -66,7 +68,7 @@ public class ApacheDatabaseTestSuite {
      */
     @Test
     public void testTableNonExistence() {
-        // table name doesn't exist in database
+        // table name doesn't exist in edu.wpi.cs3733d18.teamS.database
         data.connect();
         Assert.assertEquals(data.doesTableExist("JOE"), false);
     }
@@ -88,7 +90,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -105,7 +107,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs2 = data.query(table_name_edges, null, null, null, null);
         int length2 = 0;
         try {
-            while(rs2.next()) {
+            while (rs2.next()) {
                 length2++;
             }
         } catch (SQLException e) {
@@ -139,7 +141,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -162,7 +164,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs2 = data.query(table_name_edges, null, null, null, null);
         int length2 = 0;
         try {
-            while(rs2.next()) {
+            while (rs2.next()) {
                 length2++;
             }
         } catch (SQLException e) {
@@ -195,7 +197,7 @@ public class ApacheDatabaseTestSuite {
         ResultSet rs = data.query(table_name_edges, null, null, null, null);
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
         } catch (SQLException e) {
@@ -208,7 +210,7 @@ public class ApacheDatabaseTestSuite {
     }
 
     /**
-     * Test updating an entry in the database
+     * Test updating an entry in the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testUpdate() {
@@ -222,7 +224,7 @@ public class ApacheDatabaseTestSuite {
         String[] values2 = {"'2'", "'node2'", "'node3'"};
         data.insert(table_name_edges, values2);
 
-        // update the database
+        // update the edu.wpi.cs3733d18.teamS.database
         String[] new_values = {"edge_id = '2'", "start_node = 'node2'", "end_node = 'node4'"};
         String where_condition = "edge_id = '2'";
         data.update(table_name_edges, new_values, where_condition, null);
@@ -248,7 +250,7 @@ public class ApacheDatabaseTestSuite {
     }
 
     /**
-     * Test a generic query that grabs all information from the database
+     * Test a generic query that grabs all information from the edu.wpi.cs3733d18.teamS.database
      */
     @Test
     public void testGenericQuery() {
@@ -338,7 +340,7 @@ public class ApacheDatabaseTestSuite {
         // test that we only have two entries
         int length = 0;
         try {
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
             Assert.assertEquals(length, 2);
@@ -378,7 +380,7 @@ public class ApacheDatabaseTestSuite {
             Assert.assertEquals(edge_id, "'3'");
 
             int length = 0;
-            while(rs.next()) {
+            while (rs.next()) {
                 length++;
             }
             Assert.assertEquals(length, 1);
