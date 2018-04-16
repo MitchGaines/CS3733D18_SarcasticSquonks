@@ -77,16 +77,6 @@ public class Ant {
     }
 
     /**
-     * getDuration
-     * Returns the duration (in seconds) of the marching animation from start to finish.
-     *
-     * @return the duration (in seconds) of the marching animation from start to finish
-     */
-    double getDuration() {
-        return total_animation_time;
-    }
-
-    /**
      * playFromStart
      * Begins marching animation from the first stop on the path.
      */
@@ -102,6 +92,16 @@ public class Ant {
      */
     void playFrom(double seconds) {
         timeline.playFrom(Duration.seconds(seconds));
+    }
+
+    /**
+     * getDuration
+     * Returns the duration (in seconds) of the marching animation from start to finish.
+     *
+     * @return the duration (in seconds) of the marching animation from start to finish
+     */
+    double getDuration() {
+        return total_animation_time;
     }
 
     /**
