@@ -90,13 +90,9 @@ public class LogController {
             return p;
         });
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        time.setText(dtf.format(now));
-
     }
 
-    private void populateTable() {
+    public void populateTable() {
         if (user.getType() == User.user_type.ADMIN_STAFF) {
             log_table.setItems(FXCollections.observableArrayList(ServiceLogEntry.getOverallLog()));
         } else {
@@ -112,7 +108,7 @@ public class LogController {
         populateTable();
     }
 
-    private void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

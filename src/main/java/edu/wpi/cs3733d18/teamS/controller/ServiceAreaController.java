@@ -22,13 +22,13 @@ import java.util.stream.Stream;
 public class ServiceAreaController {
 
     @FXML
-    ComboBox<ServiceType> request_type_selector;
+    ComboBox<ServiceType> request_type_selector = new ComboBox<>();
 
     @FXML
-    ComboBox<ServiceRequest> active_requests_box;
+    ComboBox<ServiceRequest> active_requests_box = new ComboBox<>();
 
     @FXML
-    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location;
+    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location = new ComboBox<>();
     @FXML
     Button request_service_button;
     @FXML
@@ -154,14 +154,22 @@ public class ServiceAreaController {
         mark_completed_btn.setVisible(true);
     }
 
-    public void initialize() {
+    public void setUpToComplete(User user) {
+        this.user = user;
         title_text.setVisible(false);
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+    }
+
+    public void setUpToMake(User user) {
+        this.user = user;
         locations.addAll(Storage.getInstance().getAllNodes());
         request_service_button.setText("Request service");
-        //populateRequestsBox();
+    }
+
+    public void initialize() {
+
     }
 
     /**

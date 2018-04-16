@@ -132,7 +132,7 @@ public class PathfindController {
         map = new Map(map_anchor_pane, current_floor, (mode == mappingMode.MAP3D));
 
         Pathfinder pathfinder;
-        int select = AdminPageController.getChoosenAlg();
+        int select = AdminSpecialOptionsController.getChoosenAlg();
         if (is_quick || select == 1) {
             pathfinder = new Pathfinder(new Dijkstras());
         } else if (select == 2) {
