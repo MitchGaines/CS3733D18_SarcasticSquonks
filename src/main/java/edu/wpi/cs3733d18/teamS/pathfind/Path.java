@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,18 +45,18 @@ public class Path {
      */
     public URL getPathDirections() throws MalformedURLException {
         String host = "159.203.189.146";
+        //String host = "localhost";
         int port = 3000;
         String protocol = "http";
-        String language = "en"; //TODO add multilangauge support
-        String path = "/" + language + "/";
+        String path = "/";
 
         if (this.algorithm_node_path.size() == 0) {
             return new URL(protocol, host, port, path);
         }
         StringBuilder path_description = new StringBuilder();
-        path_description.append("Directions from: ").append(algorithm_node_path.get(0).getLongName()).append(" to: ").append(algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName()).append(".").append(System.lineSeparator());
+        path_description.append("- Directions from: ").append(algorithm_node_path.get(0).getLongName()).append(" to: ").append(algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName()).append(".").append(System.lineSeparator());
 
-        path_description.append("First, begin walking towards ").append(algorithm_node_path.get(1).short_name).append(".").append(System.lineSeparator());
+        path_description.append("- First, begin walking towards ").append(algorithm_node_path.get(1).short_name).append(".").append(System.lineSeparator());
         for (int i = 1; i < (algorithm_node_path.size() - 1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i - 1), algorithm_node_path.get(i));
 
@@ -98,20 +97,21 @@ public class Path {
                 i++;
             }
 
-            path_description.append("In ").append(distance).append(" feet, ").append(calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1))).append(".").append(System.lineSeparator());
+            path_description.append("- In ").append(distance).append(" feet, ").append(calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1))).append(".").append(System.lineSeparator());
 
             if (next_floor > curr_floor) {
-                path_description.append("Use stairs/elevator to go up to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
+                path_description.append("- Use stairs/elevator to go up to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
             } else if (next_floor < curr_floor) {
-                path_description.append("Use stairs/elevator to go down to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
+                path_description.append("- Use stairs/elevator to go down to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
             }
         }
-        path_description.append("Destination is ").append(calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2), algorithm_node_path.get(algorithm_node_path.size() - 1))).append(" feet ahead.");
+        path_description.append("- Destination is ").append(calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2), algorithm_node_path.get(algorithm_node_path.size() - 1))).append(" feet ahead.");
 
         byte[] path_bytes = path_description.toString().getBytes();
         String enc_bytes = Base64.encodeBase64String(path_bytes);
         path += enc_bytes;
 
+        System.out.println(new URL(protocol, host, port, path).toString());
         return new URL(protocol, host, port, path);
     }
 
