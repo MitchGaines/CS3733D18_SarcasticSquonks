@@ -100,6 +100,15 @@ public class User {
         username = new_username;
     }
 
+    public void setPassword(String new_password) {
+        password_salt = new byte[16];
+        byte[] password_unsalted = new_password.getBytes();
+        byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
+        enc_password = Base64.getEncoder().encode(password_salted);
+    }
+
     public byte[] getEncodedPassword() {
         return enc_password;
     }

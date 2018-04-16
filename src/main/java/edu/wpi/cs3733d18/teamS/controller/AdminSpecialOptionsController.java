@@ -1,12 +1,22 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.user.User;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
 
@@ -14,10 +24,24 @@ public class AdminSpecialOptionsController{
 
     private static int selected_path_algorithm = 0;
 
+    TableColumn user_name, type, last_name, first_name;
+
+    User selected_user;
+
     @FXML
-    Button modify_map_btn;
+    VBox add_user_box, delete_user_box, modify_user_box;
+    @FXML
+    JFXTextField username_field, password_field, first_name_field, last_name_field, user_to_delete, modify_firstname, modify_lastname;
+    @FXML
+    JFXTextField modify_username, modify_password;
+    @FXML
+    Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn;
     @FXML
     JFXComboBox<String> path_algorithm_box;
+    @FXML
+    JFXComboBox<User.user_type> type_user, type_user_modify;
+    @FXML
+    TableView<User> user_table;
 
     public static int getChoosenAlg() {
         return selected_path_algorithm;
@@ -31,6 +55,102 @@ public class AdminSpecialOptionsController{
         selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
     }
 
+    public void onAddUser() {
+        if(!first_name_field.getText().equals("") && !last_name_field.getText().equals("") && !username_field.getText().equals("")
+                && !password_field.getText().equals("") && !type_user.getSelectionModel().isEmpty()) {
+            boolean can_mod = false;
+            if (type_user.getValue() == User.user_type.ADMIN_STAFF) {
+                can_mod = true;
+            }
+            User new_user = new User(username_field.getText(), password_field.getText(), first_name_field.getText(), last_name_field.getText(), type_user.getValue(), can_mod);
+            Storage.getInstance().saveUser(new_user);
+            populateUserTable();
+            first_name_field.setText("");
+            last_name_field.setText("");
+            username_field.setText("");
+            password_field.setText("");
+            type_user.getSelectionModel().clearSelection();
+        }
+    }
+
+    private void populateUserTable() {
+        user_table.getColumns().removeAll(user_table.getColumns());
+        last_name = new TableColumn("Last Name");
+        first_name = new TableColumn("First Name");
+        user_name = new TableColumn("User Name");
+        type = new TableColumn("Type");
+
+        ObservableList<User> users = FXCollections.observableArrayList(Storage.getInstance().getAllUsers());
+
+        last_name.setCellValueFactory(new PropertyValueFactory<User, String>("LastName"));
+        first_name.setCellValueFactory(new PropertyValueFactory<User, String>("FirstName"));
+        user_name.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
+        type.setCellValueFactory(new PropertyValueFactory<User, String>("type"));
+
+        user_table.setItems(users);
+        user_table.getColumns().addAll(last_name, first_name, user_name, type);
+    }
+
+    public void onDeleteUser() {
+        if(selected_user != null) {
+            add_user_box.setVisible(false);
+            delete_user_box.setVisible(true);
+            user_to_delete.setText(selected_user.getFirstName() + " " + selected_user.getLastName());
+        }
+    }
+
+    public void onConfirmDelete() {
+        Storage.getInstance().deleteUser(selected_user);
+        populateUserTable();
+        user_to_delete.setText("");
+        add_user_box.setVisible(true);
+        delete_user_box.setVisible(false);
+    }
+
+    public void onCancelDelete() {
+        add_user_box.setVisible(true);
+        delete_user_box.setVisible(false);
+        user_to_delete.setText("");
+    }
+
+    public void onModifyUser() {
+        if(selected_user != null) {
+            add_user_box.setVisible(false);
+            modify_user_box.setVisible(true);
+            modify_firstname.setText(selected_user.getFirstName());
+            modify_lastname.setText(selected_user.getLastName());
+            modify_username.setText(selected_user.getUsername());
+            type_user_modify.getSelectionModel().select(selected_user.getType());
+            ObservableList<User.user_type> types_list = FXCollections.observableArrayList();
+            types_list.addAll(User.user_type.ADMIN_STAFF, User.user_type.DOCTOR, User.user_type.REGULAR_STAFF);
+            type_user_modify.setItems(types_list);
+        }
+    }
+
+    public void onConfirmModify() {
+        if(!type_user_modify.getSelectionModel().isEmpty() && !modify_firstname.getText().equals("") && !modify_lastname.getText().equals("")
+                && !modify_password.getText().equals("") && !modify_username.getText().equals("")) {
+            selected_user.setType(type_user_modify.getValue());
+            selected_user.setLastName(modify_lastname.getText());
+            selected_user.setFirstName(modify_firstname.getText());
+            selected_user.setPassword(modify_password.getText());
+            selected_user.setUsername(modify_username.getText());
+            Storage.getInstance().updateUser(selected_user);
+            populateUserTable();
+            modify_user_box.setVisible(false);
+            add_user_box.setVisible(true);
+        }
+    }
+
+    public void onCancelModify() {
+        modify_user_box.setVisible(false);
+        add_user_box.setVisible(true);
+    }
+
+    public void onUserChoose() {
+        selected_user = user_table.getSelectionModel().getSelectedItem();
+    }
+
     public void initialize() {
         ObservableList<String> algorithms = FXCollections.observableArrayList();
         algorithms.add(AllText.get("a_star"));
@@ -38,5 +158,13 @@ public class AdminSpecialOptionsController{
         algorithms.add(AllText.get("depth_first"));
         algorithms.add(AllText.get("breadth_first"));
         path_algorithm_box.setItems(algorithms);
+        populateUserTable();
+        ObservableList<User.user_type> types_list = FXCollections.observableArrayList();
+        types_list.addAll(User.user_type.ADMIN_STAFF, User.user_type.DOCTOR, User.user_type.REGULAR_STAFF);
+        type_user.setItems(types_list);
+
+        add_user_box.setVisible(true);
+        delete_user_box.setVisible(false);
+        modify_user_box.setVisible(false);
     }
 }
