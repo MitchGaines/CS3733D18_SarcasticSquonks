@@ -168,6 +168,7 @@ public class AdminSpecialOptionsController{
         algorithms.add(AllText.get("a_star"));
         algorithms.add(AllText.get("dijkstras"));
         algorithms.add(AllText.get("depth_first"));
+        algorithms.add(AllText.get("breadth_first"));
         path_algorithm_box.setItems(algorithms);
         populateUserTable();
         ObservableList<User.user_type> types_list = FXCollections.observableArrayList();
