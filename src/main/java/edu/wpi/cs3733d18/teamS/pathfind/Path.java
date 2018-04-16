@@ -8,12 +8,19 @@ import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.w3c.dom.css.Rect;
+
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -279,6 +286,22 @@ public class Path {
         icon.setX(x_pos);
         icon.setY(y_pos);
         fx_nodes.add(icon);
+
+
+        StackPane sp = new StackPane();
+        sp.setStyle("-fx-background-color: #f8f8f8;" +
+                "-fx-border-width: 2px;" +
+                "-fx-border-style: solid;" +
+                "-fx-border-color: #c8bf9b;" +
+                "-fx-text-alignment: center;" +
+                "-fx-fit-to-width: 20px;");
+        sp.setId("temporaryIcon");
+        sp.setTranslateX(x_pos);
+        sp.setTranslateY(y_pos);
+        sp.getChildren().add(new Text(end_node.getLongName()));
+
+        fx_nodes.add(sp);
+
         return fx_nodes;
     }
 
