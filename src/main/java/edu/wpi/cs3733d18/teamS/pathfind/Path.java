@@ -11,6 +11,7 @@ import javafx.scene.effect.Shadow;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
