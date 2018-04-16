@@ -48,7 +48,7 @@ public class UserController {
         this.user = user;
         serviceAreaController.setUser(user);
         requestSidebarController.setUser(user);
-        //user_name.setText(user.getUsername());
+        user_name.setText(user.getFirstName() + " " + user.getLastName());
     }
 
     public void setUp(User user, String page) {
@@ -98,7 +98,7 @@ public class UserController {
     }
 
     public void setSidebar() {
-        if(user.getType() != User.user_type.ADMIN_STAFF) {
+        if (user.getType() != User.user_type.ADMIN_STAFF) {
             requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
             requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
         }
