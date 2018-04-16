@@ -108,7 +108,6 @@ public class Path {
         String enc_bytes = Base64.encodeBase64String(path_bytes);
         path += enc_bytes;
 
-        System.out.println(new URL(protocol, host, port, path).toString());
         return new URL(protocol, host, port, path);
     }
 
