@@ -12,12 +12,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
@@ -91,6 +91,22 @@ public class PathfindController {
      */
     @FXML
     ImageView expanded_qr;
+
+    @FXML
+    StackPane stack_pane;
+
+    @FXML
+    HBox directions_box;
+
+    @FXML
+    ScrollPane directions_pane;
+
+    @FXML
+    TextField phone_field;
+
+    @FXML
+    Button call_btn;
+
 
     /**
      * Stores the zoom factor.
@@ -288,17 +304,17 @@ public class PathfindController {
         for (Node a_node : list) {
             a_node.setEffect(adj);
         }
-        Parent a_parent = expanded_qr.getParent();
-        a_parent.setEffect(null);
-        a_parent.getChildrenUnmodifiable().get(0).setEffect(adj);
-        a_parent.getChildrenUnmodifiable().get(1).setEffect(adj);
-        a_parent.getChildrenUnmodifiable().get(2).setEffect(adj);
+
+        stack_pane.setEffect(null);
+        stack_pane.getChildrenUnmodifiable().get(0).setEffect(adj);
+        stack_pane.getChildrenUnmodifiable().get(1).setEffect(adj);
+        stack_pane.getChildrenUnmodifiable().get(2).setEffect(adj);
+        directions_box.setVisible(true);
         expanded_qr.isPreserveRatio();
-        expanded_qr.setVisible(true);
     }
 
     public void onBigQRClick() {
-        expanded_qr.setVisible(false);
+        directions_box.setVisible(false);
         ObservableList<Node> list = main_pane.getChildren();
         for (Node a_node : list) {
             a_node.setStyle("-fx-background-color: null");
@@ -306,11 +322,11 @@ public class PathfindController {
         }
         header_pane.setStyle("-fx-background-color: #4863A0");
         footer_pane.setStyle("-fx-background-color: #4863A0");
-        Parent a_parent = expanded_qr.getParent();
-        a_parent.setEffect(null);
-        a_parent.getChildrenUnmodifiable().get(0).setEffect(null);
-        a_parent.getChildrenUnmodifiable().get(1).setEffect(null);
-        a_parent.getChildrenUnmodifiable().get(2).setEffect(null);
+
+        stack_pane.setEffect(null);
+        stack_pane.getChildrenUnmodifiable().get(0).setEffect(null);
+        stack_pane.getChildrenUnmodifiable().get(1).setEffect(null);
+        stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onMapUp() {
