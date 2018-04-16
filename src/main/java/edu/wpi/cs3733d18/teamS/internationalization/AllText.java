@@ -55,5 +55,4 @@ public class AllText {
         language = localeStr;
         bundle = ResourceBundle.getBundle("all_text", new Locale(localeStr));
     }
-
 }

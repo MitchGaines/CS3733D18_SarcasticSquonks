@@ -88,7 +88,7 @@ public class Pathfinder {
         populateMap(nodes, edges);
     }
 
-    //returns the shortest path (list of nodes) between two nodes from the a_star_node_map
+    //returns the shortest seg_path (list of nodes) between two nodes from the a_star_node_map
 
     /**
      * Finds the shortest path between nodes by taking in their Id's.
@@ -137,6 +137,7 @@ public class Pathfinder {
             if (previous.checkID(this.start)) {
 
                 Collections.reverse(pathfinder_path.algorithm_node_path);
+                pathfinder_path.genPathSegments();
                 return pathfinder_path;
             }
             previous = previous.getParent();

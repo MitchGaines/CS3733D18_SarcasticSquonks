@@ -1,17 +1,13 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-
 /**
- * The Class manages the Depth First path algorithm changes and finds a path (**not optimal**).
+ * The Class manages the breadth First path algorithm changes and finds a path by searching outwards (not movement
+ * cost based).
  *
  * @author Noah Hillman
  * @version %I%, %G%
  */
-public class DepthFirst extends SearchAlgorithm {
+public class BreadthFirst extends SearchAlgorithm {
     @Override
     void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal) {
         neighbor.setParent(current);
@@ -20,7 +16,6 @@ public class DepthFirst extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node2.getGCost() - node1.getGCost());
+        return (int)(node1.getGCost() - node2.getGCost());
     }
 }
-

@@ -24,32 +24,28 @@ public class Map {
      * Stores an ArrayList of floor ids.
      */
     public static ArrayList<String> floor_ids = new ArrayList<>(Arrays.asList("L2", "L1", "1", "2", "3"));
-//    public static final int MAP_WIDTH_3D = 5000;
-//    public static final int MAP_HEIGHT_3D = 2774;
-//    public static final int MAP_WIDTH_2D = 5000;
-//    public static final int MAP_HEIGHT_2D = 3400;
     /**
      * Stores the image of the destination.
      */
     private AnchorPane map_anchor_pane;
     /**
-     * Stores the number of floors.
-     */
-    private int floor;
-    /**
      * Stores an ArrayList of AStarNodes for the path.
      */
     private Path path;
-    private boolean is_3D;
 
     /**
-     * Constructs a 3D map with path drawing capabilities
-     *
-     * @param floor int
+     * Stores a Boolean for whether or not the requested map needs to be in 3D or not.
      */
-    public Map(AnchorPane map_anchor_pane, int floor, boolean is_3D) {
+    public boolean is_3D;
+
+
+    /**
+     * Constructs a Map by taking in the anchor pane and a Boolean for whether or not it is 3d.
+     * @param map_anchor_pane The anchor pane for the scene.
+     * @param is_3D boolean true if the map is 3d, false otherwise.
+     */
+    public Map(AnchorPane map_anchor_pane, boolean is_3D) {
         this.map_anchor_pane = map_anchor_pane;
-        this.floor = floor;
         this.is_3D = is_3D;
     }
 
@@ -73,20 +69,6 @@ public class Map {
         this.path = path;
     }
 
-    public int getFloor() {
-        return floor;
-    }
-
-    /**
-     * setFloor
-     * Sets the floor of the map.
-     *
-     * @param floor the floor of the map.
-     */
-    public void setFloor(int floor) {
-        this.floor = floor;
-    }
-
     /**
      * Clears the Icons from the map.
      */
@@ -100,15 +82,41 @@ public class Map {
         map_anchor_pane.getChildren().removeAll(toRemove);
     }
 
+
     /**
-     * drawPath
-     * Draws a path onto of the map image by drawing a line between nodes in the path of the object.
+     * Returns an ArrayList of Nodes for the Next segment of the path, which occurs whenever there is a floor change.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the Previous segment of the path.
      */
-    public void drawPath() {
-        if (path == null) {
-            return;
-        }
-        map_anchor_pane.getChildren().addAll(path.generateLinesAndAnts(is_3D, floor));
-        map_anchor_pane.getChildren().addAll(path.generateIcons(is_3D, floor));
+    public ArrayList<Node> nextStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.nextSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
+    }
+
+    /**
+     * Returns an ArrayList of Nodes for the Previous segment of the path, which occurs whenever there is a floor change.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the Previous segment of the path.
+     */
+    public ArrayList<Node> prevStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.prevSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
+    }
+
+    /**
+     * Returns an ArrayList of Nodes for the current segment of the path, which occurs whenever there is a floor change,
+     * this function is primarily used when changing from 2D to 3D map view or vice versa.
+     * @param is_3D True if the map is in 3d mode, false if in 2D.
+     * @return The Nodes for the current segment of the path.
+     */
+    public ArrayList<Node> thisStep(boolean is_3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        fx_nodes.addAll(path.thisSeg(is_3D));
+        fx_nodes.addAll(path.genIcons(is_3D));
+        return fx_nodes;
     }
 }

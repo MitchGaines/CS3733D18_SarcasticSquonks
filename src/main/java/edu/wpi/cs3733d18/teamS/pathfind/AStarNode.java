@@ -166,6 +166,10 @@ public class AStarNode {
         this.parent = parent;
     }
 
+    public void setGCost(double cost){
+        this.g_cost = cost;
+    }
+
     public int getXCoord() {
         return x_coord;
     }
@@ -189,6 +193,7 @@ public class AStarNode {
     public int getYCoord3D() {
         return y_coord_3d;
     }
+
 
     /**
      * Returns the ArrayList of the neighboring nodes for an AStarNode.
