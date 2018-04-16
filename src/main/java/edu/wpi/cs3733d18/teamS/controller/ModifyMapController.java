@@ -369,7 +369,7 @@ public class ModifyMapController {
             Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
 
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
-            new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX() + 10, (int) click.getY() + 30, //adding the offset of the icon
+            new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
                     short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0)); //TODO: id function
             pane.getChildren().clear();
@@ -475,7 +475,7 @@ public class ModifyMapController {
             path.setStrokeWidth(3);
             pane.getChildren().add(path);
             edge_list.put(new_edge, path);
-
+            System.out.println(edge_list.get(new_edge));
             onCancelEdgeClick();
         }
     }
@@ -507,15 +507,18 @@ public class ModifyMapController {
             String start = a_edge.getStartNode().substring(8);
             String end = a_edge.getEndNode().substring(8);
             if (start.equals(small_ft) && end.equals(small_ft)) {
-                double startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord();
-                double startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord();
-                double endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord();
-                double endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord();
-
-                Line path = new Line(startX, startY, endX, endY);
-                path.setStrokeWidth(3);
-                pane.getChildren().add(path);
-                edge_list.put(a_edge, path);
+                try {
+                    double startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord();
+                    double startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord();
+                    double endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord();
+                    double endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord();
+                    Line path = new Line(startX, startY, endX, endY);
+                    path.setStrokeWidth(3);
+                    pane.getChildren().add(path);
+                    edge_list.put(a_edge, path);
+                } catch (NullPointerException e) {
+                    System.out.println(a_edge.getEdgeID());
+                }
             }
         }
     }
@@ -529,16 +532,17 @@ public class ModifyMapController {
     }
 
     private void deleteEdge(edu.wpi.cs3733d18.teamS.data.Node a_node) {
-        List<edu.wpi.cs3733d18.teamS.data.Edge> to_delete = new ArrayList<>();
+        List<Edge> to_delete = new ArrayList<>();
         List<edu.wpi.cs3733d18.teamS.data.Edge> edges = storage.getAllEdges();
-        for (edu.wpi.cs3733d18.teamS.data.Edge a_edge : edges) {
-            if (a_edge.getEndNode().equals(a_node.getNodeID()) || a_edge.getStartNode().equals(a_node.getNodeID())) {
-                to_delete.add(a_edge);
+        for (Map.Entry<Edge, Line> an_entry : edge_list.entrySet()) {
+            if (an_entry.getKey().getEndNode().equals(a_node.getNodeID()) || an_entry.getKey().getStartNode().equals(a_node.getNodeID())) {
+                to_delete.add(an_entry.getKey());
+                //System.out.println(edge_list.get(a_delete.getKey()));
+                edge_list.remove(an_entry);
+                pane.getChildren().remove(edge_list.get(an_entry.getKey()));
             }
         }
-        for (edu.wpi.cs3733d18.teamS.data.Edge a_edge : to_delete) {
-            edge_list.remove(a_edge);
-            pane.getChildren().remove(edge_list.get(a_edge));
+        for (Edge a_edge : to_delete) {
             storage.deleteEdge(a_edge);
         }
     }
