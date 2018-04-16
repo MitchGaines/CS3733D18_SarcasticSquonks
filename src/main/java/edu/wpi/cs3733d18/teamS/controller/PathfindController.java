@@ -201,7 +201,7 @@ public class PathfindController {
         map.clearIcons();
 
         Pathfinder pathfinder;
-        int select = AdminPageController.getChoosenAlg();
+        int select = AdminSpecialOptionsController.getChoosenAlg();
         if (is_quick || select == 1) {
             pathfinder = new Pathfinder(new Dijkstras());
         } else if (select == 2) {

@@ -99,7 +99,7 @@ public class ServiceRequest {
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
         service_requests.add(sr);
-        storage.saveRequest(sr);
+        //storage.saveRequest(sr); // TODO we should not save to database here
         ServiceLogEntry.log(sr, false);
         return sr;
     }

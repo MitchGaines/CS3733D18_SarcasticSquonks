@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class Map {
 
     /**
-     * Stores the cost for changing floors used in seg_path finding calculations.
+     * Stores the cost for changing floors used in path finding calculations.
      */
     final static int FLOOR_CHANGE_COST = 340; //in pixel cost (approx 12 pixels/second for walking speed)
     /**
@@ -28,7 +28,6 @@ public class Map {
      * Stores the image of the destination.
      */
     private AnchorPane map_anchor_pane;
-
     /**
      * Stores an ArrayList of AStarNodes for the seg_path.
      */
@@ -52,9 +51,9 @@ public class Map {
 
     /**
      * getPath
-     * Retrieves the seg_path.
+     * Retrieves the path.
      *
-     * @return the seg_path of AStarNodes.
+     * @return the path of AStarNodes.
      */
     public Path getPath() {
         return path;

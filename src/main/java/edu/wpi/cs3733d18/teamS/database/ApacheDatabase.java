@@ -4,18 +4,37 @@ import org.apache.derby.jdbc.EmbeddedDriver;
 
 import java.sql.*;
 
-
+/**
+ * ApacheDatabase
+ * A class that setups the database and has methods related to it.
+ * @author: Joseph Turcotte
+ * @version %I%, %G%
+ */
 public class ApacheDatabase implements IDatabase {
 
     // fields
+    /**
+     * Stores the Connection with the driver and establishes it.
+     */
     private Connection connection; // establishes connection with driver
+
+    /**
+     * Stores the statement to be executed.
+     */
     private Statement statement; // statement to be executed
+
+    /**
+     * Stores a String for the name of the edu.wpi.cs3733d18.teamS.database database.
+     */
     private String db_name; // name of the edu.wpi.cs3733d18.teamS.database
+
+    /**
+     * Stores whether the connection is open.
+     */
     private boolean is_open = false; // tells whether connection is open
 
     /**
      * Constructor for the edu.wpi.cs3733d18.teamS.database.
-     *
      * @param db_name name of the edu.wpi.cs3733d18.teamS.database.
      */
     public ApacheDatabase(String db_name) {
@@ -70,7 +89,7 @@ public class ApacheDatabase implements IDatabase {
     } // end connect
 
     /**
-     * Disconnects from the embedded driver
+     * Disconnects from the embedded driver.
      */
     @Override
     public void disconnect() {
@@ -95,10 +114,9 @@ public class ApacheDatabase implements IDatabase {
     } // end disconnect
 
     /**
-     * Checks whether the table with a given name exists in the edu.wpi.cs3733d18.teamS.database
-     *
-     * @param table_name the name of the table
-     * @return true if the table exists in the edu.wpi.cs3733d18.teamS.database, and false otherwise
+     * Checks whether the table with a given name exists in the edu.wpi.cs3733d18.teamS.database.
+     * @param table_name the name of the table.
+     * @return true if the table exists in the edu.wpi.cs3733d18.teamS.database, and false otherwise.
      */
     @Override
     public boolean doesTableExist(String table_name) {
@@ -135,10 +153,9 @@ public class ApacheDatabase implements IDatabase {
     } // end doesTableExist
 
     /**
-     * Creates a table in the edu.wpi.cs3733d18.teamS.database
-     *
-     * @param table_name the name of the table to create
-     * @param columns    the columns (fields) of the edu.wpi.cs3733d18.teamS.database
+     * Creates a table in the edu.wpi.cs3733d18.teamS.database.
+     * @param table_name the name of the table to create.
+     * @param columns    the columns (fields) of the edu.wpi.cs3733d18.teamS.database.
      */
     @Override
     public void createTable(String table_name, String[] columns) {
@@ -168,9 +185,8 @@ public class ApacheDatabase implements IDatabase {
     } // end createTable
 
     /**
-     * Removes a given table from the edu.wpi.cs3733d18.teamS.database
-     *
-     * @param table_name the name of the table to remove
+     * Removes a given table from the edu.wpi.cs3733d18.teamS.database.
+     * @param table_name the name of the table to remove.
      */
     @Override
     public void dropTable(String table_name) {
@@ -195,14 +211,13 @@ public class ApacheDatabase implements IDatabase {
     } // end dropTable
 
     /**
-     * Executes a query corresponding to a table in the edu.wpi.cs3733d18.teamS.database
-     *
-     * @param table_name      the name of the table
-     * @param columns         specific columns to select from the table; default null
-     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null
-     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null
-     * @param order_by        optional argument that orders the table entries (e.g. "node_id DESC"); default null
-     * @return a ResultSet corresponding to all table entries that match the query
+     * Executes a query corresponding to a table in the edu.wpi.cs3733d18.teamS.database.
+     * @param table_name      the name of the table.
+     * @param columns         specific columns to select from the table; default null.
+     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null.
+     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null.
+     * @param order_by        optional argument that orders the table entries (e.g. "node_id DESC"); default null.
+     * @return a ResultSet corresponding to all table entries that match the query.
      */
     public ResultSet query(String table_name, String[] columns,
                            String where_condition, String[] whereArgs, String order_by) {
@@ -274,10 +289,9 @@ public class ApacheDatabase implements IDatabase {
     } // end query
 
     /**
-     * Inserts values into the table with a given name
-     *
-     * @param table_name the name of the table
-     * @param values     the values to insert
+     * Inserts values into the table with a given name.
+     * @param table_name the name of the table.
+     * @param values     the values to insert.
      */
     @Override
     public void insert(String table_name, String[] values) {
@@ -318,11 +332,10 @@ public class ApacheDatabase implements IDatabase {
 
     /**
      * Updates an entry (or multiple entries) in the edu.wpi.cs3733d18.teamS.database.
-     *
-     * @param table_name      the name of the table
-     * @param values          the new values to insert
-     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null
-     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null
+     * @param table_name      the name of the table.
+     * @param values          the new values to insert.
+     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null.
+     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null.
      */
     @Override
     public void update(String table_name, String[] values, String where_condition, String[] whereArgs) {
@@ -379,10 +392,9 @@ public class ApacheDatabase implements IDatabase {
 
     /**
      * Removes an entry from the table with the given name.
-     *
-     * @param table_name      the name of the table
-     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null
-     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null
+     * @param table_name      the name of the table.
+     * @param where_condition optional argument that restricts the query (e.g. "node_id = ?"); default null.
+     * @param whereArgs       optional arguments to replace "?" in the condition (similar to Android); default null.
      */
     public void delete(String table_name, String where_condition, String[] whereArgs) {
 
@@ -427,9 +439,8 @@ public class ApacheDatabase implements IDatabase {
 
     /**
      * Adds quotes to a given string for SQL statements.
-     *
-     * @param s the string to add quotes to
-     * @return a String with quotes added around it
+     * @param s the string to add quotes to.
+     * @return a String with quotes added around it.
      */
     public String addQuotes(String s) {
         return String.format("'%s'", s.replaceAll("'", "''"));
@@ -437,8 +448,7 @@ public class ApacheDatabase implements IDatabase {
 
     /**
      * Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).
-     *
-     * @return true if the connection is open, false otherwise
+     * @return true if the connection is open, false otherwise.
      */
     public boolean getIsOpen() {
         return this.is_open;
