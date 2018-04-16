@@ -30,10 +30,9 @@ public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
     private static final double NUM_ANTS_PER_SECOND = 1.8;
-    private static final double PATH_GLOW_DURATION = 2.5;
     public int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
-    ArrayList<PathSegment> path_segments = new ArrayList<>();
+    public ArrayList<PathSegment> path_segments = new ArrayList<>();
 
     /**
      * getPathDirections
@@ -228,7 +227,9 @@ public class Path {
         if (seg_index > 0) {
             this.seg_index--;
         }
-        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
 
@@ -237,13 +238,17 @@ public class Path {
         if (seg_index < this.path_segments.size() - 1) {
             this.seg_index++;
         }
-        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
 
     public ArrayList<Node> thisSeg(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
-        fx_nodes.add(this.path_segments.get(seg_index).genPolyline(is3D));
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
 
@@ -253,63 +258,38 @@ public class Path {
     }
 
     public int nextFloorChange() {
-        if (path_segments.size() > seg_index+1) {
+        if (path_segments.size() > seg_index + 1) {
             return (Map.floor_ids.indexOf(this.path_segments.get(seg_index + 1).seg_path.get(0).floor) - PathfindController.current_floor);
         }
         return 0;
     }
 
-    ArrayList<Node> generateLinesAndAnts(boolean is_3D, int floor) {
-        double x;
-        double y;
-        ArrayList<Polyline> polylines = new ArrayList<>();
-        ArrayList<Ant> ants = new ArrayList<>();
-        int index = -1;
-        boolean polyline_begun = false;
-        for (AStarNode node : algorithm_node_path) {
-            double[] coords = getPoints(is_3D, node);
-            x = coords[0];
-            y = coords[1];
-            if (node.floor.equals(Map.floor_ids.get(floor))) {
-                if (polyline_begun) {
-                    polylines.get(index).getPoints().addAll(x, y);
-                    // Add coords as KeyFrame for ant animation
-                    ants.get(index).addStop(x, y);
-                } else {
-                    polyline_begun = true;
-                    index++;
-                    polylines.add(new Polyline());
-                    polylines.get(index).getPoints().addAll(x, y);
-                    ants.add(new Ant(x, y));
-                }
-            } else {
-                polyline_begun = false;
-            }
+    ArrayList<Node> genAnts(Polyline p) {
+        Ant ant = new Ant(p.getPoints().get(0), p.getPoints().get(1));
+        for (int i = 2; i < p.getPoints().size(); i += 2) {
+            ant.addStop(p.getPoints().get(i), p.getPoints().get(i + 1));
         }
-        for (Polyline p : polylines) {
-            stylizePolyline(p);
-        }
+        ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(ant.getImageView());
 
-        ArrayList<Node> lines_and_ants = new ArrayList<>();
-        lines_and_ants.addAll(polylines);
-        for (Ant ant : ants) {
-            lines_and_ants.add(ant.getImageView());
-
-            // Clone and stagger multiple ants
-            int num_staggered_ants = (int)Math.floor(ant.getDuration() * NUM_ANTS_PER_SECOND);
-            for (int i = 1; i < num_staggered_ants; i++) {
-                Ant staggered_ant = ant.duplicate();
-                staggered_ant.playFrom(i * (ant.getDuration() / num_staggered_ants));
-                lines_and_ants.add(staggered_ant.getImageView());
-            }
+        // Clone and stagger multiple ants
+        int num_staggered_ants = (int) Math.floor(ant.getDuration() * NUM_ANTS_PER_SECOND);
+        for (int i = 1; i < num_staggered_ants; i++) {
+            Ant staggered_ant = ant.duplicate();
+            staggered_ant.playFrom(i * (ant.getDuration() / num_staggered_ants));
+            nodes.add(staggered_ant.getImageView());
         }
-        ants.forEach(Ant::playFromStart);
-        return lines_and_ants;
+        return nodes;
+    }
+
+    public ArrayList<PathSegment> getPathSegments() {
+        return path_segments;
     }
 }
 
 class PathSegment {
     ArrayList<AStarNode> seg_path = new ArrayList<>();
+    private static final double PATH_GLOW_DURATION = 2.5;
 
     Polyline genPolyline(boolean is3D) {
         Polyline polyline = new Polyline();
@@ -324,7 +304,6 @@ class PathSegment {
         stylizePolyline(polyline);
         return polyline;
     }
-
 
 
     private void stylizePolyline(Polyline p) {

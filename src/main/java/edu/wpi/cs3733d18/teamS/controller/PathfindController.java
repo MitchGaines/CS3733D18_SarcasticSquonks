@@ -252,7 +252,7 @@ public class PathfindController {
         map.clearIcons();
         scrollToPath(nodes);
         map_anchor_pane.getChildren().addAll(nodes);
-        step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1));
+        step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
 
