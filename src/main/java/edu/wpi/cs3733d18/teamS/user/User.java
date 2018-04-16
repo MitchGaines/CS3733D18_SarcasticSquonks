@@ -19,10 +19,12 @@ public class User {
     private long user_id;
     private boolean can_mod_map;
     private String username;
+    private String first_name;
+    private String last_name;
     private byte[] password_salt;
     private byte[] enc_password;
 
-    public User(String username, String password, user_type type, boolean can_mod_map) {
+    public User(String username, String password, String first_name, String last_name, user_type type, boolean can_mod_map) {
         password_salt = new byte[16];
         //new SecureRandom().nextBytes(password_salt);
 
@@ -35,12 +37,15 @@ public class User {
 
         enc_password = Base64.getEncoder().encode(password_salted);
 
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.type = type;
         this.can_mod_map = can_mod_map;
     }
 
     /**
      * Encodes a password
+     *
      * @param password the password as a string
      * @return the password, hashed and salted (as a String)
      */
@@ -50,8 +55,8 @@ public class User {
 
         byte[] password_unsalted = password.getBytes();
         byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
-        System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
-        System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
 
         return new String(Base64.getEncoder().encode(password_salted));
     }
@@ -101,6 +106,22 @@ public class User {
 
     public byte[] getPasswordSalt() {
         return password_salt;
+    }
+
+    public String getFirstName() {
+        return first_name;
+    }
+
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLastName() {
+        return last_name;
+    }
+
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public user_type getType() {

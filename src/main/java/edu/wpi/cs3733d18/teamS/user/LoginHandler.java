@@ -20,13 +20,13 @@ public class LoginHandler {
         Storage storage = Storage.getInstance();
 
         // generate initial user objects to be stored in the database
-        User u1 = new User("doctor", "doctor", User.user_type.DOCTOR, false);
-        User u2 = new User("admin", "admin", User.user_type.ADMIN_STAFF, true);
-        User u3 = new User("staff", "staff", User.user_type.REGULAR_STAFF, false);
-        User u4 = new User("cardiocarl", "123", User.user_type.DOCTOR, false);
-        User u5 = new User("plasticspete", "123", User.user_type.DOCTOR, false);
-        User u6 = new User("spanishsue", "123", User.user_type.REGULAR_STAFF, false);
-        User u7 = new User("russianrima", "123", User.user_type.REGULAR_STAFF, false);
+        User u1 = new User("doctor", "doctor", "doctor", "doctor", User.user_type.DOCTOR, false);
+        User u2 = new User("admin", "admin", "admin", "admin", User.user_type.ADMIN_STAFF, true);
+        User u3 = new User("staff", "staff", "staff", "staff", User.user_type.REGULAR_STAFF, false);
+        User u4 = new User("cardiocarl", "123", "cardio", "carl", User.user_type.DOCTOR, false);
+        User u5 = new User("plasticspete", "123", "plastics", "pete", User.user_type.DOCTOR, false);
+        User u6 = new User("spanishsue", "123", "spanish", "sue", User.user_type.REGULAR_STAFF, false);
+        User u7 = new User("russianrima", "123", "russian", "rima", User.user_type.REGULAR_STAFF, false);
 
         // save users to database
         storage.saveUser(u1);

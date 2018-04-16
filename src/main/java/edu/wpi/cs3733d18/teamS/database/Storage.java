@@ -28,8 +28,8 @@ import java.util.List;
 public class Storage {
 
     // to exclude auto-generated IDs from tables
-    private final String USER_VALUES = String.format("( %s, %s, %s, %s )",
-            "username", "password", "user_type", "can_mod_map");
+    private final String USER_VALUES = String.format("( %s, %s, %s, %s, %s, %s )",
+            "username", "password", "first_name", "last_name", "user_type", "can_mod_map");
     private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
             "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
     /**
@@ -318,6 +318,8 @@ public class Storage {
         database.insert("USERS" + USER_VALUES, new String[]{
                 database.addQuotes(user.getUsername()),
                 database.addQuotes(new String(user.getEncodedPassword(), Charset.forName("UTF-8"))),
+                database.addQuotes(user.getFirstName()),
+                database.addQuotes(user.getLastName()),
                 database.addQuotes(user.getType().toString()),
                 String.valueOf(user.canModMap())
         });
@@ -341,6 +343,8 @@ public class Storage {
         String[] values = new String[]{
                 String.format("%s = '%s'", "username", user.getUsername().replaceAll("'", "''")),
                 String.format("%s = '%s'", "password", new String(user.getEncodedPassword(), Charset.forName("UTF-8")).replaceAll("'", "''")),
+                String.format("%s = '%s'", "first_name", user.getFirstName().replaceAll("'", "''")),
+                String.format("%s = '%s'", "last_name", user.getLastName().replaceAll("'", "''")),
                 String.format("%s = '%s'", "user_type", user.getType().toString()),
                 String.format("%s = %b", "can_mod_map", user.canModMap())
         };
@@ -440,10 +444,12 @@ public class Storage {
             long id = r_set.getLong("user_id");
             String username = r_set.getString("username");
             String password = r_set.getString("password");
+            String first_name = r_set.getString("first_name");
+            String last_name = r_set.getString("last_name");
             User.user_type user_type = User.user_type.valueOf(r_set.getString("user_type"));
             boolean can_mod_map = r_set.getBoolean("can_mod_map");
 
-            User user = new User(username, password, user_type, can_mod_map);
+            User user = new User(username, password, first_name, last_name, user_type, can_mod_map);
             user.setUserID(id);
 
             return user;
@@ -895,7 +901,7 @@ public class Storage {
             }
 
             // set fields as garbage values, then fill in later
-            User fulfiller = new User("", "", null, false);
+            User fulfiller = new User("", "", "","",null, false);
 
             return fulfiller;
 
@@ -956,6 +962,8 @@ public class Storage {
                     String.format("%s BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)", "user_id"),
                     String.format("%s VARCHAR (100)", "username"),
                     String.format("%s VARCHAR (100)", "password"),
+                    String.format("%s VARCHAR (100)", "first_name"),
+                    String.format("%s VARCHAR (100)", "last_name"),
                     String.format("%s VARCHAR (16)", "user_type"),
                     String.format("%s BOOLEAN", "can_mod_map")
             });
