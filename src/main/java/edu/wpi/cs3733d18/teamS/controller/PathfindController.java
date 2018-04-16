@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
@@ -92,6 +93,8 @@ public class PathfindController {
     @FXML
     ImageView expanded_qr;
 
+    @FXML
+    HBox phone_number_form;
     /**
      * Stores the zoom factor.
      */
