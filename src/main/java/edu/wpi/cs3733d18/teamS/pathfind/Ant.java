@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Will Lucca
  */
 public class Ant {
-    private static final double PIXELS_PER_SECOND = 150.0; // marching speed
+    private static final double PIXELS_PER_SECOND = 55.0; // marching speed
 
     private ImageView image = new ImageView(new Image("images/mapIcons/ant.png"));
     private Timeline timeline = new Timeline();

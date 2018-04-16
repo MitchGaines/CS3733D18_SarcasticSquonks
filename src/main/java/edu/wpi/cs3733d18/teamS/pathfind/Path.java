@@ -270,6 +270,7 @@ public class Path {
             ant.addStop(p.getPoints().get(i), p.getPoints().get(i + 1));
         }
         ArrayList<Node> nodes = new ArrayList<>();
+        ant.playFromStart();
         nodes.add(ant.getImageView());
 
         // Clone and stagger multiple ants
