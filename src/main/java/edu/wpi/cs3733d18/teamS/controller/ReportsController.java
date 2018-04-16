@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,7 +64,7 @@ public class ReportsController extends UserController {
 
     private void setUpListView() {
         service_type_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        service_type_list.getItems().addAll(ServiceType.getServiceTypes());
+        service_type_list.getItems().addAll(Storage.getInstance().getAllServiceTypes());
     }
 
     private DateTime javaToJoda(java.time.LocalDateTime java_time) {

@@ -16,18 +16,19 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class ServiceAreaController {
 
     @FXML
-    ComboBox<ServiceType> request_type_selector;
+    ComboBox<ServiceType> request_type_selector = new ComboBox<>();
 
     @FXML
-    ComboBox<ServiceRequest> active_requests_box;
+    ComboBox<ServiceRequest> active_requests_box = new ComboBox<>();
 
     @FXML
-    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location;
+    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location = new ComboBox<>();
     @FXML
     Button request_service_button;
     @FXML
@@ -45,8 +46,7 @@ public class ServiceAreaController {
     public void populateRequestTypes() {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
-        request_type_selector.getItems().addAll(ServiceType.getServiceTypes());
-        //locations.addAll(Storage.getInstance().getAllNodes());
+        request_type_selector.getItems().addAll(Storage.getInstance().getAllServiceTypes());
         service_location.setConverter(new StringConverter<Node>() {
             @Override
             public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
@@ -154,14 +154,22 @@ public class ServiceAreaController {
         mark_completed_btn.setVisible(true);
     }
 
-    public void initialize() {
+    public void setUpToComplete(User user) {
+        this.user = user;
         title_text.setVisible(false);
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+    }
+
+    public void setUpToMake(User user) {
+        this.user = user;
         locations.addAll(Storage.getInstance().getAllNodes());
         request_service_button.setText("Request service");
-        //populateRequestsBox();
+    }
+
+    public void initialize() {
+
     }
 
     /**

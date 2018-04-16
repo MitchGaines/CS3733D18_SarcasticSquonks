@@ -37,6 +37,9 @@ public class UserController {
     @FXML
     private Text user_name;
 
+    @FXML
+    protected RequestSidebarController requestSidebarController;
+
     public void onLogoutClick(ActionEvent event) throws IOException {
         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
@@ -44,23 +47,21 @@ public class UserController {
     private void setUser(User user) {
         this.user = user;
         serviceAreaController.setUser(user);
-        user_name.setText(user.getUsername());
+        requestSidebarController.setUser(user);
+        user_name.setText(user.getFirstName() + " " + user.getLastName());
     }
 
     public void setUp(User user, String page) {
         setUser(user);
         setPage(page);
         populateBoxes();
+        setSidebar();
     }
 
-    private void populateBoxes() {
+    protected void populateBoxes() {
+        serviceAreaController.setParent(this);
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
-    }
-
-    public void openLog(ActionEvent event) throws IOException {
-        LogController log_controller = (LogController) Main.switchScenes("Servce Log", "/Log.fxml");
-        log_controller.setUp(user, page);
     }
 
     private void setPage(String page) {
@@ -86,8 +87,43 @@ public class UserController {
 
     }
 
-    public void initialize() {
+    public void loadLog() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        LogController log_controller = loader.getController();
+        log_controller.setUser(user);
+        //log_controller.setReturnPage(page);
+        log_controller.populateTable();
+        main_pane.setCenter(root);
+    }
+
+    public void setSidebar() {
+        if (user.getType() != User.user_type.ADMIN_STAFF) {
+            requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
+            requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
+        }
+    }
+
+    public void MakeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MakeRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToMake(user);
+        main_pane.setCenter(root);
+    }
+
+    public void completeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/CompleteRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToComplete(user);
+        main_pane.setCenter(root);
+    }
+
+    public void initialize() throws IOException {
         serviceAreaController.setParent(this);
+        requestSidebarController.setParent(this);
+        MakeRequest();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));

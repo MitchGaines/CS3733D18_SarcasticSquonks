@@ -1,14 +1,16 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+import javafx.animation.*;
+import javafx.scene.Node;
+import edu.wpi.cs3733d18.teamS.controller.PathfindController;
+import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
+import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,11 +28,10 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
+    private static final double NUM_ANTS_PER_SECOND = 1.8;
+    public int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
-
-    public Path() {
-    }
-
+    public ArrayList<PathSegment> path_segments = new ArrayList<>();
 
     /**
      * getPathDirections
@@ -41,18 +42,18 @@ public class Path {
      */
     public URL getPathDirections() throws MalformedURLException {
         String host = "159.203.189.146";
+        //String host = "localhost";
         int port = 3000;
         String protocol = "http";
-        String language = "en"; //TODO add multilangauge support
-        String path = "/" + language + "/";
+        String path = "/";
 
         if (this.algorithm_node_path.size() == 0) {
             return new URL(protocol, host, port, path);
         }
         StringBuilder path_description = new StringBuilder();
-        path_description.append("Directions from: ").append(algorithm_node_path.get(0).getLongName()).append(" to: ").append(algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName()).append(".").append(System.lineSeparator());
+        path_description.append("- Directions from: ").append(algorithm_node_path.get(0).getLongName()).append(" to: ").append(algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName()).append(".").append(System.lineSeparator());
 
-        path_description.append("First, begin walking towards ").append(algorithm_node_path.get(1).short_name).append(".").append(System.lineSeparator());
+        path_description.append("- First, begin walking towards ").append(algorithm_node_path.get(1).short_name).append(".").append(System.lineSeparator());
         for (int i = 1; i < (algorithm_node_path.size() - 1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i - 1), algorithm_node_path.get(i));
 
@@ -93,20 +94,21 @@ public class Path {
                 i++;
             }
 
-            path_description.append("In ").append(distance).append(" feet, ").append(calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1))).append(".").append(System.lineSeparator());
+            path_description.append("- In ").append(distance).append(" feet, ").append(calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1))).append(".").append(System.lineSeparator());
 
             if (next_floor > curr_floor) {
-                path_description.append("Use stairs/elevator to go up to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
+                path_description.append("- Use stairs/elevator to go up to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
             } else if (next_floor < curr_floor) {
-                path_description.append("Use stairs/elevator to go down to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
+                path_description.append("- Use stairs/elevator to go down to floor ").append(algorithm_node_path.get(i).floor).append(".").append(System.lineSeparator());
             }
         }
-        path_description.append("Destination is ").append(calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2), algorithm_node_path.get(algorithm_node_path.size() - 1))).append(" feet ahead.");
+        path_description.append("- Destination is ").append(calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2), algorithm_node_path.get(algorithm_node_path.size() - 1))).append(" feet ahead.");
 
         byte[] path_bytes = path_description.toString().getBytes();
         String enc_bytes = Base64.encodeBase64String(path_bytes);
         path += enc_bytes;
 
+        System.out.println(new URL(protocol, host, port, path).toString());
         return new URL(protocol, host, port, path);
     }
 
@@ -204,75 +206,110 @@ public class Path {
         return Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
     }
 
-    private double[] getPoints(boolean is_3D, AStarNode node) {
-        if (is_3D) {
-            return new double[]{node.getXCoord3D(), node.getYCoord3D()};
-        } else {
-            return new double[]{node.getXCoord(), node.getYCoord()};
-        }
-    }
-
-    ArrayList<ImageView> generateIcons(boolean is_3D, int floor) {
-        int current_floor = -1;
-        int previous_floor;
-        ArrayList<ImageView> icons = new ArrayList<>();
-        double x;
-        double y;
-
+    public void genPathSegments() {
+        PathSegment seg = new PathSegment();
+        String curr_floor = algorithm_node_path.get(0).floor;
         for (AStarNode node : algorithm_node_path) {
-            previous_floor = current_floor;
-            current_floor = Map.floor_ids.indexOf(node.floor);
-            double[] coords = getPoints(is_3D, node);
-            x = coords[0];
-            y = coords[1];
-
-            if (current_floor > previous_floor) {
-                if (previous_floor == floor) {
-                    icons.add(generateIcon(2, x, y));
+            if (!node.floor.equals(curr_floor)) {
+                if (seg.seg_path.size() > 1) {
+                    this.path_segments.add(seg);
                 }
-            } else if (current_floor < previous_floor) {
-                if (previous_floor == floor) {
-                    icons.add(generateIcon(3, x, y));
-                }
+                seg = new PathSegment();
             }
+            seg.seg_path.add(node);
+            curr_floor = node.floor;
         }
-        return icons;
+        this.path_segments.add(seg);
     }
 
-    ArrayList<Polyline> generatePolylines(boolean is_3D, int floor) {
-        double x;
-        double y;
-        ArrayList<Polyline> polylines = new ArrayList<>();
-        int index = -1;
-        boolean polyline_begun = false;
-        for (AStarNode node : algorithm_node_path) {
-            double[] coords = getPoints(is_3D, node);
-            x = coords[0];
-            y = coords[1];
-            if (node.floor.equals(Map.floor_ids.get(floor))) {
-                if (polyline_begun) {
-                    polylines.get(index).getPoints().addAll(x, y);
-                } else {
-                    polyline_begun = true;
-                    index++;
-                    polylines.add(new Polyline());
-                    polylines.get(index).getPoints().addAll(x, y);
-                }
+    public ArrayList<Node> prevSeg(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        if (seg_index > 0) {
+            this.seg_index--;
+        }
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> nextSeg(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        if (seg_index < this.path_segments.size() - 1) {
+            this.seg_index++;
+        }
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> thisSeg(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        fx_nodes.add(p);
+        fx_nodes.addAll(genAnts(p));
+        return fx_nodes;
+    }
+
+    public ArrayList<Node> genIcons(boolean is3D) {
+        ArrayList<Node> fx_nodes = new ArrayList<>();
+        return fx_nodes;
+    }
+
+    public int nextFloorChange() {
+        if (path_segments.size() > seg_index + 1) {
+            return (Map.floor_ids.indexOf(this.path_segments.get(seg_index + 1).seg_path.get(0).floor) - PathfindController.current_floor);
+        }
+        return 0;
+    }
+
+    ArrayList<Node> genAnts(Polyline p) {
+        Ant ant = new Ant(p.getPoints().get(0), p.getPoints().get(1));
+        for (int i = 2; i < p.getPoints().size(); i += 2) {
+            ant.addStop(p.getPoints().get(i), p.getPoints().get(i + 1));
+        }
+        ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(ant.getImageView());
+
+        // Clone and stagger multiple ants
+        int num_staggered_ants = (int) Math.floor(ant.getDuration() * NUM_ANTS_PER_SECOND);
+        for (int i = 1; i < num_staggered_ants; i++) {
+            Ant staggered_ant = ant.duplicate();
+            staggered_ant.playFrom(i * (ant.getDuration() / num_staggered_ants));
+            nodes.add(staggered_ant.getImageView());
+        }
+        return nodes;
+    }
+
+    public ArrayList<PathSegment> getPathSegments() {
+        return path_segments;
+    }
+}
+
+class PathSegment {
+    ArrayList<AStarNode> seg_path = new ArrayList<>();
+    private static final double PATH_GLOW_DURATION = 2.5;
+
+    Polyline genPolyline(boolean is3D) {
+        Polyline polyline = new Polyline();
+        for (AStarNode node : this.seg_path) {
+            if (is3D) {
+                polyline.getPoints().addAll((double) node.getXCoord3D(), (double) node.getYCoord3D());
             } else {
-                polyline_begun = false;
+                polyline.getPoints().addAll((double) node.getXCoord(), (double) node.getYCoord());
             }
         }
-        for (Polyline p : polylines) {
-            stylizePolyline(p);
-        }
-        return polylines;
+        PathfindController.current_floor = Map.floor_ids.indexOf(seg_path.get(0).floor);
+        stylizePolyline(polyline);
+        return polyline;
     }
 
 
     private void stylizePolyline(Polyline p) {
         p.setId("temporaryIcon");
         p.setStyle("-fx-fill:#ff000000;" +
-                "-fx-stroke:#0012ff;" +
+                "-fx-stroke:rgba(13,14,255,0.8);" +
                 "-fx-stroke-line-cap:ROUND;" +
                 "-fx-stroke-line-join:ROUND;" +
                 "-fx-stroke-width:8.0");
@@ -286,35 +323,24 @@ public class Path {
         s.setRadius(8.215);
         s.setWidth(23.74);
         polylineEffect.setLight(new Light.Distant());
+        polylineEffect.setSpecularConstant(0.6);
+        polylineEffect.setSpecularExponent(28);
+        Timeline path_glow_anim = new Timeline(new KeyFrame(
+                Duration.seconds(PATH_GLOW_DURATION / 2.0),
+                new KeyValue(
+                        polylineEffect.specularConstantProperty(),
+                        1.6
+                )
+        ), new KeyFrame(
+                Duration.seconds(PATH_GLOW_DURATION),
+                new KeyValue(
+                        polylineEffect.specularConstantProperty(),
+                        0.6
+                )
+        ));
+        path_glow_anim.setCycleCount(Timeline.INDEFINITE);
+        path_glow_anim.play();
         polylineEffect.setBumpInput(s);
         return polylineEffect;
-    }
-
-    private ImageView generateIcon(int pic_num, double x, double y) {
-        String path;
-        switch (pic_num) {
-            case 0:
-                path = "images/mapIcons/destinationIcon.png";
-                break;
-            case 1:
-                path = "images/mapIcons/startingIcon.png";
-                break;
-            case 2:
-                path = "images/mapIcons/up.png";
-                break;
-            case 3:
-                path = "images/mapIcons/down.png";
-                break;
-            default:
-                path = "images/mapIcons/destinationIcon.png";
-                break;
-        }
-
-        ImageView icon = new ImageView(new Image(path));
-        icon.setId("temporaryIcon");
-        icon.setTranslateX(x - icon.getImage().getWidth() / 2);
-        icon.setTranslateY(y - icon.getImage().getHeight() / 2);
-
-        return icon;
     }
 }

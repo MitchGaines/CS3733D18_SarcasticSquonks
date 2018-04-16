@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the AStar path algorithm and primarily finds the path from a location.
+ * The Class manages the AStar path algorithm and primarily finds the optimal path with the lowest search time
+ * based on heuristics.
  *
  * @author Noah Hillman
  * @version %I%, %G%

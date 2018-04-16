@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 
 public class UserTests {
-    User doc1 = new User("doc1", "doc1", User.user_type.DOCTOR, false);
+    User doc1 = new User("doc1", "doc1", "doc1", "doc1", User.user_type.DOCTOR, false);
 
     @Test
     public void canModMap() {

@@ -13,7 +13,16 @@ import java.util.PriorityQueue;
  */
 public abstract class SearchAlgorithm {
 
-    AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map){
+    /**
+     * finds path using a priority queue of unsearched nodes, each algorithm sorts and compares the priority queue
+     * differently
+     *
+     * @param start_id
+     * @param goal_id
+     * @param algorithm_node_map
+     * @return
+     */
+    AStarNode findPath(String start_id, String goal_id, HashMap<String, AStarNode> algorithm_node_map) {
         AStarNode start = algorithm_node_map.get(start_id);
         AStarNode goal = algorithm_node_map.get(goal_id);
 
@@ -56,9 +65,18 @@ public abstract class SearchAlgorithm {
         return start;
     }
 
+    /**
+     * Updates costs for nodes, which may later be used to sort/compare best nodes
+     *
+     * @param neighbor
+     * @param current
+     * @param goal
+     */
     abstract void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal);
 
-    //comparator to organize how the priority queue sorts items (based on heuristic)
+    /**
+     * comparator for priority queue sorting method
+     */
     Comparator<AStarNode> heuristicComparator = (AStarNode1, AStarNode2) ->
             (int) (prioritySort(AStarNode1, AStarNode2));
 
