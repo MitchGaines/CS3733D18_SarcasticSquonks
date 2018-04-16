@@ -1,21 +1,21 @@
 # Leave uncommented if not doing TestFX. If doing TestFX, comment it out
 
-language: java
-jdk:
--  oraclejdk8
+#language: java
+#jdk:
+#-  oraclejdk8
 
 # Uncomment below if doing TestFX. Comment out above if doing TestFX.
 
-#language: java
+language: java
 
-#sudo: false   # Linux OS: run in container
+sudo: false   # Linux OS: run in container
 
-#matrix:
-#  include:
-#    # Headed Linux
-#    - os: linux
-#      dist: trusty
-#      jdk: oraclejdk8
+matrix:
+  include:
+    # Headed Linux
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk8
 #    # Headless Linux
 #    - os: linux
 #      dist: trusty
@@ -27,32 +27,32 @@ jdk:
 #      osx_image: xcode9
 #      env:
 #        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=60000"
-#    # Headed macOS is not currently possible on Travis.
+    # Headed macOS is not currently possible on Travis.
 
-#addons:
-#  apt:
-#    packages:
-#      - oracle-java8-installer
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
-#before_install:
-# - if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
-# - chmod +x gradlew
+before_install:
+ - if [[ "${TRAVIS_OS_NAME}" == linux ]]; then export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start; fi
+ - chmod +x gradlew
 
-#install: true
+install: true
 
-#before_script:
-#  - if [[ "${TRAVIS_OS_NAME}" == osx ]]; then brew update; brew cask reinstall caskroom/versions/java8; fi
+before_script:
+  - if [[ "${TRAVIS_OS_NAME}" == osx ]]; then brew update; brew cask reinstall caskroom/versions/java8; fi
 
-#script:
-#  - ./gradlew check
+script:
+  - ./gradlew check
 
-#before_cache:
-#  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-#  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-#  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
 
-#cache:
-#  directories:
-#    - $HOME/.gradle/caches/
-#    - $HOME/.gradle/wrapper/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
