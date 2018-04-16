@@ -56,12 +56,6 @@ public class AdminSpecialOptionsController{
     }
 
     public void onAddUser() {
-        System.out.println(first_name_field.getText());
-        System.out.println(last_name_field.getText());
-        System.out.println(username_field.getText());
-        System.out.println(password_field.getText());
-        System.out.println(type_user.getSelectionModel().getSelectedItem());
-
         if(!first_name_field.getText().equals("") && !last_name_field.getText().equals("") && !username_field.getText().equals("")
                 && !password_field.getText().equals("") && !type_user.getSelectionModel().isEmpty()) {
             boolean can_mod = false;
@@ -77,10 +71,6 @@ public class AdminSpecialOptionsController{
             password_field.setText("");
             type_user.getSelectionModel().clearSelection();
         }
-        else {
-            System.out.println("Error");
-        }
-
     }
 
     private void populateUserTable() {
@@ -99,7 +89,6 @@ public class AdminSpecialOptionsController{
 
         user_table.setItems(users);
         user_table.getColumns().addAll(last_name, first_name, user_name, type);
-        System.out.println(user_table.getColumns().size());
     }
 
     public void onDeleteUser() {
@@ -160,7 +149,6 @@ public class AdminSpecialOptionsController{
 
     public void onUserChoose() {
         selected_user = user_table.getSelectionModel().getSelectedItem();
-        System.out.println(selected_user.getFirstName());
     }
 
     public void initialize() {
