@@ -6,6 +6,7 @@ import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
 import com.kylecorry.lann.activation.Linear;
 import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
+import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,7 +110,7 @@ public class ModifyMapController {
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
     private Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, ImageView> entry_to_delete;
-
+    private Node3DPredictor predictor = new Node3DPredictor();
     @FXML
     private void initialize() {
         first_click = true;
@@ -197,6 +198,8 @@ public class ModifyMapController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
+
+        predictor.start(storage);
     }
 
     public void onZoomOut() {
@@ -360,26 +363,7 @@ public class ModifyMapController {
         } else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
 
-            List<edu.wpi.cs3733d18.teamS.data.Node> nn_nodes_list = storage.getAllNodes();
-
-            PersistentMachineLearningAlgorithm nn = new NN.Builder()
-                    .addLayer(2, 8, new ReLU())
-                    .addLayer(8, 2, new Linear())
-                    .build();
-
-            Matrix[] input_data = new Matrix[nn_nodes_list.size()];
-
-            Matrix[] output_data = new Matrix[nn_nodes_list.size()];
-
-            for (int i = 0; i < nn_nodes_list.size(); i++) {
-                input_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord() / 5000.0, (double) nn_nodes_list.get(i).getYCoord() / 3400.0); //2D
-                output_data[i] = new Matrix((double) nn_nodes_list.get(i).getXCoord3D(), (double) nn_nodes_list.get(i).getYCoord3D()); //3D
-            }
-
-            nn.fit(input_data, output_data, 0.0001, 500);
-
-
-            Matrix predict_3d = nn.predict((click.getX() + 10) / 5000.0, (click.getY() + 30) / 3400.0);
+            Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
 
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX() + 10, (int) click.getY() + 30, //adding the offset of the icon
