@@ -108,7 +108,7 @@ public class Map {
         if (path == null) {
             return;
         }
-        map_anchor_pane.getChildren().addAll(path.generatePolylines(is_3D, floor));
+        map_anchor_pane.getChildren().addAll(path.generateLinesAndAnts(is_3D, floor));
         map_anchor_pane.getChildren().addAll(path.generateIcons(is_3D, floor));
     }
 }

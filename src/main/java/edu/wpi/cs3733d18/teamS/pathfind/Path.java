@@ -1,5 +1,7 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+import javafx.animation.*;
+import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
@@ -7,6 +9,7 @@ import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Polyline;
+import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 
 import java.net.MalformedURLException;
@@ -26,6 +29,8 @@ import java.util.ArrayList;
 public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
+    private static final double NUM_ANTS_PER_SECOND = 1.8;
+    private static final double PATH_GLOW_DURATION = 2.5;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
 
     public Path() {
@@ -239,10 +244,11 @@ public class Path {
         return icons;
     }
 
-    ArrayList<Polyline> generatePolylines(boolean is_3D, int floor) {
+    ArrayList<Node> generateLinesAndAnts(boolean is_3D, int floor) {
         double x;
         double y;
         ArrayList<Polyline> polylines = new ArrayList<>();
+        ArrayList<Ant> ants = new ArrayList<>();
         int index = -1;
         boolean polyline_begun = false;
         for (AStarNode node : algorithm_node_path) {
@@ -252,11 +258,14 @@ public class Path {
             if (node.floor.equals(Map.floor_ids.get(floor))) {
                 if (polyline_begun) {
                     polylines.get(index).getPoints().addAll(x, y);
+                    // Add coords as KeyFrame for ant animation
+                    ants.get(index).addStop(x, y);
                 } else {
                     polyline_begun = true;
                     index++;
                     polylines.add(new Polyline());
                     polylines.get(index).getPoints().addAll(x, y);
+                    ants.add(new Ant(x, y));
                 }
             } else {
                 polyline_begun = false;
@@ -265,7 +274,22 @@ public class Path {
         for (Polyline p : polylines) {
             stylizePolyline(p);
         }
-        return polylines;
+
+        ArrayList<Node> lines_and_ants = new ArrayList<>();
+        lines_and_ants.addAll(polylines);
+        for (Ant ant : ants) {
+            lines_and_ants.add(ant.getImageView());
+
+            // Clone and stagger multiple ants
+            int num_staggered_ants = (int)Math.floor(ant.getDuration() * NUM_ANTS_PER_SECOND);
+            for (int i = 1; i < num_staggered_ants; i++) {
+                Ant staggered_ant = ant.duplicate();
+                staggered_ant.playFrom(i * (ant.getDuration() / num_staggered_ants));
+                lines_and_ants.add(staggered_ant.getImageView());
+            }
+        }
+        ants.forEach(Ant::playFromStart);
+        return lines_and_ants;
     }
 
 
@@ -286,6 +310,23 @@ public class Path {
         s.setRadius(8.215);
         s.setWidth(23.74);
         polylineEffect.setLight(new Light.Distant());
+        polylineEffect.setSpecularConstant(0.6);
+        polylineEffect.setSpecularExponent(28);
+        Timeline path_glow_anim = new Timeline(new KeyFrame(
+                Duration.seconds(PATH_GLOW_DURATION / 2.0),
+                new KeyValue(
+                        polylineEffect.specularConstantProperty(),
+                        1.6
+                )
+        ), new KeyFrame(
+                Duration.seconds(PATH_GLOW_DURATION),
+                new KeyValue(
+                        polylineEffect.specularConstantProperty(),
+                        0.6
+                )
+        ));
+        path_glow_anim.setCycleCount(Timeline.INDEFINITE);
+        path_glow_anim.play();
         polylineEffect.setBumpInput(s);
         return polylineEffect;
     }
