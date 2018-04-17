@@ -84,7 +84,7 @@ public class PathfindController {
      * The node for switching between 2D and 3D maps.
      */
     @FXML
-    Button toggle_map_btn;
+    Button toggle_map_btn, next_btn, prev_btn;
 
     /**
      * Node for expanding the QR code with the step by step directions.
@@ -135,8 +135,9 @@ public class PathfindController {
 
     /**
      * Returns the image of the floor based on whether or not the map is 3D or 2D.
+     *
      * @param floor the floor requested.
-     * @param is3D boolean for whether the image needs to be 2D or 3D.
+     * @param is3D  boolean for whether the image needs to be 2D or 3D.
      * @return The image of the particular floor.
      */
     private static Image getFloorImage(int floor, boolean is3D) {
@@ -160,12 +161,15 @@ public class PathfindController {
 
     /**
      * Retrieves the PATHFIND_READY boolean.
-     * @return The
+     * @return true if PATHFIND_READY is true, false otherwise.
      */
     static boolean isPathfindReady() {
         return PATHFIND_READY;
     }
 
+    /**
+     * Initializes the pathfind screen, by setting up the date and time, the database, and map.
+     */
     public void initialize() {
         zoom_factor = 1;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
@@ -176,6 +180,10 @@ public class PathfindController {
         map = new Map(map_anchor_pane, false);
     }
 
+    /**
+     * Zooms the screen in or out depending on the button pushed.
+     * @param zoom_amount the amount the screen will scale in or out.
+     */
     private void zoom(double zoom_amount) {
         zoom_factor += zoom_amount;
         if (zoom_factor < 0.5) {
@@ -191,26 +199,53 @@ public class PathfindController {
 
     }
 
+    /**
+     * Sets the zoom amount for when the zoom out node is clicked in the scene.
+     */
     public void onZoomOut() {
         zoom(-0.2);
     }
 
+    /**
+     * Sets the zoom amount for when the zoom in node is clicked in the scene.
+     */
     public void onZoomIn() {
         zoom(0.2);
     }
 
+    /**
+     * When the back button is clicked it switches back to the home page.
+     * @param event
+     * @throws IOException
+     */
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
 
+    /**
+     * Sends Start and End nodes to pathfind algorithm without doing quick location
+     * @param node1 The start node..
+     * @param node2 The end node.
+     */
     void doPathfinding(String node1, String node2) {
         pathfind(node1, node2, false);
     }
 
+    /**
+     * Does the quick location pathfind search.
+     * @param start_id the id of the start node.
+     * @param goal_id the id of the desired location.
+     */
     void quickLocationFinding(String start_id, String goal_id) {
         pathfind(start_id, goal_id, true);
     }
 
+    /**
+     * Takes the two nodes and generates a pathway between them using an algorithm selected by the admins of the hospital.
+     * @param node1 The start node.
+     * @param node2 The end node.
+     * @param is_quick a boolean for whether the program is doing a quick location or not.
+     */
     public void pathfind(String node1, String node2, boolean is_quick) {
         PATHFIND_READY = false;
 
@@ -246,20 +281,35 @@ public class PathfindController {
                 e.printStackTrace();
             }
         }
+        if (path.path_segments.size() < 2) {
+            next_btn.disableProperty().setValue(true);
+        }
     }
 
+    /**
+     * Scrolls the map so that the start node is more centered on the screen.
+     * @param nodes
+     */
     private void scrollToPath(ArrayList<Node> nodes) {
         Polyline p = (Polyline) nodes.get(0);
         map_scroll_pane.setHvalue(p.getPoints().get(0) / map_img.getImage().getWidth());
         map_scroll_pane.setVvalue(p.getPoints().get(1) / map_img.getImage().getHeight());
     }
 
+    /**
+     * Generates the QR code text directions for the pathway.
+     * @param directions The directions of the pathway.
+     */
     private void generateQRCode(String directions) {
         QRCode qr;
         qr = new QRCode(directions);
         expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
+    /**
+     * Updates the map to display different nodes and icons and clears the previous ones.
+     * @param nodes ArrayList of nodes to be displayed on the new map.
+     */
     private void updateMap(ArrayList<Node> nodes) {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
@@ -272,6 +322,9 @@ public class PathfindController {
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
 
+    /**
+     * Manages switching the map between 3d and 2D and updating the nodes.
+     */
     public void toggleMappingType() {
         if (map.is_3D) {
             toggle_map_btn.setText(AllText.get("2d_map"));
@@ -296,6 +349,9 @@ public class PathfindController {
         updateMap(map.thisStep(map.is_3D));
     }
 
+    /**
+     * Sets the screen to display the QR code.
+     */
     public void onQRClick() {
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
         GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
@@ -313,6 +369,9 @@ public class PathfindController {
         expanded_qr.isPreserveRatio();
     }
 
+    /**
+     * Sets the screen for expanding the QR code.
+     */
     public void onBigQRClick() {
         directions_box.setVisible(false);
         ObservableList<Node> list = main_pane.getChildren();
@@ -329,12 +388,30 @@ public class PathfindController {
         stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
-    public void onMapUp() {
+    /**
+     * Updates the map to show the previous segment of the path.
+     */
+    public void onPrevClick() {
         updateMap(map.prevStep(map.is_3D));
+        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
+            next_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index <= 0) {
+            prev_btn.disableProperty().setValue(true);
+        }
     }
 
-    public void onMapDown() {
+    /**
+     * Updates the map to show the next segment of the path.
+     */
+    public void onNextClick() {
         updateMap(map.nextStep(map.is_3D));
+        if (map.getPath().seg_index > 0 && prev_btn.disableProperty().getValue()) {
+            prev_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index >= map.getPath().path_segments.size() - 1) {
+            next_btn.disableProperty().setValue(true);
+        }
     }
 
 }

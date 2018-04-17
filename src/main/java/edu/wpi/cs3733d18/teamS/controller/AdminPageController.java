@@ -22,26 +22,60 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller that deals with the interactions between the admin and the user.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Danny Sullivan
+ * @author Cormac Lynch-Collier
+ * @author Noah Hillman
+ * @version %I%, %G%
+ */
 public class AdminPageController extends UserController {
 
     //UserController edu.wpi.cs3733d18.teamS.user = new UserController();
+    /**
+     * Stores the user.
+     */
     UserController user = new UserController();
 
+    /**
+     * The main Pane.
+     */
     @FXML
     BorderPane main_pane;
+
+    /**
+     * The time label.
+     */
     @FXML
     Label time;
+
+    /**
+     * The Stack Pane
+     */
     @FXML
     StackPane stack_pane;
 
+    /**
+     * Stores the object loader.
+     */
     FXMLLoader loader;
 
+    /**
+     * Loads the reports.
+     * @throws IOException
+     */
     public void loadReports() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
         Parent root = loader.load();
         main_pane.setCenter(root);
     }
 
+    /**
+     * Loads in the admin.
+     * @throws IOException
+     */
     public void loadAdmin() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
         Parent root = loader.load();
@@ -49,6 +83,10 @@ public class AdminPageController extends UserController {
     }
 
 
+    /**
+     * Initializes the service requests menu.
+     * @throws IOException
+     */
     public void initialize() throws IOException {
         requestSidebarController.setParent(this);
         requestSidebarController.setAdminParent(this);
