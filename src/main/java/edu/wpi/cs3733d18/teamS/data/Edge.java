@@ -19,13 +19,16 @@ public class Edge {
     /**
      * Stores the start node.
      */
-    String start_node; // start node of edge TODO: change to Node class?
+    String start_node; // start node of edge
     /**
      * Stores the end node.
      */
     String end_node; // end node of edge
 
-    private boolean disabled;
+    /**
+     * Tells whether an edge is disabled or not
+     */
+    private boolean disabled; // tells whether the edge is mutable
 
     /**
      * Constructs and Edge with an id, start node and end node.
