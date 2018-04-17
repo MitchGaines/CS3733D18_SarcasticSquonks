@@ -127,8 +127,9 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
             return;
         }
+        /*
         ServiceRequest sr =
-                ServiceRequest.createService(
+               ServiceRequest.createService(
                     service_title.getText(),
                     description_field.getText(),
                     request_type_selector.getSelectionModel().getSelectedItem(),
@@ -137,6 +138,8 @@ public class ServiceAreaController {
         storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
         populateRequestsBox();
+
+        */
 
         service_title.setText("");
         service_location.getEditor().setText("");
