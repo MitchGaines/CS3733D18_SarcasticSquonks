@@ -7,11 +7,12 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="edu.wpi.cs3733d18.teamS.controller.ServiceAreaController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.ServiceAreaController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -23,7 +24,8 @@
                   <Font size="30.0" />
                </font>
             </Text>
-            <JFXComboBox fx:id="request_type_selector" focusColor="#4863a0" promptText="%service_type" style="-fx-font-size: 23;" />
+            <JFXComboBox fx:id="request_type_selector" focusColor="#4863a0" onAction="#onTypeSelect" promptText="%service_type" style="-fx-font-size: 23;" />
+            <JFXComboBox fx:id="fulfiller_box" focusColor="#4863a0" promptText="%fulfiller_box" style="-fx-font-size: 23;" />
             <JFXTextField fx:id="service_title" alignment="CENTER" focusColor="#4863a0" promptText="%service_title">
                <font>
                   <Font size="23.0" />
@@ -53,4 +55,7 @@
          </padding>
       </VBox>
    </children>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>
