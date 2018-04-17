@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Storage.java
  * The edu.wpi.cs3733d18.teamS.controller for the Apache Database
+ *
  * @author Joseph Turcotte
  * @version %I%, %G%
  * Date: March 29, 2018
@@ -37,7 +38,7 @@ public class Storage {
      */
     private IDatabase database;
     // to parse dates
-    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Empty constructor for storage.
@@ -624,8 +625,8 @@ public class Storage {
                 id_fulfillers.add(r_set.getLong("fulfiller_id"));
                 types.add(r_set.getString("service_type"));
                 locations.add(r_set.getString("location"));
-                requestDateTimes.add(new DateTime(r_set.getDate("request_time")));
-                fulfillDateTimes.add(new DateTime(r_set.getDate("fulfill_time")));
+                requestDateTimes.add(new DateTime(r_set.getTimestamp("request_time")));
+                fulfillDateTimes.add(new DateTime(r_set.getTimestamp("fulfill_time")));
                 requests.add(request);
             } catch (SQLException e) {
                 // empty
@@ -813,7 +814,7 @@ public class Storage {
     /**
      * Inserts a fulfiller into the fulfillers table
      *
-     * @param types the service type the fulfiller is associated with
+     * @param types     the service type the fulfiller is associated with
      * @param fulfiller the user representing the fulfiller
      */
     public void saveFulfiller(List<ServiceType> types, User fulfiller) {
