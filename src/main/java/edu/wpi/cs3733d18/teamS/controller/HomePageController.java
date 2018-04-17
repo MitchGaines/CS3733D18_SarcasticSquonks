@@ -236,7 +236,7 @@ public class HomePageController {
             Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             pathfind_stage.setTitle("Pathfinder");
 
-            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth() - 13, window.getHeight() - 35.5);
 
             Timeout.addListenersToScene(pathfind_parent_scene);
 

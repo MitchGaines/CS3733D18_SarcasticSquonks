@@ -29,7 +29,7 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml_name), AllText.getBundle());
             Parent user_parent = loader.load();
             Object controller = loader.getController();
-            Scene new_scene = new Scene(user_parent, primary_stage.getWidth(), primary_stage.getHeight());
+            Scene new_scene = new Scene(user_parent, primary_stage.getWidth() - 13, primary_stage.getHeight() - 35.5);
             primary_stage.setTitle(title);
 
             Timeout.addListenersToScene(new_scene);
