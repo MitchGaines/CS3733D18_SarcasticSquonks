@@ -31,8 +31,8 @@ public class Storage {
     // to exclude auto-generated IDs from tables
     private final String USER_VALUES = String.format("( %s, %s, %s, %s, %s, %s )",
             "username", "password", "first_name", "last_name", "user_type", "can_mod_map");
-    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
-            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
+    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s, %s )",
+            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time", "desired_fulfiller_id");
     /**
      * Stores the edu.wpi.cs3733d18.teamS.database.
      */
@@ -473,6 +473,7 @@ public class Storage {
 
         // check if fulfiller id is null
         long fulfiller_id = request.getFulfiller() == null ? 0 : request.getFulfiller().getUserID();
+        long desired_fulfiller_id = request.getDesiredFulfiller() == null ? 0 : request.getDesiredFulfiller().getUserID();
 
         database.insert("SERVICES" + SERVICE_VALUES, new String[]{
                 database.addQuotes(request.getTitle()),
@@ -482,7 +483,8 @@ public class Storage {
                 String.valueOf(fulfiller_id),
                 database.addQuotes(request.getLocation().getNodeID()),
                 database.addQuotes(dtf.print(request.getRequestedDate())),
-                database.addQuotes(dtf.print(request.getFulfilledDate()))
+                database.addQuotes(dtf.print(request.getFulfilledDate())),
+                String.valueOf(desired_fulfiller_id)
         });
     }
 
@@ -510,7 +512,8 @@ public class Storage {
                 String.format("%s = %d", "fulfiller_id", request.getFulfiller().getUserID()),
                 String.format("%s = '%s'", "location", request.getLocation().getNodeID()),
                 String.format("%s = '%s'", "request_time", dtf.print(request.getRequestedDate())),
-                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate()))
+                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate())),
+                String.format("%s = %d", "desired_fulfiller_id", request.getDesiredFulfiller().getUserID())
         };
 
         database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
@@ -618,6 +621,7 @@ public class Storage {
         List<String> locations = new LinkedList<>();
         List<DateTime> requestDateTimes = new LinkedList<>();
         List<DateTime> fulfillDateTimes = new LinkedList<>();
+        List<Long> id_desired_fulfillers = new LinkedList<>();
 
         // return an empty list if query didn't return anything
         if (r_set == null) {
@@ -633,6 +637,7 @@ public class Storage {
                 locations.add(r_set.getString("location"));
                 requestDateTimes.add(new DateTime(r_set.getTimestamp("request_time")));
                 fulfillDateTimes.add(new DateTime(r_set.getTimestamp("fulfill_time")));
+                id_desired_fulfillers.add(r_set.getLong("desired_fulfiller_id"));
                 requests.add(request);
             } catch (SQLException e) {
                 // empty
@@ -648,6 +653,7 @@ public class Storage {
             Node location = getNodeByID(locations.get(i));
             DateTime requestDateTime = requestDateTimes.get(i);
             DateTime fulfillDateTime = fulfillDateTimes.get(i);
+            User desired_fulfiller = getUserByID(id_desired_fulfillers.get(i));
 
             // NOTE: list of service types only contains one element, so access it using 0 index
             requests.get(i).setService_type(serviceTypes.get(0));
@@ -656,6 +662,7 @@ public class Storage {
             requests.get(i).setLocation(location);
             requests.get(i).setRequestedDate(requestDateTime);
             requests.get(i).setFulfilledDate(fulfillDateTime);
+            requests.get(i).setDesiredFulfiller(desired_fulfiller);
         }
 
         return requests;
@@ -981,7 +988,8 @@ public class Storage {
                     String.format("%s BIGINT", "fulfiller_id"),
                     String.format("%s VARCHAR (100)", "location"),
                     String.format("%s TIMESTAMP", "request_time"),
-                    String.format("%s TIMESTAMP", "fulfill_time")
+                    String.format("%s TIMESTAMP", "fulfill_time"),
+                    String.format("%s BIGINT", "desired_fulfiller_id")
             });
         }
 

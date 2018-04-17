@@ -30,10 +30,6 @@ public class ServiceRequest {
     }
 
     /**
-     * Stores a HashSet of Service Requests.
-     */
-    private static HashSet<ServiceRequest> service_requests = new HashSet<>();
-    /**
      * Instance of the storage class
      */
     private static Storage storage = Storage.getInstance();
@@ -103,9 +99,6 @@ public class ServiceRequest {
      */
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);
-        service_requests.add(sr);
-        //storage.saveRequest(sr); // TODO we should not save to database here
-        ServiceLogEntry.log(sr, false);
         return sr;
     }
 

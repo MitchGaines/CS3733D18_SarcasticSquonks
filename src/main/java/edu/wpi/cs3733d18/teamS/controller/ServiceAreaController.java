@@ -30,7 +30,7 @@ public class ServiceAreaController {
     ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location = new ComboBox<>();
 
     @FXML
-    ComboBox<User> fulfiller_box;
+    ComboBox<User> fulfiller_box = new ComboBox<>();
 
     @FXML
     Button request_service_button;
@@ -83,7 +83,7 @@ public class ServiceAreaController {
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
-            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) || sr.getDesiredFulfiller().equals(user)) {
+            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) || sr.getDesiredFulfiller().getUsername().equals(user.getUsername())) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {
                     emergency_declared = true;
@@ -129,11 +129,12 @@ public class ServiceAreaController {
         }
         ServiceRequest sr =
                 ServiceRequest.createService(
-                    service_title.getText(),
-                    description_field.getText(),
-                    request_type_selector.getSelectionModel().getSelectedItem(),
-                    user,
-                    service_location.getValue());
+                        service_title.getText(),
+                        description_field.getText(),
+                        request_type_selector.getSelectionModel().getSelectedItem(),
+                        user,
+                        service_location.getValue(),
+                        fulfiller_box.getSelectionModel().getSelectedItem());
         storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
         populateRequestsBox();
