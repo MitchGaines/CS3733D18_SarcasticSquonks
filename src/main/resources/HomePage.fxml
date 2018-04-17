@@ -107,10 +107,10 @@
                             </VBox.margin>
                         </HBox>
                         <JFXComboBox fx:id="combobox_start" editable="true" focusColor="#4863a0" labelFloat="true"
-                                     onKeyReleased="#onKeyReleasedComboBox" promptText="%start_location"
+                                     promptText="%start_location"
                                      style="-fx-font-size: 23;"/>
                         <JFXComboBox fx:id="combobox_end" editable="true" focusColor="#4863a0" labelFloat="true"
-                                     onKeyReleased="#onKeyReleasedComboBox" promptText="%end_location"
+                                     promptText="%end_location"
                                      style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;"/>
                         <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23;" text="%stairs"
                                          toggleColor="#b7b8b6" toggleLineColor="#4863a0"/>
