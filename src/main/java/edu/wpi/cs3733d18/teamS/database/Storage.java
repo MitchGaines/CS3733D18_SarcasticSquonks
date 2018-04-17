@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.database;
 
+import edu.wpi.cs3733d18.teamS.controller.HomePageController;
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
@@ -918,6 +919,62 @@ public class Storage {
         return null;
     }
 
+    // --------------------- DEFAULT KIOSK METHODS ------------------- //
+
+    /**
+     * Saves the default kiosk location
+     * @param default_loc the node ID of the default location
+     */
+    public void saveDefaultKioskLocation(String default_loc) {
+        database.insert("DEFAULTLOC", new String[]{
+                database.addQuotes(default_loc)
+        });
+    }
+
+    /**
+     * Updates the default kiosk location
+     * @param new_default_loc the node ID of the default location
+     */
+    public void updateDefaultKioskLocation(String new_default_loc) {
+        String values[] = new String[]{
+                String.format("%s = '%s'", "default_kiosk_loc", new_default_loc)
+        };
+
+        database.update("DEFAULTLOC", values, null, null);
+    }
+
+    public String getDefaultKioskLocation() {
+        ResultSet r_set = database.query(
+                "DEFAULTLOC",
+                null,
+                null,
+                null,
+                null
+        );
+
+        return getDefaultLocation(r_set);
+    }
+
+    private String getDefaultLocation(ResultSet r_set) {
+
+        try {
+            // if we don't have anything in the result set
+            if (r_set == null || !r_set.next()) {
+                return null;
+            }
+
+            // set fields as garbage values, then fill in later
+            String node_id = r_set.getString("default_kiosk_loc");
+
+            return node_id;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * Get edu.wpi.cs3733d18.teamS.database.
      *
@@ -1008,6 +1065,14 @@ public class Storage {
 
             // generate an initial list of service types for the database
             ServiceType.createInitialServiceTypes();
+        }
+
+        if (!database.doesTableExist("DEFAULTLOC")) {
+            database.createTable("DEFAULTLOC", new String[]{
+                    String.format("%s VARCHAR (100)", "default_kiosk_loc")
+            });
+
+            saveDefaultKioskLocation("BINFO00102");
         }
     }
 

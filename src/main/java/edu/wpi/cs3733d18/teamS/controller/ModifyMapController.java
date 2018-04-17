@@ -446,7 +446,8 @@ public class ModifyMapController {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, Circle> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
-                    HomePageController.setKioskDefaultLocation(entry.getKey().getNodeID());
+                    Storage.getInstance().updateDefaultKioskLocation(entry.getKey().getNodeID());
+                    HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
                     kiosk_location_name.setText(entry.getKey().getShortName());
                 }
             }
