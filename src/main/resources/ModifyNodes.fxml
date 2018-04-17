@@ -118,7 +118,7 @@
                                 <JFXButton fx:id="cancel_delete" buttonType="RAISED" onAction="#onDeleteLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge" />
                             </children>
                         </VBox>
-                  <VBox fx:id="delete_edge_box" alignment="CENTER" spacing="20.0">
+                  <VBox fx:id="delete_edge_box" alignment="CENTER" spacing="20.0" visible="false">
                      <children>
                         <JFXToggleButton text="Mute">
                            <font>

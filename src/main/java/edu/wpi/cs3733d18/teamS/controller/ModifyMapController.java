@@ -7,6 +7,7 @@ import com.kylecorry.lann.activation.Linear;
 import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.data.Edge;
+import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import javafx.collections.FXCollections;
@@ -100,7 +101,7 @@ public class ModifyMapController {
     private Boolean first_click;
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
-    private Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, Circle> entry_to_delete;
+    private HashMap<Node, Circle> entry_to_delete;
     private Node3DPredictor predictor = new Node3DPredictor();
 
     @FXML
@@ -111,6 +112,9 @@ public class ModifyMapController {
 
         scroll_pane.setVvalue(0.5);
         scroll_pane.setHvalue(0.25);
+
+        edges_to_delete = new HashMap<>();
+        entry_to_delete = new HashMap<>();
 
         ObservableList<String> list_type = FXCollections.observableArrayList();
         list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
@@ -417,7 +421,11 @@ public class ModifyMapController {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, Circle> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
-                    entry_to_delete = entry;
+                    if(entry.getValue().getFill().equals(Color.YELLOW)) {
+                        entry.getValue().setFill(color);
+                        edges_to_delete.remove(entry);
+                    }
+                    entry_to_delete.put(entry.getKey(), entry.getValue());
                     location_to_delete.setText(entry.getKey().getNodeID());
                     entry.getValue().setFill(Color.YELLOW);
                 }
@@ -434,9 +442,16 @@ public class ModifyMapController {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for(Map.Entry<Edge, Line> line : edge_list.entrySet()) {
                 if(line.getValue().contains(pt)) {
+                    if(line.getValue().getStroke().equals(Color.YELLOW)) {
+                        edge_list.put(line.getKey(), line.getValue());
+                        line.getValue().setStroke(Color.BLACK);
+                        edges_to_delete.remove(line);
+                    }
+                    System.out.println("In here");
                     edges_to_delete.put(line.getKey(), line.getValue());
-                    line.getValue().setFill(Color.YELLOW);
+                    line.getValue().setStroke(Color.YELLOW);
                     edge_list.remove(line);
+                    System.out.println(edges_to_delete.size());
                 }
             }
         }
@@ -477,25 +492,34 @@ public class ModifyMapController {
     public void onCancelDeleteEdge() {
         for(Map.Entry<Edge, Line> line : edges_to_delete.entrySet()) {
             edge_list.put(line.getKey(), line.getValue());
-            line.getValue().setFill(Color.BLACK);
+            line.getValue().setStroke(Color.BLACK);
         }
+        location_or_path.getSelectionModel().selectFirst();
+        delete_edge_box.setVisible(false);
     }
 
     public void onDeleteLocClick() {
         if (!location_to_delete.getText().trim().isEmpty()) {
-            pane.getChildren().remove(entry_to_delete.getValue());
-            storage.deleteNode(entry_to_delete.getKey());
-            nodes_list.remove(entry_to_delete);
-            deleteEdge(entry_to_delete.getKey());
-            onDeleteLocCancelClick();
+            for(Map.Entry<Node, Circle> entry : entry_to_delete.entrySet()) {
+                pane.getChildren().remove(entry.getValue());
+                storage.deleteNode(entry.getKey());
+                nodes_list.remove(entry);
+                deleteEdge(entry.getKey());
+            }
         }
-    }
-
-    public void onDeleteLocCancelClick() {
         location_to_delete.setText("");
         delete_loc_box.setVisible(false);
         location_or_path.getSelectionModel().selectFirst();
-        entry_to_delete.getValue().setFill(color);
+    }
+
+    public void onDeleteLocCancelClick() {
+        for(Map.Entry<Node, Circle> entry : entry_to_delete.entrySet()) {
+            nodes_list.put(entry.getKey(), entry.getValue());
+            entry.getValue().setFill(color);
+        }
+        location_to_delete.setText("");
+        delete_loc_box.setVisible(false);
+        location_or_path.getSelectionModel().selectFirst();
     }
 
     public void onAddEdgeClick() {
