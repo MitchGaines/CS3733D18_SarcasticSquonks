@@ -35,9 +35,25 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+/**
+ * Controller for the homepage.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Joe Turcotte
+ * @author Cormac Lynch-Collier
+ * @author Will Lucca
+ * @version %I%, %G%
+ */
 public class HomePageController {
 
+    /**
+     * Stores the boolean for whether or not the stairs option has been selected.
+     */
     private static boolean include_stairs = true;
+
+    /**
+     * Stores the default location for the Kiosk.
+     */
     private static String KIOSK_DEFAULT_LOCATION = "BINFO00102";
 
     @FXML
@@ -83,22 +99,36 @@ public class HomePageController {
     JFXButton INFO;
     @FXML
     JFXToggleButton stairs_toggle;
+
+    /**
+     * Stores the LoginHandler.
+     */
     private LoginHandler loginHandler;
+
+    /**
+     * Stores the ObservableList for node locations.
+     */
     private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
 
+    /**
+     * Retrieves whether or not stairs are included.
+     * @return The boolean value of include_stairs.
+     */
     public static boolean includeStairs() {
         return include_stairs;
     }
 
+    /**
+     * Sets the Kiosk's default location.
+     * @param kioskDefaultLocation the default location for the kiosk.
+     */
     public static void setKioskDefaultLocation(String kioskDefaultLocation) {
         KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
     }
 
     /**
-     * Performs this function during creation of Controller; sets up the ComboBoxes
-     * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database
-     *
-     * @author Will Lucca
+     * Performs this function during creation of Controller sets up the ComboBoxes
+     * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database.
      */
     public void initialize() {
         locations.addAll(Storage.getInstance().getAllNodes());
@@ -163,6 +193,9 @@ public class HomePageController {
         login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
     }
 
+    /**
+     * Changes the language of the scenes.
+     */
     public void onLanguageChange() {
         if (language_selector.getSelectionModel().isEmpty()) {
             return;
@@ -175,8 +208,7 @@ public class HomePageController {
     /**
      * Sets start_loc and end_loc to the values selected in the combobox, then switches view to
      * PathfindPage, initializing PathfindController
-     *
-     * @param event
+     * @param event the click of the mouse on the button.
      * @throws IOException
      */
     @FXML
@@ -213,6 +245,11 @@ public class HomePageController {
         }
     }
 
+    /**
+     * Does the Quick location pathfinding and displays a message if the user is already at the quick location area.
+     * @param event Clicking the button.
+     * @throws IOException
+     */
     @FXML
     void onQuickClick(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
@@ -233,7 +270,6 @@ public class HomePageController {
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
-     *
      * @param e KeyEvent representing the key that was typed.
      */
     @FXML
@@ -276,6 +312,12 @@ public class HomePageController {
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
+
+    /**
+     * Tests to try out different users.
+     * @param event
+     * @throws IOException
+     */
     public void onLoginClick(ActionEvent event) throws IOException {
         try {
             User user = loginHandler.login(username.getText(), password.getText());
