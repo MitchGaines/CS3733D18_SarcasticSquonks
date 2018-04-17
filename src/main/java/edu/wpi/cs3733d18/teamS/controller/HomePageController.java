@@ -268,6 +268,22 @@ public class HomePageController {
 
     }
 
+    @FXML
+    void onAboutClick(ActionEvent event) throws IOException{    // about screen
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("/AboutPage.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("About Stage");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        }
+
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
