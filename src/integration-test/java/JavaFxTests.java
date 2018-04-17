@@ -90,7 +90,7 @@ public class JavaFxTests extends ApplicationTest {
 
         Timeout.addListenersToScene(primary_scene);
 
-        Timeout.start();
+        //Timeout.start();
 
 
         primary_stage.setScene(primary_scene);
@@ -178,8 +178,7 @@ public class JavaFxTests extends ApplicationTest {
     @Test
     public void testPathfindSteps() {
         clickOn("#combobox_end");
-        write("CART");
-        clickOn("CART Waiting");
+        write("CART Waiting");
         clickOn("#pathfind");
         verifyThat("#step_indicator", hasText("Step: 1 / 5"));
         verifyThat("#floor_indicator", hasText("Floor: 2"));
