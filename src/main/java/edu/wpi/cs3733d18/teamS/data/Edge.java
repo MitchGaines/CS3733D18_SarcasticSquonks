@@ -19,11 +19,16 @@ public class Edge {
     /**
      * Stores the start node.
      */
-    String start_node; // start node of edge TODO: change to Node class?
+    String start_node; // start node of edge
     /**
      * Stores the end node.
      */
     String end_node; // end node of edge
+
+    /**
+     * Tells whether an edge is mutable or not
+     */
+    boolean is_mutable; // tells whether the edge is mutable
 
 
     /**
@@ -37,6 +42,7 @@ public class Edge {
         this.edge_id = edge_id;
         this.start_node = start_node;
         this.end_node = end_node;
+        this.is_mutable = false;
     }
 
     /**
@@ -91,5 +97,13 @@ public class Edge {
      */
     public void setEndNode(String end_node) {
         this.end_node = end_node;
+    }
+
+    public boolean isMutable() {
+        return is_mutable;
+    }
+
+    public void setMutable(boolean is_mutable) {
+        this.is_mutable = is_mutable;
     }
 }
