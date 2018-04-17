@@ -151,14 +151,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", can_mod_map=" + can_mod_map +
-                ", username='" + username + '\'' +
-                ", password_salt=" + Arrays.toString(password_salt) +
-                ", enc_password=" + Arrays.toString(enc_password) +
-                ", type=" + type +
-                '}';
+//        return "User{" +
+//                "user_id=" + user_id +
+//                ", can_mod_map=" + can_mod_map +
+//                ", username='" + username + '\'' +
+//                ", password_salt=" + Arrays.toString(password_salt) +
+//                ", enc_password=" + Arrays.toString(enc_password) +
+//                ", type=" + type +
+//                '}';
+        return String.format("%s %s", first_name, last_name);
     }
 
     @Override

@@ -17,6 +17,19 @@ import java.util.Objects;
 public class ServiceRequest {
 
     /**
+     * Null if anyone is allowed to fulfill the service, or a specific user if we have one in mind
+     */
+    private User desired_fulfiller;
+
+    public User getDesiredFulfiller() {
+        return desired_fulfiller;
+    }
+
+    public void setDesiredFulfiller(User desired_fulfiller) {
+        this.desired_fulfiller = desired_fulfiller;
+    }
+
+    /**
      * Stores a HashSet of Service Requests.
      */
     private static HashSet<ServiceRequest> service_requests = new HashSet<>();
@@ -54,13 +67,14 @@ public class ServiceRequest {
      * @param requester   the edu.wpi.cs3733d18.teamS.user requesting the edu.wpi.cs3733d18.teamS.service.
      * @param location    the location where the edu.wpi.cs3733d18.teamS.service is needed.
      */
-    private ServiceRequest(String title, String description, ServiceType type, User requester, Node location) {
+    private ServiceRequest(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
         this.title = title;
         this.requestedDate = DateTime.now();
         this.description = description;
         this.service_type = type;
         this.requester = requester;
         this.location = location;
+        this.desired_fulfiller = desired_fulfiller;
     }
 
     /**
@@ -96,8 +110,8 @@ public class ServiceRequest {
      * @param requester   the edu.wpi.cs3733d18.teamS.user requesting the edu.wpi.cs3733d18.teamS.service.
      * @param location    the location where the edu.wpi.cs3733d18.teamS.service is needed.
      */
-    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location) {
-        ServiceRequest sr = new ServiceRequest(title, description, type, requester, location);
+    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
+        ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);
         service_requests.add(sr);
         //storage.saveRequest(sr); // TODO we should not save to database here
         ServiceLogEntry.log(sr, false);

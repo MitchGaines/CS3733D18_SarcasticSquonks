@@ -679,7 +679,7 @@ public class Storage {
             String description = r_set.getString("description");
 
             // set some request fields to null, then fill them in after
-            ServiceRequest request = ServiceRequest.createService(title, description, null, null, null);
+            ServiceRequest request = ServiceRequest.createService(title, description, null, null, null, null);
             request.setRequestID(service_id);
 
             return request;
