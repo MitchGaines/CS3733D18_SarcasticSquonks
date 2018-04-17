@@ -13,6 +13,7 @@ import edu.wpi.cs3733d18.teamS.database.Storage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
@@ -33,6 +34,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 import java.awt.*;
 import java.io.IOException;
@@ -88,7 +91,7 @@ public class ModifyMapController {
     ImageView map;
 
     @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box;
+    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box;
 
     @FXML
     Button confirm_3d;
@@ -104,6 +107,7 @@ public class ModifyMapController {
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
     private HashMap<Node, Circle> entry_to_delete;
     private Node3DPredictor predictor = new Node3DPredictor();
+    private Polygon geoBlock = new Polygon();
 
     @FXML
     private void initialize() {
@@ -165,7 +169,7 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes(), storage.getAllEdges());
 
         ObservableList<String> lop = FXCollections.observableArrayList();
-        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location");
+        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location", "Disable Locations");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
@@ -284,6 +288,9 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "Add Location":
                 add_node_box.setVisible(true);
@@ -292,6 +299,9 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "View Map":
                 add_edge_box.setVisible(false);
@@ -300,6 +310,9 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "Delete Location":
                 add_edge_box.setVisible(false);
@@ -308,6 +321,9 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "Delete Path":
                 add_edge_box.setVisible(false);
@@ -316,6 +332,9 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(true);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "Modify Locations":
                 modify_loc_box.setVisible(true);
@@ -324,6 +343,9 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
                 break;
             case "Set Kiosk Location":
                 add_edge_box.setVisible(false);
@@ -332,6 +354,24 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(true);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(false);
+                pane.setOnMouseMoved(null);
+                removePaneChild();
+                break;
+            case "Disable Locations":
+                add_edge_box.setVisible(false);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(false);
+                delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
+                batch_disable_box.setVisible(true);
+                geoBlock = new Polygon();
+                geoBlock.setId("polygon");
+                geoBlock.setStyle("" +
+                        "-fx-fill: rgba(49,248,0,0.3);" +
+                        "-fx-border-color: rgba(49,248,0,1);" +
+                        "-fx-border-width: 5px;");
                 break;
 
         }
@@ -397,7 +437,7 @@ public class ModifyMapController {
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                    short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0)); //TODO: id function
+                    short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0), false); //TODO: id function
             pane.getChildren().clear();
             pane.getChildren().add(map);
             map.setImage(new Image(select3DMap()));
@@ -478,7 +518,58 @@ public class ModifyMapController {
                     }
                 }
             }
+        }else if(location_or_path.getValue().toString().equals("Disable Locations")){
+            removePaneChild("polygon");
+            createPreviewLine(click.getX(),click.getY());
+            geoBlock.getPoints().addAll(click.getX(), click.getY());
+            pane.getChildren().add(geoBlock);
         }
+    }
+
+    public void disableNodesInPolygon(){
+        ArrayList<Node> intersecting_nodes = getIntersectingNodes();
+    }
+
+    private ArrayList<Node> getIntersectingNodes(){
+        ArrayList<Node> intersecting_nodes = new ArrayList<>();
+        int c = 0;
+        for(Node node : nodes_list.keySet()){
+            if(!Shape.intersect(nodes_list.get(node), geoBlock).getBoundsInParent().isEmpty()){
+                c++;
+                intersecting_nodes.add(node);
+            }
+        }
+        if(c > 0)
+            System.out.println(c+" nodes intersect.");
+        return intersecting_nodes;
+    }
+
+    private void removePaneChild(){
+        if(pane.getChildren().size() > 0){
+            removePaneChild("previewLine");
+            removePaneChild("polygon");
+        }
+    }
+
+    private void removePaneChild(String id){
+        int index = -1;
+        for(int i = 0; i < pane.getChildren().size(); i++){
+            if(pane.getChildren().get(i).getId() == id){
+                index = i;
+            }
+        }
+        if(index != -1){
+            pane.getChildren().remove(index);
+        }
+    }
+
+    private void createPreviewLine(final double start_x, final double start_y){
+        pane.setOnMouseMoved(event -> {
+            removePaneChild("previewLine");
+            Line l = new Line(start_x, start_y, event.getX(), event.getY());
+            l.setId("previewLine");
+            pane.getChildren().add(l);
+        });
     }
 
     private String select3DMap() {
@@ -559,7 +650,7 @@ public class ModifyMapController {
 
     public void onAddEdgeClick() {
         if (!location_one.getText().trim().isEmpty() && !location_two.getText().trim().isEmpty()) {
-            Edge new_edge = new edu.wpi.cs3733d18.teamS.data.Edge(generateEdgeId(first_loc, second_loc), first_loc.getNodeID(), second_loc.getNodeID());
+            Edge new_edge = new edu.wpi.cs3733d18.teamS.data.Edge(generateEdgeId(first_loc, second_loc), first_loc.getNodeID(), second_loc.getNodeID(), false);
             storage.saveEdge(new_edge);
 
             double startX = storage.getNodeByID(new_edge.getStartNode()).getXCoord();

@@ -25,6 +25,7 @@ public class Edge {
      */
     String end_node; // end node of edge
 
+    private boolean disabled;
 
     /**
      * Constructs and Edge with an id, start node and end node.
@@ -33,10 +34,11 @@ public class Edge {
      * @param start_node the start node of the edge.
      * @param end_node   the end node of the edge.
      */
-    public Edge(String edge_id, String start_node, String end_node) {
+    public Edge(String edge_id, String start_node, String end_node, boolean disabled) {
         this.edge_id = edge_id;
         this.start_node = start_node;
         this.end_node = end_node;
+        this.disabled = disabled;
     }
 
     /**
@@ -91,5 +93,13 @@ public class Edge {
      */
     public void setEndNode(String end_node) {
         this.end_node = end_node;
+    }
+
+    public boolean isDisabled(){
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled){
+        this.disabled = disabled;
     }
 }
