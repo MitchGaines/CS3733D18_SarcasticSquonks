@@ -124,7 +124,7 @@ public class ServiceAreaController {
 
     public void doRequestService() {
         Storage storage = Storage.getInstance();
-        if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
+        if (request_type_selector.getSelectionModel().getSelectedItem() == null || fulfiller_box.getSelectionModel().getSelectedItem() == null) {
             return;
         }
         ServiceRequest sr =
