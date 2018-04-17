@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
@@ -52,6 +53,10 @@ public class ReportsController extends UserController {
         setUpListView();
         instructions.setWrapText(true);
         service_type_list.getSelectionModel().selectedItemProperty().addListener(e -> onGoButton());
+        start_date_picker.setValue(LocalDate.now().minusDays(7));
+        end_date_picker.setValue(LocalDate.now());
+        start_time_picker.setValue(LocalTime.now());
+        end_time_picker.setValue(LocalTime.now());
     }
 
     private void populateReportTypes() {
