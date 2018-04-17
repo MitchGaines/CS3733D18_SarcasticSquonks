@@ -16,19 +16,22 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class ServiceAreaController {
 
     @FXML
-    ComboBox<ServiceType> request_type_selector;
+    ComboBox<ServiceType> request_type_selector = new ComboBox<>();
 
     @FXML
-    ComboBox<ServiceRequest> active_requests_box;
+    ComboBox<ServiceRequest> active_requests_box = new ComboBox<>();
 
     @FXML
-    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location;
+    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location = new ComboBox<>();
+
+    @FXML
+    ComboBox<User> fulfiller_box;
+
     @FXML
     Button request_service_button;
     @FXML
@@ -72,12 +75,15 @@ public class ServiceAreaController {
     }
 
     public void populateRequestsBox() {
+        if (active_requests_box == null) {
+            return;
+        }
         parent.dismissEmergency();
         boolean emergency_declared = false;
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
-            if (sr.getServiceType().getFulfillers().contains(user)) {
+            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) || sr.getDesiredFulfiller().equals(user)) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {
                     emergency_declared = true;
@@ -102,6 +108,18 @@ public class ServiceAreaController {
 
         ServiceLogEntry.log(selected, true);
 
+    }
+
+    private static User ANY_FULFILLER = new User(null, "", "Any fulfiller", "", null, false);
+
+    public void onTypeSelect() {
+        ServiceType selected_item = request_type_selector.getSelectionModel().getSelectedItem();
+        if (selected_item != null) {
+            fulfiller_box.getItems().removeAll(fulfiller_box.getItems());
+            fulfiller_box.getItems().add(ANY_FULFILLER);
+            fulfiller_box.getItems().addAll(selected_item.getFulfillers());
+        }
+        fulfiller_box.setVisible(true);
     }
 
     public void doRequestService() {
@@ -156,14 +174,24 @@ public class ServiceAreaController {
         mark_completed_btn.setVisible(true);
     }
 
-    public void initialize() {
+    public void setUpToComplete(User user) {
+        this.user = user;
         title_text.setVisible(false);
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+    }
+
+    public void setUpToMake(User user) {
+        this.user = user;
         locations.addAll(Storage.getInstance().getAllNodes());
         request_service_button.setText("Request service");
-        //populateRequestsBox();
+    }
+
+    public void initialize() {
+        if (fulfiller_box != null) {
+            fulfiller_box.setVisible(false);
+        }
     }
 
     /**

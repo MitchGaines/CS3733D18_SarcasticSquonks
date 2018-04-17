@@ -358,7 +358,7 @@ public class StorageTestSuite {
      */
     @Test
     public void testAddUser() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
 
         storage.saveUser(new_user);
@@ -373,12 +373,12 @@ public class StorageTestSuite {
      */
     @Test
     public void testDeleteUser() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
         new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
@@ -397,7 +397,7 @@ public class StorageTestSuite {
      */
     @Test
     public void testUpdateUser() {
-        User old_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User old_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         old_user.setUserID(8);
 
         storage.saveUser(old_user);
@@ -418,12 +418,12 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetUserByID() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
         new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
@@ -438,12 +438,12 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetUserByName() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
         new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
@@ -458,11 +458,11 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetUserByCredentials() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
         new_user2.setUserID(9);
         storage.saveUser(new_user2);
 
@@ -476,12 +476,12 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetAllUsers() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
         new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
         new_user2.setUserID(9);
 
         storage.saveUser(new_user2);

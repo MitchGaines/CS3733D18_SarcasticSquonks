@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the Breadth First path algorithm and primarily finds the path from a location.
+ * The Class manages the Dijkstras path algorithm and finds the path from a location based on lowest movement costs.
  *
  * @author Noah Hillman
  * @version %I%, %G%
@@ -20,6 +20,6 @@ public class Dijkstras extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node1.getGCost() - node2.getGCost());
+        return (int) (node1.getGCost() - node2.getGCost());
     }
 }

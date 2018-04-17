@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * The Class manages the AStar path algorithm and primarily finds the path from a location.
+ * The Class manages the AStar path algorithm and primarily finds the optimal path with the lowest search time
+ * based on heuristics.
  *
  * @author Noah Hillman
  * @version %I%, %G%
@@ -15,7 +16,7 @@ public class AStar extends SearchAlgorithm {
 
     @Override
     int prioritySort(AStarNode node1, AStarNode node2) {
-        return (int)(node1.getFCost() - node2.getFCost());
+        return (int) (node1.getFCost() - node2.getFCost());
     }
 
     @Override
