@@ -372,7 +372,6 @@ public class Path {
         return 0;
     }
 
-
     ArrayList<Node> genAnts(Polyline p) {
         Ant ant = new Ant(p.getPoints().get(0), p.getPoints().get(1));
         for (int i = 2; i < p.getPoints().size(); i += 2) {
