@@ -290,7 +290,7 @@ public class PathfindController {
             }
         }
 
-        call_btn.setDisable(true);
+        //call_btn.setDisable(true);
         if (path.path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);
         }
