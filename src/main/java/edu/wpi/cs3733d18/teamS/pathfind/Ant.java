@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author Will Lucca
  */
 public class Ant {
-    private static final double PIXELS_PER_SECOND = 150.0; // marching speed
+    private static final double PIXELS_PER_SECOND = 55.0; // marching speed
 
     private ImageView image = new ImageView(new Image("images/mapIcons/ant.png"));
     private Timeline timeline = new Timeline();
@@ -60,7 +60,7 @@ public class Ant {
         coord_path.add(y);
         boolean is_start = timeline.getKeyFrames().size() == 0;
         timeline.getKeyFrames().add(new KeyFrame(
-                is_start ? Duration.ZERO : Duration.seconds(total_animation_time += Math.hypot(x - last_x, y - last_y)/PIXELS_PER_SECOND),
+                is_start ? Duration.ZERO : Duration.seconds(total_animation_time += Math.hypot(x - last_x, y - last_y) / PIXELS_PER_SECOND),
                 new KeyValue(
                         image.layoutXProperty(),
                         x,
