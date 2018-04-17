@@ -127,16 +127,19 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null || fulfiller_box.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-        User desired_fulfiller = fulfiller_box.getSelectionModel().getSelectedItem() == ANY_FULFILLER ? null : fulfiller_box.getSelectionModel().getSelectedItem();
-        ServiceRequest.createService(
-                service_title.getText(),
-                description_field.getText(),
-                request_type_selector.getSelectionModel().getSelectedItem(),
-                user,
-                service_location.getValue(),
-                desired_fulfiller);
-
+        /*
+        ServiceRequest sr =
+               ServiceRequest.createService(
+                    service_title.getText(),
+                    description_field.getText(),
+                    request_type_selector.getSelectionModel().getSelectedItem(),
+                    user,
+                    service_location.getValue());
+        storage.saveRequest(sr);
+        ServiceLogEntry.log(sr, false);
         populateRequestsBox();
+
+        */
 
         service_title.setText("");
         service_location.getEditor().setText("");
