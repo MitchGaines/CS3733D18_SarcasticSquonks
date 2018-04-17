@@ -2,6 +2,8 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Call;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.twiml.TwiML;
 import com.twilio.twiml.VoiceResponse;
 import com.twilio.twiml.voice.Say;
@@ -9,11 +11,13 @@ import com.twilio.type.PhoneNumber;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class InteractivePhone {
     private String account_sid = "AC61003cbc0ab62fb17514a23dd877954d";
     private String auth_token = "93baca692310f9af4c1e13a730071a3d";
+    private String from_phone = "+18329475093";
     private TwiML twiml;
 
     public InteractivePhone(ArrayList<String> dir_steps){
@@ -32,7 +36,7 @@ public class InteractivePhone {
         try {
             Call call = Call.creator(
                     new PhoneNumber(to_phone),
-                    new PhoneNumber("+18329475093"),
+                    new PhoneNumber(from_phone),
                     new URI(twiml.toUrl().toString())
             ).create();
         } catch (URISyntaxException e){
@@ -40,4 +44,11 @@ public class InteractivePhone {
         }
     }
 
+    public void textDirections(String to_phone, URL url){
+        Message msg = Message.creator(
+                new PhoneNumber(to_phone),
+                new PhoneNumber(from_phone),
+                "Click this link for directions: " + url.toString()
+        ).create();
+    }
 }
