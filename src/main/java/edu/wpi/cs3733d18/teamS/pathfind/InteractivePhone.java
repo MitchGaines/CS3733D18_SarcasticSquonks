@@ -34,11 +34,21 @@ public class InteractivePhone {
 
     public void callDirections(String to_phone){
         try {
+
+            /*String host = "159.203.189.146";
+            //String host = "localhost";
+            int port = 3000;
+            String protocol = "http";
+            String path = "/";
+            */
+
+
             Call call = Call.creator(
                     new PhoneNumber(to_phone),
                     new PhoneNumber(from_phone),
                     new URI(twiml.toUrl().toString())
             ).create();
+
         } catch (URISyntaxException e){
             e.printStackTrace();
         }

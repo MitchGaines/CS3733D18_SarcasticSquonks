@@ -15,7 +15,7 @@ app.get('/:steps', function(req, res){
 
   path = buf.replace(/-/g, '<li class="list-group-item">').replace(/\./g, '</li>');
 
-  path = "<ul class='list-group list-group-flush' id='path-list'>" + path + "</ul>";
+  path = "<ul class='list-group list-group-flush col-sm-12' id='path-list'>" + path + "</ul>";
 
   res.render('index', {
     path: path
