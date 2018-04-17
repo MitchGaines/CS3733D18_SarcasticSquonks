@@ -8,7 +8,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -27,11 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class PathfindController {
-    /**
-     * Stores a boolean for whether or not a path was correctly generated.
-     */
-    private static boolean PATHFIND_READY = false;
-
     /**
      * Nodes for zooming in and out of the map.
      */
@@ -131,13 +125,13 @@ public class PathfindController {
     /**
      * Stores the Map.
      */
-    private Map map;
+    public Map map;
 
     /**
      * Returns the image of the floor based on whether or not the map is 3D or 2D.
      *
      * @param floor the floor requested.
-     * @param is3D boolean for whether the image needs to be 2D or 3D.
+     * @param is3D  boolean for whether the image needs to be 2D or 3D.
      * @return The image of the particular floor.
      */
     private static Image getFloorImage(int floor, boolean is3D) {
@@ -160,15 +154,6 @@ public class PathfindController {
     }
 
     /**
-     * Retrieves the PATHFIND_READY boolean.
-     *
-     * @return The
-     */
-    static boolean isPathfindReady() {
-        return PATHFIND_READY;
-    }
-
-    /**
      * Initializes the pathfind screen, by setting up the date and time, the database, and map.
      */
     public void initialize() {
@@ -179,10 +164,21 @@ public class PathfindController {
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
+        updateMap(map.thisStep(map.is_3D));
+        if (map.getPath().path_segments.size() < 2) {
+            next_btn.disableProperty().setValue(true);
+        }
+        try {
+            String directions = map.getPath().getPathDirections().toString();
+            generateQRCode(directions);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Zooms the screen in or out depending on the button pushed.
+     *
      * @param zoom_amount the amount the screen will scale in or out.
      */
     private void zoom(double zoom_amount) {
@@ -197,6 +193,7 @@ public class PathfindController {
         map_scroll_pane.setLayoutX(zoom_factor);
         map_scroll_pane.getContent().setScaleY(zoom_factor);
         map_scroll_pane.setLayoutY(zoom_factor);
+        System.out.println("Zoom Factor: " + zoom_factor);
 
     }
 
@@ -216,6 +213,7 @@ public class PathfindController {
 
     /**
      * When the back button is clicked it switches back to the home page.
+     *
      * @param event
      * @throws IOException
      */
@@ -224,81 +222,59 @@ public class PathfindController {
     }
 
     /**
-     * Sends Start and End nodes to pathfind algorithm without doing quick location
-     * @param node1 The start node..
-     * @param node2 The end node.
-     */
-    void doPathfinding(String node1, String node2) {
-        pathfind(node1, node2, false);
-    }
-
-    /**
-     * Does the quick location pathfind search.
-     * @param start_id the id of the start node.
-     * @param goal_id the id of the desired location.
-     */
-    void quickLocationFinding(String start_id, String goal_id) {
-        pathfind(start_id, goal_id, true);
-    }
-
-    /**
-     * Takes the two nodes and generates a pathway between them using an algorithm selected by the admins of the hospital.
-     * @param node1 The start node.
-     * @param node2 The end node.
-     * @param is_quick a boolean for whether the program is doing a quick location or not.
-     */
-    public void pathfind(String node1, String node2, boolean is_quick) {
-        PATHFIND_READY = false;
-
-        map.clearIcons();
-
-        Pathfinder pathfinder;
-        int select = AdminSpecialOptionsController.getChoosenAlg();
-        if (is_quick || select == 1) {
-            pathfinder = new Pathfinder(new Dijkstras());
-        } else if (select == 2) {
-            pathfinder = new Pathfinder(new DepthFirst());
-        } else if (select == 3) {
-            pathfinder = new Pathfinder(new BreadthFirst());
-        } else {
-            pathfinder = new Pathfinder(new AStar());
-        }
-
-        pathfinder.findShortestPath(node1, node2);
-        Path path = pathfinder.pathfinder_path;
-
-        if (path.getAStarNodePath().size() > 1) {
-            PATHFIND_READY = true;
-
-            current_floor = Map.floor_ids.indexOf(db_storage.getNodeByID(node1).getNodeFloor());
-
-            map.setPath(path);
-            updateMap(map.thisStep(map.is_3D));
-
-            try {
-                String directions = path.getPathDirections().toString();
-                generateQRCode(directions);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (path.path_segments.size() < 2) {
-            next_btn.disableProperty().setValue(true);
-        }
-    }
-
-    /**
      * Scrolls the map so that the start node is more centered on the screen.
+     *
      * @param nodes
      */
-    private void scrollToPath(ArrayList<Node> nodes) {
+    private void fitToPath(ArrayList<Node> nodes) {
         Polyline p = (Polyline) nodes.get(0);
-        map_scroll_pane.setHvalue(p.getPoints().get(0) / map_img.getImage().getWidth());
-        map_scroll_pane.setVvalue(p.getPoints().get(1) / map_img.getImage().getHeight());
+        map_scroll_pane.getContent().setScaleX(1);
+        map_scroll_pane.setLayoutX(1);
+        map_scroll_pane.getContent().setScaleY(1);
+        map_scroll_pane.setLayoutY(1);
+        map_scroll_pane.setHvalue(.5);
+        map_scroll_pane.setVvalue(.5);
+        double nodes_width = p.getBoundsInParent().getWidth();
+        System.out.println("nodes width: " + nodes_width);
+        double nodes_height = p.getBoundsInParent().getHeight();
+        System.out.println("nodes height: " + nodes_height);
+
+        double pane_width = map_scroll_pane.getWidth();
+        double pane_height = map_scroll_pane.getHeight();
+        System.out.println("Pane Width: " + pane_width);
+        System.out.println("Pane Height: " + pane_height);
+
+        double zoom_amount = pane_width / (nodes_width + 250);
+        double temp_zoom = pane_height / (nodes_height + 250);
+        if(temp_zoom < zoom_amount){
+            zoom_amount = temp_zoom;
+        }
+        System.out.println("New Calculated Zoom: " + zoom_amount);
+        map_scroll_pane.getContent().setScaleX(zoom_amount);
+        map_scroll_pane.setLayoutX(zoom_amount);
+        map_scroll_pane.getContent().setScaleY(zoom_amount);
+        map_scroll_pane.setLayoutY(zoom_amount);
+
+        pane_width = map_scroll_pane.getWidth();
+        pane_height = map_scroll_pane.getHeight();
+
+        double map_width = map_img.getImage().getWidth();
+        double map_height = map_img.getImage().getHeight();
+
+        double poly_width = p.getBoundsInParent().getWidth();
+        double poly_height = p.getBoundsInParent().getHeight();
+
+        double poly_x = p.getBoundsInParent().getMinX();
+        double poly_y = p.getBoundsInParent().getMinY();
+        double desired_x = poly_x + (poly_width / 2);
+        double desired_y = poly_y + (poly_height / 2);
+        map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
+        map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));
     }
 
     /**
      * Generates the QR code text directions for the pathway.
+     *
      * @param directions The directions of the pathway.
      */
     private void generateQRCode(String directions) {
@@ -309,15 +285,15 @@ public class PathfindController {
 
     /**
      * Updates the map to display different nodes and icons and clears the previous ones.
+     *
      * @param nodes ArrayList of nodes to be displayed on the new map.
      */
-    private void updateMap(ArrayList<Node> nodes) {
+    public void updateMap(ArrayList<Node> nodes) {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
-
         map.clearIcons();
-        scrollToPath(nodes);
+        fitToPath(nodes);
         map_anchor_pane.getChildren().addAll(nodes);
         step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
@@ -344,7 +320,7 @@ public class PathfindController {
         }
 
         if (path != null) {
-            map.setPath(path);
+            Map.path = path;
         }
 
         updateMap(map.thisStep(map.is_3D));

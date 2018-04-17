@@ -31,7 +31,7 @@ public class Map {
     /**
      * Stores an ArrayList of AStarNodes for the path.
      */
-    private Path path;
+    public static Path path;
 
     /**
      * Stores a Boolean for whether or not the requested map needs to be in 3D or not.
@@ -58,16 +58,6 @@ public class Map {
      */
     public Path getPath() {
         return path;
-    }
-
-    /**
-     * setPath
-     * Sets the Path, which is composed of and ArrayList of AStarNodes.
-     *
-     * @param path List of nodes to draw along.
-     */
-    public void setPath(Path path) {
-        this.path = path;
     }
 
     /**
