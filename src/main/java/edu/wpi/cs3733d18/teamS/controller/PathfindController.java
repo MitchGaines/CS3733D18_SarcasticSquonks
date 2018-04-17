@@ -20,12 +20,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -88,7 +89,20 @@ public class PathfindController {
     ImageView expanded_qr;
 
     @FXML
-    HBox phone_number_form;
+    StackPane stack_pane;
+
+    @FXML
+    HBox directions_box;
+
+    @FXML
+    ScrollPane directions_pane;
+
+    @FXML
+    TextField phone_field;
+
+    @FXML
+    Button call_btn, text_btn;
+
     /**
      * Stores the zoom factor.
      */
@@ -112,8 +126,11 @@ public class PathfindController {
     /**
      * Stores the Map.
      */
-    public Map map;
+    private Map map;
 
+    private ArrayList<String> path_steps;
+
+    private URL directions_url;
     /**
      * Returns the image of the floor based on whether or not the map is 3D or 2D.
      *
@@ -254,9 +271,8 @@ public class PathfindController {
      *
      * @param directions The directions of the pathway.
      */
-    private void generateQRCode(String directions) {
-        QRCode qr;
-        qr = new QRCode(directions);
+    private void generateQRCode() {
+        QRCode qr = new QRCode(directions_url.toString());
         expanded_qr.setImage(SwingFXUtils.toFXImage(qr.getQRCode(), null));
     }
 
@@ -341,9 +357,22 @@ public class PathfindController {
         stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
-    /**
-     * Updates the map to show the previous segment of the path.
-     */
+    public void onPhoneCallBtnClick(){
+        if(!phone_field.getText().isEmpty()){
+            InteractivePhone call = new InteractivePhone(path_steps);
+            call.callDirections(phone_field.getText());
+            onBigQRClick();
+        }
+    }
+
+    public void onPhoneTextBtnClick(){
+        if(!phone_field.getText().isEmpty()){
+            InteractivePhone call = new InteractivePhone(path_steps);
+            call.textDirections(phone_field.getText(), directions_url);
+            onBigQRClick();
+        }
+    }
+
     public void onPrevClick() {
         updateMap(map.prevStep(map.is_3D));
         if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
