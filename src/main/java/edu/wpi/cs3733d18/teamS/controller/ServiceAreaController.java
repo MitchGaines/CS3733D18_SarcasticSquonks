@@ -123,8 +123,8 @@ public class ServiceAreaController {
     }
 
     public void doRequestService() {
-        Storage storage = Storage.getInstance();
-        if (request_type_selector.getSelectionModel().getSelectedItem() == null) {
+        // todo: validation 4real
+        if (request_type_selector.getSelectionModel().getSelectedItem() == null || fulfiller_box.getSelectionModel().getSelectedItem() == null) {
             return;
         }
         /*

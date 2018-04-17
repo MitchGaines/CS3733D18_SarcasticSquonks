@@ -73,15 +73,15 @@ public class ServiceType {
         storage.saveServiceType(russian);
 
         // populate fulfiller table with potential fulfillers for each service type
-        storage.saveFulfiller(storage.getServiceTypesByName("Medical"), storage.getUserByID(1));
-        storage.saveFulfiller(storage.getServiceTypesByName("Medical"), storage.getUserByID(4));
-        storage.saveFulfiller(storage.getServiceTypesByName("Medical"), storage.getUserByID(5));
-        storage.saveFulfiller(storage.getServiceTypesByName("Custodial"), storage.getUserByID(3));
-        storage.saveFulfiller(storage.getServiceTypesByName("Administrative"), storage.getUserByID(2));
-        storage.saveFulfiller(storage.getServiceTypesByName("Cardiology"), storage.getUserByID(4));
-        storage.saveFulfiller(storage.getServiceTypesByName("Plastics"), storage.getUserByID(5));
-        storage.saveFulfiller(storage.getServiceTypesByName("Spanish"), storage.getUserByID(6));
-        storage.saveFulfiller(storage.getServiceTypesByName("Russian"), storage.getUserByID(7));
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(1));
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(4));
+        storage.saveFulfiller(storage.getServiceTypeByName("Medical"), storage.getUserByID(5));
+        storage.saveFulfiller(storage.getServiceTypeByName("Custodial"), storage.getUserByID(3));
+        storage.saveFulfiller(storage.getServiceTypeByName("Administrative"), storage.getUserByID(2));
+        storage.saveFulfiller(storage.getServiceTypeByName("Cardiology"), storage.getUserByID(4));
+        storage.saveFulfiller(storage.getServiceTypeByName("Plastics"), storage.getUserByID(5));
+        storage.saveFulfiller(storage.getServiceTypeByName("Spanish"), storage.getUserByID(6));
+        storage.saveFulfiller(storage.getServiceTypeByName("Russian"), storage.getUserByID(7));
 
         // save sets of fulfillers to each service type
         HashSet<User> doctors = storage.getAllFulfillersByType(medical);
@@ -191,7 +191,7 @@ public class ServiceType {
     ///////////////////// Fancy Reports ///////////////////////
 
     private Stream<ServiceRequest> requestedInRange(DateTime start, DateTime end) {
-        return storage.getAllServiceRequests().stream()
+        return ServiceRequest.getServiceRequests().stream()
                 .filter(e -> e.service_type.getName().equals(this.getName()) && e.requestedDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.requestedDate.toDateTime().isAfter(start.toDateTime().toInstant()));
     }
 
