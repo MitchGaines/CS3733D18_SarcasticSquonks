@@ -83,7 +83,8 @@ public class ServiceAreaController {
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
-            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) || sr.getDesiredFulfiller().getUsername().equals(user.getUsername())) {
+            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) ||
+                    (sr.getDesiredFulfiller() != null && sr.getDesiredFulfiller().getUsername().equals(user.getUsername()))) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {
                     emergency_declared = true;
@@ -119,6 +120,7 @@ public class ServiceAreaController {
             fulfiller_box.getItems().add(ANY_FULFILLER);
             fulfiller_box.getItems().addAll(selected_item.getFulfillers());
         }
+        fulfiller_box.getSelectionModel().select(ANY_FULFILLER);
         fulfiller_box.setVisible(true);
     }
 
@@ -127,6 +129,8 @@ public class ServiceAreaController {
         if (request_type_selector.getSelectionModel().getSelectedItem() == null || fulfiller_box.getSelectionModel().getSelectedItem() == null) {
             return;
         }
+        User selected_user = fulfiller_box.getSelectionModel().getSelectedItem();
+        User desired_user = selected_user == ANY_FULFILLER ? null : selected_user;
         ServiceRequest sr =
                 ServiceRequest.createService(
                         service_title.getText(),
@@ -134,7 +138,7 @@ public class ServiceAreaController {
                         request_type_selector.getSelectionModel().getSelectedItem(),
                         user,
                         service_location.getValue(),
-                        fulfiller_box.getSelectionModel().getSelectedItem());
+                        desired_user);
         storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
         populateRequestsBox();
@@ -144,6 +148,8 @@ public class ServiceAreaController {
         description_field.setText("");
         populateRequestTypes();
 
+        // hide fulfiller box
+        fulfiller_box.setVisible(false);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Service Request Created");
