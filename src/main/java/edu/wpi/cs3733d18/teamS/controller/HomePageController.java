@@ -160,7 +160,7 @@ public class HomePageController {
             if (location.getNodeType().equals("HALL") ||
                     location.getNodeType().equals("ELEV") ||
                     location.getNodeType().equals("STAI") ||
-                    location.getShortName().equals("CRN")) {
+                    location.getShortName().equals("TRAIN")) {
 
                 to_remove.add(location);
             }

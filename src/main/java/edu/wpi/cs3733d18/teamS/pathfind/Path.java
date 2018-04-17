@@ -70,9 +70,9 @@ public class Path {
         ArrayList<String> path_description = new ArrayList<>();
 
         path_description.add("- Directions from: " + algorithm_node_path.get(0).getLongName()
-                + " to: " + algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName() + ".\n");
+                + " to: " + algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName() + ".");
 
-        path_description.add("- First, begin walking towards " + algorithm_node_path.get(1).short_name + ".\n");
+        path_description.add("- First, begin walking towards " + algorithm_node_path.get(1).short_name + ".");
 
         for (int i = 1; i < (algorithm_node_path.size() - 1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i - 1), algorithm_node_path.get(i));
@@ -115,17 +115,17 @@ public class Path {
             }
 
             path_description.add("- In " + distance + " feet, "
-                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + ".\n");
+                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + ".");
 
             if (next_floor > curr_floor) {
-                path_description.add("- Use stairs or elevator to go up to floor " + algorithm_node_path.get(i).floor + ".\n");
+                path_description.add("- Use stairs or elevator to go up to floor " + algorithm_node_path.get(i).floor + ".");
             } else if (next_floor < curr_floor) {
-                path_description.add("- Use stairs or elevator to go down to floor " + algorithm_node_path.get(i).floor + ".\n");
+                path_description.add("- Use stairs or elevator to go down to floor " + algorithm_node_path.get(i).floor + ".");
             }
         }
 
         path_description.add("- Destination is " + calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2),
-                algorithm_node_path.get(algorithm_node_path.size() - 1)) + " feet ahead.\n");
+                algorithm_node_path.get(algorithm_node_path.size() - 1)) + " feet ahead.");
 
         return path_description;
     }
