@@ -82,7 +82,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXTextField>
-                              <JFXButton fx:id="call_btn" buttonType="RAISED" onMouseClicked="#onMapUp" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
+                              <JFXButton fx:id="call_btn" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
                            </children>
                         </HBox>
                      </children>
@@ -112,12 +112,12 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <JFXButton buttonType="RAISED" onMouseClicked="#onMapUp" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%previous" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                        <JFXButton fx:id="prev_btn" buttonType="RAISED" disable="true" onMouseClicked="#onPrevClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%previous" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                             <GridPane.margin>
                                 <Insets right="10.0" />
                             </GridPane.margin>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" onMouseClicked="#onMapDown" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%next" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                        <JFXButton fx:id="next_btn" buttonType="RAISED" onMouseClicked="#onNextClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%next" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                             <GridPane.margin>
                                 <Insets left="10.0" />
                             </GridPane.margin>

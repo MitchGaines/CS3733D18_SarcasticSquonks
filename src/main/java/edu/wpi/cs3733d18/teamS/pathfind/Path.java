@@ -11,6 +11,9 @@ import javafx.scene.effect.Shadow;
 import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -253,6 +256,29 @@ public class Path {
 
     public ArrayList<Node> genIcons(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
+        AStarNode end_node = path_segments.get(seg_index).seg_path.get(path_segments.get(seg_index).seg_path.size()-1);
+        double x_pos;
+        double y_pos;
+        ImageView icon;
+        if(is3D){
+            x_pos = end_node.getXCoord3D();
+            y_pos = end_node.getYCoord3D();
+        } else{
+            x_pos = end_node.getXCoord();
+            y_pos = end_node.getYCoord();
+        }
+        if(nextFloorChange()<0){
+            icon = new ImageView("images/mapIcons/down.png");
+            icon.setId("temporaryIcon");
+        } else if(nextFloorChange()>0){
+            icon = new ImageView("images/mapIcons/up.png");
+        } else {
+            icon = new ImageView("images/mapIcons/destinationIcon.png");
+        }
+        icon.setId("temporaryIcon");
+        icon.setX(x_pos);
+        icon.setY(y_pos);
+        fx_nodes.add(icon);
         return fx_nodes;
     }
 
@@ -263,12 +289,14 @@ public class Path {
         return 0;
     }
 
+
     ArrayList<Node> genAnts(Polyline p) {
         Ant ant = new Ant(p.getPoints().get(0), p.getPoints().get(1));
         for (int i = 2; i < p.getPoints().size(); i += 2) {
             ant.addStop(p.getPoints().get(i), p.getPoints().get(i + 1));
         }
         ArrayList<Node> nodes = new ArrayList<>();
+        ant.playFromStart();
         nodes.add(ant.getImageView());
 
         // Clone and stagger multiple ants
