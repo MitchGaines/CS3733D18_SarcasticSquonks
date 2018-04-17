@@ -30,10 +30,6 @@ public class ServiceRequest {
     }
 
     /**
-     * Stores a HashSet of Service Requests.
-     */
-    private static HashSet<ServiceRequest> service_requests = new HashSet<>();
-    /**
      * Instance of the storage class
      */
     private static Storage storage = Storage.getInstance();
@@ -78,22 +74,13 @@ public class ServiceRequest {
     }
 
     /**
-     * Returns all edu.wpi.cs3733d18.teamS.service requests, even completed ones.
-     *
-     * @return a HashSet of all edu.wpi.cs3733d18.teamS.service requests, both completed and not.
-     */
-    public static HashSet<ServiceRequest> getServiceRequests() {
-        return service_requests;
-    }
-
-    /**
      * Gets a HashSet of all edu.wpi.cs3733d18.teamS.service requests that need to be fulfilled.
      *
      * @return all services without a fulfiller.
      */
     public static HashSet<ServiceRequest> getUnfulfilledServiceRequests() {
         HashSet<ServiceRequest> to_return = new HashSet<>();
-        for (ServiceRequest sr : service_requests) {
+        for (ServiceRequest sr : storage.getAllServiceRequests()) {
             if (!sr.isFulfilled()) {
                 to_return.add(sr);
             }
@@ -112,9 +99,6 @@ public class ServiceRequest {
      */
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);
-        service_requests.add(sr);
-        //storage.saveRequest(sr); // TODO we should not save to database here
-        ServiceLogEntry.log(sr, false);
         return sr;
     }
 
@@ -144,24 +128,25 @@ public class ServiceRequest {
     }
 
     /**
-     * Sets the edu.wpi.cs3733d18.teamS.user requesting the edu.wpi.cs3733d18.teamS.service.
+     * Sets the user requesting the service.
      *
-     * @param requester
+     * @param requester the user who requested the service
      */
     public void setRequester(User requester) {
         this.requester = requester;
     }
 
     /**
-     * Marks the specified edu.wpi.cs3733d18.teamS.user as the fulfiller of the edu.wpi.cs3733d18.teamS.service request.
+     * Marks the specified user as the fulfiller of the service request.
      *
-     * @param user the edu.wpi.cs3733d18.teamS.user who fulfills the edu.wpi.cs3733d18.teamS.service request.
-     * @return true if the edu.wpi.cs3733d18.teamS.service request was successfully marked as fulfilled, or false if it was fulfilled already.
+     * @param user the user who fulfills the service request.
+     * @return true if the service request was successfully marked as fulfilled, or false if it was fulfilled already.
      */
     public boolean fulfill(User user) {
         if (!isFulfilled()) {
             fulfiller = user;
             fulfilledDate = DateTime.now();
+            storage.updateRequest(this);
             return true;
         } else {
             return false;
