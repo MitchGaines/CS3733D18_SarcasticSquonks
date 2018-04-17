@@ -61,6 +61,7 @@ public class ModifyMapController {
     edu.wpi.cs3733d18.teamS.data.Node new_node;
 
     HashMap<Edge, Line> edges_to_delete;
+    HashMap<Node, Circle> nodes_to_move;
 
     @FXML
     Label add_loc_fail, time;
@@ -87,7 +88,7 @@ public class ModifyMapController {
     ImageView map;
 
     @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box;
+    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box;
 
     @FXML
     Button confirm_3d;
@@ -115,6 +116,7 @@ public class ModifyMapController {
 
         edges_to_delete = new HashMap<>();
         entry_to_delete = new HashMap<>();
+        nodes_to_move = new HashMap<>();
 
         ObservableList<String> list_type = FXCollections.observableArrayList();
         list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
@@ -163,7 +165,7 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes(), storage.getAllEdges());
 
         ObservableList<String> lop = FXCollections.observableArrayList();
-        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Set Kiosk Location");
+        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
@@ -249,7 +251,6 @@ public class ModifyMapController {
     public void onAddLocClick() {
         if (!building.getText().equals("") && !loc_type.getSelectionModel().isEmpty() && !long_name.getText().equals("") && !short_name.getText().equals("")) {
             Scene scene = add_loc.getScene();
-            //Image loc_cursor = new Image("images/mapIcons/nodeIcon.png");
             Circle circ_cursor = new Circle(7, color);
             circ_cursor.setStroke(Color.BLACK);
             circ_cursor.setStrokeWidth(3);
@@ -282,6 +283,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
                 break;
             case "Add Location":
                 add_node_box.setVisible(true);
@@ -289,6 +291,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
                 break;
             case "View Map":
                 add_edge_box.setVisible(false);
@@ -296,6 +299,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
                 break;
             case "Delete Location":
                 add_edge_box.setVisible(false);
@@ -303,6 +307,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(true);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
                 break;
             case "Delete Path":
                 add_edge_box.setVisible(false);
@@ -310,6 +315,15 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(true);
+                modify_loc_box.setVisible(false);
+                break;
+            case "Modify Locations":
+                modify_loc_box.setVisible(true);
+                add_edge_box.setVisible(false);
+                add_node_box.setVisible(false);
+                delete_loc_box.setVisible(false);
+                kiosk_location_name.setVisible(false);
+                delete_edge_box.setVisible(false);
                 break;
             case "Set Kiosk Location":
                 add_edge_box.setVisible(false);
@@ -317,6 +331,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(true);
                 delete_edge_box.setVisible(false);
+                modify_loc_box.setVisible(false);
                 break;
 
         }
@@ -337,8 +352,7 @@ public class ModifyMapController {
         pane.getChildren().add(pin);
 
         endAddLoc();
-        add_node_box.setVisible(false);
-        location_or_path.getSelectionModel().selectFirst();
+
         confirm_3d.setVisible(false);
         choose_floor.setVisible(true);
     }
@@ -379,9 +393,7 @@ public class ModifyMapController {
             pane.getChildren().add(temp_pin);
         } else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
-
             Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
-
             String loc_type_shortname = locations.get(loc_type.getValue().toString());
             new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                     floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
@@ -446,12 +458,24 @@ public class ModifyMapController {
                         edge_list.put(line.getKey(), line.getValue());
                         line.getValue().setStroke(Color.BLACK);
                         edges_to_delete.remove(line);
+                    } else {
+                        edges_to_delete.put(line.getKey(), line.getValue());
+                        line.getValue().setStroke(Color.YELLOW);
+                        edge_list.remove(line);
                     }
-                    System.out.println("In here");
-                    edges_to_delete.put(line.getKey(), line.getValue());
-                    line.getValue().setStroke(Color.YELLOW);
-                    edge_list.remove(line);
-                    System.out.println(edges_to_delete.size());
+                }
+            }
+        } else if (location_or_path.getValue().toString().equals("Modify Locations")) {
+            Point2D pt = new Point2D(click.getX(), click.getY());
+            for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()) {
+                if (entry.getValue().contains(pt)) {
+                    if(entry.getValue().getFill().equals(Color.YELLOW)) {
+                        entry.getValue().setFill(color);
+                        nodes_to_move.remove(entry);
+                    } else {
+                        nodes_to_move.put(entry.getKey(), entry.getValue());
+                        entry.getValue().setFill(Color.YELLOW);
+                    }
                 }
             }
         }
@@ -482,6 +506,21 @@ public class ModifyMapController {
         return toReturn;
     }
 
+    public void onNodeDrag(MouseEvent click) {
+        double x_offset = click.getX();
+        double y_offset = click.getY();
+        if(location_or_path.getValue().toString().equals("Modify Locations")) {
+
+        }
+    }
+
+    public void onCancelMove() {
+        for(Map.Entry<Node, Circle> entry : nodes_to_move.entrySet()) {
+            entry.getValue().setFill(color);
+            nodes_to_move.remove(entry);
+        }
+    }
+
     public void onDeleteEdge() {
         for(Map.Entry<Edge, Line> line : edges_to_delete.entrySet()) {
             pane.getChildren().remove(line.getValue());
@@ -508,8 +547,6 @@ public class ModifyMapController {
             }
         }
         location_to_delete.setText("");
-        delete_loc_box.setVisible(false);
-        location_or_path.getSelectionModel().selectFirst();
     }
 
     public void onDeleteLocCancelClick() {
@@ -518,8 +555,6 @@ public class ModifyMapController {
             entry.getValue().setFill(color);
         }
         location_to_delete.setText("");
-        delete_loc_box.setVisible(false);
-        location_or_path.getSelectionModel().selectFirst();
     }
 
     public void onAddEdgeClick() {
@@ -536,15 +571,12 @@ public class ModifyMapController {
             path.setStrokeWidth(3);
             pane.getChildren().add(path);
             edge_list.put(new_edge, path);
-            System.out.println(edge_list.get(new_edge));
             onCancelEdgeClick();
         }
     }
 
     public void onCancelEdgeClick() {
         first_click = true;
-        add_edge_box.setVisible(false);
-        location_or_path.getSelectionModel().selectFirst();
         location_one.setText("");
         location_two.setText("");
         nodes_list.get(first_loc).setFill(color);
@@ -580,16 +612,14 @@ public class ModifyMapController {
                     pane.getChildren().add(path);
                     edge_list.put(a_edge, path);
                 } catch (NullPointerException e) {
-                    System.out.println(a_edge.getEdgeID());
+
                 }
             }
         }
     }
 
     private void endAddLoc() {
-        add_loc_cancel.setVisible(false);
         building.setText("");
-        loc_type.getSelectionModel().clearSelection();
         long_name.setText("");
         short_name.setText("");
     }
@@ -600,7 +630,6 @@ public class ModifyMapController {
         for (Map.Entry<Edge, Line> an_entry : edge_list.entrySet()) {
             if (an_entry.getKey().getEndNode().equals(a_node.getNodeID()) || an_entry.getKey().getStartNode().equals(a_node.getNodeID())) {
                 to_delete.add(an_entry.getKey());
-                //System.out.println(edge_list.get(a_delete.getKey()));
                 edge_list.remove(an_entry);
                 pane.getChildren().remove(edge_list.get(an_entry.getKey()));
             }
