@@ -23,7 +23,7 @@ app.get('/:steps', function(req, res){
   });
 });
 
-app.get('/twiml/:twiml_steps', function(req, res) {
+app.post('/twiml/:twiml_steps', function(req, res) {
   var twiml_steps = req.params.twiml_steps;
   var steps_xml = decodeURIComponent(twiml_steps);
 

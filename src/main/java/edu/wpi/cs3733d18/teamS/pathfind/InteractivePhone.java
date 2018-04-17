@@ -36,8 +36,8 @@ public class InteractivePhone {
     public void callDirections(String to_phone){
         try {
 
-            //String host = "159.203.189.146";
-            String host = "127.0.0.1";
+            String host = "159.203.189.146";
+            //String host = "127.0.0.1";
             int port = 3000;
             String protocol = "http";
             String path = "/twiml/";
