@@ -302,7 +302,7 @@ public class Node { // TODO: add 3d coordinate fields
     }
 
     public void setDisabled(boolean disabled){
-        disabled = disabled;
+        this.disabled = disabled;
     }
 
     @Override

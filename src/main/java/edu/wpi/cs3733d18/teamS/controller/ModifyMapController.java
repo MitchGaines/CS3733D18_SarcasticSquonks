@@ -169,7 +169,7 @@ public class ModifyMapController {
         makeMap(storage.getAllNodes(), storage.getAllEdges());
 
         ObservableList<String> lop = FXCollections.observableArrayList();
-        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location", "Disable Locations");
+        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location", "Batch Disable Locations");
         location_or_path.setItems(lop);
         location_or_path.getSelectionModel().selectFirst();
 
@@ -288,7 +288,7 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -299,7 +299,7 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -310,7 +310,7 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -321,7 +321,7 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
                 modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -332,7 +332,7 @@ public class ModifyMapController {
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(true);
                 modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -343,7 +343,7 @@ public class ModifyMapController {
                 delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(false);
-                batch_disable_box.setVisible(true);
+                batch_disable_box.setVisible(false);
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
@@ -358,7 +358,7 @@ public class ModifyMapController {
                 pane.setOnMouseMoved(null);
                 removePaneChild();
                 break;
-            case "Disable Locations":
+            case "Batch Disable Locations":
                 add_edge_box.setVisible(false);
                 add_node_box.setVisible(false);
                 delete_loc_box.setVisible(false);
@@ -368,10 +368,8 @@ public class ModifyMapController {
                 batch_disable_box.setVisible(true);
                 geoBlock = new Polygon();
                 geoBlock.setId("polygon");
-                geoBlock.setStyle("" +
-                        "-fx-fill: rgba(49,248,0,0.3);" +
-                        "-fx-border-color: rgba(49,248,0,1);" +
-                        "-fx-border-width: 5px;");
+                geoBlock.setStyle("-fx-fill: rgba(49,248,0,0.3);");
+                geoBlock.setStroke(Color.GREEN);
                 break;
 
         }
@@ -518,29 +516,75 @@ public class ModifyMapController {
                     }
                 }
             }
-        }else if(location_or_path.getValue().toString().equals("Disable Locations")){
+        }else if(location_or_path.getValue().toString().equals("Batch Disable Locations")){
             removePaneChild("polygon");
             createPreviewLine(click.getX(),click.getY());
             geoBlock.getPoints().addAll(click.getX(), click.getY());
             pane.getChildren().add(geoBlock);
         }
+        for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()){
+            if(! entry.getValue().getFill().equals(Color.YELLOW)) {
+                if(entry.getKey().isDisabled()){
+                    entry.getValue().setFill(Color.GREEN);
+                }
+            }
+        }
     }
 
     public void disableNodesInPolygon(){
         ArrayList<Node> intersecting_nodes = getIntersectingNodes();
+        for(Node n : intersecting_nodes) {
+            n.setDisabled(true);
+            storage.updateNode(n);
+        }
+        checkEdges();
+        makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
+        removePaneChild();
+        geoBlock = new Polygon();
+        geoBlock.setId("polygon");
+        geoBlock.setStyle("-fx-fill: rgba(49,248,0,0.3);");
+        geoBlock.setStroke(Color.GREEN);
+        pane.setOnMouseMoved(null);
+    }
+    public void enableNodesInPolygon(){
+        ArrayList<Node> intersecting_nodes = getIntersectingNodes();
+        for(Node n : intersecting_nodes){
+            n.setDisabled(false);
+            storage.updateNode(n);
+        }
+        checkEdges();
+        makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
+        removePaneChild();
+        geoBlock = new Polygon();
+        geoBlock.setId("polygon");
+        geoBlock.setStyle("-fx-fill: rgba(49,248,0,0.3);");
+        geoBlock.setStroke(Color.GREEN);
+        pane.setOnMouseMoved(null);
+    }
+
+    public void checkEdges(){
+        for(Edge e : edge_list.keySet()){
+            if (storage.getNodeByID(e.getStartNode()).isDisabled()
+                    || storage.getNodeByID(e.getEndNode()).isDisabled()){
+                e.setDisabled(true);
+                storage.updateEdge(e);
+            }else{
+                e.setDisabled(false);
+                storage.updateEdge(e);
+            }
+        }
     }
 
     private ArrayList<Node> getIntersectingNodes(){
         ArrayList<Node> intersecting_nodes = new ArrayList<>();
-        int c = 0;
+        if(geoBlock.getPoints().size() == 0){
+            return intersecting_nodes;
+        }
         for(Node node : nodes_list.keySet()){
             if(!Shape.intersect(nodes_list.get(node), geoBlock).getBoundsInParent().isEmpty()){
-                c++;
                 intersecting_nodes.add(node);
             }
         }
-        if(c > 0)
-            System.out.println(c+" nodes intersect.");
         return intersecting_nodes;
     }
 
@@ -570,6 +614,8 @@ public class ModifyMapController {
             l.setId("previewLine");
             pane.getChildren().add(l);
         });
+
+        pane.setOnMouseExited(event -> removePaneChild("previewLine"));
     }
 
     private String select3DMap() {
@@ -676,17 +722,6 @@ public class ModifyMapController {
 
     private void makeMap(List<edu.wpi.cs3733d18.teamS.data.Node> dataNodes, List<edu.wpi.cs3733d18.teamS.data.Edge> dataEdges) {
         String floor = choose_floor.getValue().toString();
-        for (edu.wpi.cs3733d18.teamS.data.Node a_node : dataNodes) {
-            if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
-
-                Circle pin = new Circle(a_node.getXCoord(), a_node.getYCoord(), 8, color);
-                pin.setStroke(Color.BLACK);
-                pin.setStrokeWidth(3);
-
-                nodes_list.put(a_node, pin);
-                pane.getChildren().add(pin);
-            }
-        }
         String short_floor = floor_map.get(choose_floor.getValue().toString());
         String small_ft = ("00" + short_floor).substring(short_floor.length());
         for (edu.wpi.cs3733d18.teamS.data.Edge a_edge : dataEdges) {
@@ -700,6 +735,10 @@ public class ModifyMapController {
                     double endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord();
                     Line path = new Line(startX, startY, endX, endY);
                     path.setStrokeWidth(3);
+                    if(a_edge.isDisabled()){
+                        path.setStroke(Color.GREEN);
+                    }
+
                     pane.getChildren().add(path);
                     edge_list.put(a_edge, path);
                 } catch (NullPointerException e) {
@@ -707,6 +746,23 @@ public class ModifyMapController {
                 }
             }
         }
+        for (edu.wpi.cs3733d18.teamS.data.Node a_node : dataNodes) {
+            if(!a_node.getShortName().equals("TRAIN")){
+                if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
+
+                    Circle pin = new Circle(a_node.getXCoord(), a_node.getYCoord(), 8, color);
+                    pin.setStroke(Color.BLACK);
+                    pin.setStrokeWidth(3);
+                    if(a_node.isDisabled()){
+                        pin.setFill(Color.GREEN);
+                    }
+
+                    nodes_list.put(a_node, pin);
+                    pane.getChildren().add(pin);
+                }
+            }
+        }
+
     }
 
     private void endAddLoc() {
