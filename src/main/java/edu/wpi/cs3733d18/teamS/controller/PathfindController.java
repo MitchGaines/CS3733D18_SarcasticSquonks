@@ -3,16 +3,16 @@ package edu.wpi.cs3733d18.teamS.controller;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
@@ -43,6 +43,9 @@ public class PathfindController {
 
     @FXML
     AnchorPane map_anchor_pane;
+
+    @FXML
+    Slider zoom_scroll;
 
     /**
      * The ScrollPane for the map image.
@@ -174,6 +177,19 @@ public class PathfindController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        stack_pane.setAlignment(zoom_scroll, Pos.TOP_LEFT);
+        zoom_scroll.setMin(0.5);
+        zoom_scroll.setMax(1.8);
+        zoom_scroll.setValue(1);
+        zoom_scroll.setShowTickMarks(true);
+        zoom_scroll.setMajorTickUnit(0.2);
+        zoom_scroll.setStyle("-fx-background-color: #4863A0;");
+        zoom_scroll.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                zoom(newValue.doubleValue());
+            }
+        });
     }
 
     /**
@@ -183,6 +199,7 @@ public class PathfindController {
      */
     private void zoom(double zoom_amount) {
         zoom_factor = zoom_amount;
+        zoom_scroll.setValue(zoom_factor);
         if (zoom_factor < 0.5) {
             zoom_factor = 0.5;
         }
