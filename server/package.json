@@ -9,6 +9,8 @@
   "author": "CS3733 Team S",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "body-parser-xml": "^1.1.0",
     "bootstrap": "^4.1.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
