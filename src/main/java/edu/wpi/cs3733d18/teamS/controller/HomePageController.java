@@ -290,11 +290,8 @@ public class HomePageController {
     }
 
     @FXML
-    void onAboutClick(ActionEvent event) throws IOException{    // about screen
-
-        System.out.println("clicked!");
+    void onAboutClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
-
     }
 
     /**

@@ -3,20 +3,22 @@ package edu.wpi.cs3733d18.teamS.controller;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
@@ -87,6 +89,9 @@ public class PathfindController {
     ImageView expanded_qr;
 
     @FXML
+    AnchorPane directions_anchor;
+
+    @FXML
     StackPane stack_pane;
 
     @FXML
@@ -132,6 +137,7 @@ public class PathfindController {
     private ArrayList<String> path_steps;
 
     private URL directions_url;
+
     /**
      * Returns the image of the floor based on whether or not the map is 3D or 2D.
      *
@@ -173,9 +179,25 @@ public class PathfindController {
         if (map.getPath().path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);
         }
+
+        path_steps = map.getPath().getPathDirections();
+        //directions_vbox.setMaxWidth(directions_pane.getMaxWidth());
+        for (String path_step : path_steps) {
+            Label step_label = new Label(path_step.substring(2), getDirectionsIcon(path_step));
+            VBox.setMargin(step_label, new Insets(0, 0, 0, 15.0));
+            //step_label.setMaxWidth(directions_pane.getWidth() - 20);
+            step_label.setFont(new Font(24));
+            step_label.setWrapText(true);
+            step_label.setGraphicTextGap(15.0);
+            directions_vbox.getChildren().add(step_label);
+            directions_vbox.getChildren().add(new Separator());
+        }
+        // Remove last separator
+        directions_vbox.getChildren().remove(directions_vbox.getChildren().size() - 1);
+
         try {
-            String directions = map.getPath().getPathDirections().toString();
-            generateQRCode(directions);
+            directions_url = map.getPath().getPathDirectionsURL(path_steps);
+            generateQRCode();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -260,8 +282,6 @@ public class PathfindController {
         if(map.is_3D){
             desired_y += 400;
         }
-
-        System.out.println("Centering to point at: " + desired_x + ", " + desired_y);
 
         map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
         map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));
