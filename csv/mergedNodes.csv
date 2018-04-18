@@ -178,7 +178,7 @@ DDEPT00302,3900,640,2,15 Francis,DEPT,Brigham Health Floor 2,Brigham Health,Team
 DDEPT00402,3425,870,2,15 Francis,DEPT,Waiting Room Floor 2,Waiting Room,Team D,3000,1685,false
 DLABS00102,3830,775,2,15 Francis,LABS,MRI Associates Floor 2,MRI Associates,Team D,3330,1745,false
 DCONF00102,4595,550,2,15 Francis,CONF,Carrie M. Hall Conference Center Floor 2,Conference Center,Team D,3960,1825,false
-DRETL00102,4270,480,2,15 Francis,RETL,Pat's Place Floor 2,Pat's Place,Team D,3765,1710,false
+DRETL00102,4270,480,2,15 Francis,RETL,Pats Place Floor 2,Pats Place,Team D,3765,1710,false
 DEXIT00102,4295,750,2,15 Francis,EXIT,15 Lobby Entrance Floor 2,15 Lobby Entrance,Team D,3680,1845,false
 DSTAI00102,4650,675,2,15 Francis,STAI,Staircase1 Floor2,Staircase1,Team D,3965,1905,false
 DSTAI00202,4330,580,2,15 Francis,STAI,Staircase2 Floor2,Staircase2,Team D,3770,1760,false
@@ -257,7 +257,7 @@ EHALL00601,2385,910,1,45 Francis,HALL,Hallway Node 4 Floor 1,HallE04,Team E,2225
 EHALL00701,2385,860,1,45 Francis,HALL,Hallway Node 5 Floor 1,HallE05,Team E,2245,1425,false
 EDEPT00101,2335,860,1,45 Francis,DEPT,Waiting Room 1 Floor 1,Wait 1,Team E,2205,1410,false
 EHALL00801,2460,910,1,45 Francis,HALL,Hallway Node 6 Floor 1,HallE06,Team E,2285,1470,false
-EINFO00101,2460,850,1,45 Francis,INFO,Connor's Center Security Desk Floor 1,Security 1,Team E,2305,1440,false
+EINFO00101,2460,850,1,45 Francis,INFO,Connors Center Security Desk Floor 1,Security 1,Team E,2305,1440,false
 EHALL00901,2585,910,1,45 Francis,HALL,Hallway Node 7 Floor 1,HallE07,Team E,2375,1505,false
 EHALL01001,2585,890,1,45 Francis,HALL,Hallway Node 8 Floor 1,HallE08,Team E,2380,1495,false
 EHALL01101,2610,910,1,45 Francis,HALL,Hallway Node 9 Floor 1,HallE09,Team E,2390,1515,false

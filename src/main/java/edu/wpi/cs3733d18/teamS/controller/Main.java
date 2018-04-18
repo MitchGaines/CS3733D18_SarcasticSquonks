@@ -86,7 +86,7 @@ public class Main extends Application {
             if (Storage.getInstance().getDatabase() != null) {
                 CSVWriter csv_writer = new CSVWriter(Storage.getInstance().getDatabase());
                 csv_writer.writeCSVFile("csv/mergedNodes.csv", "NODES");
-                csv_writer.writeCSVFile("csv/mergedEdges_edited.csv", "EDGES");
+                csv_writer.writeCSVFile("csv/mergedEdges.csv", "EDGES");
             }
         });
 
