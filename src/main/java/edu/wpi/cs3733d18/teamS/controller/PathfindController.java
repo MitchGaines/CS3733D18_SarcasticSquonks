@@ -455,22 +455,22 @@ public class PathfindController {
 
     private ImageView getDirectionsIcon(String step_description) {
         ImageView icon;
-        if (step_description.contains("turn left")) {
+        if (step_description.contains(AllText.get("turn_left"))) {
             icon = new ImageView(new Image("images/directionsIcons/left.png"));
         }
-        else if (step_description.contains("turn right")) {
+        else if (step_description.contains(AllText.get("turn_right"))) {
             icon = new ImageView(new Image("images/directionsIcons/right.png"));
         }
-        else if (step_description.contains("straight") || step_description.contains("First")) {
+        else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
             icon = new ImageView(new Image("images/directionsIcons/walking.png"));
         }
-        else if (step_description.contains("up to floor")) {
+        else if (step_description.contains(AllText.get("stairs_up"))) {
             icon = new ImageView(new Image("images/mapIcons/up.png"));
         }
-        else if (step_description.contains("down to floor")) {
+        else if (step_description.contains(AllText.get("stairs_down"))) {
             icon = new ImageView(new Image("images/mapIcons/down.png"));
         }
-        else if (step_description.toLowerCase().contains("destination")){
+        else if (step_description.contains(AllText.get("destination_to"))){
             icon = new ImageView(new Image("images/mapIcons/destinationIcon.png"));
         }
         else {
