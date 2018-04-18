@@ -7,9 +7,14 @@ import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -84,6 +89,10 @@ public class Main extends Application {
                 csv_writer.writeCSVFile("csv/mergedEdges_edited.csv", "EDGES");
             }
         });
+
+    }
+
+    public static void handleClock(Label clock_label) {
 
     }
 }
