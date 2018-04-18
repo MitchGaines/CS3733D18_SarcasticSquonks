@@ -35,7 +35,10 @@
                         <JFXListView fx:id="positions_list" />
                      </children>
                         </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23;" text="A special thanks to Wilson Wong, Kyle Corry, and Andrew Shinn for all their insight and expertise!" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coac!h" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input atBrigham &amp; Women's Faulkner Hospital" />
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
