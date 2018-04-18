@@ -131,6 +131,7 @@ public class HomePageController {
      * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database.
      */
     public void initialize() {
+        HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
         StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
             @Override
@@ -236,7 +237,7 @@ public class HomePageController {
             Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             pathfind_stage.setTitle("Pathfinder");
 
-            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
+            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth() - 13, window.getHeight() - 35.5);
 
             Timeout.addListenersToScene(pathfind_parent_scene);
 
