@@ -19,7 +19,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
+/**
+ * The main for the application.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Joe Turcotte
+ * @author Matthew Puentes
+ * @author Danny Sullivan
+ * @author Noah Hillman
+ * @version 1.3, April 13, 2018
+ */
 public class Main extends Application {
 
     private static Stage primary_stage;
@@ -29,6 +38,12 @@ public class Main extends Application {
         Timeout.stop();
     }
 
+    /**
+     * Switches Scenes.
+     * @param title title of the next scene.
+     * @param fxml_name name of the scene.
+     * @return the next scene.
+     */
     public static Object switchScenes(String title, String fxml_name) {
         try {
             double old_height = primary_stage.getHeight();
@@ -52,6 +67,11 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Sets the initial stage of the program.
+     * @param primary_stage the initial setup.
+     * @throws Exception thrown if the program fails to start.
+     */
     @Override
     public void start(Stage primary_stage) throws Exception {
         AllText.changeLanguage("en");

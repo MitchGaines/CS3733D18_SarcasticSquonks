@@ -3,6 +3,11 @@ package edu.wpi.cs3733d18.teamS.internationalization;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * Managages the internationalized strings and methods related to them.
+ * @author Matthew McMillan
+ * @version 1.3, April 18, 2018
+ */
 public class AllText {
     /**
      * Stores a Resource Bundle

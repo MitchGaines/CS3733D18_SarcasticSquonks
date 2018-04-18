@@ -23,9 +23,7 @@ import java.util.List;
  * The edu.wpi.cs3733d18.teamS.controller for the Apache Database
  *
  * @author Joseph Turcotte
- * @version %I%, %G%
- * Date: March 29, 2018
- * Modified: April 6, 2018
+ * @version 1.3, April 6, 2018
  */
 public class Storage {
 

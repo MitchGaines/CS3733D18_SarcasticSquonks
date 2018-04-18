@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
  * @author Danny Sullivan
  * @author Cormac Lynch-Collier
  * @author Noah Hillman
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  */
 public class AdminPageController extends UserController {
 

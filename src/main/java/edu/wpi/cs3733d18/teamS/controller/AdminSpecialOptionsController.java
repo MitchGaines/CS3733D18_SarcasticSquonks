@@ -27,7 +27,7 @@ import java.sql.Time;
  * This controller deals with special options for the admin users.
  * @author Cormac Lynch-Collier
  * @author Noah Hillman
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  */
 public class AdminSpecialOptionsController{
 
