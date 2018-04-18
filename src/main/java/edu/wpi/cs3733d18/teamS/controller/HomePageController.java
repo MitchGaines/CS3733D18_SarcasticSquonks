@@ -65,6 +65,9 @@ public class HomePageController {
     JFXButton login_btn;
 
     @FXML
+    JFXButton about;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -126,6 +129,14 @@ public class HomePageController {
      */
     public static void setKioskDefaultLocation(String kioskDefaultLocation) {
         KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
+    }
+
+//    public void setStart(String node_id) {
+//        combobox_start.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+//    }
+
+    public void setEnd(String node_id) {
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
     }
 
     /**
@@ -276,6 +287,14 @@ public class HomePageController {
         }
         Map.path = path;
         Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
+    }
+
+    @FXML
+    void onAboutClick(ActionEvent event) throws IOException{    // about screen
+
+        System.out.println("clicked!");
+        Main.switchScenes("About", "/AboutPage.fxml");
+
     }
 
     /**
