@@ -262,7 +262,7 @@ EHALL00901,2585,910,1,45 Francis,HALL,Hallway Node 7 Floor 1,HallE07,Team E,2375
 EHALL01001,2585,890,1,45 Francis,HALL,Hallway Node 8 Floor 1,HallE08,Team E,2380,1495,false
 EHALL01101,2610,910,1,45 Francis,HALL,Hallway Node 9 Floor 1,HallE09,Team E,2390,1515,false
 EHALL01201,2610,955,1,45 Francis,HALL,Hallway Node 10 Floor 1,HallE10,Team E,2375,1535,false
-EHALL01301,2660,955,1,45 Francis,HALL,Hallway Node 11 Floor 1,HallE11,Team E,1410,1550,false
+EHALL01301,2660,955,1,45 Francis,HALL,Hallway Node 11 Floor 1,HallE11,Team E,2363,1559,false
 EHALL01401,2660,980,1,45 Francis,HALL,Hallway Node 12 Floor 1,HallE12,Team E,2400,1560,false
 EHALL01501,2675,910,1,45 Francis,HALL,Hallway Node 13 Floor 1,HallE13,Team E,2435,1530,false
 EHALL01601,2910,910,1,45 Francis,HALL,Hallway Node 14 Floor 1,HallE14,Team E,2605,1590,false
