@@ -326,8 +326,8 @@ public class HomePageController {
 
     /**
      * Tests to try out different users.
-     * @param event
-     * @throws IOException
+     * @param event The click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onLoginClick(ActionEvent event) throws IOException {
         try {

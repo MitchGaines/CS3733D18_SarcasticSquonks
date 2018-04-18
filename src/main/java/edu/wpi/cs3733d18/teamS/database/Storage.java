@@ -49,6 +49,7 @@ public class Storage {
 
     /**
      * Get instance of Storage object.
+     * @return the instance of the storage holder.
      */
     public static Storage getInstance() {
         return StorageHolder.instance;
@@ -546,8 +547,8 @@ public class Storage {
 
     /**
      * Gets all requests of a specific type.
-     *
-     * @return a List of edu.wpi.cs3733d18.teamS.service requests corresponding to a specific type.
+     * @param type the type of service request.
+     * @return a List of service requests corresponding to a specific type.
      */
     public List<ServiceRequest> getRequestsByType(ServiceType type) {
         ResultSet r_set = database.query(
@@ -846,8 +847,8 @@ public class Storage {
 
     /**
      * Gets all fulfillers of a specific type from the table
-     *
-     * @return a List containing all of the fulfillers of the given type in the table
+     * @param type the type of service request.
+     * @return a List containing all of the fulfillers of the given type in the table.
      */
     public HashSet<User> getAllFulfillersByType(ServiceType type) {
         ResultSet r_set = database.query(
