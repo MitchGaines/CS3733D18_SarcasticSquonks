@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.user;
 
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -196,7 +197,7 @@ public class User {
     ///////////////////// Fancy Reports ///////////////////////
 
     private Stream<ServiceRequest> requestedInRange(DateTime start, DateTime end) {
-        return ServiceRequest.getServiceRequests().stream()
+        return Storage.getInstance().getAllServiceRequests().stream()
                 .filter(e -> e.getRequestedDate().toDateTime().isBefore(end.toDateTime().toInstant()) && e.getRequestedDate().toDateTime().isAfter(start.toDateTime()) && canFulfill(e));
     }
 
@@ -205,7 +206,7 @@ public class User {
     }
 
     public  long getNumFulfilledRequests(DateTime start, DateTime end) {
-        return ServiceRequest.getServiceRequests().stream()
+        return Storage.getInstance().getAllServiceRequests().stream()
                 .filter(e -> e.isFulfilled() && e.getFulfilledDate().toDateTime().isBefore(end.toDateTime().toInstant()) && e.getFulfilledDate().toDateTime().isAfter(start.toDateTime()) && e.getFulfiller().getUserID() == user_id)
                 .count();
     }
