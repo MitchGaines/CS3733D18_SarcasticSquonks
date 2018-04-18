@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.Arrays;

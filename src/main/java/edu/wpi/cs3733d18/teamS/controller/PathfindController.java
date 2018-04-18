@@ -8,6 +8,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -16,12 +17,14 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -38,9 +41,6 @@ public class PathfindController {
     @FXML
     Button back_button;
 
-    /**
-     * The AnchorPane for the scene.
-     */
     @FXML
     AnchorPane map_anchor_pane;
 
@@ -182,7 +182,7 @@ public class PathfindController {
      * @param zoom_amount the amount the screen will scale in or out.
      */
     private void zoom(double zoom_amount) {
-        zoom_factor += zoom_amount;
+        zoom_factor = zoom_amount;
         if (zoom_factor < 0.5) {
             zoom_factor = 0.5;
         }
@@ -193,22 +193,21 @@ public class PathfindController {
         map_scroll_pane.setLayoutX(zoom_factor);
         map_scroll_pane.getContent().setScaleY(zoom_factor);
         map_scroll_pane.setLayoutY(zoom_factor);
-        System.out.println("Zoom Factor: " + zoom_factor);
-
+        map_scroll_pane.snapshot(new SnapshotParameters(), new WritableImage(1, 1));
     }
 
     /**
      * Sets the zoom amount for when the zoom out node is clicked in the scene.
      */
     public void onZoomOut() {
-        zoom(-0.2);
+        zoom(zoom_factor - 0.2);
     }
 
     /**
      * Sets the zoom amount for when the zoom in node is clicked in the scene.
      */
     public void onZoomIn() {
-        zoom(0.2);
+        zoom(zoom_factor + 0.2);
     }
 
     /**
@@ -228,46 +227,32 @@ public class PathfindController {
      */
     private void fitToPath(ArrayList<Node> nodes) {
         Polyline p = (Polyline) nodes.get(0);
-        map_scroll_pane.getContent().setScaleX(1);
-        map_scroll_pane.setLayoutX(1);
-        map_scroll_pane.getContent().setScaleY(1);
-        map_scroll_pane.setLayoutY(1);
+        zoom(1);
         map_scroll_pane.setHvalue(.5);
         map_scroll_pane.setVvalue(.5);
         double nodes_width = p.getBoundsInParent().getWidth();
-        System.out.println("nodes width: " + nodes_width);
         double nodes_height = p.getBoundsInParent().getHeight();
-        System.out.println("nodes height: " + nodes_height);
 
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
-        System.out.println("Pane Width: " + pane_width);
-        System.out.println("Pane Height: " + pane_height);
 
-        double zoom_amount = pane_width / (nodes_width + 250);
-        double temp_zoom = pane_height / (nodes_height + 250);
-        if(temp_zoom < zoom_amount){
-            zoom_amount = temp_zoom;
-        }
-        System.out.println("New Calculated Zoom: " + zoom_amount);
-        map_scroll_pane.getContent().setScaleX(zoom_amount);
-        map_scroll_pane.setLayoutX(zoom_amount);
-        map_scroll_pane.getContent().setScaleY(zoom_amount);
-        map_scroll_pane.setLayoutY(zoom_amount);
+        double zoom1 = (pane_width / (nodes_width + 250));
+        double zoom2 = (pane_height / (nodes_height + 250));
+        double zoom_amount = Math.min(zoom1, zoom2);
 
-        pane_width = map_scroll_pane.getWidth();
-        pane_height = map_scroll_pane.getHeight();
 
-        double map_width = map_img.getImage().getWidth();
-        double map_height = map_img.getImage().getHeight();
+        double map_width = map_img.getFitWidth();
+        double map_height = map_img.getFitHeight();
 
         double poly_width = p.getBoundsInParent().getWidth();
         double poly_height = p.getBoundsInParent().getHeight();
-
         double poly_x = p.getBoundsInParent().getMinX();
         double poly_y = p.getBoundsInParent().getMinY();
         double desired_x = poly_x + (poly_width / 2);
         double desired_y = poly_y + (poly_height / 2);
+        desired_x = p.getPoints().get(0);
+        desired_y = p.getPoints().get(1);
+
         map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
         map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));
     }
@@ -291,7 +276,6 @@ public class PathfindController {
     public void updateMap(ArrayList<Node> nodes) {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
-        map_anchor_pane.setPrefSize(m.getWidth(), m.getHeight());
         map.clearIcons();
         fitToPath(nodes);
         map_anchor_pane.getChildren().addAll(nodes);
