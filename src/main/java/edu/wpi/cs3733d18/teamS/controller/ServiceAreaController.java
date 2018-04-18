@@ -83,7 +83,8 @@ public class ServiceAreaController {
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
-            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) || sr.getDesiredFulfiller().equals(user)) {
+            if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) ||
+                    (sr.getDesiredFulfiller() != null &&sr.getDesiredFulfiller().equals(user))) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {
                     emergency_declared = true;

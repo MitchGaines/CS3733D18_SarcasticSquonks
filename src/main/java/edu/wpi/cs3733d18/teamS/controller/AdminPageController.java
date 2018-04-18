@@ -72,6 +72,12 @@ public class AdminPageController extends UserController {
         main_pane.setCenter(root);
     }
 
+    public void loadUserReports() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/UserReport.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
+    }
+
     /**
      * Loads in the admin.
      * @throws IOException
