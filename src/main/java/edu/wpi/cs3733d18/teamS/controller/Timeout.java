@@ -14,12 +14,11 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 
 /**
- * Timeout.java
- * <p>
- * Timeout causes a screen to revert to home after a certain period of time
+ * Timeout causes a screen to revert to home after a certain period of time.
+ * @author Matthew McMillan
+ * @author Danny Sullivan
+ * @version %I%, %G%
  *
- * @Authors: Matthew McMillan and Danny Sullivan
- * @Date: 4/10/18
  */
 
 

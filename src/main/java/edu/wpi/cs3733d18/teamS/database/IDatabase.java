@@ -25,6 +25,7 @@ public interface IDatabase {
      * Checks for a tables existence.
      *
      * @param table_name the name of the table.
+     * @return true if the table exists, false otherwise.
      */
     boolean doesTableExist(String table_name); // checks for table existence
 
@@ -78,12 +79,14 @@ public interface IDatabase {
      * Adds quotes to a given string for SQL statements.
      *
      * @param s the string to add quotes to.
+     * @return The string.
      */
     String addQuotes(String s); // add quotes to a string
 
     /**
      * Gets the status of the edu.wpi.cs3733d18.teamS.database (open/closed).
+     * @return true if the database is open false otherwise.
      */
-    boolean getIsOpen(); // gets open status of edu.wpi.cs3733d18.teamS.database
+    boolean getIsOpen(); // gets open status of database
 }
 

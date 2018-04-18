@@ -26,16 +26,16 @@ public class Edge {
     String end_node; // end node of edge
 
     /**
-     * Tells whether an edge is disabled or not
+     * Tells whether an edge is disabled or not.
      */
     private boolean disabled; // tells whether the edge is mutable
 
     /**
      * Constructs and Edge with an id, start node and end node.
-     *
      * @param edge_id    the edge id.
      * @param start_node the start node of the edge.
      * @param end_node   the end node of the edge.
+     * @param disabled a boolean for whether or not the Edge is disabled.
      */
     public Edge(String edge_id, String start_node, String end_node, boolean disabled) {
         this.edge_id = edge_id;

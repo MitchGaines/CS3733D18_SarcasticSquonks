@@ -43,6 +43,7 @@ public class Path {
      * condenses repeated go straight instructions into a single, text instruction.
      *
      * @return URL based on calculated turns at each node.
+     * @throws MalformedURLException The error thrown when the URL is not formated properly.
      */
     public URL getPathDirections() throws MalformedURLException {
         String host = "159.203.189.146";

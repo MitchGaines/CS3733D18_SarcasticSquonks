@@ -64,7 +64,7 @@ public class AdminPageController extends UserController {
 
     /**
      * Loads the reports.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void loadReports() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
@@ -80,7 +80,7 @@ public class AdminPageController extends UserController {
 
     /**
      * Loads in the admin.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void loadAdmin() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
@@ -91,7 +91,7 @@ public class AdminPageController extends UserController {
 
     /**
      * Initializes the service requests menu.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void initialize() throws IOException {
         requestSidebarController.setParent(this);

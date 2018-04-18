@@ -87,7 +87,7 @@ public class AdminSpecialOptionsController{
 
     /**
      * Retrieves the chosen algorithm.
-     * @return
+     * @return the value for the selected path algorithm.
      */
     public static int getChoosenAlg() {
         return selected_path_algorithm;
@@ -96,7 +96,7 @@ public class AdminSpecialOptionsController{
     /**
      * Switches scene to the modify map screen.
      * @param event The click on the button.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
