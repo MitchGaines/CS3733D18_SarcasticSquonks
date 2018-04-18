@@ -44,7 +44,7 @@ import java.util.stream.Stream;
  * @author Joe Turcotte
  * @author Cormac Lynch-Collier
  * @author Will Lucca
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  */
 public class HomePageController {
 
@@ -221,7 +221,7 @@ public class HomePageController {
 
     /**
      * Sets start_loc and end_loc to the values selected in the combobox, then switches view to
-     * PathfindPage, initializing PathfindController
+     * PathfindPage, initializing PathfindController.
      * @param event the click of the mouse on the button.
      * @throws IOException
      */

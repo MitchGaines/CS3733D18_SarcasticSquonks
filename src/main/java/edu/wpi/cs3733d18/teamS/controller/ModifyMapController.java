@@ -47,25 +47,65 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Controller for modifying the map and methods related to it.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Joe Turcotte
+ * @author Cormac Lynch-Collier
+ * @author Matthew Puentes
+ * @author Danny Sullivan
+ * @version 1.3, April 13, 2018
+ */
 public class ModifyMapController {
 
+    /**
+     * Stores a double for the zoom factor.
+     */
     double zoom_factor;
 
+    /**
+     * A HashMap with Nodes for keys and Circles for values to represent the node list.
+     */
     HashMap<edu.wpi.cs3733d18.teamS.data.Node, Circle> nodes_list;
+
+    /**
+     * A HashMap with Edges for keys and Lines for values to represent the edge list.
+     */
     HashMap<edu.wpi.cs3733d18.teamS.data.Edge, Line> edge_list;
 
+    /**
+     * The database storage.
+     */
     Storage storage;
 
+    /**
+     * Stores a HashMap with Strings as the value and key to represent the locations.
+     */
     HashMap<String, String> locations;
+
+    /**
+     * Stores a HashMap with Strings as the value and key to represent the floor map.
+     */
     HashMap<String, String> floor_map;
 
     edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
 
     edu.wpi.cs3733d18.teamS.data.Node new_node;
 
+    /**
+     * Stores a HashMap with Edges for the Key and Lines for the value to represent the edges to be deleted.
+     */
     HashMap<Edge, Line> edges_to_delete;
+
+    /**
+     * Stores a HashMap with Nodes for the key and Circles for the value to represent nodes to move.
+     */
     HashMap<Node, Circle> nodes_to_move;
+
+    /**
+     * Stores a HashMap with Nodes for the key and Circles for the value to represent moved nodes.
+     */
     HashMap<Node, Circle> movedNodes;
 
     @FXML
@@ -103,16 +143,49 @@ public class ModifyMapController {
     @FXML
     Text user_name;
 
+    /**
+     * Stores a color code.
+     */
     Color color = Color.web("#4863A0");
 
+    /**
+     * Stores a circle for a temporary pin
+     */
     Circle temp_pin;
+
+    /**
+     * Stores a boolean for the first click
+     */
     private Boolean first_click;
+
+    /**
+     * Stores the node for the first location.
+     */
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;
+
+    /**
+     * Stores the node for the second location.
+     */
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
+
+    /**
+     * Stores a HashMap of Nodes for the Keys and Circles for the Values to represent the entries to delete.
+     */
     private HashMap<Node, Circle> entry_to_delete;
+
+    /**
+     * Stores a new 3d node predictor.
+     */
     private Node3DPredictor predictor = new Node3DPredictor();
+
+    /**
+     * Stores a polygon.
+     */
     private Polygon geoBlock = new Polygon();
 
+    /**
+     * Initializes the scene.
+     */
     @FXML
     private void initialize() {
         first_click = true;
@@ -209,6 +282,9 @@ public class ModifyMapController {
         predictor.start(storage);
     }
 
+    /**
+     * Sets up factors for when zoom out is clicked.
+     */
     public void onZoomOut() {
         if (zoom_factor > 0.5) {
             zoom_factor -= 0.2;
@@ -220,6 +296,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Sets up factors for when zoom in is clicked.
+     */
     public void onZoomIn() {
         if (zoom_factor < 1.8) {
             zoom_factor += 0.2;
@@ -230,6 +309,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Changes the 2d map image when the floor is selected.
+     */
     public void onChooseFloorChange() {
         pane.getChildren().clear();
         nodes_list.clear();
@@ -267,10 +349,18 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Switches scenes when the back button is clicked.
+     * @param event the click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
     public void onBackClick(ActionEvent event) throws IOException {
         Main.switchScenes("User", "/AdminPage.fxml");
     }
 
+    /**
+     * Adds a location to the map.
+     */
     public void onAddLocClick() {
         if (!building.getText().equals("") && !loc_type.getSelectionModel().isEmpty() && !long_name.getText().equals("") && !short_name.getText().equals("")) {
             Scene scene = add_loc.getScene();
@@ -292,12 +382,19 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Cancels adding a location to the map.
+     */
     public void onAddLocCancelClick() {
         Scene scene = add_loc.getScene();
         scene.setCursor(Cursor.DEFAULT);
         add_loc_cancel.setVisible(false);
     }
 
+    /**
+     * Allows the user to choose an action, either add path, add, location, view map, delete location, delete path,
+     * modify location, set the kiosk's default location, or batch disabled locations.
+     */
     public void onChooseAction() {
         scroll_pane.setPannable(true);
         switch (location_or_path.getValue().toString()) {
@@ -395,6 +492,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Confirms switching to the 3d map.
+     */
     public void onConfirm3dClick() {
         pane.getChildren().clear();
         pane.getChildren().add(map);
@@ -419,6 +519,10 @@ public class ModifyMapController {
         choose_floor.setVisible(true);
     }
 
+    /**
+     * Returns the file name for the 2d map image.
+     * @return the file name.
+     */
     private String choose2DMap() {
         String toReturn = "";
         switch (choose_floor.getValue().toString()) {
@@ -444,6 +548,10 @@ public class ModifyMapController {
         return toReturn;
     }
 
+    /**
+     * Adds edges, nodes, etc to the map given certain parameters and where the mouse is clicked.
+     * @param click the mouse is clicked.
+     */
     public void onMouseClick(MouseEvent click) {
         if (confirm_3d.isVisible()) {
             new_node.setXCoord3D((int) click.getX());
@@ -561,6 +669,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Disables the nodes in the highlighted area.
+     */
     public void disableNodesInPolygon(){
         ArrayList<Node> intersecting_nodes = getIntersectingNodes();
         for(Node n : intersecting_nodes) {
@@ -589,6 +700,10 @@ public class ModifyMapController {
             }
         }
     }
+
+    /**
+     * Enables the nodes in the highlighted area.
+     */
     public void enableNodesInPolygon(){
         ArrayList<Node> intersecting_nodes = getIntersectingNodes();
         for(Node n : intersecting_nodes){
@@ -618,6 +733,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Checks to see if the edges are disabled or not.
+     */
     public void checkEdges(){
         for(Edge e : edge_list.keySet()){
             if (storage.getNodeByID(e.getStartNode()).isDisabled()
@@ -631,6 +749,10 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Retrieves the nodes that intersect an area.
+     * @return the intersecting nodes.
+     */
     private ArrayList<Node> getIntersectingNodes(){
         ArrayList<Node> intersecting_nodes = new ArrayList<>();
         if(geoBlock.getPoints().size() == 0){
@@ -644,6 +766,9 @@ public class ModifyMapController {
         return intersecting_nodes;
     }
 
+    /**
+     * Removes anything in the pane.
+     */
     private void removePaneChild(){
         if(pane.getChildren().size() > 0){
             removePaneChild("previewLine");
@@ -651,6 +776,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     *
+     * Removes anything in the pane.
+     * @param id the id of the a specific object in the pane.
+     */
     private void removePaneChild(String id){
         int index = -1;
         for(int i = 0; i < pane.getChildren().size(); i++){
@@ -663,6 +793,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Creates a preview line by taking in the starting 2d coordinates.
+     * @param start_x the initial x coordinate.
+     * @param start_y the initial y coordinate.
+     */
     private void createPreviewLine(final double start_x, final double start_y){
         pane.setOnMouseMoved(event -> {
             removePaneChild("previewLine");
@@ -674,6 +809,10 @@ public class ModifyMapController {
         pane.setOnMouseExited(event -> removePaneChild("previewLine"));
     }
 
+    /**
+     * Selects the 3d map.
+     * @return the 3d map file image.
+     */
     private String select3DMap() {
         String toReturn = "";
         switch (choose_floor.getValue().toString()) {
@@ -699,12 +838,23 @@ public class ModifyMapController {
         return toReturn;
     }
 
+    /**
+     * Stores a Circle for moving nodes.
+     */
     Circle to_move = new Circle();
 
+    /**
+     * relocates the nodes when the mouse is released.
+     * @param event the mouse is depressed.
+     */
     private void released(MouseEvent event) {
         movedNodes.putAll(nodes_to_move);
     }
 
+    /**
+     * Drags objects when the mouse is clicked and held.
+     * @param event the click and hold of the mouse.
+     */
     public void drag(MouseEvent event) {
 
         if(location_or_path.getValue().toString().equals("Modify Locations")) {
@@ -720,6 +870,12 @@ public class ModifyMapController {
 
     }
 
+    /**
+     * Moves the selected objects.
+     * @param to_move the highlighted area to move.
+     * @param x the x translation.
+     * @param y the y translation.
+     */
     private void moveAll(Circle to_move, double x, double y) {
         for(Map.Entry<Node, Circle> entry : nodes_to_move.entrySet()) {
             if(!entry.getValue().equals(to_move)) {
@@ -729,6 +885,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Confirms moving the objects.
+     */
     public void onConfirmMove() {
         for(Map.Entry<Node, Circle> entry : movedNodes.entrySet()) {
             Node node = storage.getNodeByID(entry.getKey().getNodeID());
@@ -750,6 +909,9 @@ public class ModifyMapController {
 
     }
 
+    /**
+     * Cancels moving the objects.
+     */
     public void onCancelMove() {
         for(Map.Entry<Node, Circle> entry : nodes_to_move.entrySet()) {
             entry.getValue().setFill(color);
@@ -763,6 +925,9 @@ public class ModifyMapController {
 
     }
 
+    /**
+     * Deletes an edge.
+     */
     public void onDeleteEdge() {
         for(Map.Entry<Edge, Line> line : edges_to_delete.entrySet()) {
             pane.getChildren().remove(line.getValue());
@@ -770,6 +935,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Cancels deleting an edge.
+     */
     public void onCancelDeleteEdge() {
         for(Map.Entry<Edge, Line> line : edges_to_delete.entrySet()) {
             edge_list.put(line.getKey(), line.getValue());
@@ -779,6 +947,9 @@ public class ModifyMapController {
         delete_edge_box.setVisible(false);
     }
 
+    /**
+     * Deletes an object on the click of a location.
+     */
     public void onDeleteLocClick() {
         if (!location_to_delete.getText().trim().isEmpty()) {
             for(Map.Entry<Node, Circle> entry : entry_to_delete.entrySet()) {
@@ -791,6 +962,9 @@ public class ModifyMapController {
         location_to_delete.setText("");
     }
 
+    /**
+     * Cancels deleting a object on the click of a location.
+     */
     public void onDeleteLocCancelClick() {
         for(Map.Entry<Node, Circle> entry : entry_to_delete.entrySet()) {
             nodes_list.put(entry.getKey(), entry.getValue());
@@ -799,6 +973,9 @@ public class ModifyMapController {
         location_to_delete.setText("");
     }
 
+    /**
+     * Adds an edge when clicked.
+     */
     public void onAddEdgeClick() {
         if (!location_one.getText().trim().isEmpty() && !location_two.getText().trim().isEmpty()) {
             Edge new_edge = new edu.wpi.cs3733d18.teamS.data.Edge(generateEdgeId(first_loc, second_loc), first_loc.getNodeID(), second_loc.getNodeID(), false);
@@ -824,6 +1001,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Cancels adding an edge on click.
+     */
     public void onCancelEdgeClick() {
         first_click = true;
         location_one.setText("");
@@ -832,6 +1012,11 @@ public class ModifyMapController {
         nodes_list.get(second_loc).setFill(color);
     }
 
+    /**
+     * makes the map.
+     * @param dataNodes the nodes on the map.
+     * @param dataEdges the edges on the map.
+     */
     private void makeMap(List<edu.wpi.cs3733d18.teamS.data.Node> dataNodes, List<edu.wpi.cs3733d18.teamS.data.Edge> dataEdges) {
         pane.getChildren().removeAll(nodes_list.values());
         pane.getChildren().removeAll(edge_list.values());
@@ -880,12 +1065,19 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Stops adding a location.
+     */
     private void endAddLoc() {
         building.setText("");
         long_name.setText("");
         short_name.setText("");
     }
 
+    /**
+     * Deletes an edge.
+     * @param a_node the node connected.
+     */
     private void deleteEdge(edu.wpi.cs3733d18.teamS.data.Node a_node) {
         List<Edge> to_delete = new ArrayList<>();
         List<edu.wpi.cs3733d18.teamS.data.Edge> edges = storage.getAllEdges();
@@ -901,6 +1093,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Creates a node Id for the nodes created.
+     * @param ntype the type of the node.
+     * @return the String of the new node ID.
+     */
     private String generateNodeId(String ntype) {
         List<edu.wpi.cs3733d18.teamS.data.Node> nodes = storage.getAllNodes();  //get list of all nodes in edu.wpi.cs3733d18.teamS.database
 
@@ -920,10 +1117,19 @@ public class ModifyMapController {
         return ("B" + ntype + String.format("%03d", currmax + 1) + small_ft);
     }
 
+    /**
+     * Generates an edge ID.
+     * @param first_node the first node connected to the edge.
+     * @param second_node the second node connected to the edge.
+     * @return the edge ID.
+     */
     private String generateEdgeId(edu.wpi.cs3733d18.teamS.data.Node first_node, edu.wpi.cs3733d18.teamS.data.Node second_node) {
         return (first_node.getNodeID() + "_" + second_node.getNodeID());
     }
 
+    /**
+     * Toggles the 3d mode.
+     */
     public void on3DToggle() {
         if(toggle3D.isSelected()) {
             choose3DFloor();
@@ -943,6 +1149,11 @@ public class ModifyMapController {
         removePaneChild();
     }
 
+    /**
+     * makes the 3d map.
+     * @param dataNodes the nodes for the map.
+     * @param dataEdges the edges for the map.
+     */
     private void make3DMap(List<Node> dataNodes, List<Edge> dataEdges) {
         pane.getChildren().removeAll(nodes_list.values());
         pane.getChildren().removeAll(edge_list.values());
@@ -987,6 +1198,9 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * chooses the image for the 3d map floor.
+     */
     private void choose3DFloor() {
         switch (choose_floor.getValue().toString()) {
             case "Ground Floor":
