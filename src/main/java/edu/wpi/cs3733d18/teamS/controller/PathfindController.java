@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -344,11 +343,11 @@ public class PathfindController {
      */
     public void toggleMappingType() {
         if (map.is_3D) {
-            toggle_map_btn.setText(AllText.get("2d_map"));
+            toggle_map_btn.setText(AllText.get("3d_map"));
             in3DMode = false;
             map.is_3D = false;
         } else {
-            toggle_map_btn.setText(AllText.get("3d_map"));
+            toggle_map_btn.setText(AllText.get("2d_map"));
             in3DMode = true;
             map.is_3D = true;
         }
