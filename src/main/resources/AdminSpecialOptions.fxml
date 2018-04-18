@@ -38,8 +38,8 @@
                   </TableView>
                   <HBox alignment="CENTER" prefHeight="22.0" prefWidth="300.0" spacing="10.0">
                      <children>
-                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Delete User" />
-                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Modify User" />
+                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%delete_user" />
+                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_user" />
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -51,28 +51,28 @@
                <children>
                   <VBox fx:id="add_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                      <children>
-                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="First Name">
+                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="%first_name">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="Last Name">
+                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="%last_name">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="Username">
+                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="%username">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="Password">
+                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="%password">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXComboBox fx:id="type_user" promptText="Type of User" style="-fx-font-size: 18;" />
-                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Add User" />
+                        <JFXComboBox fx:id="type_user" promptText="%type_of_user" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%add_user" />
                      </children>
                   </VBox>
                   <VBox fx:id="delete_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">

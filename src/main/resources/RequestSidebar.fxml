@@ -19,22 +19,23 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="create_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onCreateReqClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #91a1c6;" text="Request Service" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Label fx:id="create_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onCreateReqClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #91a1c6;" text="%service_request_button" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="my_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMyReqClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="My Requests" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+      <Label fx:id="my_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMyReqClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%my_requests" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="view_log" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onViewLogClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="View Log" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+      <Label fx:id="view_log" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onViewLogClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%view_log" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Service Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+
+      <Label fx:id="reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
@@ -44,7 +45,7 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="user_type_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onAdminClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Admin" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+      <Label fx:id="user_type_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onAdminClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%admin" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
