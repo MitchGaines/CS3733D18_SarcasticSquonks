@@ -277,4 +277,11 @@ public class ServiceAreaController {
         //parent.declareOrClearEmergency();
     }
 
+    @FXML
+    Button prescription_request;
+
+    public void prescriptionRequestClick() {
+
+    }
+
 }
