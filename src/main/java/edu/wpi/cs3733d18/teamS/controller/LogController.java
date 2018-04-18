@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
  * @author Mitch Gaines
  * @author Danny Sullivan
  * @author Cormac Lynch-Collier
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  *
  */
 public class LogController {
