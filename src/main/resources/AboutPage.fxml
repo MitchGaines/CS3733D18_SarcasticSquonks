@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -39,6 +40,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
+
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
