@@ -65,6 +65,9 @@ public class HomePageController {
     JFXButton login_btn;
 
     @FXML
+    JFXButton about;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -284,6 +287,14 @@ public class HomePageController {
         }
         Map.path = path;
         Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
+    }
+
+    @FXML
+    void onAboutClick(ActionEvent event) throws IOException{    // about screen
+
+        System.out.println("clicked!");
+        Main.switchScenes("About", "/AboutPage.fxml");
+
     }
 
     /**
