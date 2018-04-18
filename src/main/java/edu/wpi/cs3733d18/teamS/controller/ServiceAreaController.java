@@ -1,5 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import edu.wpi.cs3733d18.teamR.RaikouAPI;
+import edu.wpi.cs3733d18.teamR.ServiceException;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
@@ -18,6 +20,8 @@ import javafx.util.StringConverter;
 
 import java.util.Comparator;
 import java.util.stream.Stream;
+
+import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 
 public class ServiceAreaController {
 
@@ -281,7 +285,14 @@ public class ServiceAreaController {
     Button prescription_request;
 
     public void prescriptionRequestClick() {
-
+        Timeout.stop();
+        RaikouAPI raikouAPI = new RaikouAPI();
+        try {
+            raikouAPI.run(100, 30, 900, 600, null, null, null);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 
 }

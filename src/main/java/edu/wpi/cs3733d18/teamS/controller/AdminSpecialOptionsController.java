@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -17,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import org.apache.derby.iapi.types.UserType;
 
@@ -250,7 +252,10 @@ public class AdminSpecialOptionsController{
     Button it_request;
 
     public void onITRequest() {
-
+        Timeout.stop();
+        SquonksAPI squonks_api = new SquonksAPI();
+        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
+        Timeout.start();
     }
 
     /**
