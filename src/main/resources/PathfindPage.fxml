@@ -17,6 +17,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Slider?>
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
     <top>
         <BorderPane fx:id="header_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
@@ -52,19 +54,8 @@
                         </AnchorPane>
                     </content>
                 </ScrollPane>
-                <ImageView fx:id="zoom_out" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onZoomOut" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                    <image>
-                        <Image url="@images/minus.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="zoom_in" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onZoomIn" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                    <image>
-                        <Image url="@images/plus.png" />
-                    </image>
-                    <StackPane.margin>
-                        <Insets left="40.0" />
-                    </StackPane.margin>
-                </ImageView>
+                <Slider fx:id="zoom_scroll" maxWidth="180.0">
+                </Slider>
             <HBox fx:id="directions_box" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" visible="false">
                <children>
                       <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" />

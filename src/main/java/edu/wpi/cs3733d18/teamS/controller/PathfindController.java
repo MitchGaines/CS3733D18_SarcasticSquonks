@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
@@ -48,6 +48,9 @@ public class PathfindController {
      */
     @FXML
     AnchorPane map_anchor_pane;
+
+    @FXML
+    Slider zoom_scroll;
 
     /**
      * The ScrollPane for the map image.
@@ -212,6 +215,19 @@ public class PathfindController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        stack_pane.setAlignment(zoom_scroll, Pos.TOP_LEFT);
+        zoom_scroll.setMin(0.5);
+        zoom_scroll.setMax(1.8);
+        zoom_scroll.setValue(1);
+        zoom_scroll.setShowTickMarks(true);
+        zoom_scroll.setMajorTickUnit(0.2);
+        zoom_scroll.setStyle("-fx-background-color: #4863A0;");
+        zoom_scroll.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                zoom(newValue.doubleValue());
+            }
+        });
     }
 
     /**
@@ -221,6 +237,7 @@ public class PathfindController {
      */
     private void zoom(double zoom_amount) {
         zoom_factor = zoom_amount;
+        zoom_scroll.setValue(zoom_factor);
         if (zoom_factor < 0.5) {
             zoom_factor = 0.5;
         }
@@ -300,8 +317,6 @@ public class PathfindController {
 
     /**
      * Generates the QR code text directions for the pathway.
-     *
-     * @param directions The directions of the pathway.
      */
     private void generateQRCode() {
         QRCode qr = new QRCode(directions_url.toString());
@@ -328,11 +343,11 @@ public class PathfindController {
      */
     public void toggleMappingType() {
         if (map.is_3D) {
-            toggle_map_btn.setText(AllText.get("2d_map"));
+            toggle_map_btn.setText(AllText.get("3d_map"));
             in3DMode = false;
             map.is_3D = false;
         } else {
-            toggle_map_btn.setText(AllText.get("3d_map"));
+            toggle_map_btn.setText(AllText.get("2d_map"));
             in3DMode = true;
             map.is_3D = true;
         }
