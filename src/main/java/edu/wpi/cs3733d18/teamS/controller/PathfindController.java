@@ -3,6 +3,8 @@ package edu.wpi.cs3733d18.teamS.controller;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -91,6 +93,9 @@ public class PathfindController {
      */
     @FXML
     ImageView expanded_qr;
+
+    @FXML
+    AnchorPane directions_anchor;
 
     @FXML
     StackPane stack_pane;
@@ -280,17 +285,19 @@ public class PathfindController {
             updateMap(map.thisStep(map.is_3D));
 
             path_steps = path.getPathDirections();
+            //directions_vbox.setMaxWidth(directions_pane.getMaxWidth());
             for (String path_step : path_steps) {
                 Label step_label = new Label(path_step.substring(2), getDirectionsIcon(path_step));
                 VBox.setMargin(step_label, new Insets(0, 0, 0, 15.0));
-                step_label.setMaxWidth(directions_pane.getWidth() - 20);
-                System.out.println(directions_pane.getWidth());
+                //step_label.setMaxWidth(directions_pane.getWidth() - 20);
                 step_label.setFont(new Font(24));
                 step_label.setWrapText(true);
                 step_label.setGraphicTextGap(15.0);
                 directions_vbox.getChildren().add(step_label);
                 directions_vbox.getChildren().add(new Separator());
             }
+            // Remove last separator
+            directions_vbox.getChildren().remove(directions_vbox.getChildren().size() - 1);
 
             try {
                 directions_url = path.getPathDirectionsURL(path_steps);
