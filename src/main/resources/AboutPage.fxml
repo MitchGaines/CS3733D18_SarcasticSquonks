@@ -26,7 +26,7 @@
                 <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
                     <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
-                        <HBox alignment="TOP_CENTER" prefHeight="340.0" prefWidth="200.0" spacing="40.0">
+                        <HBox alignment="TOP_CENTER" prefHeight="340.0" prefWidth="200.0">
                             <VBox.margin>
                                 <Insets top="-40.0" />
                             </VBox.margin>
@@ -36,7 +36,7 @@
                      </children>
                         </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coac!h" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input atBrigham &amp; Women's Faulkner Hospital" />
                     </children>
