@@ -143,11 +143,12 @@
                           </JFXButton>
                       </children>
                   </VBox>
-                  <VBox fx:id="modify_loc_box" alignment="CENTER" spacing="20.0" visible="false">
-                     <children>
-                        <JFXButton fx:id="cancel_move" buttonType="RAISED" onAction="#onCancelMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
-                     </children>
-                  </VBox>
+                        <VBox fx:id="modify_loc_box" alignment="CENTER" spacing="20.0" visible="false">
+                            <children>
+                                <JFXButton fx:id="confirm_new_loc" buttonType="RAISED" onAction="#onConfirmMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Confirm" />
+                                <JFXButton fx:id="cancel_move" buttonType="RAISED" onAction="#onCancelMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
+                            </children>
+                        </VBox>
                         <JFXTextField fx:id="kiosk_location_name" alignment="CENTER" focusColor="#4863a0" promptText="%location" visible="false">
                             <font>
                                 <Font size="23.0" />
@@ -157,42 +158,15 @@
                 </StackPane>
                 <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23;" />
                 <JFXButton fx:id="confirm_3d" buttonType="RAISED" onAction="#onConfirm3dClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%confirm_coord" visible="false" />
+                <JFXToggleButton fx:id="toggle3D" alignment="BOTTOM_CENTER" onAction="#on3DToggle" text="3D" toggleColor="#999999" toggleLineColor="#4863a0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </JFXToggleButton>
             </children>
             <BorderPane.margin>
                 <Insets left="10.0" right="10.0" top="10.0" />
             </BorderPane.margin>
         </VBox>
     </right>
-    <center>
-        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
-                <ScrollPane fx:id="scroll_pane" pannable="true" prefHeight="690.0" prefWidth="900.0">
-                    <content>
-                        <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" onMouseClicked="#onMouseClick" onMouseDragged="#onNodeDrag">
-                            <children>
-                                <ImageView fx:id="map" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@images/01_thefirstfloor.png" />
-                                    </image>
-                                </ImageView>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </ScrollPane>
-                <ImageView fx:id="zoom_out" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onZoomOut" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                    <image>
-                        <Image url="@images/minus.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="zoom_in" fitHeight="40.0" fitWidth="40.0" layoutX="40.0" onMouseClicked="#onZoomIn" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                    <StackPane.margin>
-                        <Insets left="40.0" />
-                    </StackPane.margin>
-                    <image>
-                        <Image url="@images/plus.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </StackPane>
-    </center>
 </BorderPane>
