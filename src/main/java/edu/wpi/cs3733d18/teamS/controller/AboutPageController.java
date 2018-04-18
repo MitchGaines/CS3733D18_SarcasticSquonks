@@ -55,11 +55,8 @@ public class AboutPageController {
     JFXListView<String> positions_list;
 
     @FXML
-    void onBackClick(ActionEvent event) throws IOException{    // about screen
-
-        System.out.println("clicked!");
+    void onBackClick(ActionEvent event) {    // about screen
         Main.switchScenes("Back", "/HomePage.fxml");
-
     }
 
     public void initialize() {

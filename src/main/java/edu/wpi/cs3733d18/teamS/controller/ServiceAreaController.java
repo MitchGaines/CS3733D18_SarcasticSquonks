@@ -79,7 +79,7 @@ public class ServiceAreaController {
         if (active_requests_box == null) {
             return;
         }
-        parent.dismissEmergency();
+        parent.declareOrClearEmergency();
         boolean emergency_declared = false;
         active_requests_box.valueProperty().set(null);
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
@@ -88,10 +88,7 @@ public class ServiceAreaController {
 
                     (sr.getDesiredFulfiller() != null && sr.getDesiredFulfiller().getUsername().equals(user.getUsername()))) {
                 active_requests_box.getItems().add(sr);
-                if (sr.getServiceType().isEmergency() && !emergency_declared) {
-                    emergency_declared = true;
-                    parent.declareEmergency(sr.getTitle(), sr.getLocation(), sr.getDescription());
-                }
+                parent.declareOrClearEmergency();
             }
         }
     }
@@ -277,7 +274,7 @@ public class ServiceAreaController {
 
     public void setParent(UserController user_controller) {
         parent = user_controller;
-        parent.dismissEmergency();
+        //parent.declareOrClearEmergency();
     }
 
 }

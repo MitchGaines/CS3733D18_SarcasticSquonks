@@ -9,11 +9,14 @@
   "author": "CS3733 Team S",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "body-parser-xml": "^1.1.0",
     "bootstrap": "^4.1.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
     "path": "^0.12.7",
-    "popper.js": "^1.14.3"
+    "popper.js": "^1.14.3",
+    "xml": "^1.0.1"
   }
 }

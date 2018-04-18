@@ -174,7 +174,7 @@ public class HomePageController {
             if (location.getNodeType().equals("HALL") ||
                     location.getNodeType().equals("ELEV") ||
                     location.getNodeType().equals("STAI") ||
-                    location.getShortName().equals("CRN")) {
+                    location.getShortName().equals("TRAIN")) {
 
                 to_remove.add(location);
             }
@@ -290,11 +290,8 @@ public class HomePageController {
     }
 
     @FXML
-    void onAboutClick(ActionEvent event) throws IOException{    // about screen
-
-        System.out.println("clicked!");
+    void onAboutClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
-
     }
 
     /**
