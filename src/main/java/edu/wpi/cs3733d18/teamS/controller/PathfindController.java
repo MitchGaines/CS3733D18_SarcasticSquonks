@@ -213,8 +213,8 @@ public class PathfindController {
     /**
      * When the back button is clicked it switches back to the home page.
      *
-     * @param event
-     * @throws IOException
+     * @param event the click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onBackButtonClick(ActionEvent event) throws IOException {
         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");

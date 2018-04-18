@@ -74,7 +74,7 @@ public class ServiceRequest {
     }
 
     /**
-     * Gets a HashSet of all edu.wpi.cs3733d18.teamS.service requests that need to be fulfilled.
+     * Gets a HashSet of all service requests that need to be fulfilled.
      *
      * @return all services without a fulfiller.
      */
@@ -89,13 +89,15 @@ public class ServiceRequest {
     }
 
     /**
-     * Creates a new edu.wpi.cs3733d18.teamS.service request.
+     * Creates a new service request.
      *
      * @param title       the title of the request.
      * @param description a brief description.
      * @param type        the type of request.
      * @param requester   the edu.wpi.cs3733d18.teamS.user requesting the edu.wpi.cs3733d18.teamS.service.
      * @param location    the location where the edu.wpi.cs3733d18.teamS.service is needed.
+     * @param desired_fulfiller The name of the user we want to fulfill the request.
+     * @return The service request that was created.
      */
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);

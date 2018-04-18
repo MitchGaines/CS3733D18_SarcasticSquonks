@@ -64,13 +64,15 @@ public class Node { // TODO: add 3d coordinate fields
      */
     private int y_coord_3d; // 3d y coordinate of node
 
+    /**
+     * Tells whether an node is disabled or not.
+     */
     private boolean disabled;
 
     /**
      * Constructs a node using its coordinate positions, its id, the floor
      * the building its in, the long name, the abbreviated name, and the team
      * assigned to the node area.
-     *
      * @param id    the node id.
      * @param x     the 2d x coordinate.
      * @param y     the 2d y coordinate.
@@ -82,6 +84,7 @@ public class Node { // TODO: add 3d coordinate fields
      * @param team  the team assigned to the node.
      * @param x3d   the 3d x coordinate.
      * @param y3d   the 3d y coordinate.
+     * @param disabled a boolean for whether or not the node is disabled.
      */
     public Node(String id, int x, int y, String floor, String bldg, String type,
                 String lName, String sName, String team, int x3d, int y3d, boolean disabled) {

@@ -65,6 +65,9 @@ public class HomePageController {
     JFXButton login_btn;
 
     @FXML
+    JFXButton about;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -126,6 +129,14 @@ public class HomePageController {
      */
     public static void setKioskDefaultLocation(String kioskDefaultLocation) {
         KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
+    }
+
+//    public void setStart(String node_id) {
+//        combobox_start.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+//    }
+
+    public void setEnd(String node_id) {
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
     }
 
     /**
@@ -278,6 +289,14 @@ public class HomePageController {
         Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
+    @FXML
+    void onAboutClick(ActionEvent event) throws IOException{    // about screen
+
+        System.out.println("clicked!");
+        Main.switchScenes("About", "/AboutPage.fxml");
+
+    }
+
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
@@ -326,8 +345,8 @@ public class HomePageController {
 
     /**
      * Tests to try out different users.
-     * @param event
-     * @throws IOException
+     * @param event The click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onLoginClick(ActionEvent event) throws IOException {
         try {
