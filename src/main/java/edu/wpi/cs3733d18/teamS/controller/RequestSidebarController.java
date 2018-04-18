@@ -14,7 +14,7 @@ public class RequestSidebarController {
     private User user;
 
     @FXML
-    private Label create_req, my_req, view_log, reports, user_type_label;
+    private Label create_req, my_req, view_log, reports, user_type_label, user_reports;
 
     @FXML
     GridPane sidebar;
@@ -75,7 +75,7 @@ public class RequestSidebarController {
 
     public void onUserReportsClick() throws IOException {
         clearColors();
-        reports.setStyle("-fx-background-color:  #91a1c6");
+        user_reports.setStyle("-fx-background-color:  #91a1c6");
         adminParent.loadUserReports();
     }
 
@@ -90,6 +90,7 @@ public class RequestSidebarController {
         my_req.setStyle("-fx-background-color: #4863A0");
         view_log.setStyle("-fx-background-color: #4863A0");
         reports.setStyle("-fx-background-color: #4863A0");
+        user_reports.setStyle("-fx-background-color: #4863A0");
         user_type_label.setStyle("-fx-background-color: #4863A0");
     }
 
