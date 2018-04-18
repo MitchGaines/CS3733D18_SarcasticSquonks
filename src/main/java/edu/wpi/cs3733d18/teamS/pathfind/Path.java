@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.pathfind;
 
+import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.animation.*;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
@@ -71,10 +72,10 @@ public class Path {
     public ArrayList<String> getPathDirections() {
         ArrayList<String> path_description = new ArrayList<>();
 
-        path_description.add("- Directions from: " + algorithm_node_path.get(0).getLongName()
-                + " to: " + algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName() + ".");
+        path_description.add("- " + AllText.get("directions_from") + ": " + algorithm_node_path.get(0).getLongName()
+                + " " + AllText.get("to") + ": " + algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName() + ".");
 
-        path_description.add("- First, begin walking towards " + algorithm_node_path.get(1).short_name + ".");
+        path_description.add("- " + AllText.get("first_step_dirs")+ " " + algorithm_node_path.get(1).short_name + ".");
 
         for (int i = 1; i < (algorithm_node_path.size() - 1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i - 1), algorithm_node_path.get(i));
@@ -116,18 +117,18 @@ public class Path {
                 i++;
             }
 
-            path_description.add("- In " + distance + " feet, "
+            path_description.add("- " + AllText.get("in") + " " + distance + " " + AllText.get("feet") + ", "
                     + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + ".");
 
             if (next_floor > curr_floor) {
-                path_description.add("- Use stairs or elevator to go up to floor " + algorithm_node_path.get(i).floor + ".");
+                path_description.add("- " + AllText.get("stairs_up") + " " + algorithm_node_path.get(i).floor + ".");
             } else if (next_floor < curr_floor) {
-                path_description.add("- Use stairs or elevator to go down to floor " + algorithm_node_path.get(i).floor + ".");
+                path_description.add("- " + AllText.get("stairs_down") + " " + algorithm_node_path.get(i).floor + ".");
             }
         }
 
-        path_description.add("- Destination is " + calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2),
-                algorithm_node_path.get(algorithm_node_path.size() - 1)) + " feet ahead.");
+        path_description.add("- " + AllText.get("destination_to") + " " + calcDistance(algorithm_node_path.get(algorithm_node_path.size() - 2),
+                algorithm_node_path.get(algorithm_node_path.size() - 1)) + " " + AllText.get("feet") + ".");
 
         return path_description;
     }
@@ -193,11 +194,11 @@ public class Path {
         double new_angle = angle(current_x, current_y, next_x, next_y);
         double angle = new_angle - previous_angle;
         if (angle <= -MIN_TURN_ANGLE) {
-            return "turn left";
+            return AllText.get("turn_left");
         } else if (angle >= MIN_TURN_ANGLE) {
-            return "turn right";
+            return AllText.get("turn_right");
         } else {
-            return "continue straight";
+            return AllText.get("continue_straight");
         }
     }
 
