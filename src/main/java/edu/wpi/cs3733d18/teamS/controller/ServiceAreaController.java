@@ -193,7 +193,6 @@ public class ServiceAreaController {
     public void setUpToMake(User user) {
         this.user = user;
         locations.addAll(Storage.getInstance().getAllNodes());
-        request_service_button.setText("Request service");
     }
 
     public void initialize() {
