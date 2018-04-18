@@ -72,7 +72,11 @@
                      <children>
                         <ScrollPane fx:id="directions_pane" hbarPolicy="NEVER" prefHeight="425.0" prefWidth="277.0" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                              <BorderPane fx:id="directions_anchor" prefHeight="200.0" prefWidth="407.0">
+                                 <center>
+                                    <VBox fx:id="direct_list" maxWidth="386.0" prefHeight="358.0" prefWidth="386.0" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
                           </content>
                         </ScrollPane>
                         <HBox alignment="CENTER" prefHeight="17.0" prefWidth="277.0" spacing="20.0">
@@ -82,7 +86,8 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXTextField>
-                              <JFXButton fx:id="call_btn" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
+                               <JFXButton fx:id="call_btn" buttonType="RAISED" onAction="#onPhoneCallBtnClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
+                               <JFXButton fx:id="text_btn" buttonType="RAISED" onAction="#onPhoneTextBtnClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Text" />
                            </children>
                         </HBox>
                      </children>
