@@ -133,6 +133,7 @@ public class HomePageController {
      * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database.
      */
     public void initialize() {
+        HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
         StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
             @Override
@@ -246,8 +247,6 @@ public class HomePageController {
         if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
             return;
         }
-        Map.path = finder.pathfinder_path;
-        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**

@@ -64,6 +64,8 @@ public class Node { // TODO: add 3d coordinate fields
      */
     private int y_coord_3d; // 3d y coordinate of node
 
+    private boolean disabled;
+
     /**
      * Constructs a node using its coordinate positions, its id, the floor
      * the building its in, the long name, the abbreviated name, and the team
@@ -82,7 +84,7 @@ public class Node { // TODO: add 3d coordinate fields
      * @param y3d   the 3d y coordinate.
      */
     public Node(String id, int x, int y, String floor, String bldg, String type,
-                String lName, String sName, String team, int x3d, int y3d) {
+                String lName, String sName, String team, int x3d, int y3d, boolean disabled) {
         this.node_id = id;
         this.x_coord = x;
         this.y_coord = y;
@@ -94,6 +96,7 @@ public class Node { // TODO: add 3d coordinate fields
         this.team_assigned = team;
         this.x_coord_3d = x3d;
         this.y_coord_3d = y3d;
+        this.disabled = disabled;
     }
 
     /**
@@ -292,6 +295,14 @@ public class Node { // TODO: add 3d coordinate fields
      */
     public void setYCoord3D(int y_coord_3d) {
         this.y_coord_3d = y_coord_3d;
+    }
+
+    public boolean isDisabled(){
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled){
+        this.disabled = disabled;
     }
 
     @Override
