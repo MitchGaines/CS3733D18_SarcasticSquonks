@@ -94,8 +94,8 @@ public class PathfindController {
     @FXML
     ImageView expanded_qr;
 
-    @FXML
-    AnchorPane directions_anchor;
+    //@FXML
+    //AnchorPane directions_pane;
 
     @FXML
     StackPane stack_pane;
@@ -107,7 +107,13 @@ public class PathfindController {
     VBox directions_vbox;
 
     @FXML
+    VBox  direct_list;
+
+    @FXML
     ScrollPane directions_pane;
+
+    @FXML
+    Pane directions_anchor;
 
     @FXML
     TextField phone_field;
@@ -284,22 +290,24 @@ public class PathfindController {
             map.setPath(path);
             updateMap(map.thisStep(map.is_3D));
 
+
             path_steps = path.getPathDirections();
-            //directions_vbox.setMaxWidth(directions_pane.getMaxWidth());
             for (String path_step : path_steps) {
                 Label step_label = new Label(path_step.substring(2), getDirectionsIcon(path_step));
                 VBox.setMargin(step_label, new Insets(0, 0, 0, 15.0));
-                //step_label.setMaxWidth(directions_pane.getWidth() - 20);
                 step_label.setFont(new Font(24));
                 step_label.setWrapText(true);
                 step_label.setGraphicTextGap(15.0);
-                directions_vbox.getChildren().add(step_label);
-                directions_vbox.getChildren().add(new Separator());
+                step_label.setMinHeight(90);
+                direct_list.getChildren().add(step_label);
+                direct_list.getChildren().add(new Separator());
             }
             // Remove last separator
-            directions_vbox.getChildren().remove(directions_vbox.getChildren().size() - 1);
+            directions_anchor.setPrefHeight(direct_list.getHeight());
+            direct_list.getChildren().remove(direct_list.getChildren().size() - 1);
 
             try {
+                directions_url = path.getPathDirectionsURL(path_steps);
                 directions_url = path.getPathDirectionsURL(path_steps);
                 generateQRCode();
             } catch (MalformedURLException e) {
