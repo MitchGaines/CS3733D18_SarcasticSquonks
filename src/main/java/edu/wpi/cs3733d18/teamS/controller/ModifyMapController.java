@@ -500,7 +500,7 @@ public class ModifyMapController {
                 if (entry.getValue().contains(pt)) {
                     Storage.getInstance().updateDefaultKioskLocation(entry.getKey().getNodeID());
                     HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
-                    kiosk_location_name.setText(entry.getKey().getShortName());
+                    kiosk_location_name.setText(entry.getKey().getNodeID());
                 }
             }
         } else if (location_or_path.getValue().toString().equals("Delete Path")) {

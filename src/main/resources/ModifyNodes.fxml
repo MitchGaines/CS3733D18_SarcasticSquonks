@@ -120,11 +120,6 @@
                         </VBox>
                   <VBox fx:id="delete_edge_box" alignment="CENTER" spacing="20.0" visible="false">
                      <children>
-                        <JFXToggleButton text="Mute">
-                           <font>
-                              <Font size="23.0" />
-                           </font>
-                        </JFXToggleButton>
                         <JFXButton fx:id="delete_edge" buttonType="RAISED" onAction="#onDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Delete Edges" />
                         <JFXButton fx:id="cancel_delete_edge" buttonType="RAISED" onAction="#onCancelDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
                      </children>
