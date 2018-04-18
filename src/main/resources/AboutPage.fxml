@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AboutPageController">
+    <center>
+        <StackPane fx:id="stack_pane" prefHeight="650.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="669.0" fitWidth="593.0" opacity="0.05" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+                    <image>
+                        <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
+                    </image>
+                    <StackPane.margin>
+                        <Insets top="30.0" />
+                    </StackPane.margin>
+                </ImageView>
+                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
+                    <children>
+                        <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                            <VBox.margin>
+                                <Insets top="-40.0" />
+                            </VBox.margin>
+                        </HBox>
+                  <TextArea prefHeight="200.0" prefWidth="200.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sarcastic Squonks" />
+                  <TextArea prefHeight="200.0" prefWidth="200.0" text="Jonathan Gaines, Lead Developer&#10;Noah Hillman, Algorithms Specialist&#10;William Lucca, Software Engineer&#10;Cormac Lynch-Collier, Product Owner&#10;Matthew McMillan, Assistant Lead Developer&#10;Mathew Schwartzman, Project Manager&#10;Orion Strickland, Documentation Analyst&#10;Daniel Sullivan, Test Engineer&#10;Joseph Turcotte, Scrummaster&#10;Matthew Puentes, Assistant Lead Developer&#10;Kyle Corry, Team Coach&#10;&#10;" />
+                    </children>
+                    <StackPane.margin>
+                        <Insets top="40.0" />
+                    </StackPane.margin>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+    <bottom>
+        <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+            <JFXButton onAction="#onBackClick" text="Back" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" />
+            </padding>
+        </HBox>
+    </bottom>
+</BorderPane>
