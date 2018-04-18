@@ -73,7 +73,8 @@ public class Storage {
                 database.addQuotes(node.getShortName()),
                 database.addQuotes(node.getTeamAssigned()),
                 String.valueOf(node.getXCoord3D()),
-                String.valueOf(node.getYCoord3D())
+                String.valueOf(node.getYCoord3D()),
+                String.valueOf(node.isDisabled())
         });
     }
 
@@ -103,7 +104,8 @@ public class Storage {
                 String.format("%s = '%s'", "short_name", node.getShortName()),
                 String.format("%s = '%s'", "team_assigned", node.getTeamAssigned()),
                 String.format("%s = %d", "x_coord_3d", node.getXCoord3D()),
-                String.format("%s = %d", "y_coord_3d", node.getYCoord3D())
+                String.format("%s = %d", "y_coord_3d", node.getYCoord3D()),
+                String.format("%s = %b", "disabled", node.isDisabled())
         };
 
         database.update("NODES", values, "node_id = '" + node.getNodeID() + "'", null);
@@ -181,9 +183,10 @@ public class Storage {
             String team_assigned = result_set.getString("team_assigned");
             int x_coord_3d = result_set.getInt("x_coord_3d");
             int y_coord_3d = result_set.getInt("y_coord_3d");
+            boolean disabled = result_set.getBoolean("disabled");
 
             Node n = new Node(node_id, x_coord, y_coord, floor, building, node_type,
-                    long_name, short_name, team_assigned, x_coord_3d, y_coord_3d);
+                    long_name, short_name, team_assigned, x_coord_3d, y_coord_3d, disabled);
 
             return n;
 
@@ -205,7 +208,8 @@ public class Storage {
         database.insert("EDGES", new String[]{
                 database.addQuotes(edge.getEdgeID()),
                 database.addQuotes(edge.getStartNode()),
-                database.addQuotes(edge.getEndNode())
+                database.addQuotes(edge.getEndNode()),
+                String.valueOf(edge.isDisabled())
         });
     }
 
@@ -227,7 +231,8 @@ public class Storage {
         String[] values = new String[]{
                 String.format("%s = '%s'", "edge_id", edge.getEdgeID()),
                 String.format("%s = '%s'", "start_node", edge.getStartNode()),
-                String.format("%s = '%s'", "end_node", edge.getEndNode())
+                String.format("%s = '%s'", "end_node", edge.getEndNode()),
+                String.format("%s = %b", "disabled", edge.isDisabled())
         };
 
         database.update("EDGES", values, "edge_id = '" + edge.getEdgeID() + "'", null);
@@ -297,8 +302,9 @@ public class Storage {
             String edge_id = result_set.getString("edge_id");
             String start_node = result_set.getString("start_node");
             String end_node = result_set.getString("end_node");
+            boolean disabled = result_set.getBoolean("disabled");
 
-            Edge e = new Edge(edge_id, start_node, end_node);
+            Edge e = new Edge(edge_id, start_node, end_node, disabled);
 
             return e;
 
@@ -1008,7 +1014,8 @@ public class Storage {
                     String.format("%s VARCHAR (100)", "short_name"),
                     String.format("%s VARCHAR (100)", "team_assigned"),
                     String.format("%s INT", "x_coord_3d"),
-                    String.format("%s INT", "y_coord_3d")
+                    String.format("%s INT", "y_coord_3d"),
+                    String.format("%s BOOLEAN", "disabled")
             });
         }
 
@@ -1016,7 +1023,8 @@ public class Storage {
             database.createTable("EDGES", new String[]{
                     String.format("%s VARCHAR (100) PRIMARY KEY", "edge_id"),
                     String.format("%s VARCHAR (100)", "start_node"),
-                    String.format("%s VARCHAR (100)", "end_node")
+                    String.format("%s VARCHAR (100)", "end_node"),
+                    String.format("%s BOOLEAN", "disabled")
             });
         }
 

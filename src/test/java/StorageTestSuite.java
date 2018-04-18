@@ -53,7 +53,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -78,7 +79,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -93,7 +95,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -122,7 +125,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(old_node);
 
@@ -153,7 +157,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -168,7 +173,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -193,7 +199,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -208,7 +215,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -231,7 +239,8 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
@@ -253,14 +262,16 @@ public class StorageTestSuite {
         Edge edge1 = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(edge1);
 
         Edge edge2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
 
         // delete an edge from the edu.wpi.cs3733d18.teamS.database
@@ -280,7 +291,8 @@ public class StorageTestSuite {
         Edge old_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(old_edge);
 
@@ -307,14 +319,16 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
         Edge new_edge_2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
         storage.saveEdge(new_edge_2);
 
@@ -331,14 +345,16 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
         Edge new_edge_2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
         storage.saveEdge(new_edge_2);
 

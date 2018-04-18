@@ -49,13 +49,13 @@ public class CSVWriter {
         switch (table_name) {
             case "NODES":
                 file_header = "node_id,x_coord,y_coord,floor,building,node_type," +
-                        "long_name,short_name,team_assigned,x_coord_3d,y_coord_3d";
+                        "long_name,short_name,team_assigned,x_coord_3d,y_coord_3d,disabled";
 //            file_header = "nodeID,xcoord,ycoord,floor,building,nodeType,longName," +
 //                    "shortName,teamAssigned,xcoord3d,ycoord3d"; //This is for the team F nodes
 
                 break;
             case "EDGES":
-                file_header = "edge_id,start_node,end_node";
+                file_header = "edge_id,start_node,end_node,disabled";
                 break;
 //            case "USERS":
 //                file_header = "username,password,type,can_mod_map";
@@ -79,6 +79,7 @@ public class CSVWriter {
                     // variables to hold values of each row
                     int x_coord, y_coord, x_coord_3d, y_coord_3d;
                     String node_id, floor, building, node_type, long_name, short_name, team_assigned;
+                    boolean disabled;
 
                     while (r_set.next()) {
                         // get values from each row
@@ -93,11 +94,12 @@ public class CSVWriter {
                         team_assigned = r_set.getString("team_assigned");
                         x_coord_3d = r_set.getInt("x_coord_3d");
                         y_coord_3d = r_set.getInt("y_coord_3d");
+                        disabled = r_set.getBoolean("disabled");
 
                         // write values to file, separated by commas
                         file_writer.append(node_id + "," + x_coord + "," + y_coord + "," + floor + ","
                                 + building + "," + node_type + "," + long_name + "," + short_name + "," + team_assigned +
-                                "," + x_coord_3d + "," + y_coord_3d + "\n");
+                                "," + x_coord_3d + "," + y_coord_3d + "," + disabled + "\n");
                     }
                     break;
                 case "EDGES":
@@ -109,9 +111,10 @@ public class CSVWriter {
                         edge_id = r_set.getString("edge_id");
                         start_node = r_set.getString("start_node");
                         end_node = r_set.getString("end_node");
+                        disabled = r_set.getBoolean("disabled");
 
                         // write values to file, separated by commas
-                        file_writer.append(edge_id).append(",").append(start_node).append(",").append(end_node).append("\n");
+                        file_writer.append(edge_id).append(",").append(start_node).append(",").append(end_node).append("," + disabled).append("\n");
                     }
                     break;
 //                case "USERS":

@@ -129,6 +129,20 @@
                         <JFXButton fx:id="cancel_delete_edge" buttonType="RAISED" onAction="#onCancelDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
                      </children>
                   </VBox>
+                  <VBox fx:id="batch_disable_box" alignment="CENTER" spacing="20.0" visible="false">
+                      <children>
+                          <JFXButton fx:id="disable_selection" buttonType="RAISED" onAction="#disableNodesInPolygon" style="-fx-background-color: #B7B8B6;" text="%disable_location">
+                              <font>
+                                  <Font size="23.0" />
+                              </font>
+                          </JFXButton>
+                          <JFXButton fx:id="enable_selection" buttonType="RAISED" onAction="#enableNodesInPolygon" style="-fx-background-color: #B7B8B6;" text="%enable_location">
+                              <font>
+                                  <Font size="23.0" />
+                              </font>
+                          </JFXButton>
+                      </children>
+                  </VBox>
                   <VBox fx:id="modify_loc_box" alignment="CENTER" spacing="20.0" visible="false">
                      <children>
                         <JFXButton fx:id="cancel_move" buttonType="RAISED" onAction="#onCancelMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />

@@ -26,10 +26,9 @@ public class Edge {
     String end_node; // end node of edge
 
     /**
-     * Tells whether an edge is mutable or not
+     * Tells whether an edge is disabled or not
      */
-    boolean is_mutable; // tells whether the edge is mutable
-
+    private boolean disabled; // tells whether the edge is mutable
 
     /**
      * Constructs and Edge with an id, start node and end node.
@@ -38,11 +37,11 @@ public class Edge {
      * @param start_node the start node of the edge.
      * @param end_node   the end node of the edge.
      */
-    public Edge(String edge_id, String start_node, String end_node) {
+    public Edge(String edge_id, String start_node, String end_node, boolean disabled) {
         this.edge_id = edge_id;
         this.start_node = start_node;
         this.end_node = end_node;
-        this.is_mutable = false;
+        this.disabled = disabled;
     }
 
     /**
@@ -99,11 +98,11 @@ public class Edge {
         this.end_node = end_node;
     }
 
-    public boolean isMutable() {
-        return is_mutable;
+    public boolean isDisabled(){
+        return disabled;
     }
 
-    public void setMutable(boolean is_mutable) {
-        this.is_mutable = is_mutable;
+    public void setDisabled(boolean disabled){
+        this.disabled = disabled;
     }
 }
