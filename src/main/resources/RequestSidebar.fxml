@@ -39,7 +39,7 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="user_reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onUserReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="User Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.rowIndex="4">
+      <Label fx:id="user_reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onUserReportsClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #4863A0;" text="User Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>

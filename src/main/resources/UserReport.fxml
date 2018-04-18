@@ -14,14 +14,14 @@
     <right>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <JFXDatePicker fx:id="start_date_picker" onAction="#onGoButton" promptText="%start_date" />
-                <JFXTimePicker fx:id="start_time_picker" onAction="#onGoButton" promptText="%start_time" />
-                <JFXDatePicker fx:id="end_date_picker" onAction="#onGoButton" promptText="%end_date" />
-                <JFXTimePicker fx:id="end_time_picker" onAction="#onGoButton" promptText="%end_time" />
+                <JFXDatePicker fx:id="start_date_picker" defaultColor="#4863a0" onAction="#onGoButton" promptText="%start_date" />
+                <JFXTimePicker fx:id="start_time_picker" defaultColor="#4863a0" onAction="#onGoButton" promptText="%start_time" />
+                <JFXDatePicker fx:id="end_date_picker" defaultColor="#4863a0" onAction="#onGoButton" promptText="%end_date" />
+                <JFXTimePicker fx:id="end_time_picker" defaultColor="#4863a0" onAction="#onGoButton" promptText="%end_time" />
                 <HBox alignment="CENTER">
                     <children>
                         <Label text="%table" />
-                        <JFXToggleButton fx:id="chart_toggle" onAction="#onToggle" text="%chart" />
+                        <JFXToggleButton fx:id="chart_toggle" onAction="#onToggle" text="%chart" toggleColor="#91a1c6" toggleLineColor="#4863a0" />
                     </children>
                 </HBox>
             </children>
