@@ -93,7 +93,7 @@
         </StackPane>
     </center>
     <bottom>
-        <BorderPane fx:id="footer_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
+        <BorderPane fx:id="footer_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;">
             <right>
                 <JFXButton fx:id="toggle_map_btn" buttonType="RAISED" onAction="#toggleMappingType" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%3d_map" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
@@ -155,6 +155,9 @@
                     </BorderPane.margin>
                 </JFXButton>
             </left>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </BorderPane>
     </bottom>
 </BorderPane>

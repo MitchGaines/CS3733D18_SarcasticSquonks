@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.user.InvalidPasswordException;
 import edu.wpi.cs3733d18.teamS.user.InvalidUsernameException;
 import edu.wpi.cs3733d18.teamS.user.LoginHandler;
@@ -29,6 +30,7 @@ import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class HomePageController {
     /**
      * Stores the boolean for whether or not the stairs option has been selected.
      */
-    private static boolean include_stairs = true;
+    private static boolean include_stairs = false;
 
     /**
      * Stores the default location for the Kiosk.
@@ -228,22 +230,25 @@ public class HomePageController {
             alert.showAndWait();
         }
         include_stairs = stairs_toggle.isSelected();
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = loader.load();
-        PathfindController pathfind_ctrl = loader.getController();
-        pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
-        if (PathfindController.isPathfindReady()) {
-            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            pathfind_stage.setTitle("Pathfinder");
 
-            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth() - 13, window.getHeight() - 35.5);
-
-            Timeout.addListenersToScene(pathfind_parent_scene);
-
-            pathfind_stage.setScene(pathfind_parent_scene);
-            pathfind_stage.show();
+        SearchAlgorithm alg;
+        int select = AdminSpecialOptionsController.getChoosenAlg();
+        if (select == 1) {
+            alg = new Dijkstras();
+        } else if (select == 2) {
+            alg = new DepthFirst();
+        } else if (select == 3) {
+            alg = new BreadthFirst();
+        } else {
+            alg = new AStar();
         }
+        Pathfinder finder = new Pathfinder(alg);
+        finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**
@@ -263,9 +268,14 @@ public class HomePageController {
             return;
         }
 
-        PathfindController pathfind_ctrl = (PathfindController) Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
-        pathfind_ctrl.quickLocationFinding(combobox_start.getValue().getNodeID(), button.getId());
-
+        Pathfinder quick_finder = new Pathfinder(new Dijkstras());
+        quick_finder.findShortestPath(combobox_start.getValue().getNodeID(), button.getId());
+        Path path = quick_finder.pathfinder_path;
+        if(path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**
