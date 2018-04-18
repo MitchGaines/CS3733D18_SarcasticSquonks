@@ -46,6 +46,9 @@
                      </VBox.margin>
                   </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </VBox>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
@@ -114,6 +117,9 @@
                      </children>
                   </VBox>
                </children>
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
             </StackPane>
          </children>
       </GridPane>
@@ -121,8 +127,21 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
+            <JFXTextField fx:id="timeout_field" alignment="CENTER" onKeyTyped="#onEnableSetButton" prefWidth="200.0" promptText="Timeout (sec)">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="set_timeout_btn" buttonType="RAISED" layoutX="215.0" layoutY="41.0" onAction="#onSetTimeoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%set" visible="false">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </JFXButton>
             <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_map" />
-            <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;" />
+            <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;">
+               <padding>
+                  <Insets left="10.0" />
+               </padding></JFXComboBox>
          </children>
       </HBox>
    </bottom>

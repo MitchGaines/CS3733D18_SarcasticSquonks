@@ -14,11 +14,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.util.converter.NumberStringConverter;
 import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
+import java.sql.Time;
 
 /**
  * This controller deals with special options for the admin users.
@@ -59,13 +62,13 @@ public class AdminSpecialOptionsController{
      * The text fields for modifying the username and password.
      */
     @FXML
-    JFXTextField modify_username, modify_password;
+    JFXTextField modify_username, modify_password, timeout_field;
 
     /**
      * Buttons for the modify map, delete user, add user, confirm delete and cancel delete.
      */
     @FXML
-    Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn;
+    Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn, set_timeout_btn;
 
     /**
      * The combo box for choosing the pathfind algorithm.
@@ -217,6 +220,17 @@ public class AdminSpecialOptionsController{
         }
     }
 
+
+    public void onSetTimeoutClick(){
+        Timeout.sleep_time = Integer.parseInt(timeout_field.getText().toString()) * 1000;
+        Timeout.stop();
+        Timeout.start();
+    }
+
+    public void onEnableSetButton(){
+        set_timeout_btn.setVisible(true);
+    }
+
     /**
      * cancels changes made to the user.
      */
@@ -250,5 +264,6 @@ public class AdminSpecialOptionsController{
         add_user_box.setVisible(true);
         delete_user_box.setVisible(false);
         modify_user_box.setVisible(false);
+        timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
     }
 }

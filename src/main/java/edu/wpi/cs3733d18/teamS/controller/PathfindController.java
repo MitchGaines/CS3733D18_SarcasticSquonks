@@ -256,8 +256,6 @@ public class PathfindController {
             desired_y += 400;
         }
 
-        System.out.println("Centering to point at: " + desired_x + ", " + desired_y);
-
         map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
         map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));
     }
