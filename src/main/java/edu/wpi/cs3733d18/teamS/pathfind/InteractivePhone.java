@@ -57,7 +57,6 @@ public class InteractivePhone {
             path += twiml.toUrl() + ".xml";
 
             URL url = new URL(protocol, host, port, path);
-            System.out.println(url);
             Call call = Call.creator(
                     new PhoneNumber(to_phone),
                     new PhoneNumber(from_phone),
