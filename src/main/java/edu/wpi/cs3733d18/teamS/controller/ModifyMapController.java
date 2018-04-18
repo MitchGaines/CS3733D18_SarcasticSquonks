@@ -10,6 +10,7 @@ import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -349,6 +350,7 @@ public class ModifyMapController {
 
         nodes_list.put(new_node, pin);
         storage.saveNode(new_node);
+        nodeToFront(pin);
         pane.getChildren().add(pin);
 
         endAddLoc();
@@ -390,6 +392,7 @@ public class ModifyMapController {
             temp_pin = new Circle(new_node.getXCoord3D(), new_node.getYCoord3D(), 7, color);
             temp_pin.setStroke(Color.BLACK);
             temp_pin.setStrokeWidth(3);
+            nodeToFront(temp_pin);
             pane.getChildren().add(temp_pin);
         } else if (location_or_path.getValue().toString().equals("Add Location")) {
             Scene scene = add_loc.getScene();
@@ -405,6 +408,7 @@ public class ModifyMapController {
             temp_pin = new Circle(new_node.getXCoord3D(), new_node.getYCoord3D(), 7, color);
             temp_pin.setStroke(Color.BLACK);
             temp_pin.setStrokeWidth(3);
+            nodeToFront(temp_pin);
             pane.getChildren().add(temp_pin);
             confirm_3d.setVisible(true);
             scene.setCursor(Cursor.DEFAULT);
@@ -594,6 +598,7 @@ public class ModifyMapController {
                 pin.setStrokeWidth(3);
 
                 nodes_list.put(a_node, pin);
+                nodeToFront(pin);
                 pane.getChildren().add(pin);
             }
         }
@@ -663,4 +668,13 @@ public class ModifyMapController {
         return (first_node.getNodeID() + "_" + second_node.getNodeID());
     }
 
+
+    private void nodeToFront(javafx.scene.Node node) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                node.toFront();
+            }
+        });
+    }
 }
