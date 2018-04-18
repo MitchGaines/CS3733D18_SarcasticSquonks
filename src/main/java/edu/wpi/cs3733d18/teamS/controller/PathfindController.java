@@ -380,7 +380,7 @@ public class PathfindController {
         stack_pane.setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(0).setEffect(adj);
         stack_pane.getChildrenUnmodifiable().get(1).setEffect(adj);
-        stack_pane.getChildrenUnmodifiable().get(2).setEffect(adj);
+        //stack_pane.getChildrenUnmodifiable().get(2).setEffect(adj);
         directions_box.setVisible(true);
         expanded_qr.isPreserveRatio();
     }
@@ -401,7 +401,7 @@ public class PathfindController {
         stack_pane.setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(0).setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(1).setEffect(null);
-        stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
+        //stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onPhoneCallBtnClick(){
