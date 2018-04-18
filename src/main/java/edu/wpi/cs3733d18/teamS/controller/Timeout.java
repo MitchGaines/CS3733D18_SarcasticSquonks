@@ -51,22 +51,18 @@ public class Timeout {
         kill = false;
         timeout_thread = new Thread() {
             public void run() {
-                System.out.println("start run");
                 try {
-                    System.out.println("sleeping for " + sleep_time);
                     Thread.sleep(sleep_time);
                     while (!kill) {
                         if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
                             AllText.changeLanguage("en");
                             Platform.runLater(() -> Main.switchScenes("Brigham and Women's", "/HomePage.fxml"));
-                            System.out.println("sleeping for " + sleep_time);
                             Thread.sleep(sleep_time);
                         } else {
                             long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
                             if (new_sleep_time <= 0) {
                                 new_sleep_time = 10000;
                             }
-                            System.out.println("Sleeping for " + new_sleep_time);
                             Thread.sleep(new_sleep_time);
                         }
                     }
