@@ -9,19 +9,30 @@ import com.twilio.twiml.voice.Gather;
 import com.twilio.twiml.voice.Redirect;
 import com.twilio.twiml.voice.Say;
 import com.twilio.type.PhoneNumber;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 public class InteractivePhone {
     private String account_sid = "AC61003cbc0ab62fb17514a23dd877954d";
     private String auth_token = "93baca692310f9af4c1e13a730071a3d";
     private String from_phone = "+18329475093";
     private TwiML twiml;
+    private URL root_endpoint;
     private ArrayList<URL> url_list = new ArrayList<>();
     private String host = "159.203.189.146";
     private int port = 3000;
@@ -32,12 +43,36 @@ public class InteractivePhone {
     public InteractivePhone(ArrayList<String> dir_steps){
         Twilio.init(account_sid, auth_token);
 
-        twiml = createTwiml(dir_steps);
+        root_endpoint = createRootEndpoint(dir_steps);
     }
 
-    private TwiML createTwiml(ArrayList<String> steps){
+    private String generateString(){
+        String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        int count = 10;
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
+    }
 
+    private URL createRootEndpoint(ArrayList<String> steps){
         VoiceResponse.Builder twiml_builder = new VoiceResponse.Builder();
+
+        HttpClient client = new DefaultHttpClient();
+        HttpPost post = null;
+        String key = generateString();
+        URL endpoint = null;
+        try {
+            endpoint = new URL(protocol, host, port, (path + "new_xml/" + key));
+            post = new HttpPost(String.valueOf(endpoint));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        post.setHeader("User-Agent", USER_AGENT);
+        List<NameValuePair> url_params = new ArrayList<NameValuePair>();
 
         twiml_builder = twiml_builder.gather(new Gather
                     .Builder()
@@ -53,35 +88,41 @@ public class InteractivePhone {
             c++;
             if(c >= steps.size()){
                 twiml_builder.redirect(new Redirect
-                        .Builder(new URL(protocol, host, port, path)
+                        .Builder(endpoint
                         .toURI()).build()).build();
+
             } else {
                 twiml_builder.redirect(new Redirect
-                        .Builder(new URL(protocol, host, port, (path + createTwiml(steps).toUrl()))
+                        .Builder(createRootEndpoint(steps)
                         .toURI()).build()).build();
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        return twiml_builder.build();
+        url_params.add(new BasicNameValuePair("xml", twiml_builder.build().toString()));
+        try {
+            post.setEntity(new UrlEncodedFormEntity(url_params));
+            client.execute(post);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        return endpoint;
     }
 
     public void callDirections(String to_phone){
         try {
-            System.out.println(new URL(protocol, host, port, (path + twiml.toUrl())).toURI().toString());
+            System.out.println(root_endpoint);
             Call call = Call.creator(
                     new PhoneNumber(to_phone),
                     new PhoneNumber(from_phone),
-                    new URI(new URL(protocol, host, port, (path + twiml.toUrl())).toURI().toString())
+                    new URI(root_endpoint.toString())
             ).create();
 
         } catch (URISyntaxException e){
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }

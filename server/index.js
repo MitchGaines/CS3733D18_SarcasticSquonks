@@ -2,11 +2,22 @@ var express = require("express");
 var app     = express();
 var path    = require("path");
 var xml     = require("xml");
+var body_parser = require("body-parser");
 
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use(bodyParser.xml({
+  limit: '10MB',   // Reject payload bigger than 1 MB
+  xmlParseOptions: {
+    normalize: true,     // Trim whitespace inside text nodes
+    normalizeTags: true, // Transform tags to lowercase
+    explicitArray: false // Only put nodes in array if >1
+  }
+}));
 app.set('view engine', 'ejs');
+
+var xml_list = {};
 
 app.get('/:steps', function(req, res){
   var path = "";
@@ -42,6 +53,13 @@ app.get('/twiml/:twiml_steps', function(req, res) {
   res.set('Content-Type', 'text/xml');
   res.send(final_steps.replace(".xml", ""));
 });
+
+app.post('/twiml/new_xml/:key', function(req, res, body) {
+  xml_list[req.params.key] = req.body;
+  console.log(xml_list[req.params.key]);
+});
+
+
 
 app.listen(3000);
 console.log("Running on port 3000");
