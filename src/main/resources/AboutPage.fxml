@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -25,14 +25,17 @@
                 </ImageView>
                 <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
                     <children>
-                        <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
+                        <HBox alignment="TOP_CENTER" prefHeight="340.0" prefWidth="200.0" spacing="40.0">
                             <VBox.margin>
                                 <Insets top="-40.0" />
                             </VBox.margin>
+                     <children>
+                        <JFXListView fx:id="names_list" prefHeight="138.0" prefWidth="248.0" />
+                        <JFXListView fx:id="positions_list" />
+                     </children>
                         </HBox>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sarcastic Squonks" />
-                  <TextArea prefHeight="200.0" prefWidth="200.0" text="Jonathan Gaines, Lead Developer&#10;Noah Hillman, Algorithms Specialist&#10;William Lucca, Software Engineer&#10;Cormac Lynch-Collier, Product Owner&#10;Matthew McMillan, Assistant Lead Developer&#10;Mathew Schwartzman, Project Manager&#10;Orion Strickland, Documentation Analyst&#10;Daniel Sullivan, Test Engineer&#10;Joseph Turcotte, Scrummaster&#10;Matthew Puentes, Assistant Lead Developer&#10;Kyle Corry, Team Coach&#10;&#10;" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23;" text="A special thanks to Wilson Wong, Kyle Corry, and Andrew Shinn for all their insight and expertise!" />
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
