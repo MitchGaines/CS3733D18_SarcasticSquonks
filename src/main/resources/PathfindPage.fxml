@@ -84,8 +84,8 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXTextField>
-                               <JFXButton fx:id="call_btn" onAction="#onPhoneCallBtnClick" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Call" />
-                               <JFXButton fx:id="text_btn" onAction="#onPhoneTextBtnClick" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Text" />
+                               <JFXButton fx:id="call_btn" onAction="#onPhoneCallBtnClick" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%call" />
+                               <JFXButton fx:id="text_btn" onAction="#onPhoneTextBtnClick" buttonType="RAISED" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%text" />
                            </children>
                         </HBox>
                      </children>
