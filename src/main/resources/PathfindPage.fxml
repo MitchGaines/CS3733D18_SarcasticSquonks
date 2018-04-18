@@ -74,7 +74,9 @@
                      <children>
                         <ScrollPane fx:id="directions_pane" hbarPolicy="NEVER" prefHeight="425.0" prefWidth="277.0" vbarPolicy="ALWAYS">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                            <AnchorPane fx:id="directions_anchor" minHeight="0.0" minWidth="0.0">
+                              <VBox fx:id="directions_vbox" alignment="TOP_LEFT" spacing="5.0"/>
+                            </AnchorPane>
                           </content>
                         </ScrollPane>
                         <HBox alignment="CENTER" prefHeight="17.0" prefWidth="277.0" spacing="20.0">
