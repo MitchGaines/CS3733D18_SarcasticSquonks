@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
@@ -33,7 +34,7 @@ public class ServiceAreaController {
     ComboBox<User> fulfiller_box = new ComboBox<>();
 
     @FXML
-    Button request_service_button;
+    Button request_service_button, pathfind_button;
     @FXML
     Button mark_completed_btn;
     private User user;
@@ -84,6 +85,7 @@ public class ServiceAreaController {
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
             if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) ||
+
                     (sr.getDesiredFulfiller() != null && sr.getDesiredFulfiller().getUsername().equals(user.getUsername()))) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {
@@ -122,6 +124,31 @@ public class ServiceAreaController {
         }
         fulfiller_box.getSelectionModel().select(ANY_FULFILLER);
         fulfiller_box.setVisible(true);
+    }
+
+    public void doPathFind() {
+        ServiceRequest service_request = active_requests_box.getSelectionModel().getSelectedItem();
+        if (service_request == null) {
+            return;
+        }
+        SearchAlgorithm alg;
+        int select = AdminSpecialOptionsController.getChoosenAlg();
+        if (select == 1) {
+            alg = new Dijkstras();
+        } else if (select == 2) {
+            alg = new DepthFirst();
+        } else if (select == 3) {
+            alg = new BreadthFirst();
+        } else {
+            alg = new AStar();
+        }
+        Pathfinder finder = new Pathfinder(alg);
+        finder.findShortestPath(Storage.getInstance().getDefaultKioskLocation(), service_request.getLocation().getNodeID());
+        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     public void doRequestService() {
@@ -179,6 +206,7 @@ public class ServiceAreaController {
         location_text.setVisible(true);
         description_text.setVisible(true);
         mark_completed_btn.setVisible(true);
+        pathfind_button.setVisible(true);
     }
 
     public void setUpToComplete(User user) {
@@ -187,12 +215,12 @@ public class ServiceAreaController {
         location_text.setVisible(false);
         description_text.setVisible(false);
         mark_completed_btn.setVisible(false);
+        pathfind_button.setVisible(false);
     }
 
     public void setUpToMake(User user) {
         this.user = user;
         locations.addAll(Storage.getInstance().getAllNodes());
-        request_service_button.setText("Request service");
     }
 
     public void initialize() {
