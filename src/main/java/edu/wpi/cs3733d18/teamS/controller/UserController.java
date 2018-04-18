@@ -75,6 +75,8 @@ public class UserController {
             emergency_label.setVisible(true);
             emergency_title.setVisible(true);
             emergency_details.setVisible(true);
+
+            requestSidebarController.setEmergency();
         }
     }
 
@@ -83,6 +85,7 @@ public class UserController {
             emergency_label.setVisible(false);
             emergency_title.setVisible(false);
             emergency_details.setVisible(false);
+            requestSidebarController.fulfillEmerg();
         }
 
     }
