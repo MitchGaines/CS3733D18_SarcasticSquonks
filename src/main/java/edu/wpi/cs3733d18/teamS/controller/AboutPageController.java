@@ -45,6 +45,17 @@ public class AboutPageController {
     @FXML
     StackPane stack_pane;
 
+    @FXML
+    JFXButton back;
+
+    @FXML
+    void onBackClick(ActionEvent event) throws IOException{    // about screen
+
+        System.out.println("clicked!");
+        Main.switchScenes("Back", "/HomePage.fxml");
+
+    }
+
 
 
 }

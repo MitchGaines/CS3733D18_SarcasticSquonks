@@ -63,6 +63,9 @@ public class HomePageController {
     JFXButton login_btn;
 
     @FXML
+    JFXButton about;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -270,18 +273,10 @@ public class HomePageController {
 
     @FXML
     void onAboutClick(ActionEvent event) throws IOException{    // about screen
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("/AboutPage.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("About Stage");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
-        }
 
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        System.out.println("clicked!");
+        Main.switchScenes("About", "/AboutPage.fxml");
+
     }
 
     /**
