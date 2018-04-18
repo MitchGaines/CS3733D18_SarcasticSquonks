@@ -198,11 +198,13 @@ public class PathfindController {
             step_label.setFont(new Font(24));
             step_label.setWrapText(true);
             step_label.setGraphicTextGap(15.0);
-            directions_vbox.getChildren().add(step_label);
-            directions_vbox.getChildren().add(new Separator());
+            step_label.setMinHeight(90);
+            direct_list.getChildren().add(step_label);
+            direct_list.getChildren().add(new Separator());
         }
         // Remove last separator
-        directions_vbox.getChildren().remove(directions_vbox.getChildren().size() - 1);
+        directions_anchor.setPrefHeight(direct_list.getHeight());
+        direct_list.getChildren().remove(direct_list.getChildren().size() - 1);
 
         try {
             directions_url = map.getPath().getPathDirectionsURL(path_steps);
