@@ -46,18 +46,8 @@ app.post('/twiml/:twiml_steps', function(req, res) {
   res.send(final_steps.replace(".xml", ""));
 });
 
-app.get('/twiml/:twiml_steps', function(req, res) {
-  var twiml_steps = req.params.twiml_steps;
-  var steps_xml = decodeURIComponent(twiml_steps);
-
-  var final_steps = steps_xml.replace(/\+/g, ' ');
-  console.log(final_steps);
-  res.set('Content-Type', 'text/xml');
-  res.send(final_steps.replace(".xml", ""));
-});
-
 app.post('/twiml/new_xml/:key', function(req, res, body) {
-  xml_list[req.params.key] = req.body;
+  xml_list[req.params.key] = body;
   console.log(xml_list[req.params.key]);
 });
 

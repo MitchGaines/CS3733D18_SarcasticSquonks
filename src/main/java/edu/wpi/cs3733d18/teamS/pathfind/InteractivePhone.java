@@ -32,17 +32,71 @@ public class InteractivePhone {
     private String auth_token = "93baca692310f9af4c1e13a730071a3d";
     private String from_phone = "+18329475093";
     private TwiML twiml;
+
+    public InteractivePhone(ArrayList<String> dir_steps){
+        Twilio.init(account_sid, auth_token);
+
+        VoiceResponse.Builder twiml_builder = new VoiceResponse.Builder();
+
+        for (String step : dir_steps) {
+            twiml_builder.say(new Say.Builder(step).build());
+        }
+
+        twiml = twiml_builder.build();
+    }
+
+    public void callDirections(String to_phone){
+        try {
+
+            String host = "159.203.189.146";
+            //String host = "127.0.0.1";
+            int port = 3000;
+            String protocol = "http";
+            String path = "/twiml/";
+
+            path += twiml.toUrl() + ".xml";
+
+            URL url = new URL(protocol, host, port, path);
+            System.out.println(url);
+            Call call = Call.creator(
+                    new PhoneNumber(to_phone),
+                    new PhoneNumber(from_phone),
+                    new URI(url.toString())
+            ).create();
+
+        } catch (URISyntaxException e){
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void textDirections(String to_phone, URL url){
+        Message msg = Message.creator(
+                new PhoneNumber(to_phone),
+                new PhoneNumber(from_phone),
+                "Click this link for directions: " + url.toString()
+        ).create();
+    }
+
+
+    /*
+    private String account_sid = "AC61003cbc0ab62fb17514a23dd877954d";
+    private String auth_token = "93baca692310f9af4c1e13a730071a3d";
+    private String from_phone = "+18329475093";
+    private TwiML twiml;
     private URL root_endpoint;
     private ArrayList<URL> url_list = new ArrayList<>();
     private String host = "159.203.189.146";
     private int port = 3000;
     private String protocol = "http";
     private String path = "/twiml/";
-    private int c = 0;
+    private int c;
+
 
     public InteractivePhone(ArrayList<String> dir_steps){
         Twilio.init(account_sid, auth_token);
-
+        c = 0;
         root_endpoint = createRootEndpoint(dir_steps);
     }
 
@@ -56,6 +110,7 @@ public class InteractivePhone {
         }
         return builder.toString();
     }
+
 
     private URL createRootEndpoint(ArrayList<String> steps){
         VoiceResponse.Builder twiml_builder = new VoiceResponse.Builder();
@@ -80,30 +135,29 @@ public class InteractivePhone {
                     .say(new Say
                             .Builder(steps.get(c)
                             + " Press 1 for next step. ")
-                            .voice(Say.Voice.ALICE)
+                            .voice(Say.Voice.MAN)
                             .build())
                     .build());
 
         try {
             c++;
             if(c >= steps.size()){
-                twiml_builder.redirect(new Redirect
-                        .Builder(endpoint
-                        .toURI()).build()).build();
+                url_params.add(new BasicNameValuePair("xml", twiml_builder.build().toString()));
+                post.setEntity(new UrlEncodedFormEntity(url_params));
+                client.execute(post);
 
+                return endpoint;
             } else {
                 twiml_builder.redirect(new Redirect
                         .Builder(createRootEndpoint(steps)
                         .toURI()).build()).build();
+
+                url_params.add(new BasicNameValuePair("xml", twiml_builder.build().toString()));
+                post.setEntity(new UrlEncodedFormEntity(url_params));
+                client.execute(post);
             }
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        }
-
-        url_params.add(new BasicNameValuePair("xml", twiml_builder.build().toString()));
-        try {
-            post.setEntity(new UrlEncodedFormEntity(url_params));
-            client.execute(post);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -126,12 +180,6 @@ public class InteractivePhone {
             e.printStackTrace();
         }
     }
+    */
 
-    public void textDirections(String to_phone, URL url){
-        Message msg = Message.creator(
-                new PhoneNumber(to_phone),
-                new PhoneNumber(from_phone),
-                "Click this link for directions: " + url.toString()
-        ).create();
-    }
 }
