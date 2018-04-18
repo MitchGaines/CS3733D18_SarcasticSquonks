@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,15 @@ public class UserController {
         serviceAreaController.setUser(user);
         requestSidebarController.setUser(user);
         user_name.setText(user.getFirstName() + " " + user.getLastName());
+        declareOrClearEmergency();
+    }
+
+    public void declareOrClearEmergency() {
+        for (ServiceRequest service_request : ServiceRequest.getUnfulfilledServiceRequests()) {
+            if (user.canFulfill(service_request) && service_request.getServiceType().isEmergency()) {
+                declareEmergency(service_request.getTitle(), service_request.getLocation(), service_request.getDescription());
+            }
+        }
     }
 
     public void setUp(User user, String page) {
@@ -68,7 +78,7 @@ public class UserController {
         this.page = page;
     }
 
-    public void declareEmergency(String title, edu.wpi.cs3733d18.teamS.data.Node location, String description) {
+    private void declareEmergency(String title, edu.wpi.cs3733d18.teamS.data.Node location, String description) {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {
             emergency_title.setText(title + ", " + location.getShortName());
             emergency_details.setText(description);
@@ -80,12 +90,11 @@ public class UserController {
         }
     }
 
-    public void dismissEmergency() {
+    private void dismissEmergency() {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {
             emergency_label.setVisible(false);
             emergency_title.setVisible(false);
             emergency_details.setVisible(false);
-            requestSidebarController.fulfillEmerg();
         }
 
     }
@@ -96,6 +105,7 @@ public class UserController {
         LogController log_controller = loader.getController();
         log_controller.setUser(user);
         //log_controller.setReturnPage(page);
+        log_controller.setUser(user);
         log_controller.populateTable();
         main_pane.setCenter(root);
     }
@@ -104,6 +114,7 @@ public class UserController {
         if (user.getType() != User.user_type.ADMIN_STAFF) {
             requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
             requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
+            requestSidebarController.getSidebar().getChildren().get(5).setVisible(false);
         }
     }
 
