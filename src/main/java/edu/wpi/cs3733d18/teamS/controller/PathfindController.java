@@ -252,6 +252,11 @@ public class PathfindController {
         double desired_y = poly_y + (poly_height / 2);
         desired_x = p.getPoints().get(0);
         desired_y = p.getPoints().get(1);
+        if(map.is_3D){
+            desired_y += 400;
+        }
+
+        System.out.println("Centering to point at: " + desired_x + ", " + desired_y);
 
         map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
         map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));

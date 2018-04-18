@@ -247,6 +247,8 @@ public class HomePageController {
         if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
             return;
         }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**
