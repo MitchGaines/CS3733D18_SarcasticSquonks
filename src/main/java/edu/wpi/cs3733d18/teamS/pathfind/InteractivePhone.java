@@ -5,27 +5,14 @@ import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.twiml.TwiML;
 import com.twilio.twiml.VoiceResponse;
-import com.twilio.twiml.voice.Gather;
-import com.twilio.twiml.voice.Redirect;
 import com.twilio.twiml.voice.Say;
 import com.twilio.type.PhoneNumber;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 public class InteractivePhone {
     private String account_sid = "AC61003cbc0ab62fb17514a23dd877954d";
