@@ -99,7 +99,7 @@ public class HomePageController {
     @FXML
     JFXButton REST;
     @FXML
-    JFXButton DEPT;
+    JFXButton EXIT;
     @FXML
     JFXButton INFO;
     @FXML
