@@ -128,6 +128,14 @@ public class HomePageController {
         KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
     }
 
+//    public void setStart(String node_id) {
+//        combobox_start.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+//    }
+
+    public void setEnd(String node_id) {
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+    }
+
     /**
      * Performs this function during creation of Controller sets up the ComboBoxes
      * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database.
