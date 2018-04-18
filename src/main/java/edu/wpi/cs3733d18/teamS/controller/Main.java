@@ -7,9 +7,14 @@ import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +31,8 @@ public class Main extends Application {
 
     public static Object switchScenes(String title, String fxml_name) {
         try {
+            double old_height = primary_stage.getHeight();
+            double old_width = primary_stage.getWidth();
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml_name), AllText.getBundle());
             Parent user_parent = loader.load();
             Object controller = loader.getController();
@@ -35,6 +42,8 @@ public class Main extends Application {
             Timeout.addListenersToScene(new_scene);
 
             primary_stage.setScene(new_scene);
+            primary_stage.setHeight(old_height);
+            primary_stage.setWidth(old_width);
             primary_stage.show();
             return controller;
         } catch (IOException e) {
@@ -80,6 +89,10 @@ public class Main extends Application {
                 csv_writer.writeCSVFile("csv/mergedEdges_edited.csv", "EDGES");
             }
         });
+
+    }
+
+    public static void handleClock(Label clock_label) {
 
     }
 }

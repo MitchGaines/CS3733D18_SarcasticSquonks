@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.database;
 
+import edu.wpi.cs3733d18.teamS.controller.HomePageController;
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Storage.java
  * The edu.wpi.cs3733d18.teamS.controller for the Apache Database
+ *
  * @author Joseph Turcotte
  * @version %I%, %G%
  * Date: March 29, 2018
@@ -30,14 +32,14 @@ public class Storage {
     // to exclude auto-generated IDs from tables
     private final String USER_VALUES = String.format("( %s, %s, %s, %s, %s, %s )",
             "username", "password", "first_name", "last_name", "user_type", "can_mod_map");
-    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s )",
-            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time");
+    private final String SERVICE_VALUES = String.format(" ( %s, %s, %s, %s, %s, %s, %s, %s, %s )",
+            "title", "description", "service_type", "requester_id", "fulfiller_id", "location", "request_time", "fulfill_time", "desired_fulfiller_id");
     /**
      * Stores the edu.wpi.cs3733d18.teamS.database.
      */
     private IDatabase database;
     // to parse dates
-    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Empty constructor for storage.
@@ -47,6 +49,7 @@ public class Storage {
 
     /**
      * Get instance of Storage object.
+     * @return the instance of the storage holder.
      */
     public static Storage getInstance() {
         return StorageHolder.instance;
@@ -71,7 +74,8 @@ public class Storage {
                 database.addQuotes(node.getShortName()),
                 database.addQuotes(node.getTeamAssigned()),
                 String.valueOf(node.getXCoord3D()),
-                String.valueOf(node.getYCoord3D())
+                String.valueOf(node.getYCoord3D()),
+                String.valueOf(node.isDisabled())
         });
     }
 
@@ -101,7 +105,8 @@ public class Storage {
                 String.format("%s = '%s'", "short_name", node.getShortName()),
                 String.format("%s = '%s'", "team_assigned", node.getTeamAssigned()),
                 String.format("%s = %d", "x_coord_3d", node.getXCoord3D()),
-                String.format("%s = %d", "y_coord_3d", node.getYCoord3D())
+                String.format("%s = %d", "y_coord_3d", node.getYCoord3D()),
+                String.format("%s = %b", "disabled", node.isDisabled())
         };
 
         database.update("NODES", values, "node_id = '" + node.getNodeID() + "'", null);
@@ -179,9 +184,10 @@ public class Storage {
             String team_assigned = result_set.getString("team_assigned");
             int x_coord_3d = result_set.getInt("x_coord_3d");
             int y_coord_3d = result_set.getInt("y_coord_3d");
+            boolean disabled = result_set.getBoolean("disabled");
 
             Node n = new Node(node_id, x_coord, y_coord, floor, building, node_type,
-                    long_name, short_name, team_assigned, x_coord_3d, y_coord_3d);
+                    long_name, short_name, team_assigned, x_coord_3d, y_coord_3d, disabled);
 
             return n;
 
@@ -203,7 +209,8 @@ public class Storage {
         database.insert("EDGES", new String[]{
                 database.addQuotes(edge.getEdgeID()),
                 database.addQuotes(edge.getStartNode()),
-                database.addQuotes(edge.getEndNode())
+                database.addQuotes(edge.getEndNode()),
+                String.valueOf(edge.isDisabled())
         });
     }
 
@@ -225,7 +232,8 @@ public class Storage {
         String[] values = new String[]{
                 String.format("%s = '%s'", "edge_id", edge.getEdgeID()),
                 String.format("%s = '%s'", "start_node", edge.getStartNode()),
-                String.format("%s = '%s'", "end_node", edge.getEndNode())
+                String.format("%s = '%s'", "end_node", edge.getEndNode()),
+                String.format("%s = %b", "disabled", edge.isDisabled())
         };
 
         database.update("EDGES", values, "edge_id = '" + edge.getEdgeID() + "'", null);
@@ -295,8 +303,9 @@ public class Storage {
             String edge_id = result_set.getString("edge_id");
             String start_node = result_set.getString("start_node");
             String end_node = result_set.getString("end_node");
+            boolean disabled = result_set.getBoolean("disabled");
 
-            Edge e = new Edge(edge_id, start_node, end_node);
+            Edge e = new Edge(edge_id, start_node, end_node, disabled);
 
             return e;
 
@@ -471,17 +480,19 @@ public class Storage {
     public void saveRequest(ServiceRequest request) {
 
         // check if fulfiller id is null
-        String fulfiller_string = request.getFulfiller() == null ? "null" : String.valueOf(request.getFulfiller().getUserID());
+        long fulfiller_id = request.getFulfiller() == null ? 0 : request.getFulfiller().getUserID();
+        long desired_fulfiller_id = request.getDesiredFulfiller() == null ? 0 : request.getDesiredFulfiller().getUserID();
 
         database.insert("SERVICES" + SERVICE_VALUES, new String[]{
                 database.addQuotes(request.getTitle()),
                 database.addQuotes(request.getDescription()),
                 database.addQuotes(request.getServiceType().getName()),
                 String.valueOf(request.getRequester().getUserID()),
-                fulfiller_string,
+                String.valueOf(fulfiller_id),
                 database.addQuotes(request.getLocation().getNodeID()),
                 database.addQuotes(dtf.print(request.getRequestedDate())),
-                database.addQuotes(dtf.print(request.getFulfilledDate()))
+                database.addQuotes(dtf.print(request.getFulfilledDate())),
+                String.valueOf(desired_fulfiller_id)
         });
     }
 
@@ -509,10 +520,11 @@ public class Storage {
                 String.format("%s = %d", "fulfiller_id", request.getFulfiller().getUserID()),
                 String.format("%s = '%s'", "location", request.getLocation().getNodeID()),
                 String.format("%s = '%s'", "request_time", dtf.print(request.getRequestedDate())),
-                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate()))
+                String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate())),
+                String.format("%s = %d", "desired_fulfiller_id", request.getDesiredFulfiller().getUserID())
         };
 
-        database.update("SERVICES", values, "service_id = " + request.getRequester().getUserID(), null);
+        database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
     }
 
     /**
@@ -535,8 +547,8 @@ public class Storage {
 
     /**
      * Gets all requests of a specific type.
-     *
-     * @return a List of edu.wpi.cs3733d18.teamS.service requests corresponding to a specific type.
+     * @param type the type of service request.
+     * @return a List of service requests corresponding to a specific type.
      */
     public List<ServiceRequest> getRequestsByType(ServiceType type) {
         ResultSet r_set = database.query(
@@ -617,6 +629,7 @@ public class Storage {
         List<String> locations = new LinkedList<>();
         List<DateTime> requestDateTimes = new LinkedList<>();
         List<DateTime> fulfillDateTimes = new LinkedList<>();
+        List<Long> id_desired_fulfillers = new LinkedList<>();
 
         // return an empty list if query didn't return anything
         if (r_set == null) {
@@ -630,8 +643,9 @@ public class Storage {
                 id_fulfillers.add(r_set.getLong("fulfiller_id"));
                 types.add(r_set.getString("service_type"));
                 locations.add(r_set.getString("location"));
-                requestDateTimes.add(new DateTime(r_set.getDate("request_time")));
-                fulfillDateTimes.add(new DateTime(r_set.getDate("fulfill_time")));
+                requestDateTimes.add(new DateTime(r_set.getTimestamp("request_time")));
+                fulfillDateTimes.add(new DateTime(r_set.getTimestamp("fulfill_time")));
+                id_desired_fulfillers.add(r_set.getLong("desired_fulfiller_id"));
                 requests.add(request);
             } catch (SQLException e) {
                 // empty
@@ -641,19 +655,22 @@ public class Storage {
         // second for loop to create the edu.wpi.cs3733d18.teamS.service requests
         int length = id_requesters.size();
         for (int i = 0; i < length; i++) {
-            ServiceType serviceType = getServiceTypeByName(types.get(i));
+            List<ServiceType> serviceTypes = getServiceTypesByName(types.get(i));
             User requester = getUserByID(id_requesters.get(i));
             User fulfiller = getUserByID(id_fulfillers.get(i));
             Node location = getNodeByID(locations.get(i));
             DateTime requestDateTime = requestDateTimes.get(i);
             DateTime fulfillDateTime = fulfillDateTimes.get(i);
+            User desired_fulfiller = getUserByID(id_desired_fulfillers.get(i));
 
-            requests.get(i).setService_type(serviceType);
+            // NOTE: list of service types only contains one element, so access it using 0 index
+            requests.get(i).setService_type(serviceTypes.get(0));
             requests.get(i).setRequester(requester);
             requests.get(i).setFulfiller(fulfiller);
             requests.get(i).setLocation(location);
             requests.get(i).setRequestedDate(requestDateTime);
             requests.get(i).setFulfilledDate(fulfillDateTime);
+            requests.get(i).setDesiredFulfiller(desired_fulfiller);
         }
 
         return requests;
@@ -720,12 +737,12 @@ public class Storage {
     }
 
     /**
-     * gets a edu.wpi.cs3733d18.teamS.service request by name.
+     * gets a service type by name.
      *
      * @param name the name of the edu.wpi.cs3733d18.teamS.service type.
-     * @return the edu.wpi.cs3733d18.teamS.service type corresponding to the given name.
+     * @return a list of service types (1 entry for uniqueness) corresponding to the given name.
      */
-    public ServiceType getServiceTypeByName(String name) {
+    public List<ServiceType> getServiceTypesByName(String name) {
         ResultSet r_set = database.query(
                 "TYPES",
                 null,
@@ -734,7 +751,7 @@ public class Storage {
                 null
         );
 
-        return getServiceType(r_set);
+        return getServiceTypes(r_set);
     }
 
     /**
@@ -762,8 +779,6 @@ public class Storage {
      */
     private List<ServiceType> getServiceTypes(ResultSet r_set) {
         List<ServiceType> types = new LinkedList<>();
-        //List<String> type_names = new LinkedList<>();
-        //List<HashSet<User>> fulfiller_list = new LinkedList<>();
 
         // if there were no results from the query, return null
         if (r_set == null) {
@@ -773,7 +788,6 @@ public class Storage {
         // loop through result set and add to list
         ServiceType type;
         while ((type = getServiceType(r_set)) != null) {
-            //type_names.add(type.getName());
             types.add(type);
         }
 
@@ -821,20 +835,20 @@ public class Storage {
     /**
      * Inserts a fulfiller into the fulfillers table
      *
-     * @param type the service type the fulfiller is associated with
+     * @param types     the service type the fulfiller is associated with
      * @param fulfiller the user representing the fulfiller
      */
-    public void saveFulfiller(ServiceType type, User fulfiller) {
+    public void saveFulfiller(List<ServiceType> types, User fulfiller) {
         database.insert("FULFILLERS", new String[]{
-                database.addQuotes(type.getName()),
+                database.addQuotes(types.get(0).getName()),
                 String.valueOf(fulfiller.getUserID())
         });
     }
 
     /**
      * Gets all fulfillers of a specific type from the table
-     *
-     * @return a List containing all of the fulfillers of the given type in the table
+     * @param type the type of service request.
+     * @return a List containing all of the fulfillers of the given type in the table.
      */
     public HashSet<User> getAllFulfillersByType(ServiceType type) {
         ResultSet r_set = database.query(
@@ -912,6 +926,62 @@ public class Storage {
         return null;
     }
 
+    // --------------------- DEFAULT KIOSK METHODS ------------------- //
+
+    /**
+     * Saves the default kiosk location
+     * @param default_loc the node ID of the default location
+     */
+    public void saveDefaultKioskLocation(String default_loc) {
+        database.insert("DEFAULTLOC", new String[]{
+                database.addQuotes(default_loc)
+        });
+    }
+
+    /**
+     * Updates the default kiosk location
+     * @param new_default_loc the node ID of the default location
+     */
+    public void updateDefaultKioskLocation(String new_default_loc) {
+        String values[] = new String[]{
+                String.format("%s = '%s'", "default_kiosk_loc", new_default_loc)
+        };
+
+        database.update("DEFAULTLOC", values, null, null);
+    }
+
+    public String getDefaultKioskLocation() {
+        ResultSet r_set = database.query(
+                "DEFAULTLOC",
+                null,
+                null,
+                null,
+                null
+        );
+
+        return getDefaultLocation(r_set);
+    }
+
+    private String getDefaultLocation(ResultSet r_set) {
+
+        try {
+            // if we don't have anything in the result set
+            if (r_set == null || !r_set.next()) {
+                return null;
+            }
+
+            // set fields as garbage values, then fill in later
+            String node_id = r_set.getString("default_kiosk_loc");
+
+            return node_id;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     /**
      * Get edu.wpi.cs3733d18.teamS.database.
      *
@@ -945,7 +1015,8 @@ public class Storage {
                     String.format("%s VARCHAR (100)", "short_name"),
                     String.format("%s VARCHAR (100)", "team_assigned"),
                     String.format("%s INT", "x_coord_3d"),
-                    String.format("%s INT", "y_coord_3d")
+                    String.format("%s INT", "y_coord_3d"),
+                    String.format("%s BOOLEAN", "disabled")
             });
         }
 
@@ -953,7 +1024,8 @@ public class Storage {
             database.createTable("EDGES", new String[]{
                     String.format("%s VARCHAR (100) PRIMARY KEY", "edge_id"),
                     String.format("%s VARCHAR (100)", "start_node"),
-                    String.format("%s VARCHAR (100)", "end_node")
+                    String.format("%s VARCHAR (100)", "end_node"),
+                    String.format("%s BOOLEAN", "disabled")
             });
         }
 
@@ -982,7 +1054,8 @@ public class Storage {
                     String.format("%s BIGINT", "fulfiller_id"),
                     String.format("%s VARCHAR (100)", "location"),
                     String.format("%s TIMESTAMP", "request_time"),
-                    String.format("%s TIMESTAMP", "fulfill_time")
+                    String.format("%s TIMESTAMP", "fulfill_time"),
+                    String.format("%s BIGINT", "desired_fulfiller_id")
             });
         }
 
@@ -1001,6 +1074,14 @@ public class Storage {
 
             // generate an initial list of service types for the database
             ServiceType.createInitialServiceTypes();
+        }
+
+        if (!database.doesTableExist("DEFAULTLOC")) {
+            database.createTable("DEFAULTLOC", new String[]{
+                    String.format("%s VARCHAR (100)", "default_kiosk_loc")
+            });
+
+            saveDefaultKioskLocation("BINFO00102");
         }
     }
 

@@ -136,9 +136,9 @@ public class LogController {
     }
 
     /**
-     * TODO Figure out what these do exactly
-     * @param user
-     * @param return_page
+     * Performs various methods after initialize.
+     * @param user The user.
+     * @param return_page the previous page.
      */
     public void setUp(User user, String return_page) {
         setUser(user);
@@ -164,9 +164,9 @@ public class LogController {
     }
 
     /**
-     * TODO Figure out what this does
-     * @param event
-     * @throws IOException
+     * Switches the scene back to the previous page.
+     * @param event the click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onBackClick(ActionEvent event) throws IOException {
         UserController user_controller = (UserController) Main.switchScenes("User", return_page);
