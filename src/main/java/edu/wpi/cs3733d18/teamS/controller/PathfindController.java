@@ -7,21 +7,17 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -101,6 +97,9 @@ public class PathfindController {
 
     @FXML
     HBox directions_box;
+
+    @FXML
+    VBox directions_vbox;
 
     @FXML
     ScrollPane directions_pane;
@@ -281,6 +280,17 @@ public class PathfindController {
             updateMap(map.thisStep(map.is_3D));
 
             path_steps = path.getPathDirections();
+            for (String path_step : path_steps) {
+                Label step_label = new Label(path_step.substring(2), getDirectionsIcon(path_step));
+                VBox.setMargin(step_label, new Insets(0, 0, 0, 15.0));
+                step_label.setMaxWidth(directions_pane.getWidth() - 20);
+                System.out.println(directions_pane.getWidth());
+                step_label.setFont(new Font(24));
+                step_label.setWrapText(true);
+                step_label.setGraphicTextGap(15.0);
+                directions_vbox.getChildren().add(step_label);
+                directions_vbox.getChildren().add(new Separator());
+            }
 
             try {
                 directions_url = path.getPathDirectionsURL(path_steps);
@@ -436,4 +446,31 @@ public class PathfindController {
         }
     }
 
+    private ImageView getDirectionsIcon(String step_description) {
+        ImageView icon;
+        if (step_description.contains("turn left")) {
+            icon = new ImageView(new Image("images/directionsIcons/left.png"));
+        }
+        else if (step_description.contains("turn right")) {
+            icon = new ImageView(new Image("images/directionsIcons/right.png"));
+        }
+        else if (step_description.contains("straight") || step_description.contains("First")) {
+            icon = new ImageView(new Image("images/directionsIcons/walking.png"));
+        }
+        else if (step_description.contains("up to floor")) {
+            icon = new ImageView(new Image("images/mapIcons/up.png"));
+        }
+        else if (step_description.contains("down to floor")) {
+            icon = new ImageView(new Image("images/mapIcons/down.png"));
+        }
+        else if (step_description.toLowerCase().contains("destination")){
+            icon = new ImageView(new Image("images/mapIcons/destinationIcon.png"));
+        }
+        else {
+            icon = new ImageView();
+            icon.setFitWidth(32);
+            icon.setFitHeight(32);
+        }
+        return icon;
+    }
 }
