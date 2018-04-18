@@ -73,6 +73,12 @@ public class RequestSidebarController {
         adminParent.loadReports();
     }
 
+    public void onUserReportsClick() throws IOException {
+        clearColors();
+        reports.setStyle("-fx-background-color:  #91a1c6");
+        adminParent.loadUserReports();
+    }
+
     public void onAdminClick() throws IOException {
         clearColors();
         user_type_label.setStyle("-fx-background-color:  #91a1c6");

@@ -84,6 +84,7 @@ public class ServiceAreaController {
         active_requests_box.getItems().removeAll(active_requests_box.getItems());
         for (ServiceRequest sr : ServiceRequest.getUnfulfilledServiceRequests()) {
             if ((sr.getServiceType().getFulfillers().contains(user) && sr.getDesiredFulfiller() == null) ||
+
                     (sr.getDesiredFulfiller() != null && sr.getDesiredFulfiller().getUsername().equals(user.getUsername()))) {
                 active_requests_box.getItems().add(sr);
                 if (sr.getServiceType().isEmergency() && !emergency_declared) {

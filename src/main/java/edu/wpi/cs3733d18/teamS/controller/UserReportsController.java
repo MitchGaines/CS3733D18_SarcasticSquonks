@@ -3,7 +3,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -15,19 +15,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.joda.time.DateTime;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
-public class ReportsController extends UserController {
-    private static final String[] REPORT_TYPE_KEYS = {"num_requests_report", "average_time_report"};
-    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "hours_unit"};
+public class UserReportsController extends UserController {
+    private static final String[] REPORT_TYPE_KEYS = {"num_fulfillable_requests", "num_fulfilled_requests", "avg_fulfill_time"};
+    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "num_requests_unit", "hours_unit"};
     @FXML
     JFXTimePicker start_time_picker, end_time_picker;
     @FXML
@@ -35,7 +33,7 @@ public class ReportsController extends UserController {
     @FXML
     BarChart<String, Number> bar_chart;
     @FXML
-    JFXListView<ServiceType> service_type_list;
+    JFXListView<User> user_list;
     @FXML
     JFXComboBox<String> report_type_menu;
     @FXML
@@ -53,9 +51,9 @@ public class ReportsController extends UserController {
         populateReportTypes();
         setUpListView();
         instructions.setWrapText(true);
-        service_type_list.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<ServiceType>() {
+        user_list.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<User>() {
             @Override
-            public void onChanged(Change<? extends ServiceType> c) {
+            public void onChanged(Change<? extends User> c) {
                 onGoButton();
             }
         });
@@ -74,21 +72,21 @@ public class ReportsController extends UserController {
     }
 
     private void setUpListView() {
-        service_type_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        service_type_list.getItems().addAll(Storage.getInstance().getAllServiceTypes());
+        user_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        user_list.getItems().addAll(Storage.getInstance().getAllUsers());
     }
 
-    private DateTime javaToJoda(LocalDateTime java_time) {
-        return new DateTime(java_time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    private DateTime javaToJoda(java.time.LocalDateTime java_time) {
+        return new org.joda.time.DateTime(java_time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
 
-    private DateTime getStartTime() {
+    private org.joda.time.DateTime getStartTime() {
         if (start_date_picker.getValue() == null || start_time_picker.getValue() == null) {
             return null;
         }
         LocalDate date = start_date_picker.getValue();
         LocalTime time = start_time_picker.getValue();
-        LocalDateTime ldt = date.atTime(time);
+        java.time.LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
 
@@ -98,7 +96,7 @@ public class ReportsController extends UserController {
         }
         LocalDate date = end_date_picker.getValue();
         LocalTime time = end_time_picker.getValue();
-        LocalDateTime ldt = date.atTime(time);
+        java.time.LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
 
@@ -134,20 +132,24 @@ public class ReportsController extends UserController {
         XYChart.Series series = new XYChart.Series();
         ArrayList<XYChart.Data> data_list = new ArrayList<>();
 
-        for (ServiceType type : service_type_list.getSelectionModel().getSelectedItems()) {
-            if (type == null) {
+        for (User user : user_list.getSelectionModel().getSelectedItems()) {
+            if (user == null) {
                 continue;
             }
             if (selected_report_type == 0) {
-                XYChart.Data data = new XYChart.Data(type.getName(), type.getNumRequests(getStartTime(), getEndTime()));
+                XYChart.Data data = new XYChart.Data(user.toString(), user.getNumFulfillableRequests(getStartTime(), getEndTime()));
                 data_list.add(data);
                 series.getData().add(data);
             } else if (selected_report_type == 1) {
-                String type_name = type.getName();
-                Double avg_time = type.getAverageFulfillmentTimeInHours(getStartTime(), getEndTime());
-                XYChart.Data data = new XYChart.Data(type_name, avg_time);
+                String users_name = user.toString();
+                long avg_time = user.getNumFulfilledRequests(getStartTime(), getEndTime());
+                XYChart.Data data = new XYChart.Data(users_name, avg_time);
                 series.getData().add(data);
                 data_list.add(data);
+            } else if (selected_report_type == 2) {
+                XYChart.Data data = new XYChart.Data(user.toString(), user.getAverageFulfillmentTimeInHours(getStartTime(), getEndTime()));
+                data_list.add(data);
+                series.getData().add(data);
             }
         }
 
@@ -172,34 +174,36 @@ public class ReportsController extends UserController {
         }
 
         int selected = report_type_menu.getSelectionModel().getSelectedIndex();
-        TableView<ServiceType> table = new TableView<>();
+        TableView<User> table = new TableView<>();
 
-        TableColumn<ServiceType, String> service_type_col = new TableColumn<>("Service Type");
-        TableColumn<ServiceType, String> value_col = new TableColumn<>(String.format("%s (%s)", AllText.get(REPORT_TYPE_KEYS[selected]), AllText.get(REPORT_TYPE_UNIT_KEYS[selected])));
-        table.getColumns().addAll(service_type_col, value_col);
+        TableColumn<User, String> user_col = new TableColumn<>("Service Type");
+        TableColumn<User, String> value_col = new TableColumn<>(String.format("%s (%s)", AllText.get(REPORT_TYPE_KEYS[selected]), AllText.get(REPORT_TYPE_UNIT_KEYS[selected])));
+        table.getColumns().addAll(user_col, value_col);
 
-        service_type_col.setCellValueFactory(e -> {
+        user_col.setCellValueFactory(e -> {
             SimpleStringProperty p = new SimpleStringProperty();
-            p.setValue(e.getValue().getName());
+            p.setValue(e.getValue().toString());
             return p;
         });
 
         value_col.setCellValueFactory(e -> {
             SimpleStringProperty p = new SimpleStringProperty();
             if (selected == 0) {
-                p.setValue("" + e.getValue().getNumRequests(getStartTime(), getEndTime()));
+                p.setValue("" + e.getValue().getNumFulfillableRequests(getStartTime(), getEndTime()));
             } else if (selected == 1) {
+                p.setValue("" + e.getValue().getNumFulfilledRequests(getStartTime(), getEndTime()));
+            } else if (selected == 2) {
                 p.setValue("" + e.getValue().getAverageFulfillmentTimeInHours(getStartTime(), getEndTime()));
             }
             return p;
         });
 
 
-        service_type_col.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
+        user_col.prefWidthProperty().bind(table.widthProperty().multiply(0.3));
         value_col.prefWidthProperty().bind(table.widthProperty().multiply(0.6));
 
-        for (ServiceType type : service_type_list.getSelectionModel().getSelectedItems()) {
-            table.getItems().add(type);
+        for (User user : user_list.getSelectionModel().getSelectedItems()) {
+            table.getItems().add(user);
         }
         empty = false;
         this.table = table;

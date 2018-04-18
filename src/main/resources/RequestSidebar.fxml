@@ -16,6 +16,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label fx:id="create_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onCreateReqClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #91a1c6;" text="Request Service" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
@@ -33,12 +34,17 @@
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+      <Label fx:id="reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Service Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
       </Label>
-      <Label fx:id="user_type_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onAdminClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Admin" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+      <Label fx:id="user_reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onUserReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="User Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.rowIndex="4">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="user_type_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onAdminClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="Admin" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="23.0" />
          </font>
