@@ -5,10 +5,12 @@ import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.twiml.TwiML;
 import com.twilio.twiml.VoiceResponse;
+import com.twilio.twiml.voice.Gather;
+import com.twilio.twiml.voice.Redirect;
 import com.twilio.twiml.voice.Say;
 import com.twilio.type.PhoneNumber;
-import org.apache.commons.codec.binary.Base64;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,36 +22,61 @@ public class InteractivePhone {
     private String auth_token = "93baca692310f9af4c1e13a730071a3d";
     private String from_phone = "+18329475093";
     private TwiML twiml;
+    private ArrayList<URL> url_list = new ArrayList<>();
+    private String host = "159.203.189.146";
+    private int port = 3000;
+    private String protocol = "http";
+    private String path = "/twiml/";
+    private int c = 0;
 
     public InteractivePhone(ArrayList<String> dir_steps){
         Twilio.init(account_sid, auth_token);
 
+        twiml = createTwiml(dir_steps);
+    }
+
+    private TwiML createTwiml(ArrayList<String> steps){
+
         VoiceResponse.Builder twiml_builder = new VoiceResponse.Builder();
 
-        for (String step : dir_steps) {
-            twiml_builder.say(new Say.Builder(step).build());
+        twiml_builder = twiml_builder.gather(new Gather
+                    .Builder()
+                    .numDigits(1)
+                    .say(new Say
+                            .Builder(steps.get(c)
+                            + " Press 1 for next step. ")
+                            .voice(Say.Voice.ALICE)
+                            .build())
+                    .build());
+
+        try {
+            c++;
+            if(c >= steps.size()){
+                twiml_builder.redirect(new Redirect
+                        .Builder(new URL(protocol, host, port, path)
+                        .toURI()).build()).build();
+            } else {
+                twiml_builder.redirect(new Redirect
+                        .Builder(new URL(protocol, host, port, (path + createTwiml(steps).toUrl()))
+                        .toURI()).build()).build();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
 
-        twiml = twiml_builder.build();
+        return twiml_builder.build();
+
     }
 
     public void callDirections(String to_phone){
         try {
-
-            String host = "159.203.189.146";
-            //String host = "127.0.0.1";
-            int port = 3000;
-            String protocol = "http";
-            String path = "/twiml/";
-
-            path += twiml.toUrl() + ".xml";
-
-            URL url = new URL(protocol, host, port, path);
-            System.out.println(url);
+            System.out.println(new URL(protocol, host, port, (path + twiml.toUrl())).toURI().toString());
             Call call = Call.creator(
                     new PhoneNumber(to_phone),
                     new PhoneNumber(from_phone),
-                    new URI(url.toString())
+                    new URI(new URL(protocol, host, port, (path + twiml.toUrl())).toURI().toString())
             ).create();
 
         } catch (URISyntaxException e){
