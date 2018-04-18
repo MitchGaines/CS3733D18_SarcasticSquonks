@@ -38,7 +38,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input atBrigham &amp; Women's Faulkner Hospital" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
@@ -50,7 +50,7 @@
     <bottom>
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <JFXButton fx:id="back" onAction="#onBackClick" text="Back" />
+            <JFXButton fx:id="back" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" onAction="#onBackClick" text="Back" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
