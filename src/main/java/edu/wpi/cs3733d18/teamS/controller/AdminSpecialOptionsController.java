@@ -246,6 +246,13 @@ public class AdminSpecialOptionsController{
         selected_user = user_table.getSelectionModel().getSelectedItem();
     }
 
+    @FXML
+    Button it_request;
+
+    public void onITRequest() {
+
+    }
+
     /**
      * Initializes the scene.
      */
