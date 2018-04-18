@@ -220,9 +220,8 @@ public class AdminSpecialOptionsController{
         }
     }
 
-
     public void onSetTimeoutClick(){
-        Timeout.sleep_time = Integer.parseInt(timeout_field.getText().toString()) * 1000;
+        Timeout.sleep_time = Integer.parseInt(timeout_field.getText().toString().replaceAll(",", "")) * 1000;
         Timeout.stop();
         Timeout.start();
     }
@@ -230,6 +229,7 @@ public class AdminSpecialOptionsController{
     public void onEnableSetButton(){
         set_timeout_btn.setVisible(true);
     }
+
 
     /**
      * cancels changes made to the user.

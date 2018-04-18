@@ -105,16 +105,6 @@
                         <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
                         <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
 
-                    <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0">
-                        <children>
-                            <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
-                            <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-                        </children>
-                        <padding>
-                            <Insets bottom="10.0" left="10.0" />
-                        </padding>
-                    </HBox>
-
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
@@ -128,7 +118,7 @@
             <children>
                 <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
                 <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-            <JFXButton fx:id="about" onAction="#onAboutClick" text="About" />
+            <JFXButton fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
