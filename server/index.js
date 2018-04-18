@@ -33,5 +33,15 @@ app.post('/twiml/:twiml_steps', function(req, res) {
   res.send(final_steps.replace(".xml", ""));
 });
 
+app.get('/twiml/:twiml_steps', function(req, res) {
+  var twiml_steps = req.params.twiml_steps;
+  var steps_xml = decodeURIComponent(twiml_steps);
+
+  var final_steps = steps_xml.replace(/\+/g, ' ');
+  console.log(final_steps);
+  res.set('Content-Type', 'text/xml');
+  res.send(final_steps.replace(".xml", ""));
+});
+
 app.listen(3000);
 console.log("Running on port 3000");
