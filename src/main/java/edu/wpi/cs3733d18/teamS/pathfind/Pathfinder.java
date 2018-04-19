@@ -104,12 +104,6 @@ public class Pathfinder {
             return;
         }
         this.start = algorithm_node_map.get(startID);
-        /*
-      Stores the Goal node.
-     */ /*
-          Stores the Goal node.
-         */
-        AStarNode goal = algorithm_node_map.get(goalID);
 
         //call the algorithm
         AStarNode path_end = algorithm.findPath(startID, goalID, algorithm_node_map);
