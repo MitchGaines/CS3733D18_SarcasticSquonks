@@ -14,81 +14,32 @@ import org.joda.time.DateTime;
 import java.io.IOException;
 
 /**
- * Timeout.java
+ * Timeout causes a screen to revert to home after a certain period of time.
+ * @author Matthew McMillan
+ * @author Danny Sullivan
+ * @version %I%, %G%
  *
- * Timeout causes a screen to revert to home after a certain period of time
- *
- * @Authors: Matthew McMillan and Danny Sullivan
- * @Date: 4/10/18
  */
 
 
 public class Timeout {
 
-    private static Thread timeout_thread = new Thread() {
-        public void run() {
-            try {
-                Thread.sleep(sleep_time);
-                while(!kill) {
-                    //System.out.println(DateTime.now().getMillis());
-                    //System.out.println(last_action.getMillis());
-                    if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
-                        AllText.changeLanguage("en");
-                        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-                        Platform.runLater(() -> curr_stage.setTitle("Brigham and Women's"));
-                        Scene primary_scene = new Scene(root, 1200, 800);
-                        addListenersToScene(primary_scene);
-                        Platform.runLater(() -> curr_stage.setScene(primary_scene));
-                        //last_action = DateTime.now();
-                        Thread.sleep(sleep_time);
-                    } else {
-                        long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
-                        if(new_sleep_time <= 0) {
-                            new_sleep_time = 10000;
-                        }
-                        //System.out.println("Sleeping for " + new_sleep_time);
-                        Thread.sleep(new_sleep_time);
-                    }
-                }
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IOException io_exception) {
-                io_exception.printStackTrace();
-            }
-        }
-    };
-
+    static int sleep_time = 60000; //timeout after 60 seconds of inactivity
     static DateTime last_action = DateTime.now();
-
+    static EventHandler<MouseEvent> mousePressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Mouse press");
+    };
+    static EventHandler<KeyEvent> keyPressed = event -> {
+        last_action = DateTime.now();
+        //System.out.println("Key press");
+    };
     private static boolean kill;
-
-    static final int sleep_time = 60000; //timeout after 60 seconds of inactivity
-    static Stage curr_stage;
-
-    static EventHandler<MouseEvent> mousePressed = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Mouse press");
-        }
-    };
-
-    static EventHandler<KeyEvent> keyPressed = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            last_action = DateTime.now();
-            //System.out.println("Key press");
-        }
-    };
+    private static Thread timeout_thread;
 
     public static void addListenersToScene(Scene scene) {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mousePressed);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressed);
-    }
-
-    public static void setCurrStage(Stage stage) {
-        curr_stage = stage;
     }
 
     public static void stop() {
@@ -97,6 +48,30 @@ public class Timeout {
     }
 
     public static void start() {
+        kill = false;
+        timeout_thread = new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(sleep_time);
+                    while (!kill) {
+                        if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
+                            AllText.changeLanguage("en");
+                            Platform.runLater(() -> Main.switchScenes("Brigham and Women's", "/HomePage.fxml"));
+                            Thread.sleep(sleep_time);
+                        } else {
+                            long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
+                            if (new_sleep_time <= 0) {
+                                new_sleep_time = 10000;
+                            }
+                            Thread.sleep(new_sleep_time);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
         timeout_thread.start();
     }
 }

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController">
+   <center>
+      <GridPane alignment="TOP_CENTER" minHeight="300.0" BorderPane.alignment="TOP_CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <TableView fx:id="user_table" onMouseClicked="#onUserChoose" prefHeight="265.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                        <TableColumn prefWidth="75.0" text="Column X" />
+                        <TableColumn prefWidth="75.0" text="Column X" />
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER" prefHeight="22.0" prefWidth="300.0" spacing="10.0">
+                     <children>
+                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%delete_user" />
+                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_user" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </VBox>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <VBox fx:id="add_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="%first_name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="%last_name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="%username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="%password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="type_user" promptText="%type_of_user" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%add_user" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="delete_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="user_to_delete" alignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="confirm_delete_btn" alignment="CENTER" buttonType="RAISED" onAction="#onConfirmDelete" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Confirm Delete" />
+                        <JFXButton fx:id="cancel_delete_btn" alignment="CENTER" buttonType="RAISED" onAction="#onCancelDelete" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Cancel" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="modify_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="modify_firstname" alignment="CENTER" promptText="First Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_lastname" alignment="CENTER" promptText="Last Name">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_username" alignment="CENTER" promptText="Username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="modify_password" alignment="CENTER" promptText="Enter New Password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="type_user_modify" promptText="Type of User" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="confirm_modify_btn" buttonType="RAISED" onAction="#onConfirmModify" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Confirm Modify User" />
+                        <JFXButton fx:id="cancel_modify_btn" buttonType="RAISED" onAction="#onCancelModify" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Cancel" />
+                     </children>
+                  </VBox>
+               </children>
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </StackPane>
+         </children>
+      </GridPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXTextField fx:id="timeout_field" alignment="CENTER" onKeyTyped="#onEnableSetButton" prefWidth="200.0" promptText="Timeout (sec)">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="set_timeout_btn" buttonType="RAISED" layoutX="215.0" layoutY="41.0" onAction="#onSetTimeoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%set" visible="false">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </JFXButton>
+            <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_map" />
+            <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%it_request" />
+            <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </JFXComboBox>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

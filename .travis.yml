@@ -1,3 +1,5 @@
+# Getting rid of travis tests that take forever, but might be needed for TestFX
+
 language: java
 
 sudo: false   # Linux OS: run in container
@@ -8,17 +10,17 @@ matrix:
     - os: linux
       dist: trusty
       jdk: oraclejdk8
-    # Headless Linux
-    - os: linux
-      dist: trusty
-      jdk: oraclejdk8
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=60000"
-    # Headless macOS
-    - os: osx
-      osx_image: xcode9
-      env:
-        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=60000"
+#    # Headless Linux
+#    - os: linux
+#      dist: trusty
+#      jdk: oraclejdk8
+#      env:
+#        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=60000"
+#    # Headless macOS
+#    - os: osx
+#      osx_image: xcode9
+#      env:
+#        - _JAVA_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Dtestfx.setup.timeout=60000"
     # Headed macOS is not currently possible on Travis.
 
 addons:

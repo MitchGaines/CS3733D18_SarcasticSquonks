@@ -6,40 +6,56 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.event.ActionEvent;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.stream.Stream;
-
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Window;
-import javafx.util.StringConverter;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.user.InvalidPasswordException;
 import edu.wpi.cs3733d18.teamS.user.InvalidUsernameException;
 import edu.wpi.cs3733d18.teamS.user.LoginHandler;
 import edu.wpi.cs3733d18.teamS.user.User;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.StringConverter;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Stream;
+
+/**
+ * Controller for the homepage.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Joe Turcotte
+ * @author Cormac Lynch-Collier
+ * @author Will Lucca
+ * @version 1.3, April 13, 2018
+ */
 public class HomePageController {
 
-    private static boolean include_stairs = true;
+    /**
+     * Stores the boolean for whether or not the stairs option has been selected.
+     */
+    private static boolean include_stairs = false;
+
+    /**
+     * Stores the default location for the Kiosk.
+     */
     private static String KIOSK_DEFAULT_LOCATION = "BINFO00102";
 
     @FXML
@@ -47,6 +63,9 @@ public class HomePageController {
 
     @FXML
     JFXButton login_btn;
+
+    @FXML
+    JFXButton about;
 
     @FXML
     TextField username;
@@ -77,30 +96,55 @@ public class HomePageController {
 
     @FXML
     ExpansionPanel exp_panel;
-
-    private LoginHandler loginHandler;
-
     @FXML
     JFXButton REST;
-
     @FXML
-    JFXButton DEPT;
-
+    JFXButton EXIT;
     @FXML
     JFXButton INFO;
-
-    private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
-
     @FXML
     JFXToggleButton stairs_toggle;
 
+    /**
+     * Stores the LoginHandler.
+     */
+    private LoginHandler loginHandler;
 
     /**
-     * Performs this function during creation of Controller; sets up the ComboBoxes
-     * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database
-     * @author Will Lucca
+     * Stores the ObservableList for node locations.
+     */
+    private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
+
+    /**
+     * Retrieves whether or not stairs are included.
+     * @return The boolean value of include_stairs.
+     */
+    public static boolean includeStairs() {
+        return include_stairs;
+    }
+
+    /**
+     * Sets the Kiosk's default location.
+     * @param kioskDefaultLocation the default location for the kiosk.
+     */
+    public static void setKioskDefaultLocation(String kioskDefaultLocation) {
+        KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
+    }
+
+//    public void setStart(String node_id) {
+//        combobox_start.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+//    }
+
+    public void setEnd(String node_id) {
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+    }
+
+    /**
+     * Performs this function during creation of Controller sets up the ComboBoxes
+     * by pulling all nodes from the edu.wpi.cs3733d18.teamS.database.
      */
     public void initialize() {
+        HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
         StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
             @Override
@@ -125,21 +169,21 @@ public class HomePageController {
         combobox_start.setConverter(string_node_converter);
         combobox_end.setConverter(string_node_converter);
 
-        ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<edu.wpi.cs3733d18.teamS.data.Node>();
-        for(edu.wpi.cs3733d18.teamS.data.Node location : locations){
-            if(location.getNodeType().equals("HALL") ||
+        ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<>();
+        for (edu.wpi.cs3733d18.teamS.data.Node location : locations) {
+            if (location.getNodeType().equals("HALL") ||
                     location.getNodeType().equals("ELEV") ||
                     location.getNodeType().equals("STAI") ||
-                    location.getShortName().equals("CRN")){
+                    location.getShortName().equals("TRAIN")) {
 
                 to_remove.add(location);
             }
         }
         locations.removeAll(to_remove);
-        Collections.sort(locations, Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
+        locations.sort(Comparator.comparing(edu.wpi.cs3733d18.teamS.data.Node::getLongName));
         int default_index = 0;
-        for(int i = 0; i<locations.size(); i++){
-            if(locations.get(i).getNodeID().equals(KIOSK_DEFAULT_LOCATION)){
+        for (int i = 0; i < locations.size(); i++) {
+            if (locations.get(i).getNodeID().equals(KIOSK_DEFAULT_LOCATION)) {
                 default_index = i;
                 break;
             }
@@ -163,31 +207,22 @@ public class HomePageController {
         login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
     }
 
+    /**
+     * Changes the language of the scenes.
+     */
     public void onLanguageChange() {
         if (language_selector.getSelectionModel().isEmpty()) {
             return;
         }
-        try {
-            AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
-            Parent root   = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-            Stage primary_stage = (Stage) language_selector.getScene().getWindow();
-            primary_stage.setTitle("Brigham and Women's");
-            Scene primary_scene = new Scene(root, 1200, 800);
-
-            Timeout.addListenersToScene(primary_scene);
-
-            primary_stage.setScene(primary_scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        AllText.changeLanguage(AllText.getLanguages()[language_selector.getSelectionModel().getSelectedIndex()]);
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
 
     }
 
     /**
      * Sets start_loc and end_loc to the values selected in the combobox, then switches view to
-     * PathfindPage, initializing PathfindController
-     * @param event
+     * PathfindPage, initializing PathfindController.
+     * @param event the click of the mouse on the button.
      * @throws IOException
      */
     @FXML
@@ -206,28 +241,36 @@ public class HomePageController {
             alert.showAndWait();
         }
         include_stairs = stairs_toggle.isSelected();
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = (Parent)loader.load();
-        PathfindController pathfind_ctrl = loader.getController();
-        pathfind_ctrl.doPathfinding(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
-        if(PathfindController.isPathfindReady()){
-            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            pathfind_stage.setTitle("Pathfinder");
 
-            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
-
-            Timeout.addListenersToScene(pathfind_parent_scene);
-
-            pathfind_stage.setScene(pathfind_parent_scene);
-            pathfind_stage.show();
+        SearchAlgorithm alg;
+        int select = AdminSpecialOptionsController.getChoosenAlg();
+        if (select == 1) {
+            alg = new Dijkstras();
+        } else if (select == 2) {
+            alg = new DepthFirst();
+        } else if (select == 3) {
+            alg = new BreadthFirst();
+        } else {
+            alg = new AStar();
         }
+        Pathfinder finder = new Pathfinder(alg);
+        finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
+    /**
+     * Does the Quick location pathfinding and displays a message if the user is already at the quick location area.
+     * @param event Clicking the button.
+     * @throws IOException
+     */
     @FXML
-    void onQuickClick(ActionEvent event) throws IOException{
+    void onQuickClick(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
-        if(combobox_start.getValue().getNodeID().contains(button.getId())){
+        if (combobox_start.getValue().getNodeID().contains(button.getId())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Can't Get Directions");
             alert.setHeaderText("You have specified a location, however you are already there");
@@ -235,21 +278,20 @@ public class HomePageController {
             alert.showAndWait();
             return;
         }
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = (Parent)loader.load();
-        PathfindController pathfind_ctrl = loader.getController();
-        pathfind_ctrl.quickLocationFinding(combobox_start.getValue().getNodeID(), button.getId());
 
-        Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        pathfind_stage.setTitle("Pathfinder");
+        Pathfinder quick_finder = new Pathfinder(new Dijkstras());
+        quick_finder.findShortestPath(combobox_start.getValue().getNodeID(), button.getId());
+        Path path = quick_finder.pathfinder_path;
+        if(path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
+    }
 
-        Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
-
-        Timeout.addListenersToScene(pathfind_parent_scene);
-
-        pathfind_stage.setScene(pathfind_parent_scene);
-        pathfind_stage.show();
+    @FXML
+    void onAboutClick(ActionEvent event) {    // about screen
+        Main.switchScenes("About", "/AboutPage.fxml");
     }
 
     /**
@@ -259,7 +301,7 @@ public class HomePageController {
      */
     @FXML
     void onKeyReleasedComboBox(KeyEvent e) {
-        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>)(e.getSource());
+        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>) (e.getSource());
         ObservableList<edu.wpi.cs3733d18.teamS.data.Node> filteredItems = FXCollections.observableArrayList();
         combo_box.show();
         TextField editor = combo_box.getEditor();
@@ -282,8 +324,7 @@ public class HomePageController {
                 String current_editor = editor.getText();
                 combo_box.setItems(filteredItems);
                 editor.setText(current_editor);
-            }
-            else {
+            } else {
                 combo_box.setItems(filteredItems);
             }
 
@@ -298,50 +339,34 @@ public class HomePageController {
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
+
+    /**
+     * Tests to try out different users.
+     * @param event The click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
     public void onLoginClick(ActionEvent event) throws IOException {
         try {
             User user = loginHandler.login(username.getText(), password.getText());
-            System.out.println(user);
-            if (user.getType() == User.user_type.DOCTOR) {
-                openUser(event, "/DoctorPage.fxml", user);
+            switch (user.getType()) {
+                case DOCTOR:
+                    openUser(event, "/DoctorPage.fxml", user);
+                    break;
+                case ADMIN_STAFF:
+                    openUser(event, "/AdminPage.fxml", user);
+                    break;
+                case REGULAR_STAFF:
+                    openUser(event, "/RegStaffPage.fxml", user);
+                    break;
             }
-            else if (user.getType() == User.user_type.ADMIN_STAFF) {
-                openUser(event, "/AdminPage.fxml", user);
-            }
-            else if (user.getType() == User.user_type.REGULAR_STAFF) {
-                openUser(event, "/RegStaffPage.fxml", user);
-            }
-        } catch (InvalidPasswordException e) {
-            wrong_credentials.setText("Wrong username or password");
         } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
     }
 
     //PART OF THE USER TEST
-    public void openUser (ActionEvent event, String page, User user) throws IOException{
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(page), AllText.getBundle());
-        Parent user_parent = (Parent)loader.load();
-        UserController controller = loader.<UserController>getController();
-        controller.setUser(user);
-        controller.setPage(page);
-        controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
-        Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        user_stage.setTitle("User");
-
-        Timeout.addListenersToScene(user_scene);
-
-        user_stage.setScene(user_scene);
-        user_stage.show();
+    public void openUser(ActionEvent event, String page, User user) throws IOException {
+        UserController user_controller = (UserController) Main.switchScenes("User", page);
+        user_controller.setUp(user, page);
     } //END OF TEST
-
-    public static boolean includeStairs(){
-        return include_stairs;
-    }
-
-    public static void setKioskDefaultLocation(String kioskDefaultLocation) {
-        KIOSK_DEFAULT_LOCATION = kioskDefaultLocation;
-    }
 }

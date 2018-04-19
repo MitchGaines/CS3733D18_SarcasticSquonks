@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -20,66 +22,85 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller that deals with the interactions between the admin and the user.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Danny Sullivan
+ * @author Cormac Lynch-Collier
+ * @author Noah Hillman
+ * @version 1.3, April 13, 2018
+ */
 public class AdminPageController extends UserController {
 
-    private static int selected_path_algorithm = 0;
     //UserController edu.wpi.cs3733d18.teamS.user = new UserController();
+    /**
+     * Stores the user.
+     */
     UserController user = new UserController();
 
-    @FXML
-    Button modify_map_btn;
+    /**
+     * The main Pane.
+     */
     @FXML
     BorderPane main_pane;
+
+    /**
+     * The time label.
+     */
     @FXML
     Label time;
+
+    /**
+     * The Stack Pane
+     */
     @FXML
-    JFXComboBox<String> path_algorithm_box;
+    StackPane stack_pane;
 
+    /**
+     * Stores the object loader.
+     */
+    FXMLLoader loader;
 
-    public void loadReportScreen(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/Report.fxml"), AllText.getBundle());
-        Scene view_reports_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
-        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modify_nodes_stage.setTitle("View Reports");
+    /**
+     * Loads the reports.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
+    public void loadReports() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
+    }
 
-        Timeout.addListenersToScene(view_reports_scene);
+    public void loadUserReports() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/UserReport.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
+    }
 
-        modify_nodes_stage.setScene(view_reports_scene);
-        modify_nodes_stage.show();
+    /**
+     * Loads in the admin.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
+    public void loadAdmin() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
     }
 
 
-    public void onModifyMapClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent modify_nodes_parent = FXMLLoader.load(getClass().getResource("/ModifyNodes.fxml"), AllText.getBundle());
-        Scene modify_nodes_scene = new Scene(modify_nodes_parent, window.getWidth(), window.getHeight());
-        Stage modify_nodes_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        modify_nodes_stage.setTitle("Modify Nodes");
-
-        Timeout.addListenersToScene(modify_nodes_scene);
-
-        modify_nodes_stage.setScene(modify_nodes_scene);
-        modify_nodes_stage.show();
-    }
-
-    public void initialize() {
+    /**
+     * Initializes the service requests menu.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
+    public void initialize() throws IOException {
+        requestSidebarController.setParent(this);
+        requestSidebarController.setAdminParent(this);
         serviceAreaController.setParent(this);
+        MakeRequest();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));
-        ObservableList<String> algorithms = FXCollections.observableArrayList();
-        algorithms.add(AllText.get("a_star"));
-        algorithms.add(AllText.get("depth_first"));
-        algorithms.add(AllText.get("breadth_first"));
-        path_algorithm_box.setItems(algorithms);
+    }
 
-    }
-    public void chooseAlgorithm(){
-        this.selected_path_algorithm = path_algorithm_box.getSelectionModel().getSelectedIndex();
-
-    }
-    public static int getChoosenAlg(){
-        return selected_path_algorithm;
-    }
 }

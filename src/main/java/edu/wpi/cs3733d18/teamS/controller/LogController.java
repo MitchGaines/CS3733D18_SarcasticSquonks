@@ -1,22 +1,16 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
-import edu.wpi.cs3733d18.teamS.user.User;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -24,15 +18,54 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * A Class that manages service request logs and methods related to them.
+ * @author Matthew McMillan
+ * @author Mitch Gaines
+ * @author Danny Sullivan
+ * @author Cormac Lynch-Collier
+ * @version 1.3, April 13, 2018
+ *
+ */
 public class LogController {
 
+    /**
+     * The table for user data.
+     */
     @FXML
     TableView log_table;
 
+    /**
+     * The Time display.
+     */
     @FXML
     Label time;
 
+    /**
+     * The Border Pane
+     */
+    @FXML
+    BorderPane main_pane;
+
+    /**
+     * The Username.
+     */
+    @FXML
+    Text user_name;
+
+    /**
+     * Stores the User.
+     */
+    private User user;
+
+    /**
+     * Stores the text for the return page.
+     */
+    private String return_page;
+
+    /**
+     * Initializes and formats the log table.
+     */
     public void initialize() {
 
         log_table.getColumns().removeAll(log_table.getColumns());
@@ -88,12 +121,11 @@ public class LogController {
             return p;
         });
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        time.setText(dtf.format(now));
-
     }
 
+    /**
+     * Populates the table with information.
+     */
     public void populateTable() {
         if (user.getType() == User.user_type.ADMIN_STAFF) {
             log_table.setItems(FXCollections.observableArrayList(ServiceLogEntry.getOverallLog()));
@@ -103,37 +135,43 @@ public class LogController {
 
     }
 
-    private User user;
+    /**
+     * Performs various methods after initialize.
+     * @param user The user.
+     * @param return_page the previous page.
+     */
+    public void setUp(User user, String return_page) {
+        setUser(user);
+        user_name.setText(user.getUsername());
+        setReturnPage(return_page);
+        populateTable();
+    }
 
+    /**
+     * Sets the user.
+     * @param user the user.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
-    private String return_page;
-
-    public void setReturnPage(String page) {
+    /**
+     * Sets the return page.
+     * @param page the return page.
+     */
+    private void setReturnPage(String page) {
         return_page = page;
     }
 
-    @FXML
-    BorderPane main_pane;
-
+    /**
+     * Switches the scene back to the previous page.
+     * @param event the click.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
     public void onBackClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(return_page), AllText.getBundle());
-        Parent user_parent = (Parent)loader.load();
-        UserController controller = loader.<UserController>getController();
-        controller.setUser(user);
-        controller.setPage(return_page);
-        controller.populateBoxes();
-        Scene user_scene = new Scene(user_parent, window.getWidth(), window.getHeight());
-        Stage user_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        user_stage.setTitle("User");
+        UserController user_controller = (UserController) Main.switchScenes("User", return_page);
+        user_controller.setUp(user, return_page);
 
-        Timeout.addListenersToScene(user_scene);
-
-        user_stage.setScene(user_scene);
-        user_stage.show();
     }
 
 }

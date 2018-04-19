@@ -10,8 +10,8 @@ version = '1.0'
 
 repositories {
 
-	mavenCentral()
-    flatDir{
+    mavenCentral()
+    flatDir {
         dirs 'lib'
     }
 }
@@ -58,7 +58,8 @@ dependencies {
             [group: 'com.google.zxing', name: 'core', version: '3.2.1'],
             fileTree(dir: 'lib', include: '*.jar'),
             [group: 'joda-time', name: 'joda-time', version: '2.9.9'],
-            [group: 'commons-codec', name: 'commons-codec', version: '1.11']
+            [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
+            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0']
     )
 }
 
@@ -78,6 +79,3 @@ jar {
     from configurations.runtime.collect { zipTree(it) }
 }
 
-task listJars << {
-    configurations.compile.each {File file -> println file.name}
-}

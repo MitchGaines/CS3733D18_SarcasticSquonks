@@ -1,103 +1,96 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class UserController{
-
-    @FXML
-    Button logout_btn;
-
-    @FXML
-    BorderPane main_pane;
-
-    @FXML
-    Label time;
-
-    public void onLogoutClick(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"), AllText.getBundle());
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        home_stage.show();
-    }
-
-    private User user;
-
-    public void setUser(User user) {
-        this.user = user;
-        serviceAreaController.setUser(user);
-        populateBoxes();
-    }
+public class UserController {
 
     @FXML
     // this cannot adhere to the style guide, the name must be like that or the JavaFX won't properly link. Sorry :(
     protected ServiceAreaController serviceAreaController;
+    @FXML
+    Button logout_btn;
+    @FXML
+    BorderPane main_pane;
+    @FXML
+    Label time;
+    private User user;
+    private String page;
+    @FXML
+    private Label emergency_title, emergency_details, emergency_label;
+    @FXML
+    private Text user_name;
 
+    @FXML
+    protected RequestSidebarController requestSidebarController;
 
-    public void populateBoxes() {
+    public void onLogoutClick(ActionEvent event) throws IOException {
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
+    }
+
+    private void setUser(User user) {
+        this.user = user;
+        serviceAreaController.setUser(user);
+        requestSidebarController.setUser(user);
+        user_name.setText(user.getFirstName() + " " + user.getLastName());
+        declareOrClearEmergency();
+    }
+
+    public void declareOrClearEmergency() {
+        for (ServiceRequest service_request : ServiceRequest.getUnfulfilledServiceRequests()) {
+            if (user.canFulfill(service_request) && service_request.getServiceType().isEmergency()) {
+                declareEmergency(service_request.getTitle(), service_request.getLocation(), service_request.getDescription());
+            }
+        }
+    }
+
+    public void setUp(User user, String page) {
+        setUser(user);
+        setPage(page);
+        populateBoxes();
+        setSidebar();
+    }
+
+    protected void populateBoxes() {
+        serviceAreaController.setParent(this);
         serviceAreaController.populateRequestTypes();
         serviceAreaController.populateRequestsBox();
     }
 
-    public void openLog(ActionEvent event) throws IOException {
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
-        Parent root = loader.load();
-        LogController log_controller = loader.getController();
-        Scene home_scene = new Scene(root, window.getWidth(), window.getHeight());
-        Stage home_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home_stage.setTitle("Brigham and Women's");
-
-        Timeout.addListenersToScene(home_scene);
-
-        home_stage.setScene(home_scene);
-        log_controller.setUser(user);
-        log_controller.setReturnPage(page);
-        log_controller.populateTable();
-
-        home_stage.show();
-    }
-
-    private String page;
-
-    public void setPage(String page) {
+    private void setPage(String page) {
         this.page = page;
     }
 
-    @FXML
-    private Label emergency_title, emergency_details, emergency_label;
-
-    public void declareEmergency(String title, edu.wpi.cs3733d18.teamS.data.Node location, String description) {
+    private void declareEmergency(String title, edu.wpi.cs3733d18.teamS.data.Node location, String description) {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {
             emergency_title.setText(title + ", " + location.getShortName());
             emergency_details.setText(description);
             emergency_label.setVisible(true);
             emergency_title.setVisible(true);
             emergency_details.setVisible(true);
+
+            requestSidebarController.setEmergency();
         }
     }
 
-    public void dismissEmergency() {
+    private void dismissEmergency() {
         if (emergency_title != null && emergency_details != null && emergency_label != null) {
             emergency_label.setVisible(false);
             emergency_title.setVisible(false);
@@ -106,8 +99,45 @@ public class UserController{
 
     }
 
-    public void initialize() {
+    public void loadLog() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        LogController log_controller = loader.getController();
+        log_controller.setUser(user);
+        //log_controller.setReturnPage(page);
+        log_controller.setUser(user);
+        log_controller.populateTable();
+        main_pane.setCenter(root);
+    }
+
+    public void setSidebar() {
+        if (user.getType() != User.user_type.ADMIN_STAFF) {
+            requestSidebarController.getSidebar().getChildren().get(3).setVisible(false);
+            requestSidebarController.getSidebar().getChildren().get(4).setVisible(false);
+            requestSidebarController.getSidebar().getChildren().get(5).setVisible(false);
+        }
+    }
+
+    public void MakeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MakeRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToMake(user);
+        main_pane.setCenter(root);
+    }
+
+    public void completeRequest() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/CompleteRequest.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        serviceAreaController = loader.getController();
+        serviceAreaController.setUpToComplete(user);
+        main_pane.setCenter(root);
+    }
+
+    public void initialize() throws IOException {
         serviceAreaController.setParent(this);
+        requestSidebarController.setParent(this);
+        MakeRequest();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalDateTime now = LocalDateTime.now();
         time.setText(dtf.format(now));

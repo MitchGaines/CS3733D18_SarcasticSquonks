@@ -1,9 +1,15 @@
 package edu.wpi.cs3733d18.teamS.user;
 
+import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * User.java
@@ -15,34 +21,50 @@ import java.util.Objects;
  */
 
 public class User {
+    user_type type;
     private long user_id;
     private boolean can_mod_map;
     private String username;
+    private String first_name;
+    private String last_name;
     private byte[] password_salt;
     private byte[] enc_password;
 
-    // for edu.wpi.cs3733d18.teamS.database storage purposes
-    private String plainPassword; // TODO unencrypted passwords
-
-    public enum user_type{DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
-    user_type type;
-
-    public User(String username, String password, user_type type, boolean can_mod_map){
-        plainPassword = password;
+    public User(String username, String password, String first_name, String last_name, user_type type, boolean can_mod_map) {
         password_salt = new byte[16];
-        new SecureRandom().nextBytes(password_salt);
+        //new SecureRandom().nextBytes(password_salt);
 
         this.username = username;
 
         byte[] password_unsalted = password.getBytes();
         byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
-        System.arraycopy( password_unsalted, 0, password_salted, 0, password_unsalted.length);
-        System.arraycopy( password_salt, 0, password_salted, password_unsalted.length, password_salt.length );
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
 
         enc_password = Base64.getEncoder().encode(password_salted);
 
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.type = type;
         this.can_mod_map = can_mod_map;
+    }
+
+    /**
+     * Encodes a password
+     *
+     * @param password the password as a string
+     * @return the password, hashed and salted (as a String)
+     */
+    public static String encodePassword(String password) {
+        byte[] password_salt = new byte[16];
+        //new SecureRandom().nextBytes(password_salt);
+
+        byte[] password_unsalted = password.getBytes();
+        byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
+
+        return new String(Base64.getEncoder().encode(password_salted));
     }
 
     /**
@@ -66,6 +88,15 @@ public class User {
     }
 
     /**
+     * Returns the username of the current User
+     *
+     * @return username of the User
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
      * Takes a String as a parameter and changes the username of the current
      * User to the String in the parameter
      *
@@ -75,12 +106,14 @@ public class User {
         username = new_username;
     }
 
-    /**
-     * Returns the username of the current User
-     *
-     * @return username of the User
-     */
-    public String getUsername() { return username; }
+    public void setPassword(String new_password) {
+        password_salt = new byte[16];
+        byte[] password_unsalted = new_password.getBytes();
+        byte[] password_salted = new byte[password_unsalted.length + password_salt.length];
+        System.arraycopy(password_unsalted, 0, password_salted, 0, password_unsalted.length);
+        System.arraycopy(password_salt, 0, password_salted, password_unsalted.length, password_salt.length);
+        enc_password = Base64.getEncoder().encode(password_salted);
+    }
 
     public byte[] getEncodedPassword() {
         return enc_password;
@@ -90,30 +123,49 @@ public class User {
         return password_salt;
     }
 
+    public String getFirstName() {
+        return first_name;
+    }
+
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLastName() {
+        return last_name;
+    }
+
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
+    }
+
     public user_type getType() {
         return type;
     }
 
-    public void setType(user_type ut) { type = ut; }
+    public void setType(user_type ut) {
+        type = ut;
+    }
 
-    public long getUserID() { return user_id; }
+    public long getUserID() {
+        return user_id;
+    }
 
-    public void setUserID(long new_id) { user_id = new_id; }
-
-    // TODO unsafe!
-    public String getPlainPassword() { return plainPassword; }
+    public void setUserID(long new_id) {
+        user_id = new_id;
+    }
 
     @Override
     public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", can_mod_map=" + can_mod_map +
-                ", username='" + username + '\'' +
-                ", password_salt=" + Arrays.toString(password_salt) +
-                ", enc_password=" + Arrays.toString(enc_password) +
-                ", plainPassword='" + plainPassword + '\'' +
-                ", type=" + type +
-                '}';
+//        return "User{" +
+//                "user_id=" + user_id +
+//                ", can_mod_map=" + can_mod_map +
+//                ", username='" + username + '\'' +
+//                ", password_salt=" + Arrays.toString(password_salt) +
+//                ", enc_password=" + Arrays.toString(enc_password) +
+//                ", type=" + type +
+//                '}';
+        return String.format("%s %s", first_name, last_name);
     }
 
     @Override
@@ -131,8 +183,39 @@ public class User {
     public int hashCode() {
 
         int result = Objects.hash(user_id, can_mod_map, username, type);
-//        result = 31 * result + Arrays.hashCode(password_salt); TODO might mess with hashing
-//        result = 31 * result + Arrays.hashCode(enc_password);
+        result = 31 * result + Arrays.hashCode(password_salt);
+        result = 31 * result + Arrays.hashCode(enc_password);
         return result;
+    }
+
+    public boolean canFulfill(ServiceRequest sr) {
+        return sr.getServiceType().getFulfillers().contains(this) && (sr.getDesiredFulfiller() == null || sr.getDesiredFulfiller().user_id == user_id);
+    }
+
+    public enum user_type {DOCTOR, ADMIN_STAFF, REGULAR_STAFF}
+
+    ///////////////////// Fancy Reports ///////////////////////
+
+    private Stream<ServiceRequest> requestedInRange(DateTime start, DateTime end) {
+        return Storage.getInstance().getAllServiceRequests().stream()
+                .filter(e -> e.getRequestedDate().toDateTime().isBefore(end.toDateTime().toInstant()) && e.getRequestedDate().toDateTime().isAfter(start.toDateTime()) && canFulfill(e));
+    }
+
+    public long getNumFulfillableRequests(DateTime start, DateTime end) {
+        return requestedInRange(start, end).count();
+    }
+
+    public  long getNumFulfilledRequests(DateTime start, DateTime end) {
+        return Storage.getInstance().getAllServiceRequests().stream()
+                .filter(e -> e.isFulfilled() && e.getFulfilledDate().toDateTime().isBefore(end.toDateTime().toInstant()) && e.getFulfilledDate().toDateTime().isAfter(start.toDateTime()) && e.getFulfiller().getUserID() == user_id)
+                .count();
+    }
+
+    public double getAverageFulfillmentTimeInHours(DateTime start, DateTime end) {
+        return requestedInRange(start, end)
+                .filter(ServiceRequest::isFulfilled)
+                .mapToDouble(e -> ((double) (e.getFulfilledDate().getMillis() - e.getRequestedDate().getMillis())) / DateTimeConstants.MILLIS_PER_HOUR)
+                .average()
+                .orElse(0);
     }
 }

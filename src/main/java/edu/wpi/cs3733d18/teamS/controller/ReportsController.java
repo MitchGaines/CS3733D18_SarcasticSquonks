@@ -1,8 +1,11 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -12,44 +15,54 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import org.joda.time.DateTime;
-import edu.wpi.cs3733d18.teamS.service.ServiceType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 
 public class ReportsController extends UserController {
+    private static final String[] REPORT_TYPE_KEYS = {"num_requests_report", "average_time_report"};
+    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "hours_unit"};
     @FXML
     JFXTimePicker start_time_picker, end_time_picker;
-
     @FXML
     JFXDatePicker start_date_picker, end_date_picker;
-
     @FXML
     BarChart<String, Number> bar_chart;
-
     @FXML
     JFXListView<ServiceType> service_type_list;
-
     @FXML
     JFXComboBox<String> report_type_menu;
-
-    @FXML
-    JFXButton run_report_button;
-
     @FXML
     JFXToggleButton chart_toggle;
-
     @FXML
     Label instructions;
+    @FXML
+    Text user_name;
+    private boolean empty = true;
+    private BarChart chart;
+    private TableView table;
 
     @Override
     public void initialize() {
         populateReportTypes();
         setUpListView();
         instructions.setWrapText(true);
-        service_type_list.getSelectionModel().selectedItemProperty().addListener(e -> onGoButton());
+        service_type_list.getSelectionModel().getSelectedItems().addListener(new ListChangeListener<ServiceType>() {
+            @Override
+            public void onChanged(Change<? extends ServiceType> c) {
+                onGoButton();
+            }
+        });
+        start_date_picker.setValue(LocalDate.now().minusDays(7));
+        end_date_picker.setValue(LocalDate.now());
+        start_time_picker.setValue(LocalTime.now());
+        end_time_picker.setValue(LocalTime.now());
     }
 
     private void populateReportTypes() {
@@ -60,29 +73,24 @@ public class ReportsController extends UserController {
         }
     }
 
-    private static final String[] REPORT_TYPE_KEYS = {"num_requests_report", "average_time_report"};
-    private static final String[] REPORT_TYPE_UNIT_KEYS = {"num_requests_unit", "hours_unit"};
-
-
     private void setUpListView() {
         service_type_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        service_type_list.getItems().addAll(ServiceType.getServiceTypes());
+        service_type_list.getItems().addAll(Storage.getInstance().getAllServiceTypes());
     }
 
-    private DateTime javaToJoda(java.time.LocalDateTime java_time) {
-        return new org.joda.time.DateTime(java_time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    private DateTime javaToJoda(LocalDateTime java_time) {
+        return new DateTime(java_time.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
 
-    private org.joda.time.DateTime getStartTime() {
+    private DateTime getStartTime() {
         if (start_date_picker.getValue() == null || start_time_picker.getValue() == null) {
             return null;
         }
         LocalDate date = start_date_picker.getValue();
         LocalTime time = start_time_picker.getValue();
-        java.time.LocalDateTime ldt = date.atTime(time);
+        LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
-
 
     private DateTime getEndTime() {
         if (end_date_picker.getValue() == null || end_time_picker.getValue() == null) {
@@ -90,7 +98,7 @@ public class ReportsController extends UserController {
         }
         LocalDate date = end_date_picker.getValue();
         LocalTime time = end_time_picker.getValue();
-        java.time.LocalDateTime ldt = date.atTime(time);
+        LocalDateTime ldt = date.atTime(time);
         return javaToJoda(ldt);
     }
 
@@ -110,8 +118,6 @@ public class ReportsController extends UserController {
         }
     }
 
-    private boolean empty = true;
-
     public void generateChart() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {
             return;
@@ -125,15 +131,33 @@ public class ReportsController extends UserController {
         y_axis.setLabel(AllText.get(REPORT_TYPE_UNIT_KEYS[selected_report_type]));
 
 
-        for (ServiceType type : service_type_list.getSelectionModel().getSelectedItems()) {
+        XYChart.Series series = new XYChart.Series();
+        ArrayList<XYChart.Data> data_list = new ArrayList<>();
 
-            XYChart.Series series = new XYChart.Series();
-            if (selected_report_type == 0) {
-                series.getData().add(new XYChart.Data(type.getName(), type.getNumRequests(getStartTime(), getEndTime())));
-            } else if (selected_report_type == 1) {
-                series.getData().add(new XYChart.Data(type.getName(), type.getAverageFulfillmentTimeInHours(getStartTime(), getEndTime())));
+        for (ServiceType type : service_type_list.getSelectionModel().getSelectedItems()) {
+            if (type == null) {
+                continue;
             }
-            chart.getData().add(series);
+            if (selected_report_type == 0) {
+                XYChart.Data data = new XYChart.Data(type.getName(), type.getNumRequests(getStartTime(), getEndTime()));
+                data_list.add(data);
+                series.getData().add(data);
+            } else if (selected_report_type == 1) {
+                String type_name = type.getName();
+                Double avg_time = type.getAverageFulfillmentTimeInHours(getStartTime(), getEndTime());
+                XYChart.Data data = new XYChart.Data(type_name, avg_time);
+                series.getData().add(data);
+                data_list.add(data);
+            }
+        }
+
+
+        chart.getData().add(series);
+
+
+        for (int i = 0; i < data_list.size(); i++) {
+            data_list.get(i).getNode().getStyleClass().add("default-color" + (1 + (i % 7)));
+            //data_list.get(i).getNode().getStyleClass().add("default-color" + (i % 7));
         }
 
         chart.setLegendVisible(false);
@@ -141,9 +165,6 @@ public class ReportsController extends UserController {
         this.chart = chart;
         empty = false;
     }
-
-    private BarChart chart;
-    private TableView table;
 
     public void generateTable() {
         if (getStartTime() == null || getEndTime() == null || report_type_menu.getSelectionModel().isEmpty()) {

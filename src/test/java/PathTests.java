@@ -1,4 +1,4 @@
-import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.pathfind.AStar;
 import edu.wpi.cs3733d18.teamS.pathfind.Path;
 import edu.wpi.cs3733d18.teamS.pathfind.Pathfinder;
 
@@ -36,7 +36,7 @@ public class PathTests {
 //        csv_reader.readCSVFile("csv/MapBNodes.csv", "NODES");
 //        csv_reader.readCSVFile("csv/MapBEdges.csv", "EDGES");
 //
-//        Pathfinder pathfinder = new Pathfinder(new BreadthFirst());
+//        Pathfinder pathfinder = new Pathfinder(new Dijkstras());
 //        pathfinder.findShortestPath("BHALL01602","DEPT");
 //        //System.out.println(pathfinder.pathfinder_path.getPathDirections().toString());
 //        storage.getDatabase().dropTable("EDGES");

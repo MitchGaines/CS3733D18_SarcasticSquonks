@@ -1,26 +1,26 @@
-/**
- * StorageTestSuite.java
- * A test suite for storage operations
- * Author: Joseph Turcotte
- * Date: March 30, 2018
+/*
+  StorageTestSuite.java
+  A test suite for storage operations
+  Author: Joseph Turcotte
+  Date: March 30, 2018
  */
 
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
-import edu.wpi.cs3733d18.teamS.database.Storage;
-import edu.wpi.cs3733d18.teamS.database.IDatabase;
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
+import edu.wpi.cs3733d18.teamS.database.IDatabase;
+import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.user.User;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import edu.wpi.cs3733d18.teamS.user.User;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 public class StorageTestSuite {
 
-    private IDatabase data;
     private Storage storage;
 
     // ------------------- STORAGE TESTS -------------------- //
@@ -30,7 +30,7 @@ public class StorageTestSuite {
      */
     @Before
     public void setUp() {
-        data = new ApacheDatabase("apacheDB");
+        IDatabase data = new ApacheDatabase("apacheDB");
         storage = Storage.getInstance();
         storage.setDatabase(data);
     }
@@ -53,7 +53,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -78,7 +79,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -93,7 +95,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -122,7 +125,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(old_node);
 
@@ -153,7 +157,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -168,7 +173,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -193,7 +199,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node);
 
@@ -208,7 +215,8 @@ public class StorageTestSuite {
                 "Hallway B3802",
                 "Team S",
                 0,
-                0
+                0,
+                false
         );
         storage.saveNode(new_node_2);
 
@@ -231,7 +239,8 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
@@ -253,14 +262,16 @@ public class StorageTestSuite {
         Edge edge1 = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(edge1);
 
-        Edge edge2 = new Edge (
+        Edge edge2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
 
         // delete an edge from the edu.wpi.cs3733d18.teamS.database
@@ -280,7 +291,8 @@ public class StorageTestSuite {
         Edge old_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(old_edge);
 
@@ -307,14 +319,16 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
         Edge new_edge_2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
         storage.saveEdge(new_edge_2);
 
@@ -331,14 +345,16 @@ public class StorageTestSuite {
         Edge new_edge = new Edge(
                 "edge1",
                 "node1",
-                "node2"
+                "node2",
+                false
         );
         storage.saveEdge(new_edge);
 
         Edge new_edge_2 = new Edge(
                 "edge2",
                 "node2",
-                "node3"
+                "node3",
+                false
         );
         storage.saveEdge(new_edge_2);
 
@@ -358,14 +374,14 @@ public class StorageTestSuite {
      */
     @Test
     public void testAddUser() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
         // check the length of the list of users returned
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 1);
+        Assert.assertEquals(users.size(), 8);
     }
 
     /**
@@ -373,13 +389,13 @@ public class StorageTestSuite {
      */
     @Test
     public void testDeleteUser() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -388,8 +404,8 @@ public class StorageTestSuite {
 
         // check the length and the id of the remaining edu.wpi.cs3733d18.teamS.user
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 1);
-        Assert.assertEquals(users.get(0).getUserID(), 2);
+        Assert.assertEquals(users.size(), 8);
+        Assert.assertEquals(users.get(7).getUserID(), 9);
     }
 
     /**
@@ -397,8 +413,8 @@ public class StorageTestSuite {
      */
     @Test
     public void testUpdateUser() {
-        User old_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        old_user.setUserID(1);
+        User old_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        old_user.setUserID(8);
 
         storage.saveUser(old_user);
 
@@ -418,13 +434,13 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetUserByID() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -438,13 +454,13 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetUserByName() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
@@ -457,17 +473,17 @@ public class StorageTestSuite {
      * Test getting a specific edu.wpi.cs3733d18.teamS.user by credentials
      */
     @Test
-    public void testGetUserByCredentials() { // TODO this method uses the plain password as a check because of "'" character
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+    public void testGetUserByCredentials() {
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(9);
         storage.saveUser(new_user2);
 
         // get one of the users by id and check its username
-        User u = storage.getUserByCredentials(new_user2.getUsername(), new_user2.getPlainPassword());
+        User u = storage.getUserByCredentials(new_user2.getUsername(), new String(new_user2.getEncodedPassword(), Charset.forName("UTF-8")));
         Assert.assertEquals(u.getUsername(), "amanda");
     }
 
@@ -476,23 +492,23 @@ public class StorageTestSuite {
      */
     @Test
     public void testGetAllUsers() {
-        User new_user = new User("joe", "joe", User.user_type.DOCTOR, false);
-        new_user.setUserID(1);
+        User new_user = new User("joe", "joe", "joe", "joe", User.user_type.DOCTOR, false);
+        new_user.setUserID(8);
 
         storage.saveUser(new_user);
 
-        User new_user2 = new User("amanda", "amanda", User.user_type.ADMIN_STAFF, true);
-        new_user2.setUserID(2);
+        User new_user2 = new User("amanda", "amanda", "amanda", "amanda", User.user_type.ADMIN_STAFF, true);
+        new_user2.setUserID(9);
 
         storage.saveUser(new_user2);
 
         // get all of the users and check the length of the list returned
         List<User> users = storage.getAllUsers();
-        Assert.assertEquals(users.size(), 2);
+        Assert.assertEquals(users.size(), 9);
 
         // also check the username of each entry
-        Assert.assertEquals(users.get(0).getUsername(), "joe");
-        Assert.assertEquals(users.get(1).getUsername(), "amanda");
+        Assert.assertEquals(users.get(7).getUsername(), "joe");
+        Assert.assertEquals(users.get(8).getUsername(), "amanda");
     }
 
     // ------------------- SERVICE TESTS --------------------

@@ -2,48 +2,33 @@ package edu.wpi.cs3733d18.teamS.user;
 
 import edu.wpi.cs3733d18.teamS.database.Storage;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.LinkedList;
 
 public class LoginHandler {
-    private static LinkedList<User> users = new LinkedList<User>();
 
-    public static LinkedList<User> getUsers() {
-        return users;
-    }
+    public LoginHandler() {}
 
-    public LoginHandler(){
-        Storage storage = Storage.getInstance();
-
-//        users = (LinkedList<User>)storage.getAllUsers();
-        __generateDummyUsers(); // TODO no need to generate dummies
-    }
+    private Storage storage = Storage.getInstance();
 
     /**
-     * This class is used in place of an actual edu.wpi.cs3733d18.teamS.database implementation, used for testing purposes
-     *
+     * Generates an initial list of users to be stored in the database
      */
-    public static void __generateDummyUsers(){
+    public static void generateInitialUsers() {
         Storage storage = Storage.getInstance();
 
-        User u1 = new User("doctor", "doctor", User.user_type.DOCTOR, false);
-        User u2 = new User("admin", "admin", User.user_type.ADMIN_STAFF, true);
-        User u3 = new User("staff", "staff", User.user_type.REGULAR_STAFF, false);
-        User u4 = new User("cardiocarl", "123", User.user_type.DOCTOR, false);
-        User u5 = new User("plasticspete", "123", User.user_type.DOCTOR, false);
-        User u6 = new User("spanishsue", "123", User.user_type.REGULAR_STAFF, false);
-        User u7 = new User("russianrima", "123", User.user_type.REGULAR_STAFF, false);
+        // generate initial user objects to be stored in the database
+        User u1 = new User("doctor", "doctor", "doctor", "doctor", User.user_type.DOCTOR, false);
+        User u2 = new User("admin", "admin", "admin", "admin", User.user_type.ADMIN_STAFF, true);
+        User u3 = new User("staff", "staff", "staff", "staff", User.user_type.REGULAR_STAFF, false);
+        User u4 = new User("cardiocarl", "123", "cardio", "carl", User.user_type.DOCTOR, false);
+        User u5 = new User("plasticspete", "123", "plastics", "pete", User.user_type.DOCTOR, false);
+        User u6 = new User("spanishsue", "123", "spanish", "sue", User.user_type.REGULAR_STAFF, false);
+        User u7 = new User("russianrima", "123", "russian", "rima", User.user_type.REGULAR_STAFF, false);
 
-
-        users.add(u1);
-        users.add(u2);
-        users.add(u3);
-        users.add(u4);
-        users.add(u5);
-        users.add(u6);
-        users.add(u7);
-
+        // save users to database
         storage.saveUser(u1);
         storage.saveUser(u2);
         storage.saveUser(u3);
@@ -53,25 +38,22 @@ public class LoginHandler {
         storage.saveUser(u7);
     }
 
-    public User login(String username, String password) throws InvalidPasswordException, InvalidUsernameException {
-        for (User user:users) {
-            String user_username = user.getUsername();
+    /**
+     * Login method in handler
+     * @param username the username of the user trying to login
+     * @param password the password of the user trying to login
+     * @return the user who just logged in, or an exception
+     * @throws InvalidUsernameException the credentials were incorrect
+     */
+    public User login(String username, String password) throws InvalidUsernameException {
+        String encoded_password = User.encodePassword(password);
+        User u = storage.getUserByCredentials(username, encoded_password);
 
-            if (username.equals(user_username)) {
-                byte[] user_salt = user.getPasswordSalt();
-                byte[] decoded_salted_password = Base64.getDecoder().decode(user.getEncodedPassword());
-                byte[] decoded_password_bytes = Arrays.copyOfRange(decoded_salted_password, 0,
-                        decoded_salted_password.length - user_salt.length);
-                String decoded_password = new String(decoded_password_bytes);
-
-                if (password.equals(decoded_password)) {
-                    return user;
-                }else{
-                    throw new InvalidPasswordException();
-                }
-            }
+        if (u != null) {
+            return u;
+        } else {
+            throw new InvalidUsernameException();
         }
-        throw new InvalidUsernameException();
     }
 }
 

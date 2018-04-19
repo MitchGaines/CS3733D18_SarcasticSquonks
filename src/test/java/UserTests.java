@@ -1,6 +1,6 @@
+import edu.wpi.cs3733d18.teamS.user.User;
 import org.junit.Assert;
 import org.junit.Test;
-import edu.wpi.cs3733d18.teamS.user.User;
 
 /**
  * UserTests.java
@@ -10,7 +10,7 @@ import edu.wpi.cs3733d18.teamS.user.User;
  */
 
 public class UserTests {
-    User doc1 = new User("doc1", "doc1", User.user_type.DOCTOR, false);
+    User doc1 = new User("doc1", "doc1", "doc1", "doc1", User.user_type.DOCTOR, false);
 
     @Test
     public void canModMap() {

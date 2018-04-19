@@ -5,9 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.UserController">
@@ -20,7 +18,7 @@
                </image>
             </ImageView>
             <fx:include fx:id="serviceArea" layoutX="14.0" layoutY="94.0" prefHeight="400.0" prefWidth="1174.0" source="ServiceAreaRequests.fxml" />
-            <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log">
+            <JFXButton buttonType="RAISED" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log">
                <StackPane.margin>
                   <Insets top="200.0" />
                </StackPane.margin>
@@ -40,7 +38,7 @@
          <right>
             <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="(Staff Name)" />
+                  <Text fx:id="user_name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text=" " />
                   <JFXButton fx:id="logout_btn" buttonType="RAISED" onAction="#onLogoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%logout" />
                </children>
                <padding>
@@ -50,4 +48,7 @@
          </right>
       </BorderPane>
    </top>
+   <left>
+      <fx:include fx:id="requestSidebar" source="RequestSidebar.fxml" />
+   </left>
 </BorderPane>

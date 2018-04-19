@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="sidebar" alignment="CENTER" gridLinesVisible="true" prefHeight="400.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.RequestSidebarController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="create_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onCreateReqClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #91a1c6;" text="%service_request_button" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="my_req" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onMyReqClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%my_requests" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="view_log" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onViewLogClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%view_log" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+
+      <Label fx:id="reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onReportsClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="user_reports" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onUserReportsClick" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: #4863A0;" text="User Reports" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="user_type_label" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#onAdminClick" prefHeight="1000.0" prefWidth="161.0" style="-fx-background-color: #4863A0;" text="%admin" textFill="WHITE" wrapText="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+   </children>
+</GridPane>

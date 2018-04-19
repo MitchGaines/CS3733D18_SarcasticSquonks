@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -25,7 +22,7 @@
          <right>
             <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="(Doctor Name)" />
+                  <Text fx:id="user_name" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text=" " />
                   <JFXButton fx:id="logout_btn" buttonType="RAISED" onAction="#onLogoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%logout" />
                </children>
                <padding>
@@ -61,7 +58,6 @@
                         <Font size="23.0" />
                      </font>
                   </Label>
-                  <JFXButton buttonType="RAISED" onAction="#openLog" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%view_log" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -76,4 +72,7 @@
          </children>
       </StackPane>
    </center>
+   <left>
+      <fx:include fx:id="requestSidebar" source="RequestSidebar.fxml" />
+   </left>
 </BorderPane>
