@@ -104,9 +104,6 @@ public class PathfindController {
     HBox directions_box;
 
     @FXML
-    VBox directions_vbox;
-
-    @FXML
     VBox  direct_list;
 
     @FXML
@@ -370,8 +367,8 @@ public class PathfindController {
      */
     public void onQRClick() {
         ColorAdjust adj = new ColorAdjust(0, -0.9, -0.5, 0);
-        //GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
-        //adj.setInput(blur);
+        GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
+        adj.setInput(blur);
         ObservableList<Node> list = main_pane.getChildren();
         for (Node a_node : list) {
             a_node.setEffect(adj);
