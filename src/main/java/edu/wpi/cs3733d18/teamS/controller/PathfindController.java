@@ -106,9 +106,6 @@ public class PathfindController {
     HBox directions_box;
 
     @FXML
-    VBox directions_vbox;
-
-    @FXML
     VBox direct_list;
 
     @FXML
@@ -425,16 +422,16 @@ public class PathfindController {
         //stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
-    public void onPhoneCallBtnClick() {
-        if (!phone_field.getText().isEmpty()) {
+    public void onPhoneCallBtnClick(){
+        if(!phone_field.getText().isEmpty()){
             InteractivePhone call = new InteractivePhone(path_steps);
             call.callDirections(phone_field.getText());
             onBigQRClick();
         }
     }
 
-    public void onPhoneTextBtnClick() {
-        if (!phone_field.getText().isEmpty()) {
+    public void onPhoneTextBtnClick(){
+        if(!phone_field.getText().isEmpty()){
             InteractivePhone call = new InteractivePhone(path_steps);
             call.textDirections(phone_field.getText(), directions_url);
             onBigQRClick();
@@ -468,17 +465,23 @@ public class PathfindController {
         ImageView icon;
         if (step_description.contains(AllText.get("turn_left"))) {
             icon = new ImageView(new Image("images/directionsIcons/left.png"));
-        } else if (step_description.contains(AllText.get("turn_right"))) {
+        }
+        else if (step_description.contains(AllText.get("turn_right"))) {
             icon = new ImageView(new Image("images/directionsIcons/right.png"));
-        } else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
+        }
+        else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
             icon = new ImageView(new Image("images/directionsIcons/walking.png"));
-        } else if (step_description.contains(AllText.get("stairs_up"))) {
+        }
+        else if (step_description.contains(AllText.get("stairs_up"))) {
             icon = new ImageView(new Image("images/mapIcons/up.png"));
-        } else if (step_description.contains(AllText.get("stairs_down"))) {
+        }
+        else if (step_description.contains(AllText.get("stairs_down"))) {
             icon = new ImageView(new Image("images/mapIcons/down.png"));
-        } else if (step_description.contains(AllText.get("destination_to"))) {
+        }
+        else if (step_description.contains(AllText.get("destination_to"))){
             icon = new ImageView(new Image("images/mapIcons/destinationIcon.png"));
-        } else {
+        }
+        else {
             icon = new ImageView();
             icon.setFitWidth(32);
             icon.setFitHeight(32);
