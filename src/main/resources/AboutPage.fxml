@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -40,10 +39,11 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="THE BRIGHAM &amp; WOMEN'S HOSPITAL MAPS AND DATA USED IN THIS APPLICATION ARE COPYRIGHTED AND PROVIDED FOR THE SOLE USE OF EDUCATIONAL PURPOSES" wrappingWidth="500.0" />
 
                     </children>
                     <StackPane.margin>
-                        <Insets top="40.0" />
+                        <Insets top="30.0" />
                     </StackPane.margin>
                 </VBox>
             </children>
@@ -52,7 +52,7 @@
     <bottom>
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <JFXButton fx:id="back" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" onAction="#onBackClick" text="Back" />
+            <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Back" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
