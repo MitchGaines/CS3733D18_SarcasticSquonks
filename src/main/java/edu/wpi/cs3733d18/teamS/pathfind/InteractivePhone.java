@@ -5,8 +5,10 @@ import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.twiml.TwiML;
 import com.twilio.twiml.VoiceResponse;
+import com.twilio.twiml.voice.Pause;
 import com.twilio.twiml.voice.Say;
 import com.twilio.type.PhoneNumber;
+import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -25,8 +27,21 @@ public class InteractivePhone {
 
         VoiceResponse.Builder twiml_builder = new VoiceResponse.Builder();
 
-        for (String step : dir_steps) {
-            twiml_builder.say(new Say.Builder(step).build());
+        for(String step : dir_steps) {
+            Say line = null;
+
+            if (AllText.getLanguage().equals("es")) {
+                line = new Say.Builder(step).language(Say.Language.ES_ES).loop(1).voice(Say.Voice.WOMAN).build();
+            } else if(AllText.getLanguage().equals("ru")) {
+                line = new Say.Builder(step).language(Say.Language.RU_RU).loop(1).voice(Say.Voice.ALICE).build();
+            } else {
+                line = new Say.Builder(step).language(Say.Language.EN_US).loop(1).voice(Say.Voice.MAN).build();
+            }
+
+            Pause pause = new Pause.Builder().length(3).build();
+
+            twiml_builder.pause(pause).say(line);
+
         }
 
         twiml = twiml_builder.build();

@@ -118,7 +118,7 @@ public class Path {
             }
 
             path_description.add("- " + AllText.get("in") + " " + distance + " " + AllText.get("feet") + ", "
-                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + ".");
+                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + " at " + algorithm_node_path.get(i+1).getLongName() + ".");
 
             if (next_floor > curr_floor) {
                 path_description.add("- " + AllText.get("stairs_up") + " " + algorithm_node_path.get(i).floor + ".");

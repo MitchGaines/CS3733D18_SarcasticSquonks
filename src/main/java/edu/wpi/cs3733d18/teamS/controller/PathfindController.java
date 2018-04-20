@@ -104,9 +104,6 @@ public class PathfindController {
     HBox directions_box;
 
     @FXML
-    VBox directions_vbox;
-
-    @FXML
     VBox  direct_list;
 
     @FXML
