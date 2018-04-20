@@ -27,6 +27,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -38,7 +39,6 @@ import javafx.scene.text.Text;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,51 +62,51 @@ public class ModifyMapController {
     /**
      * Stores a double for the zoom factor.
      */
-    double zoom_factor;
+    private double zoom_factor;
 
     /**
      * A HashMap with Nodes for keys and Circles for values to represent the node list.
      */
-    HashMap<edu.wpi.cs3733d18.teamS.data.Node, Circle> nodes_list;
+    private HashMap<edu.wpi.cs3733d18.teamS.data.Node, Circle> nodes_list;
 
     /**
      * A HashMap with Edges for keys and Lines for values to represent the edge list.
      */
-    HashMap<edu.wpi.cs3733d18.teamS.data.Edge, Line> edge_list;
+    private HashMap<edu.wpi.cs3733d18.teamS.data.Edge, Line> edge_list;
 
     /**
      * The database storage.
      */
-    Storage storage;
+    private Storage storage;
 
     /**
      * Stores a HashMap with Strings as the value and key to represent the locations.
      */
-    HashMap<String, String> locations;
+    private HashMap<String, String> locations;
 
     /**
      * Stores a HashMap with Strings as the value and key to represent the floor map.
      */
-    HashMap<String, String> floor_map;
+    private HashMap<String, String> floor_map;
 
-    edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
+    private edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
 
-    edu.wpi.cs3733d18.teamS.data.Node new_node;
+    private edu.wpi.cs3733d18.teamS.data.Node new_node;
 
     /**
      * Stores a HashMap with Edges for the Key and Lines for the value to represent the edges to be deleted.
      */
-    HashMap<Edge, Line> edges_to_delete;
+    private HashMap<Edge, Line> edges_to_delete;
 
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent nodes to move.
      */
-    HashMap<Node, Circle> nodes_to_move;
+    private HashMap<Node, Circle> nodes_to_move;
 
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent moved nodes.
      */
-    HashMap<Node, Circle> movedNodes;
+    private HashMap<Node, Circle> movedNodes;
 
     @FXML
     JFXToggleButton toggle3D;
@@ -146,12 +146,12 @@ public class ModifyMapController {
     /**
      * Stores a color code.
      */
-    Color color = Color.web("#4863A0");
+    private Color color = Color.web("#4863A0");
 
     /**
      * Stores a circle for a temporary pin
      */
-    Circle temp_pin;
+    private Circle temp_pin;
 
     /**
      * Stores a boolean for the first click
@@ -244,11 +244,8 @@ public class ModifyMapController {
         nodes_list = new HashMap<>();
         edge_list = new HashMap<>();
         storage = Storage.getInstance();
-        if(toggle3D.isSelected()){
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
-        } else {
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
-        }
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
+
 
         ObservableList<String> lop = FXCollections.observableArrayList();
         lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location", "Batch Disable Locations");
@@ -319,34 +316,25 @@ public class ModifyMapController {
         switch (choose_floor.getValue().toString()) {
             case "Ground Floor":
                 map.setImage(new Image("images/2dMaps/00_thegroundfloor.png"));
-                toggle3D.setSelected(false);
                 break;
             case "Lower Level One":
                 map.setImage(new Image("images/2dMaps/00_thelowerlevel1.png"));
-                toggle3D.setSelected(false);
                 break;
             case "Lower Level Two":
                 map.setImage(new Image("images/2dMaps/00_thelowerlevel2.png"));
-                toggle3D.setSelected(false);
                 break;
             case "First Floor":
                 map.setImage(new Image("images/2dMaps/01_thefirstfloor.png"));
-                toggle3D.setSelected(false);
                 break;
             case "Second Floor":
                 map.setImage(new Image("images/2dMaps/02_thesecondfloor.png"));
-                toggle3D.setSelected(false);
                 break;
             case "Third Floor":
                 map.setImage(new Image("images/2dMaps/03_thethirdfloor.png"));
-                toggle3D.setSelected(false);
                 break;
         }
-        if(toggle3D.isSelected()){
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
-        } else {
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
-        }
+        toggle3D.setSelected(false);
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
     }
 
     /**
@@ -397,92 +385,38 @@ public class ModifyMapController {
      */
     public void onChooseAction() {
         scroll_pane.setPannable(true);
+        add_edge_box.setVisible(false);
+        add_node_box.setVisible(false);
+        delete_loc_box.setVisible(false);
+        kiosk_location_name.setVisible(false);
+        delete_edge_box.setVisible(false);
+        modify_loc_box.setVisible(false);
+        batch_disable_box.setVisible(false);
+        pane.setOnMouseMoved(null);
+        removePaneChild();
         switch (location_or_path.getValue().toString()) {
             case "Add Path":
                 add_edge_box.setVisible(true);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "Add Location":
                 add_node_box.setVisible(true);
-                add_edge_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "View Map":
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "Delete Location":
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
                 delete_loc_box.setVisible(true);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "Delete Path":
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
                 delete_edge_box.setVisible(true);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "Modify Locations":
                 modify_loc_box.setVisible(true);
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 scroll_pane.setPannable(false);
                 break;
             case "Set Kiosk Location":
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
                 kiosk_location_name.setVisible(true);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
-                batch_disable_box.setVisible(false);
-                pane.setOnMouseMoved(null);
-                removePaneChild();
                 break;
             case "Batch Disable Locations":
-                add_edge_box.setVisible(false);
-                add_node_box.setVisible(false);
-                delete_loc_box.setVisible(false);
-                kiosk_location_name.setVisible(false);
-                delete_edge_box.setVisible(false);
-                modify_loc_box.setVisible(false);
                 batch_disable_box.setVisible(true);
                 geoBlock = new Polygon();
                 geoBlock.setId("polygon");
@@ -499,11 +433,7 @@ public class ModifyMapController {
         pane.getChildren().clear();
         pane.getChildren().add(map);
         map.setImage(new Image(choose2DMap()));
-        if(toggle3D.isSelected()){
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
-        } else {
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
-        }
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
 
         Circle pin = new Circle(new_node.getXCoord(), new_node.getYCoord(), 7, color);
         pin.setStroke(Color.BLACK);
@@ -605,13 +535,16 @@ public class ModifyMapController {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<edu.wpi.cs3733d18.teamS.data.Node, Circle> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
+                    System.out.println("lasda");
                     if(entry.getValue().getFill().equals(Color.YELLOW)) {
                         entry.getValue().setFill(color);
                         edges_to_delete.remove(entry);
+                        System.out.println("kkkkk");
+                    } else {
+                        entry_to_delete.put(entry.getKey(), entry.getValue());
+                        location_to_delete.setText(entry.getKey().getNodeID());
+                        entry.getValue().setFill(Color.YELLOW);
                     }
-                    entry_to_delete.put(entry.getKey(), entry.getValue());
-                    location_to_delete.setText(entry.getKey().getNodeID());
-                    entry.getValue().setFill(Color.YELLOW);
                 }
             }
         } else if (location_or_path.getValue().toString().equals("Set Kiosk Location")) {
@@ -642,7 +575,6 @@ public class ModifyMapController {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()) {
                 if (entry.getValue().contains(pt)) {
-                    //circle_selected = entry.getValue();
                     if(entry.getValue().getFill().equals(Color.YELLOW) && !movedNodes.containsKey(entry.getKey())) {
                         entry.getValue().setFill(color);
                         nodes_to_move.remove(entry.getKey(), entry.getValue());
@@ -686,11 +618,7 @@ public class ModifyMapController {
         geoBlock.setStroke(Color.GRAY);
         pane.setOnMouseMoved(null);
 
-        if(toggle3D.isSelected()){
-            make3DMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
-        } else {
-            makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
-        }
+        makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
 
         for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()){
             if(! entry.getValue().getFill().equals(Color.YELLOW)) {
@@ -718,11 +646,7 @@ public class ModifyMapController {
         geoBlock.setStroke(Color.GREEN);
         pane.setOnMouseMoved(null);
 
-        if(toggle3D.isSelected()){
-            make3DMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
-        } else {
-            makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
-        }
+        makeMap(new ArrayList<>(nodes_list.keySet()), new ArrayList<>(edge_list.keySet()));
 
         for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()){
             if(! entry.getValue().getFill().equals(Color.YELLOW)) {
@@ -901,11 +825,7 @@ public class ModifyMapController {
             storage.updateNode(node);
             entry.getValue().setFill(color);
         }
-        if (toggle3D.isSelected()) {
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
-        } else {
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
-        }
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
 
     }
 
@@ -917,11 +837,7 @@ public class ModifyMapController {
             entry.getValue().setFill(color);
         }
         nodes_to_move.clear();
-        if(toggle3D.isSelected()) {
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
-        } else {
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
-        }
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
 
     }
 
@@ -1032,10 +948,18 @@ public class ModifyMapController {
             String end = a_edge.getEndNode().substring(8);
             if (start.equals(small_ft) && end.equals(small_ft)) {
                 try {
-                    double startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord();
-                    double startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord();
-                    double endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord();
-                    double endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord();
+                    double startX, startY, endX, endY;
+                    if (toggle3D.isSelected()) {
+                        startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord3D();
+                        startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord3D();
+                        endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord3D();
+                        endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord3D();
+                    } else {
+                        startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord();
+                        startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord();
+                        endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord();
+                        endY = storage.getNodeByID(a_edge.getEndNode()).getYCoord();
+                    }
                     Line path = new Line(startX, startY, endX, endY);
                     path.setStrokeWidth(3);
                     if(a_edge.isDisabled()){
@@ -1051,10 +975,15 @@ public class ModifyMapController {
         for (edu.wpi.cs3733d18.teamS.data.Node a_node : dataNodes) {
             if(!a_node.getShortName().equals("TRAIN")) {
                 if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
-
-                    Circle pin = new Circle(a_node.getXCoord(), a_node.getYCoord(), 8, color);
+                    Circle pin;
+                    if(toggle3D.isSelected()) {
+                        pin = new Circle(a_node.getXCoord3D(), a_node.getYCoord3D(), 8, color);
+                    } else {
+                        pin = new Circle(a_node.getXCoord(), a_node.getYCoord(), 8, color);
+                    }
                     pin.setStroke(Color.BLACK);
                     pin.setStrokeWidth(3);
+                    addRightClickProperty(pin);
                     if (a_node.isDisabled()) {
                         pin.setFill(Color.GRAY);
                     }
@@ -1063,6 +992,17 @@ public class ModifyMapController {
                 }
             }
         }
+    }
+
+    private void addRightClickProperty(Circle pin) {
+        pin.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    System.out.println("Right Click");
+                }
+            }
+        });
     }
 
     /**
@@ -1133,12 +1073,11 @@ public class ModifyMapController {
     public void on3DToggle() {
         if(toggle3D.isSelected()) {
             choose3DFloor();
-            make3DMap(storage.getAllNodes(), storage.getAllEdges());
         }
         else {
             onChooseFloorChange();
-            makeMap(storage.getAllNodes(), storage.getAllEdges());
         }
+        makeMap(storage.getAllNodes(), storage.getAllEdges());
         for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()){
             if(! entry.getValue().getFill().equals(Color.YELLOW)) {
                 if(entry.getKey().isDisabled()){
@@ -1147,55 +1086,6 @@ public class ModifyMapController {
             }
         }
         removePaneChild();
-    }
-
-    /**
-     * makes the 3d map.
-     * @param dataNodes the nodes for the map.
-     * @param dataEdges the edges for the map.
-     */
-    private void make3DMap(List<Node> dataNodes, List<Edge> dataEdges) {
-        pane.getChildren().removeAll(nodes_list.values());
-        pane.getChildren().removeAll(edge_list.values());
-        nodes_list.clear();
-        edge_list.clear();
-        nodes_to_move.clear();
-        movedNodes.clear();
-        String floor = choose_floor.getValue().toString();
-        String short_floor = floor_map.get(choose_floor.getValue().toString());
-        String small_ft = ("00" + short_floor).substring(short_floor.length());
-        for (edu.wpi.cs3733d18.teamS.data.Edge a_edge : dataEdges) {
-            String start = a_edge.getStartNode().substring(8);
-            String end = a_edge.getEndNode().substring(8);
-            if (start.equals(small_ft) && end.equals(small_ft)) {
-                try {
-                    double startX = storage.getNodeByID(a_edge.getStartNode()).getXCoord3D();
-                    double startY = storage.getNodeByID(a_edge.getStartNode()).getYCoord3D();
-                    double endX = storage.getNodeByID(a_edge.getEndNode()).getXCoord3D();
-                    double endY= storage.getNodeByID(a_edge.getEndNode()).getYCoord3D();
-                    Line path = new Line(startX, startY, endX, endY);
-                    path.setStrokeWidth(3);
-                    if(a_edge.isDisabled()){
-                        path.setStroke(Color.GRAY);
-                    }
-                    pane.getChildren().add(path);
-                    edge_list.put(a_edge, path);
-                } catch (NullPointerException e) {
-
-                }
-            }
-        }
-        for (edu.wpi.cs3733d18.teamS.data.Node a_node : dataNodes) {
-            if (a_node.getNodeFloor().equals(floor_map.get(floor))) {
-
-                Circle pin = new Circle(a_node.getXCoord3D(), a_node.getYCoord3D(), 8, color);
-                pin.setStroke(Color.BLACK);
-                pin.setStrokeWidth(3);
-
-                nodes_list.put(a_node, pin);
-                pane.getChildren().add(pin);
-            }
-        }
     }
 
     /**
