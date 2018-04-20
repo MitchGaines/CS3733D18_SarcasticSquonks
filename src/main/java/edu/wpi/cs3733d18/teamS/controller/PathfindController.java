@@ -189,6 +189,7 @@ public class PathfindController {
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
+        map_anchor_pane.getChildren().add(map.getPath().getFullPathPolyline(map.is_3D));
         updateMap(map.thisStep(map.is_3D));
         if (map.getPath().path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);

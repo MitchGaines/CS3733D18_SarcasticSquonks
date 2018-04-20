@@ -214,6 +214,24 @@ public class Path {
         return algorithm_node_path;
     }
 
+    public Polyline getFullPathPolyline(boolean is_3D) {
+        Polyline polyline = new Polyline();
+        for(AStarNode node: algorithm_node_path){
+            if (is_3D) {
+                polyline.getPoints().addAll((double) node.getXCoord3D(), (double) node.getYCoord3D());
+            } else {
+                polyline.getPoints().addAll((double) node.getXCoord(), (double) node.getYCoord());
+            }
+        }
+        polyline.setId("full_path");
+        polyline.setStyle("-fx-fill:#ff000000;" +
+                "-fx-stroke:rgba(74,74,74,0.31);" +
+                "-fx-stroke-line-cap:ROUND;" +
+                "-fx-stroke-line-join:ROUND;" +
+                "-fx-stroke-width:8.0");
+        return polyline;
+    }
+
     /**
      * angle
      * Calculates the angle between two points based on there two dimensional coordinates, this takes in 4 ints that
