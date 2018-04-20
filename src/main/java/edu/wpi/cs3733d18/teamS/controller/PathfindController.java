@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -19,6 +20,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
@@ -107,7 +109,7 @@ public class PathfindController {
     VBox directions_vbox;
 
     @FXML
-    VBox  direct_list;
+    VBox direct_list;
 
     @FXML
     ScrollPane directions_pane;
@@ -307,7 +309,7 @@ public class PathfindController {
         double desired_y = poly_y + (poly_height / 2);
         desired_x = p.getPoints().get(0);
         desired_y = p.getPoints().get(1);
-        if(map.is_3D){
+        if (map.is_3D) {
             desired_y += 400;
         }
 
@@ -332,8 +334,26 @@ public class PathfindController {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map.clearIcons();
-        fitToPath(nodes);
+        //set click method calling
+        for (Node a_node : nodes) {
+            if (a_node.getId().equals("next_icon")) {
+                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        onNextClick();
+                    }
+                });
+            } else if(a_node.getId().equals("prev_icon")){
+                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        onPrevClick();
+                    }
+                });
+            }
+        }
         map_anchor_pane.getChildren().addAll(nodes);
+        fitToPath(nodes);
         step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
@@ -404,16 +424,16 @@ public class PathfindController {
         //stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
-    public void onPhoneCallBtnClick(){
-        if(!phone_field.getText().isEmpty()){
+    public void onPhoneCallBtnClick() {
+        if (!phone_field.getText().isEmpty()) {
             InteractivePhone call = new InteractivePhone(path_steps);
             call.callDirections(phone_field.getText());
             onBigQRClick();
         }
     }
 
-    public void onPhoneTextBtnClick(){
-        if(!phone_field.getText().isEmpty()){
+    public void onPhoneTextBtnClick() {
+        if (!phone_field.getText().isEmpty()) {
             InteractivePhone call = new InteractivePhone(path_steps);
             call.textDirections(phone_field.getText(), directions_url);
             onBigQRClick();
@@ -447,23 +467,17 @@ public class PathfindController {
         ImageView icon;
         if (step_description.contains(AllText.get("turn_left"))) {
             icon = new ImageView(new Image("images/directionsIcons/left.png"));
-        }
-        else if (step_description.contains(AllText.get("turn_right"))) {
+        } else if (step_description.contains(AllText.get("turn_right"))) {
             icon = new ImageView(new Image("images/directionsIcons/right.png"));
-        }
-        else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
+        } else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
             icon = new ImageView(new Image("images/directionsIcons/walking.png"));
-        }
-        else if (step_description.contains(AllText.get("stairs_up"))) {
+        } else if (step_description.contains(AllText.get("stairs_up"))) {
             icon = new ImageView(new Image("images/mapIcons/up.png"));
-        }
-        else if (step_description.contains(AllText.get("stairs_down"))) {
+        } else if (step_description.contains(AllText.get("stairs_down"))) {
             icon = new ImageView(new Image("images/mapIcons/down.png"));
-        }
-        else if (step_description.contains(AllText.get("destination_to"))){
+        } else if (step_description.contains(AllText.get("destination_to"))) {
             icon = new ImageView(new Image("images/mapIcons/destinationIcon.png"));
-        }
-        else {
+        } else {
             icon = new ImageView();
             icon.setFitWidth(32);
             icon.setFitHeight(32);

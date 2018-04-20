@@ -2,12 +2,14 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.animation.*;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
@@ -293,7 +295,7 @@ public class Path {
             start_icon.setX(start_node.getXCoord() - (start_icon.getFitHeight()/2));
             start_icon.setY(start_node.getYCoord() - (start_icon.getFitHeight()/2));
         }
-        start_icon.setId("temporaryIcon");
+        start_icon.setId("prev_icon");
         start_icon.smoothProperty().setValue(true);
         start_icon.setOpacity(.8);
         fx_nodes.add(start_icon);
@@ -347,7 +349,7 @@ public class Path {
             icon.setFitHeight(120);
             icon.setOpacity(.8);
         }
-        icon.setId("temporaryIcon");
+        icon.setId("next_icon");
         icon.smoothProperty().setValue(true);
         icon.setX(x_pos - (icon.getFitHeight()/2));
         icon.setY(y_pos - (icon.getFitHeight()/2));
