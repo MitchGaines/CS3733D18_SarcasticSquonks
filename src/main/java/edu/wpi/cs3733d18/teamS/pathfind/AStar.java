@@ -22,7 +22,7 @@ public class AStar extends SearchAlgorithm {
     @Override
     void updateCosts(AStarNode neighbor, AStarNode current, AStarNode goal) {
         neighbor.setParent(current);
-        neighbor.newGCost(neighbor);
+        neighbor.newGCost(current);
         neighbor.newHCost(goal);
         neighbor.calcFCost();
     }

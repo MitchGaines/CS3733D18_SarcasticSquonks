@@ -62,7 +62,9 @@ public class Pathfinder {
      */
     private void populateMap(HashMap<String, Node> nodes, HashMap<String, Edge> edges) {
         for (Node node : nodes.values()) {
-            algorithm_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName(), node.getLongName(), node.getNodeFloor()));
+            if(!node.isDisabled()){
+                algorithm_node_map.put(node.getNodeID(), new AStarNode(node.getNodeID(), node.getXCoord(), node.getYCoord(), node.getXCoord3D(), node.getYCoord3D(), node.getShortName(), node.getLongName(), node.getNodeFloor()));
+            }
         }
 
         for (Edge connection : edges.values()) {
@@ -102,12 +104,6 @@ public class Pathfinder {
             return;
         }
         this.start = algorithm_node_map.get(startID);
-        /*
-      Stores the Goal node.
-     */ /*
-          Stores the Goal node.
-         */
-        AStarNode goal = algorithm_node_map.get(goalID);
 
         //call the algorithm
         AStarNode path_end = algorithm.findPath(startID, goalID, algorithm_node_map);

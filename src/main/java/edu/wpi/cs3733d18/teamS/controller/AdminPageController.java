@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
  * @author Danny Sullivan
  * @author Cormac Lynch-Collier
  * @author Noah Hillman
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  */
 public class AdminPageController extends UserController {
 
@@ -64,7 +64,7 @@ public class AdminPageController extends UserController {
 
     /**
      * Loads the reports.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void loadReports() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/Report.fxml"), AllText.getBundle());
@@ -72,9 +72,15 @@ public class AdminPageController extends UserController {
         main_pane.setCenter(root);
     }
 
+    public void loadUserReports() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/UserReport.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
+    }
+
     /**
      * Loads in the admin.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void loadAdmin() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
@@ -85,7 +91,7 @@ public class AdminPageController extends UserController {
 
     /**
      * Initializes the service requests menu.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void initialize() throws IOException {
         requestSidebarController.setParent(this);

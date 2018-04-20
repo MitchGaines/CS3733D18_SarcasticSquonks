@@ -38,41 +38,44 @@
                   </TableView>
                   <HBox alignment="CENTER" prefHeight="22.0" prefWidth="300.0" spacing="10.0">
                      <children>
-                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Delete User" />
-                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Modify User" />
+                        <JFXButton fx:id="delete_user_btn" alignment="CENTER" buttonType="RAISED" onAction="#onDeleteUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%delete_user" />
+                        <JFXButton fx:id="modify_user" alignment="CENTER" buttonType="RAISED" onAction="#onModifyUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_user" />
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </VBox>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
                   <VBox fx:id="add_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                      <children>
-                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="First Name">
+                        <JFXTextField fx:id="first_name_field" alignment="CENTER" promptText="%first_name">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="Last Name">
+                        <JFXTextField fx:id="last_name_field" alignment="CENTER" promptText="%last_name">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="Username">
+                        <JFXTextField fx:id="username_field" alignment="CENTER" promptText="%username">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="Password">
+                        <JFXTextField fx:id="password_field" alignment="CENTER" promptText="%password">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
-                        <JFXComboBox fx:id="type_user" promptText="Type of User" style="-fx-font-size: 18;" />
-                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="Add User" />
+                        <JFXComboBox fx:id="type_user" promptText="%type_of_user" style="-fx-font-size: 18;" />
+                        <JFXButton fx:id="add_user_btn" buttonType="RAISED" onAction="#onAddUser" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%add_user" />
                      </children>
                   </VBox>
                   <VBox fx:id="delete_user_box" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
@@ -114,6 +117,9 @@
                      </children>
                   </VBox>
                </children>
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
             </StackPane>
          </children>
       </GridPane>
@@ -121,8 +127,23 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
+            <JFXTextField fx:id="timeout_field" alignment="CENTER" onKeyTyped="#onEnableSetButton" prefWidth="200.0" promptText="Timeout (sec)">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton fx:id="set_timeout_btn" buttonType="RAISED" layoutX="215.0" layoutY="41.0" onAction="#onSetTimeoutClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%set" visible="false">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </JFXButton>
             <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_map" />
-            <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;" />
+            <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%it_request" />
+            <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </JFXComboBox>
          </children>
       </HBox>
    </bottom>

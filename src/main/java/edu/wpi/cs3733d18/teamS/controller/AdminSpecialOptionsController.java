@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -14,17 +15,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
+import java.sql.Time;
 
 /**
  * This controller deals with special options for the admin users.
  * @author Cormac Lynch-Collier
  * @author Noah Hillman
- * @version %I%, %G%
+ * @version 1.3, April 13, 2018
  */
 public class AdminSpecialOptionsController{
 
@@ -59,13 +64,13 @@ public class AdminSpecialOptionsController{
      * The text fields for modifying the username and password.
      */
     @FXML
-    JFXTextField modify_username, modify_password;
+    JFXTextField modify_username, modify_password, timeout_field;
 
     /**
      * Buttons for the modify map, delete user, add user, confirm delete and cancel delete.
      */
     @FXML
-    Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn;
+    Button modify_map_btn, delete_user_btn, modify_user, add_user_btn, confirm_delete_btn, cancel_delete_btn, set_timeout_btn;
 
     /**
      * The combo box for choosing the pathfind algorithm.
@@ -87,7 +92,7 @@ public class AdminSpecialOptionsController{
 
     /**
      * Retrieves the chosen algorithm.
-     * @return
+     * @return the value for the selected path algorithm.
      */
     public static int getChoosenAlg() {
         return selected_path_algorithm;
@@ -96,7 +101,7 @@ public class AdminSpecialOptionsController{
     /**
      * Switches scene to the modify map screen.
      * @param event The click on the button.
-     * @throws IOException
+     * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onModifyMapClick(ActionEvent event) throws IOException {
         Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
@@ -217,6 +222,17 @@ public class AdminSpecialOptionsController{
         }
     }
 
+    public void onSetTimeoutClick(){
+        Timeout.sleep_time = Integer.parseInt(timeout_field.getText().toString().replaceAll(",", "")) * 1000;
+        Timeout.stop();
+        Timeout.start();
+    }
+
+    public void onEnableSetButton(){
+        set_timeout_btn.setVisible(true);
+    }
+
+
     /**
      * cancels changes made to the user.
      */
@@ -230,6 +246,16 @@ public class AdminSpecialOptionsController{
      */
     public void onUserChoose() {
         selected_user = user_table.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    Button it_request;
+
+    public void onITRequest() {
+        Timeout.stop();
+        SquonksAPI squonks_api = new SquonksAPI();
+        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
+        Timeout.start();
     }
 
     /**
@@ -250,5 +276,6 @@ public class AdminSpecialOptionsController{
         add_user_box.setVisible(true);
         delete_user_box.setVisible(false);
         modify_user_box.setVisible(false);
+        timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
     }
 }
