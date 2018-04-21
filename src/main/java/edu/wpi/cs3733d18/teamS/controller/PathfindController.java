@@ -3,6 +3,9 @@ package edu.wpi.cs3733d18.teamS.controller;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -22,6 +25,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -178,9 +182,8 @@ public class PathfindController {
      */
     public void initialize() {
         zoom_factor = 1;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        time.setText(dtf.format(now));
+        updatedTime();
+
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
@@ -466,5 +469,22 @@ public class PathfindController {
             icon.setFitHeight(32);
         }
         return icon;
+    }
+
+    /**
+     * Updates clock to live time
+     */
+    public void updatedTime() {
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+
+            time.setText(dtf.format(now));
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 }
