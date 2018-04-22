@@ -2,7 +2,9 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
+import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -12,10 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -277,5 +276,23 @@ public class AdminSpecialOptionsController{
         delete_user_box.setVisible(false);
         modify_user_box.setVisible(false);
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+    }
+
+    @FXML
+    JFXToggleButton motion_sensor;
+    @FXML
+    Label ms_output;
+    private static boolean include_motion;
+
+    public static boolean includeMotion() {
+        return include_motion;
+    }
+
+    public void motion_sensor_change() {
+        include_motion = motion_sensor.isSelected();
+        if(includeMotion()){
+            //MotionSensor.connect();
+        }
+
     }
 }

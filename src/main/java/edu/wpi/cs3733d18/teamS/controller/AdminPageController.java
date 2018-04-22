@@ -1,6 +1,8 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
+import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -87,7 +89,6 @@ public class AdminPageController extends UserController {
         Parent root = loader.load();
         main_pane.setCenter(root);
     }
-
 
     /**
      * Initializes the service requests menu.
