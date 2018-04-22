@@ -2,7 +2,6 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -24,6 +23,8 @@ import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
 import java.sql.Time;
+
+import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 
 /**
  * This controller deals with special options for the admin users.
