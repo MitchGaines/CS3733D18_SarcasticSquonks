@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.service;
 
 import ca.uhn.fhir.context.FhirContext;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Task;
 
 import java.io.ByteArrayOutputStream;
@@ -49,6 +50,9 @@ public class EpicWrapper {
             }
         }
 
+        /*return ServiceRequest.createService("Test", "this is a test",
+                , "Some guy", "Bathrrom", "Some fullfiller");
         return hl7_task_b;
     }
+*/
 }
