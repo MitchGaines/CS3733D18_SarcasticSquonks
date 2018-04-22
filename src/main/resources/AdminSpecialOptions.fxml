@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -15,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController">
    <center>
       <GridPane alignment="TOP_CENTER" minHeight="300.0" BorderPane.alignment="TOP_CENTER">
         <columnConstraints>
@@ -125,7 +127,7 @@
       </GridPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <JFXTextField fx:id="timeout_field" alignment="CENTER" onKeyTyped="#onEnableSetButton" prefWidth="200.0" promptText="Timeout (sec)">
                <font>
@@ -145,6 +147,6 @@
                </padding>
             </JFXComboBox>
          </children>
-      </HBox>
+      </VBox>
    </bottom>
 </BorderPane>
