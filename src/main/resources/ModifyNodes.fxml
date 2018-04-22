@@ -144,6 +144,32 @@
                                 <JFXButton fx:id="cancel_move" buttonType="RAISED" onAction="#onCancelMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
                             </children>
                         </VBox>
+                  <VBox fx:id="modify_info_box" alignment="CENTER" prefHeight="389.0" prefWidth="242.0" spacing="15.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="building_change" alignment="CENTER" focusColor="#4863a0" promptText="%building">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="loc_type_change" focusColor="#4863a0" promptText="%location_type" style="-fx-font-size: 23;" />
+                        <JFXTextField fx:id="long_name_change" alignment="CENTER" focusColor="#4863a0" promptText="%long_name">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="short_name_change" alignment="CENTER" focusColor="#4863a0" promptText="%short_name">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="confirm_change" buttonType="RAISED" onAction="#onChangeInfoConfirm" style="-fx-background-color: #B7B8B6;" text="%confirm">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="add_loc_fail1" textFill="RED" />
+                     </children>
+                  </VBox>
                         <JFXTextField fx:id="kiosk_location_name" alignment="CENTER" focusColor="#4863a0" promptText="%location" visible="false">
                             <font>
                                 <Font size="23.0" />
