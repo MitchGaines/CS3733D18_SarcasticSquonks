@@ -59,7 +59,8 @@ dependencies {
             fileTree(dir: 'lib', include: '*.jar'),
             [group: 'joda-time', name: 'joda-time', version: '2.9.9'],
             [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
-            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0']
+            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0'],
+            [group: 'ca.uhn.hapi.fhir', name: 'hapi-fhir-structures-dstu3', version: '3.3.0']
     )
 }
 
