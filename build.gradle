@@ -87,7 +87,6 @@ dependencies {
             [group: 'com.fazecast', name: 'jSerialComm', version: '2.0.2'],
             [group: 'd18.teamS', name: 'ComputerService', version: '1.1.0'],
             [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0'],
-            [group: 'd18.teamR', name: 'Prescriptions', version: '1.0.0']
 
     )
 }
