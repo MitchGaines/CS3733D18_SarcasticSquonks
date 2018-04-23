@@ -5,7 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -254,8 +256,29 @@ public class AdminSpecialOptionsController{
     public void onITRequest() {
         Timeout.stop();
         SquonksAPI squonks_api = new SquonksAPI();
-        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
+        squonks_api.run(e -> onPathFindClick(e));
         Timeout.start();
+    }
+
+    public void onPathFindClick(String node_id) {
+        SearchAlgorithm alg;
+        int select = AdminSpecialOptionsController.getChoosenAlg();
+        if (select == 1) {
+            alg = new Dijkstras();
+        } else if (select == 2) {
+            alg = new DepthFirst();
+        } else if (select == 3) {
+            alg = new BreadthFirst();
+        } else {
+            alg = new AStar();
+        }
+        Pathfinder finder = new Pathfinder(alg);
+        finder.findShortestPath(Storage.getInstance().getDefaultKioskLocation(), node_id);
+        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**
