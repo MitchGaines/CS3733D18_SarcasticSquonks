@@ -2,7 +2,6 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -24,6 +23,11 @@ import org.apache.derby.iapi.types.UserType;
 
 import java.io.IOException;
 import java.sql.Time;
+
+import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
+
+import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 
 /**
  * This controller deals with special options for the admin users.
@@ -254,8 +258,32 @@ public class AdminSpecialOptionsController{
     public void onITRequest() {
         Timeout.stop();
         SquonksAPI squonks_api = new SquonksAPI();
-        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
+        squonks_api.run(e -> onPathfindClick(e));
         Timeout.start();
+    }
+
+    public void onPathfindClick(String node_id) {
+        SearchAlgorithm alg;
+        int select = AdminSpecialOptionsController.getChoosenAlg();
+        if (select == 1) {
+            alg = new Dijkstras();
+        }
+        else if (select == 2) {
+            alg = new DepthFirst();
+        }
+        else if (select == 3) {
+            alg = new BreadthFirst();
+        }
+        else {
+            alg = new AStar();
+        }
+        Pathfinder finder = new Pathfinder(alg);
+        finder.findShortestPath(Storage.getInstance().getDefaultKioskLocation(), node_id);
+        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+            return;
+        }
+        Map.path = finder.pathfinder_path;
+        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
     /**

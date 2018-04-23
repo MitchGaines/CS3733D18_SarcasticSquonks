@@ -1,6 +1,5 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import edu.wpi.cs3733d18.teamR.RaikouAPI;
 import edu.wpi.cs3733d18.teamR.ServiceException;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.database.Storage;
@@ -21,7 +20,7 @@ import javafx.util.StringConverter;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
+import edu.wpi.cs3733d18.teamR.RaikouAPI;
 
 public class ServiceAreaController {
 
