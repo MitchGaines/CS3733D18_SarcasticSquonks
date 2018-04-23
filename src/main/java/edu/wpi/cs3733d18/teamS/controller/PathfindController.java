@@ -293,6 +293,10 @@ public class PathfindController {
 
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
+        if(pane_height == 0) {
+            pane_height = 1000;
+            pane_width = 1700;
+        }
 
         double zoom1 = (pane_width / (nodes_width + 250));
         double zoom2 = (pane_height / (nodes_height + 250));
