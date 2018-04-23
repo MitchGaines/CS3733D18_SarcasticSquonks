@@ -66,6 +66,8 @@ dependencies {
             [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
             [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0'],
             [group: 'd18.teamR', name: 'Prescriptions', version: '1.0.0'],
+            [group: 'org.apache.commons', name: 'commons-math3', version: '3.0']
+            /*[group: 'd18.teamD', name: 'AffineTransformation', version: '1.0.0']*/
             [group: 'd18.teamS', name: 'ComputerService', version: '1.1.0']
     )
 }
@@ -85,4 +87,3 @@ jar {
     }
     from configurations.runtime.collect { zipTree(it) }
 }
-

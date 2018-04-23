@@ -292,13 +292,18 @@
                      </HBox.margin>
                   </Label>
                   <JFXToggleButton fx:id="node_edge_select" alignment="BOTTOM_CENTER" onAction="#onNodeEdgeClick" text="Edge" toggleColor="#fafafa" toggleLineColor="#999999">
-                     <font>
+               <font>
                         <Font size="16.0" />
-                     </font>
+               </font>
                      <HBox.margin>
                         <Insets left="-10.0" right="-10.0" />
                      </HBox.margin>
-                  </JFXToggleButton>
+            </JFXToggleButton>
+                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="NN/Affine" toggleColor="#999999" toggleLineColor="#4863a0">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </JFXToggleButton>
                </children>
                <StackPane.margin>
                   <Insets left="-55.0" />

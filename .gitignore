@@ -1,6 +1,7 @@
 .gradle/
 serviceDB/
 apacheDB/
+APIDB/
 .idea/
 out/
 classes/
