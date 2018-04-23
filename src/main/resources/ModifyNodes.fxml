@@ -153,11 +153,16 @@
                 </StackPane>
                 <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23;" />
                 <JFXButton fx:id="confirm_3d" buttonType="RAISED" onAction="#onConfirm3dClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%confirm_coord" visible="false" />
-                <JFXToggleButton fx:id="toggle3D" alignment="BOTTOM_CENTER" onAction="#on3DToggle" text="3D" toggleColor="#999999" toggleLineColor="#4863a0">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </JFXToggleButton>
+                <JFXToggleButton fx:id="toggle3D" alignment="BOTTOM_CENTER" onAction="#on3DToggle" text="3D" toggleColor="#999999" toggleLineColor="#4863a0" >
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </JFXToggleButton>
+                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="NN/Affine" toggleColor="#999999" toggleLineColor="#4863a0">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </JFXToggleButton>
             </children>
             <BorderPane.margin>
                 <Insets left="10.0" right="10.0" top="10.0" />

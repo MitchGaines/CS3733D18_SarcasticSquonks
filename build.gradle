@@ -14,6 +14,10 @@ repositories {
     flatDir {
         dirs 'lib'
     }
+
+    maven {
+        url 'https://ravana.dyn.wpi.edu/maven'
+    }
 }
 
 // You'll need to create an integration-test folder with the same structure as your test or main folders
@@ -59,7 +63,9 @@ dependencies {
             fileTree(dir: 'lib', include: '*.jar'),
             [group: 'joda-time', name: 'joda-time', version: '2.9.9'],
             [group: 'commons-codec', name: 'commons-codec', version: '1.11'],
-            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0']
+            [group: 'com.twilio.sdk', name: 'twilio', version: '7.19.0'],
+            [group: 'org.apache.commons', name: 'commons-math3', version: '3.0']
+            /*[group: 'd18.teamD', name: 'AffineTransformation', version: '1.0.0']*/
     )
 }
 
@@ -78,4 +84,3 @@ jar {
     }
     from configurations.runtime.collect { zipTree(it) }
 }
-

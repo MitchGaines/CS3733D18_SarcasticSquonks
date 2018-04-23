@@ -2,10 +2,6 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
-import com.kylecorry.lann.NN;
-import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
-import com.kylecorry.lann.activation.Linear;
-import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
@@ -50,6 +46,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import pointConverter.TeamD.API.PointConverter;
 
 /**
  * Controller for modifying the map and methods related to it.
@@ -114,7 +112,7 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D;
+    JFXToggleButton toggle3D, toggleNN;
 
     @FXML
     Label add_loc_fail, time;
@@ -136,6 +134,7 @@ public class ModifyMapController {
 
     @FXML
     ScrollPane scroll_pane;
+
     @FXML
     ImageView map;
 
@@ -187,6 +186,11 @@ public class ModifyMapController {
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
+
+    /**
+     * toggles use of neural net or affine transform
+     */
+    private boolean predict_nn = true;
 
     /**
      * Initializes the scene.
@@ -1018,13 +1022,23 @@ public class ModifyMapController {
 
     private void clickOptionAddLocation(MouseEvent click) {
         Scene scene = add_loc.getScene();
+        int x_3d = 1;
+        int y_3d = 1;
+        if(predict_nn){
+            Matrix predict_3d = predictor.getNeuralNetPrediction((int) click.getX(), (int) click.getY());
+            x_3d = (int) predict_3d.get(0, 0);
+            y_3d = (int) predict_3d.get(1, 0);
+        } else {
+            double[] affine_res = predictor.getAffinePrediction((int) click.getX(), (int) click.getY(), choose_floor.getValue().toString());
+            x_3d = (int) affine_res[0];
+            y_3d = (int) affine_res[1];
+        }
 
-        Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
 
         String loc_type_shortname = locations.get(loc_type.getValue().toString());
         new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                 floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0), false); //TODO: id function
+                short_name.getText(), "S", x_3d, y_3d, false);
         pane.getChildren().clear();
         pane.getChildren().add(map);
         map.setImage(new Image(select3DMap()));
@@ -1123,6 +1137,19 @@ public class ModifyMapController {
             }
         }
         removePaneChild();
+    }
+
+    /**
+     * Toggles the Learning mode.
+     */
+    public void onNNToggle() {
+        if (!toggleNN.isSelected()) {
+            //use neural net for prediction
+            predict_nn = true;
+        } else {
+            // use affine transform for prediction
+            predict_nn = false;
+        }
     }
 
     /**
