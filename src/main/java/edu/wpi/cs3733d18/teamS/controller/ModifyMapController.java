@@ -136,13 +136,7 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D, node_edge_select;
-
-    @FXML
-    Label time;
-
-    @FXML
-    TextField building, long_name, short_name, kiosk_location_name, location_one, location_two, location_to_delete, kiosk_location;
+    JFXToggleButton node_edge_select;
 
     @FXML
     TextField building_change;
@@ -151,30 +145,13 @@ public class ModifyMapController {
     JFXTextArea long_name_change, short_name_change;
 
     @FXML
-    JFXComboBox loc_type, choose_floor, loc_type_change;
+    JFXComboBox loc_type_change;
 
     @FXML
-    AnchorPane pane;
+    Button confirm_change;
 
     @FXML
-    Button add_loc_cancel, add_loc, back_btn, confirm_change;
-
-    @FXML
-    BorderPane main_pane;
-
-    @FXML
-    ScrollPane scroll_pane;
-    @FXML
-    ImageView map;
-
-    @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box, modify_info_box;
-
-    @FXML
-    Button confirm_3d;
-
-    @FXML
-    Text user_name;
+    VBox modify_info_box;
 
     @FXML
     ImageView view_btn, add_btn, remove_btn, modify_btn, kiosk_btn, batch_btn;
