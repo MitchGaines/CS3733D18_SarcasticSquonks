@@ -138,7 +138,6 @@ public class HomePageMapController {
                 distance = new_dist;
             }
         }
-        System.out.println("navigating to: " + best_node.getNodeID() + " at: " + best_node.getXCoord() + ", " + best_node.getYCoord());
         SearchAlgorithm alg;
         int select = AdminSpecialOptionsController.getChoosenAlg();
         if (select == 1) {
