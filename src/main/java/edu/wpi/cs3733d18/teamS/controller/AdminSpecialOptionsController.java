@@ -106,7 +106,25 @@ public class AdminSpecialOptionsController{
      * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onModifyMapClick(ActionEvent event) throws IOException {
-        Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
+        ModifyMapController mmc = (ModifyMapController) Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
+        mmc.setUp(user, page);
+
+    }
+
+    private User user;
+    private String page;
+
+    private void setUser(User user) {
+        this.user = user;
+    }
+
+    private void setPage(String page) {
+        this.page = page;
+    }
+
+    public void setUp(User user, String page) {
+        setUser(user);
+        setPage(page);
     }
 
     /**
