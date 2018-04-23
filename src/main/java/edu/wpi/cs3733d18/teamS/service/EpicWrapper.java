@@ -11,10 +11,9 @@ import java.io.ObjectOutputStream;
 
 public class EpicWrapper {
 
-    private static FhirContext fhir_ctx = FhirContext.forDstu3();
+    private FhirContext fhir_ctx = FhirContext.forDstu3();
 
-    public static byte[] createEpicService(ServiceRequest sr){
-
+    public void createEpicService(ServiceRequest sr){
         StringBuilder description = new StringBuilder();
         Task hl7_task = new Task();
         byte[] hl7_task_b = new byte[10];
@@ -31,7 +30,7 @@ public class EpicWrapper {
                 .append(sr.getDescription());
 
         hl7_task.setStatus(Task.TaskStatus.REQUESTED);
-        hl7_task.setDescription(description.toString());
+        hl7_task.setDescription(description);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput out = null;
