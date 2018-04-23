@@ -44,6 +44,7 @@ import java.util.stream.Stream;
 
 /**
  * Controller for the homepage.
+ *
  * @author Matthew McMillan
  * @author Mitch Gaines
  * @author Joe Turcotte
@@ -109,6 +110,8 @@ public class HomePageController {
     JFXButton INFO;
     @FXML
     JFXToggleButton stairs_toggle;
+    @FXML
+    JFXButton map;
 
     /**
      * Stores the LoginHandler.
@@ -122,6 +125,7 @@ public class HomePageController {
 
     /**
      * Retrieves whether or not stairs are included.
+     *
      * @return The boolean value of include_stairs.
      */
     public static boolean includeStairs() {
@@ -130,6 +134,7 @@ public class HomePageController {
 
     /**
      * Sets the Kiosk's default location.
+     *
      * @param kioskDefaultLocation the default location for the kiosk.
      */
     public static void setKioskDefaultLocation(String kioskDefaultLocation) {
@@ -243,6 +248,7 @@ public class HomePageController {
     /**
      * Sets start_loc and end_loc to the values selected in the combobox, then switches view to
      * PathfindPage, initializing PathfindController.
+     *
      * @param event the click of the mouse on the button.
      * @throws IOException
      */
@@ -276,7 +282,7 @@ public class HomePageController {
         }
         Pathfinder finder = new Pathfinder(alg);
         finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
-        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
         Map.path = finder.pathfinder_path;
@@ -285,6 +291,7 @@ public class HomePageController {
 
     /**
      * Does the Quick location pathfinding and displays a message if the user is already at the quick location area.
+     *
      * @param event Clicking the button.
      * @throws IOException
      */
@@ -303,7 +310,7 @@ public class HomePageController {
         Pathfinder quick_finder = new Pathfinder(new Dijkstras());
         quick_finder.findShortestPath(combobox_start.getValue().getNodeID(), button.getId());
         Path path = quick_finder.pathfinder_path;
-        if(path.getAStarNodePath().size() <= 1){
+        if (path.getAStarNodePath().size() <= 1) {
             return;
         }
         Map.path = path;
@@ -318,6 +325,7 @@ public class HomePageController {
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
      * in the edit field as a substring.
+     *
      * @param e KeyEvent representing the key that was typed.
      */
     @FXML
@@ -363,6 +371,7 @@ public class HomePageController {
 
     /**
      * Tests to try out different users.
+     *
      * @param event The click.
      * @throws IOException the exception thrown when the program fails to read or write a file.
      */
@@ -383,6 +392,10 @@ public class HomePageController {
         } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
+    }
+
+    public void onMapClick() {
+        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
     }
 
     //PART OF THE USER TEST
