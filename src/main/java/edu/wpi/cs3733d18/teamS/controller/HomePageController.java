@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
-import edu.wpi.cs3733d18.teamS.user.InvalidPasswordException;
 import edu.wpi.cs3733d18.teamS.user.InvalidUsernameException;
 import edu.wpi.cs3733d18.teamS.user.LoginHandler;
 import edu.wpi.cs3733d18.teamS.user.User;
@@ -16,26 +15,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.stream.Stream;
 
 /**
  * Controller for the homepage.
@@ -116,14 +104,14 @@ public class HomePageController {
     private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
 
     /**
-     * Stores the AutocompleteComboBox associated with the start location ComboBox.
+     * Stores the FuzzyComboBox associated with the start location ComboBox.
      */
-    private AutocompleteComboBox<edu.wpi.cs3733d18.teamS.data.Node> auto_combobox_start;
+    private FuzzyComboBox auto_combobox_start;
 
     /**
-     * Stores the AutocompleteComboBox associated with the end location ComboBox.
+     * Stores the FuzzyComboBox associated with the end location ComboBox.
      */
-    private AutocompleteComboBox<edu.wpi.cs3733d18.teamS.data.Node> auto_combobox_end;
+    private FuzzyComboBox auto_combobox_end;
 
     /**
      * Retrieves whether or not stairs are included.
@@ -146,7 +134,7 @@ public class HomePageController {
 //    }
 
     public void setEnd(String node_id) {
-        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id).toString());
     }
 
     /**
@@ -177,8 +165,8 @@ public class HomePageController {
             }
         }
 
-        auto_combobox_start = new AutocompleteComboBox<>(combobox_start, locations);
-        auto_combobox_end = new AutocompleteComboBox<>(combobox_end, locations);
+        auto_combobox_start = new FuzzyComboBox(combobox_start, locations);
+        auto_combobox_end = new FuzzyComboBox(combobox_end, locations);
         combobox_start.setValue(locations.get(default_index).toString());
 
         loginHandler = new LoginHandler();
@@ -229,16 +217,6 @@ public class HomePageController {
             alert.showAndWait();
         }
         include_stairs = stairs_toggle.isSelected();
-        Window window = main_pane.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/PathfindPage.fxml"), AllText.getBundle());
-        Parent pathfind_parent = loader.load();
-        PathfindController pathfind_ctrl = loader.getController();
-        pathfind_ctrl.doPathfinding(auto_combobox_start.getValue().getNodeID(), auto_combobox_end.getValue().getNodeID());
-        if (PathfindController.isPathfindReady()) {
-            Stage pathfind_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            pathfind_stage.setTitle("Pathfinder");
-
-            Scene pathfind_parent_scene = new Scene(pathfind_parent, window.getWidth(), window.getHeight());
 
         SearchAlgorithm alg;
         int select = AdminSpecialOptionsController.getChoosenAlg();
@@ -252,7 +230,7 @@ public class HomePageController {
             alg = new AStar();
         }
         Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), auto_combobox_end.getValue().getNodeID());
         if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
             return;
         }
@@ -290,8 +268,6 @@ public class HomePageController {
     @FXML
     void onAboutClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
-    }
-
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
