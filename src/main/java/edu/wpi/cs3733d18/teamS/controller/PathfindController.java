@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -22,6 +23,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
@@ -108,7 +110,7 @@ public class PathfindController {
     HBox directions_box;
 
     @FXML
-    VBox  direct_list;
+    VBox direct_list;
 
     @FXML
     ScrollPane directions_pane;
@@ -187,6 +189,7 @@ public class PathfindController {
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
+        map_anchor_pane.getChildren().add(map.getPath().getFullPathPolyline(map.is_3D));
         updateMap(map.thisStep(map.is_3D));
         if (map.getPath().path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);
@@ -307,7 +310,7 @@ public class PathfindController {
         double desired_y = poly_y + (poly_height / 2);
         desired_x = p.getPoints().get(0);
         desired_y = p.getPoints().get(1);
-        if(map.is_3D){
+        if (map.is_3D) {
             desired_y += 400;
         }
 
@@ -332,8 +335,26 @@ public class PathfindController {
         Image m = getFloorImage(current_floor, in3DMode);
         map_img.setImage(m);
         map.clearIcons();
-        fitToPath(nodes);
+        //set click method calling
+        for (Node a_node : nodes) {
+            if (a_node.getId().equals("next_icon")) {
+                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        onNextClick();
+                    }
+                });
+            } else if(a_node.getId().equals("prev_icon")){
+                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        onPrevClick();
+                    }
+                });
+            }
+        }
         map_anchor_pane.getChildren().addAll(nodes);
+        fitToPath(nodes);
         step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
