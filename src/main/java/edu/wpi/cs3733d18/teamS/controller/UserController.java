@@ -65,6 +65,14 @@ public class UserController {
         }
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
     public void setUp(User user, String page) {
         setUser(user);
         setPage(page);
@@ -107,9 +115,7 @@ public class UserController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
         Parent root = loader.load();
         LogController log_controller = loader.getController();
-        log_controller.setUser(user);
-        //log_controller.setReturnPage(page);
-        log_controller.setUser(user);
+        log_controller.setUp(user, page);
         log_controller.populateTable();
         main_pane.setCenter(root);
     }
