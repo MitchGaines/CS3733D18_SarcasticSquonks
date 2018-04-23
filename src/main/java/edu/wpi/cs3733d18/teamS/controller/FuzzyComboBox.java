@@ -1,23 +1,13 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import com.sun.javafx.scene.control.behavior.ComboBoxBaseBehavior;
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class FuzzyComboBox {
