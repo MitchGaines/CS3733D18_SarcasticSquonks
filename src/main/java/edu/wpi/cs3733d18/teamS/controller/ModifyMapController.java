@@ -30,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -146,6 +147,9 @@ public class ModifyMapController {
     @FXML
     Text user_name;
 
+    @FXML
+    Circle add_btn, remove_btn;
+
     /**
      * Stores a color code.
      */
@@ -197,6 +201,12 @@ public class ModifyMapController {
 
         scroll_pane.setVvalue(0.5);
         scroll_pane.setHvalue(0.25);
+
+        Image add_img = new Image("images/add.jpg");
+        Image remove_img = new Image("images/remove.png");
+
+        add_btn.setFill(new ImagePattern(add_img));
+        remove_btn.setFill(new ImagePattern(remove_img));
 
         edges_to_delete = new HashMap<>();
         entry_to_delete = new HashMap<>();
