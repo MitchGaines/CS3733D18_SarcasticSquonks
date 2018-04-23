@@ -8,6 +8,7 @@ import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import pointConverter.TeamD.API.PointConverter;
 
+import java.awt.*;
 import java.util.List;
 
 public class Node3DPredictor implements Runnable {
@@ -17,14 +18,13 @@ public class Node3DPredictor implements Runnable {
             .addLayer(2, 8, new ReLU())
             .addLayer(8, 2, new Linear())
             .build();
-    private PointConverter affine_transform = new PointConverter();
 
     public Matrix getNeuralNetPrediction(int x, int y){
         return nn.predict((x + 10) / 5000.0, (y + 30) / 3400.0);
     }
 
     public double[] getAffinePrediction(int x, int y, String floor){
-        return affine_transform.convertTo3D(x, y, floor);
+        return PointConverter.convertTo3D(x, y, floor);
     }
 
     @Override
@@ -145,42 +145,11 @@ public class Node3DPredictor implements Runnable {
         nn.fit(input_data, output_data, 0.0001, 500);
 
 
-
-        affine_transform.addTransform("L2"
-                , l2_affine_nodes_2d[0], l2_affine_nodes_2d[1]
-                , l2_affine_nodes_2d[2], l2_affine_nodes_2d[3]
-                , l2_affine_nodes_2d[4], l2_affine_nodes_2d[5]
-                , l2_affine_nodes_3d[0], l2_affine_nodes_3d[1]
-                , l2_affine_nodes_3d[2], l2_affine_nodes_3d[3]
-                , l2_affine_nodes_3d[4], l2_affine_nodes_3d[5]);
-        affine_transform.addTransform("L1"
-                , l1_affine_nodes_2d[0], l1_affine_nodes_2d[1]
-                , l1_affine_nodes_2d[2], l1_affine_nodes_2d[3]
-                , l1_affine_nodes_2d[4], l1_affine_nodes_2d[5]
-                , l1_affine_nodes_3d[0], l1_affine_nodes_3d[1]
-                , l1_affine_nodes_3d[2], l1_affine_nodes_3d[3]
-                , l1_affine_nodes_3d[4], l1_affine_nodes_3d[5]);
-        affine_transform.addTransform("1"
-                , m1_affine_nodes_2d[0], m1_affine_nodes_2d[1]
-                , m1_affine_nodes_2d[2], m1_affine_nodes_2d[3]
-                , m1_affine_nodes_2d[4], m1_affine_nodes_2d[5]
-                , m1_affine_nodes_3d[0], m1_affine_nodes_3d[1]
-                , m1_affine_nodes_3d[2], m1_affine_nodes_3d[3]
-                , m1_affine_nodes_3d[4], m1_affine_nodes_3d[5]);
-        affine_transform.addTransform("2"
-                , m2_affine_nodes_2d[0], m2_affine_nodes_2d[1]
-                , m2_affine_nodes_2d[2], m2_affine_nodes_2d[3]
-                , m2_affine_nodes_2d[4], m2_affine_nodes_2d[5]
-                , m2_affine_nodes_3d[0], m2_affine_nodes_3d[1]
-                , m2_affine_nodes_3d[2], m2_affine_nodes_3d[3]
-                , m2_affine_nodes_3d[4], m2_affine_nodes_3d[5]);
-        affine_transform.addTransform("3"
-                , m3_affine_nodes_2d[0], m3_affine_nodes_2d[1]
-                , m3_affine_nodes_2d[2], m3_affine_nodes_2d[3]
-                , m3_affine_nodes_2d[4], m3_affine_nodes_2d[5]
-                , m3_affine_nodes_3d[0], m3_affine_nodes_3d[1]
-                , m3_affine_nodes_3d[2], m3_affine_nodes_3d[3]
-                , m3_affine_nodes_3d[4], m3_affine_nodes_3d[5]);
+        PointConverter.addTransform("Lower Level Two", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2225, 1588, 1687, 1006, 2511);
+        PointConverter.addTransform("Lower Level One", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2199, 1572, 1651, 1006, 2475);
+        PointConverter.addTransform("First Floor", 990, 2843, 1486, 1241, 3386, 535, 593, 2123, 1459, 1396, 3092, 1517);
+        PointConverter.addTransform("Second Floor", 981, 2514, 1761, 1498, 4833, 846, 730, 1920, 1534, 1558, 4039, 2052);
+        PointConverter.addTransform("Third Floor", 4735, 1160, 1100, 1496, 1705, 3064, 3872, 2174, 1104, 1351, 1016, 2310);
     }
 
     public void start(Storage _storage){
