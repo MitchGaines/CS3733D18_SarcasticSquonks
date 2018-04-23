@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kylecorry.lann.NN;
 import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
@@ -11,6 +12,9 @@ import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,8 +25,10 @@ import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
-import javafx.scene.effect.Glow;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -38,7 +44,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -124,7 +132,7 @@ public class ModifyMapController {
     TextField building_change;
 
     @FXML
-    TextArea long_name_change, short_name_change;
+    JFXTextArea long_name_change, short_name_change;
 
     @FXML
     JFXComboBox loc_type, choose_floor, loc_type_change;
@@ -199,16 +207,13 @@ public class ModifyMapController {
 
     private String cur_action = "View Map";
     private ImageView cur_icon;
-    Glow glow;
 
     /**
      * Initializes the scene.
      */
     @FXML
     private void initialize() {
-        glow = new Glow();
         cur_icon = view_btn;
-        cur_icon.setEffect(glow);
         first_click = true;
 
         zoom_factor = 1;
@@ -288,11 +293,26 @@ public class ModifyMapController {
             locations.put(list_type.get(i), short_name.get(i));
         }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        time.setText(dtf.format(now));
+        updatedTime();
 
         predictor.start(storage);
+    }
+
+    /**
+     * Updates clock to live time
+     */
+    public void updatedTime() {
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+
+            time.setText(dtf.format(now));
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
     /**
