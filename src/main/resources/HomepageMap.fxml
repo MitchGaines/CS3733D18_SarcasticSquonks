@@ -2,8 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageMapController">
    <center>
@@ -30,11 +32,6 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
-            <Slider fx:id="zoom_scroll" maxWidth="-Infinity" prefWidth="200.0">
-               <StackPane.margin>
-                  <Insets left="20.0" top="20.0" />
-               </StackPane.margin>
-            </Slider>
             <GridPane fx:id="button_pane" alignment="CENTER_RIGHT" maxHeight="400.0" maxWidth="100.0" StackPane.alignment="CENTER_RIGHT">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -47,11 +44,11 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <JFXButton fx:id="floor_4" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #4059a9; -fx-font-size: 30;" text="3" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <JFXButton fx:id="floor_3" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #4059a9; -fx-font-size: 30;" text="2" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <JFXButton fx:id="floor_2" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #4059a9; -fx-font-size: 30;" text="1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <JFXButton fx:id="floor_1" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #4059a9; -fx-font-size: 30;" text="L1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                  <JFXButton fx:id="floor_0" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: #4059a9; -fx-font-size: 30;" text="L2" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <JFXButton fx:id="floor_4" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="3" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <JFXButton fx:id="floor_3" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="2" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <JFXButton fx:id="floor_2" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <JFXButton fx:id="floor_1" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="L1" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                  <JFXButton fx:id="floor_0" alignment="CENTER" buttonType="RAISED" onAction="#onFloorClick" opacity="0.9" prefHeight="60.0" prefWidth="80.0" style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="L2" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                </children>
                <StackPane.margin>
                   <Insets bottom="50.0" right="30.0" top="50.0" />
@@ -63,15 +60,40 @@
    <bottom>
       <BorderPane maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
          <center>
-            <GridPane BorderPane.alignment="CENTER">
+            <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: #ffffff;" text="%map_instructions" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="40.0" />
+                     </font>
+                  </Text>
+               </children>
             </GridPane>
          </center>
       </BorderPane>
    </bottom>
+   <top>
+      <BorderPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;">
+         <left>
+            <Label fx:id="time" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </left>
+         <right>
+            <JFXButton fx:id="back_button" buttonType="RAISED" onAction="#onBackButtonClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%home" BorderPane.alignment="CENTER_RIGHT">
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+            </JFXButton>
+         </right>
+      </BorderPane>
+   </top>
 </BorderPane>

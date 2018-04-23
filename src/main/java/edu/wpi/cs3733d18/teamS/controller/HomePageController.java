@@ -395,17 +395,7 @@ public class HomePageController {
     }
 
     public void onMapClick() {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("HomepageMap.fxml"), AllText.getBundle());
-            Stage stage = new Stage();
-            stage.setTitle("Map For Directions");
-            stage.setScene(new Scene(root, 1200, 800));
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
     }
 
     //PART OF THE USER TEST
