@@ -1,7 +1,6 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.data.Node;
-import edu.wpi.cs3733d18.teamS.database.Storage;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
