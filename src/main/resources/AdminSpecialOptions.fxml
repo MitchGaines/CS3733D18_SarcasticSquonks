@@ -3,9 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -151,9 +149,6 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <JFXComboBox fx:id="ports" promptText="Ports" />
-                  <Label fx:id="ms_output" text="MS Output" />
-                  <JFXToggleButton fx:id="motion_sensor" onAction="#motion_sensor_change" prefHeight="39.0" prefWidth="183.0" size="12.0" text="Motion Sensor" />
                   <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%it_request" />
                </children>
             </HBox>
