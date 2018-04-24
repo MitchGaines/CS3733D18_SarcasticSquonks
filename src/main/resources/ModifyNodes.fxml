@@ -304,6 +304,11 @@
                         <Font size="23.0" />
                     </font>
                 </JFXToggleButton>
+                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="NN/Affine" toggleColor="#999999" toggleLineColor="#4863a0">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </JFXToggleButton>
                </children>
                <StackPane.margin>
                   <Insets left="-55.0" />

@@ -53,6 +53,8 @@ import java.util.Map;
 
 import pointConverter.TeamD.API.PointConverter;
 
+import pointConverter.TeamD.API.PointConverter;
+
 /**
  * Controller for modifying the map and methods related to it.
  *
@@ -118,7 +120,7 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D, toggleNN, node_edge_select;
+    JFXToggleButton toggle3D;
 
     @FXML
     Label time;
@@ -203,6 +205,11 @@ public class ModifyMapController {
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
+
+    /**
+     * toggles use of neural net or affine transform
+     */
+    private boolean predict_nn = true;
 
     /**
      * toggles use of neural net or affine transform
@@ -1097,7 +1104,7 @@ public class ModifyMapController {
     private void clickOptionAddLocation(MouseEvent click) {
         node_or_edge.setVisible(false);
         Scene scene = add_loc.getScene();
-
+        int x_3d = 1;
         int x_3d = 1;
         int y_3d = 1;
         if(predict_nn){
