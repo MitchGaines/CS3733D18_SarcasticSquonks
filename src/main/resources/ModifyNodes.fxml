@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
@@ -38,98 +39,168 @@
                     </padding>
                 </HBox>
             </right>
+         <center>
+            <HBox alignment="CENTER" fillHeight="false" maxHeight="50.0" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="2D" textFill="WHITE">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </Label>
+                      <JFXToggleButton fx:id="toggle3D" alignment="BOTTOM_CENTER" onAction="#on3DToggle" prefHeight="25.0" prefWidth="118.0" text="3D" textFill="WHITE" toggleColor="#fafafa" toggleLineColor="#999999">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="-10.0" left="-10.0" top="-10.0" />
+                     </HBox.margin>
+                  </JFXToggleButton>
+               </children>
+            </HBox>
+         </center>
         </BorderPane>
     </top>
-    <center>
-        <ScrollPane fx:id="scroll_pane" pannable="true" prefHeight="690.0" prefWidth="900.0" BorderPane.alignment="CENTER">
-            <content>
-                <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" onMouseClicked="#onMouseClick">
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+              <ScrollPane fx:id="scroll_pane" pannable="true" prefHeight="690.0" prefWidth="900.0">
+                  <content>
+                      <AnchorPane fx:id="pane" minHeight="0.0" minWidth="0.0" onMouseClicked="#onMouseClick">
+                          <children>
+                              <ImageView fx:id="map" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@images/2dMaps/01_thefirstfloor.png" />
+                                  </image>
+                              </ImageView>
+                          </children>
+                      </AnchorPane>
+                  </content>
+              </ScrollPane>
+                <StackPane alignment="TOP_CENTER" maxHeight="371.0" maxWidth="240.0" prefHeight="371.0" prefWidth="240.0" StackPane.alignment="TOP_LEFT">
                     <children>
-                        <ImageView fx:id="map" fitHeight="3400.0" fitWidth="5000.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@images/2dMaps/01_thefirstfloor.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </AnchorPane>
-            </content>
-            <BorderPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </BorderPane.margin>
-        </ScrollPane>
-    </center>
-    <right>
-        <VBox alignment="TOP_CENTER" prefHeight="740.0" prefWidth="242.0" spacing="30.0" BorderPane.alignment="CENTER">
-            <children>
-                <JFXComboBox fx:id="location_or_path" focusColor="#4863a0" onAction="#onChooseAction" promptText="%location_or_path" style="-fx-font-size: 23;" />
-                <StackPane prefHeight="150.0" prefWidth="200.0">
-                    <children>
-                        <VBox fx:id="add_node_box" alignment="CENTER" prefHeight="389.0" prefWidth="242.0" spacing="15.0" visible="false">
+                        <VBox fx:id="add_node_box" alignment="TOP_CENTER" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
-                                <JFXTextField fx:id="building" alignment="CENTER" focusColor="#4863a0" promptText="%building">
+                                <JFXTextField fx:id="building" alignment="CENTER" focusColor="#4863a0" promptText="%building" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
-                                <JFXComboBox fx:id="loc_type" focusColor="#4863a0" promptText="%location_type" style="-fx-font-size: 23;" />
-                                <JFXTextField fx:id="long_name" alignment="CENTER" focusColor="#4863a0" promptText="%long_name">
+                                <JFXComboBox fx:id="loc_type" focusColor="#4863a0" promptText="%location_type" style="-fx-font-size: 23; -fx-background-color: #ffffff;">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXComboBox>
+                                <JFXTextField fx:id="long_name" alignment="CENTER" focusColor="#4863a0" promptText="%long_name" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="short_name" alignment="CENTER" focusColor="#4863a0" promptText="%short_name">
+                                <JFXTextField fx:id="short_name" alignment="CENTER" focusColor="#4863a0" promptText="%short_name" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
                                 <JFXButton fx:id="add_loc" buttonType="RAISED" onAction="#onAddLocClick" style="-fx-background-color: #B7B8B6;" text="%add_location">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
                                 </JFXButton>
-                                <JFXButton fx:id="add_loc_cancel" buttonType="RAISED" onAction="#onAddLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge" visible="false" />
-                                <Label fx:id="add_loc_fail" textFill="RED" />
+                                <JFXButton fx:id="add_loc_cancel" buttonType="RAISED" onAction="#onAddLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </JFXButton>
                             </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                         </VBox>
-                        <VBox fx:id="add_edge_box" alignment="CENTER" spacing="20.0" visible="false">
+                        <VBox fx:id="add_edge_box" alignment="TOP_CENTER" maxHeight="265.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
-                                <JFXTextField fx:id="location_one" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one">
+                                <JFXTextField fx:id="location_one" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
-                                <JFXTextField fx:id="location_two" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_two">
+                                <JFXTextField fx:id="location_two" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_two" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
-                                <JFXButton fx:id="add_edge" buttonType="RAISED" onAction="#onAddEdgeClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%add_edge" />
-                                <JFXButton fx:id="cancel_edge" buttonType="RAISED" onAction="#onCancelEdgeClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge" />
+                                <JFXButton fx:id="add_edge" buttonType="RAISED" onAction="#onAddEdgeClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%add_edge">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXButton>
+                                <JFXButton fx:id="cancel_edge" buttonType="RAISED" onAction="#onCancelEdgeClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXButton>
                             </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                         </VBox>
-                        <VBox fx:id="delete_loc_box" alignment="CENTER" spacing="20.0" visible="false">
+                        <VBox fx:id="delete_loc_box" alignment="TOP_CENTER" maxHeight="190.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
-                                <JFXTextField fx:id="location_to_delete" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one">
+                                <JFXTextField fx:id="location_to_delete" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one" style="-fx-background-color: #ffffff;">
                                     <font>
                                         <Font size="23.0" />
                                     </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                                 </JFXTextField>
-                                <JFXButton fx:id="delete_loc" buttonType="RAISED" onAction="#onDeleteLocClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%delete_location" />
-                                <JFXButton fx:id="cancel_delete" buttonType="RAISED" onAction="#onDeleteLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge" />
+                                <JFXButton fx:id="delete_loc" buttonType="RAISED" onAction="#onDeleteLocClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%delete_location">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXButton>
+                                <JFXButton fx:id="cancel_delete" buttonType="RAISED" onAction="#onDeleteLocCancelClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%cancel_edge">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXButton>
                             </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                         </VBox>
-                  <VBox fx:id="delete_edge_box" alignment="CENTER" spacing="20.0" visible="false">
+                  <VBox fx:id="delete_edge_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                      <children>
-                        <JFXButton fx:id="delete_edge" buttonType="RAISED" onAction="#onDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Delete Edges" />
+                        <JFXButton fx:id="delete_edge" buttonType="RAISED" onAction="#onDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Delete Edges">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></JFXButton>
                         <JFXButton fx:id="cancel_delete_edge" buttonType="RAISED" onAction="#onCancelDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
                      </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </VBox>
-                  <VBox fx:id="batch_disable_box" alignment="CENTER" spacing="20.0" visible="false">
+                  <VBox fx:id="batch_disable_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                       <children>
                           <JFXButton fx:id="disable_selection" buttonType="RAISED" onAction="#disableNodesInPolygon" style="-fx-background-color: #B7B8B6;" text="%disable_location">
                               <font>
                                   <Font size="23.0" />
                               </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                           </JFXButton>
                           <JFXButton fx:id="enable_selection" buttonType="RAISED" onAction="#enableNodesInPolygon" style="-fx-background-color: #B7B8B6;" text="%enable_location">
                               <font>
@@ -137,31 +208,147 @@
                               </font>
                           </JFXButton>
                       </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </VBox>
-                        <VBox fx:id="modify_loc_box" alignment="CENTER" spacing="20.0" visible="false">
+                        <VBox fx:id="modify_loc_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
-                                <JFXButton fx:id="confirm_new_loc" buttonType="RAISED" onAction="#onConfirmMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Confirm" />
+                                <JFXButton fx:id="confirm_new_loc" buttonType="RAISED" onAction="#onConfirmMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Confirm">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></JFXButton>
                                 <JFXButton fx:id="cancel_move" buttonType="RAISED" onAction="#onCancelMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Cancel" />
                             </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                         </VBox>
-                        <JFXTextField fx:id="kiosk_location_name" alignment="CENTER" focusColor="#4863a0" promptText="%location" visible="false">
+                  <VBox fx:id="modify_info_box" alignment="TOP_CENTER" maxHeight="400.0" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                     <children>
+                        <JFXTextField fx:id="building_change" alignment="CENTER" focusColor="#4863a0" promptText="%building" style="-fx-background-color: #ffffff;">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="loc_type_change" focusColor="#4863a0" promptText="%location_type" style="-fx-font-size: 23; -fx-background-color: #ffffff;">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin></JFXComboBox>
+                        <JFXTextArea fx:id="long_name_change" promptText="No Long Name" style="-fx-background-color: #ffffff;">
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </JFXTextArea>
+                        <JFXTextArea fx:id="short_name_change" promptText="No Short Name" style="-fx-background-color: #ffffff;">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </JFXTextArea>
+                        <JFXButton fx:id="confirm_change" buttonType="RAISED" onAction="#onChangeInfoConfirm" style="-fx-background-color: #B7B8B6;" text="%confirm">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                  </VBox>
+                        <JFXTextField fx:id="kiosk_location_name" alignment="CENTER" focusColor="#4863a0" promptText="%location" style="-fx-background-color: #ffffff;" visible="false">
                             <font>
                                 <Font size="23.0" />
                             </font>
+                     <StackPane.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </StackPane.margin>
                         </JFXTextField>
+                      <JFXButton fx:id="confirm_3d" buttonType="RAISED" onAction="#onConfirm3dClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%confirm_coord" visible="false" />
                     </children>
+               <StackPane.margin>
+                  <Insets left="10.0" top="10.0" />
+               </StackPane.margin>
                 </StackPane>
-                <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23;" />
-                <JFXButton fx:id="confirm_3d" buttonType="RAISED" onAction="#onConfirm3dClick" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="%confirm_coord" visible="false" />
-                <JFXToggleButton fx:id="toggle3D" alignment="BOTTOM_CENTER" onAction="#on3DToggle" text="3D" toggleColor="#999999" toggleLineColor="#4863a0">
-               <font>
-                  <Font size="23.0" />
-               </font>
-            </JFXToggleButton>
-            </children>
-            <BorderPane.margin>
-                <Insets left="10.0" right="10.0" top="10.0" />
-            </BorderPane.margin>
-        </VBox>
-    </right>
+            <HBox fx:id="node_or_edge" alignment="TOP_CENTER" maxHeight="62.0" maxWidth="160.0" prefHeight="62.0" prefWidth="121.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Node">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="22.0" />
+                     </HBox.margin>
+                  </Label>
+                  <JFXToggleButton fx:id="node_edge_select" alignment="BOTTOM_CENTER" onAction="#onNodeEdgeClick" text="Edge" toggleColor="#fafafa" toggleLineColor="#999999">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="-10.0" right="-10.0" />
+                     </HBox.margin>
+                  </JFXToggleButton>
+               </children>
+               <StackPane.margin>
+                  <Insets left="-55.0" />
+               </StackPane.margin>
+            </HBox>
+            <HBox alignment="BOTTOM_CENTER" maxHeight="50.0" maxWidth="100.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #4863A080;" StackPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <ImageView fx:id="view_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onViewIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/view.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="add_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onAddIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/add.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="remove_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onRemoveIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/remove.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="modify_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onModifyIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/edit.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="kiosk_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onKioskIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/kiosk.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="batch_btn" fitHeight="70.0" fitWidth="70.0" onMouseClicked="#onPolygonIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/modifyIcons/batch.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets bottom="8.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="20.0" />
+               </StackPane.margin>
+            </HBox>
+                <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23; -fx-text-color: #ffffff;" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="18.0" left="10.0" />
+               </StackPane.margin></JFXComboBox>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>
