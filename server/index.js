@@ -19,8 +19,6 @@ app.use(body_parser.xml({
 }));
 app.set('view engine', 'ejs');
 
-var xml_list = {};
-
 app.get('/:steps', function(req, res){
   var path = "";
   var steps_list = req.params.steps;
