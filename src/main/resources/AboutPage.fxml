@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.Separator?>
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AboutPageController">
     <center>
         <StackPane fx:id="stack_pane" prefHeight="650.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
@@ -24,28 +23,16 @@
                         <Insets top="30.0" />
                     </StackPane.margin>
                 </ImageView>
-                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="25.0" >
+                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="25.0">
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
-                        <HBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="200.0" >
+                        <HBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="200.0">
                             <VBox.margin>
                                 <Insets top="-20.0" />
                             </VBox.margin>
                             <children>
-                                <JFXListView fx:id="names_list" minHeight="373.0" prefWidth="220.0" minWidth="180.0" />
-                                <JFXListView fx:id="positions_list" minHeight="373.0" prefWidth="220.0" minWidth="190.0" />
-                                <Separator minWidth="50.0" visible="false"/>
-                                <VBox alignment="TOP_CENTER" prefWidth="300" spacing="25.0" >
-                                    <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="CS 3733 APIs" />
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Prescription Service Request (Team R)" />
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Other ones (other teams)" />
-                                        <Separator/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Other APIs" />
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Automated Calling and Texting (Twillio, Inc.)" />
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Neural Network for 2D to 3D Node Translation (Kyle Corry)" />
-                                    </children>
-                                </VBox>
+                                <JFXListView fx:id="names_list" minHeight="373.0" minWidth="180.0" prefWidth="220.0" />
+                                <JFXListView fx:id="positions_list" minHeight="373.0" minWidth="190.0" prefWidth="220.0" />
                             </children>
                         </HBox>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
@@ -65,6 +52,7 @@
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
             <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Back" />
+            <JFXButton fx:id="creds" onAction="#onCreditsClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Credits" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />

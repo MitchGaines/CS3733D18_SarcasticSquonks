@@ -315,11 +315,6 @@ public class HomePageController {
     void onAboutClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
     }
-    
-    @FXML
-    void onCreditsClick(ActionEvent event) {    // about screen
-        Main.switchScenes("About", "/AboutPage.fxml");
-    }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
 
