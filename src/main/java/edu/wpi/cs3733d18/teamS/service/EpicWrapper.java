@@ -1,7 +1,6 @@
 package edu.wpi.cs3733d18.teamS.service;
 
 import ca.uhn.fhir.context.FhirContext;
-import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Task;
 
 import java.io.ByteArrayOutputStream;
@@ -11,9 +10,10 @@ import java.io.ObjectOutputStream;
 
 public class EpicWrapper {
 
-    private FhirContext fhir_ctx = FhirContext.forDstu3();
+    private static FhirContext fhir_ctx = FhirContext.forDstu3();
 
-    public void createEpicService(ServiceRequest sr){
+    public static byte[] createEpicService(ServiceRequest sr){
+
         StringBuilder description = new StringBuilder();
         Task hl7_task = new Task();
         byte[] hl7_task_b = new byte[10];
@@ -46,6 +46,10 @@ public class EpicWrapper {
                 bos.close();
             } catch (IOException ex) {
                 System.out.println("Unable to clse ByteArrayOutputStream");
+            }
+        }
+
+        return hl7_task_b;
             }
         }
     public ServiceRequest getEpicServiceRequest(){
