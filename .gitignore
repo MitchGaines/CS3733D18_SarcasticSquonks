@@ -20,3 +20,10 @@ csv/mergedNodes_edited.csv
 csv/users_edited.csv
 csv/newNodeFile.csv
 csv/newUsersFile.csv
+edit_edges.csv
+edit_nodes.csv
+EmployeesAPI.csv
+InventoryTableAPI.csv
+RequestsAPI.csv
+RequestTableAPI.csv
+UserAccountTableAPI.csv
