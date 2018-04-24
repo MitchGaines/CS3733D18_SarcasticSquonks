@@ -114,7 +114,8 @@ public class HomePageController {
     JFXToggleButton stairs_toggle;
     @FXML
     ImageView minimap;
-
+    @FXML
+    JFXButton map;
     @FXML
     Text use_map;
 
@@ -324,6 +325,11 @@ public class HomePageController {
 
     @FXML
     void onAboutClick(ActionEvent event) {    // about screen
+        Main.switchScenes("About", "/AboutPage.fxml");
+    }
+
+    @FXML
+    void onCreditsClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
     }
 

@@ -1,16 +1,14 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
-import com.kylecorry.lann.NN;
-import com.kylecorry.lann.PersistentMachineLearningAlgorithm;
-import com.kylecorry.lann.activation.Linear;
-import com.kylecorry.lann.activation.ReLU;
 import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,13 +32,15 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Controller for modifying the map and methods related to it.
@@ -64,83 +65,85 @@ import java.util.Map;
  */
 public class ModifyMapController {
 
+
+    /**
+     * Stores a Circle for moving nodes.
+     */
+    Circle to_move = new Circle();
     /**
      * Stores a double for the zoom factor.
      */
     private double zoom_factor;
-
     /**
      * A HashMap with Nodes for keys and Circles for values to represent the node list.
      */
     private HashMap<edu.wpi.cs3733d18.teamS.data.Node, Circle> nodes_list;
-
     /**
      * A HashMap with Edges for keys and Lines for values to represent the edge list.
      */
     private HashMap<edu.wpi.cs3733d18.teamS.data.Edge, Line> edge_list;
-
     /**
      * The database storage.
      */
     private Storage storage;
-
     /**
      * Stores a HashMap with Strings as the value and key to represent the locations.
      */
     private HashMap<String, String> locations;
-
     /**
      * Stores a HashMap with Strings as the value and key to represent the floor map.
      */
     private HashMap<String, String> floor_map;
-
     private edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
-
     private edu.wpi.cs3733d18.teamS.data.Node new_node;
+
+    private Node changing_node;
 
     /**
      * Stores a HashMap with Edges for the Key and Lines for the value to represent the edges to be deleted.
      */
     private HashMap<Edge, Line> edges_to_delete;
-
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent nodes to move.
      */
     private HashMap<Node, Circle> nodes_to_move;
-
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent moved nodes.
      */
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D;
+    JFXToggleButton toggle3D, toggleNN, node_edge_select;
 
     @FXML
-    Label add_loc_fail, time;
+    Label time;
 
     @FXML
     TextField building, long_name, short_name, kiosk_location_name, location_one, location_two, location_to_delete, kiosk_location;
 
     @FXML
-    JFXComboBox loc_type, location_or_path, choose_floor;
+    TextField building_change;
 
     @FXML
-    AnchorPane pane;
+    JFXTextArea long_name_change, short_name_change;
 
     @FXML
-    Button add_loc_cancel, add_loc, back_btn;
+    JFXComboBox loc_type_change;
+
+    @FXML
+    Button add_loc_cancel, add_loc, back_btn, confirm_change;
 
     @FXML
     BorderPane main_pane;
 
     @FXML
     ScrollPane scroll_pane;
+
     @FXML
     ImageView map;
 
     @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box;
+    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box, modify_info_box;
 
     @FXML
     Button confirm_3d;
@@ -148,51 +151,65 @@ public class ModifyMapController {
     @FXML
     Text user_name;
 
+    @FXML
+    ImageView view_btn, add_btn, remove_btn, modify_btn, kiosk_btn, batch_btn;
+
+    @FXML
+    HBox node_or_edge, predictor_type;
+
+    @FXML
+    JFXComboBox loc_type, choose_floor;
+
+    @FXML
+    AnchorPane pane;
     /**
      * Stores a color code.
      */
     private Color color = Color.web("#4863A0");
-
     /**
      * Stores a circle for a temporary pin
      */
     private Circle temp_pin;
-
     /**
      * Stores a boolean for the first click
      */
     private Boolean first_click;
-
     /**
      * Stores the node for the first location.
      */
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;
-
     /**
      * Stores the node for the second location.
      */
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
-
     /**
      * Stores a HashMap of Nodes for the Keys and Circles for the Values to represent the entries to delete.
      */
     private HashMap<Node, Circle> entry_to_delete;
-
     /**
      * Stores a new 3d node predictor.
      */
     private Node3DPredictor predictor = new Node3DPredictor();
-
     /**
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
+    private User user;
+    private String page;
 
+    /**
+     * toggles use of neural net or affine transform
+     */
+    private boolean predict_nn = true;
+
+    private String cur_action = "View Map";
+    private ImageView cur_icon;
     /**
      * Initializes the scene.
      */
     @FXML
     private void initialize() {
+        cur_icon = view_btn;
         first_click = true;
 
         zoom_factor = 1;
@@ -208,6 +225,7 @@ public class ModifyMapController {
         ObservableList<String> list_type = FXCollections.observableArrayList();
         list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
         loc_type.setItems(list_type);
+        loc_type_change.setItems(list_type);
 
         //Hashmap for node constructor
         List<String> short_name = new ArrayList<>();
@@ -250,12 +268,6 @@ public class ModifyMapController {
         edge_list = new HashMap<>();
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes(), storage.getAllEdges());
-
-
-        ObservableList<String> lop = FXCollections.observableArrayList();
-        lop.addAll("View Map", "Add Location", "Add Path", "Delete Location", "Delete Path", "Modify Locations", "Set Kiosk Location", "Batch Disable Locations");
-        location_or_path.setItems(lop);
-        location_or_path.getSelectionModel().selectFirst();
 
         list_type = FXCollections.observableArrayList();
         list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
@@ -364,7 +376,14 @@ public class ModifyMapController {
      * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onBackClick(ActionEvent event) throws IOException {
-        Main.switchScenes("User", "/AdminPage.fxml");
+        AdminPageController admin_page = (AdminPageController) Main.switchScenes("User", "/AdminPage.fxml");
+        admin_page.setUp(user, page);
+
+    }
+
+    public void setUp(User user, String page) {
+        this.user = user;
+        this.page = page;
     }
 
     /**
@@ -383,11 +402,8 @@ public class ModifyMapController {
             Image image = circ_cursor.snapshot(sp, null);
 
             scene.setCursor(new ImageCursor(image, 17, 17));
-
-            add_loc_cancel.setVisible(true);
-            add_loc_fail.setText("");
         } else {
-            add_loc_fail.setText("Please fill all fields");
+            //TODO throw error message
         }
     }
 
@@ -397,25 +413,13 @@ public class ModifyMapController {
     public void onAddLocCancelClick() {
         Scene scene = add_loc.getScene();
         scene.setCursor(Cursor.DEFAULT);
-        add_loc_cancel.setVisible(false);
+        setAction("View Map", view_btn);
     }
 
-    /**
-     * Allows the user to choose an action, either add path, add, location, view map, delete location, delete path,
-     * modify location, set the kiosk's default location, or batch disabled locations.
-     */
-    public void onChooseAction() {
-        scroll_pane.setPannable(true);
-        add_edge_box.setVisible(false);
-        add_node_box.setVisible(false);
-        delete_loc_box.setVisible(false);
-        kiosk_location_name.setVisible(false);
-        delete_edge_box.setVisible(false);
-        modify_loc_box.setVisible(false);
-        batch_disable_box.setVisible(false);
-        pane.setOnMouseMoved(null);
-        removePaneChild();
-        switch (location_or_path.getValue().toString()) {
+    private void setAction(String action, ImageView icon_btn) {
+        clearOptions();
+        cur_icon = icon_btn;
+        switch (action) {
             case "Add Path":
                 add_edge_box.setVisible(true);
                 break;
@@ -445,6 +449,70 @@ public class ModifyMapController {
                 geoBlock.setStroke(Color.GREEN);
                 break;
         }
+        cur_action = action;
+    }
+
+    public void onViewIconClick() {
+        setAction("View Map", view_btn);
+    }
+
+    public void onAddIconClick() {
+        cur_icon = add_btn;
+        onNodeEdgeClick();
+    }
+
+    public void onRemoveIconClick() {
+        cur_icon = remove_btn;
+        onNodeEdgeClick();
+    }
+
+    public void onModifyIconClick() {
+        setAction("Modify Locations", modify_btn);
+    }
+
+    public void onKioskIconClick() {
+        setAction("Set Kiosk Location", kiosk_btn);
+    }
+
+    public void onPolygonIconClick() {
+        setAction("Batch Disable Locations", batch_btn);
+    }
+
+    public void onNodeEdgeClick() {
+        if(node_edge_select.isSelected() && cur_icon.equals(add_btn)) {
+            setAction("Add Path", add_btn);
+        } else if (!node_edge_select.isSelected() && cur_icon.equals(add_btn)){
+            setAction("Add Location", add_btn);
+            predictor_type.setVisible(true);
+        } else if(node_edge_select.isSelected() && cur_icon.equals(remove_btn)) {
+            setAction("Delete Path", remove_btn);
+        } else if (!node_edge_select.isSelected() && cur_icon.equals(remove_btn)){
+            setAction("Delete Location", remove_btn);
+        }
+        node_or_edge.setVisible(true);
+    }
+
+    public void clearOptions() {
+        scroll_pane.setPannable(true);
+        add_edge_box.setVisible(false);
+        add_node_box.setVisible(false);
+        delete_loc_box.setVisible(false);
+        kiosk_location_name.setVisible(false);
+        delete_edge_box.setVisible(false);
+        modify_loc_box.setVisible(false);
+        batch_disable_box.setVisible(false);
+        modify_info_box.setVisible(false);
+        pane.setOnMouseMoved(null);
+        add_loc.setVisible(true);
+        removePaneChild();
+        for(Map.Entry<Node, Circle> entry : nodes_list.entrySet()) {
+            entry.getValue().setFill(color);
+        }
+        for(Map.Entry<Edge, Line> entry : edge_list.entrySet()) {
+            entry.getValue().setStroke(Color.BLACK);
+        }
+        node_or_edge.setVisible(false);
+        predictor_type.setVisible(false);
     }
 
     /**
@@ -469,8 +537,13 @@ public class ModifyMapController {
         endAddLoc();
 
         confirm_3d.setVisible(false);
-        choose_floor.setVisible(true);
+        setAction("View Map", view_btn);
     }
+
+    /**
+     * Adds edges, nodes, etc to the map given certain parameters and where the mouse is clicked.
+     * @param click the mouse is clicked.
+     */
 
     /**
      * Returns the file name for the 2d map image.
@@ -501,11 +574,6 @@ public class ModifyMapController {
         }
         return toReturn;
     }
-
-    /**
-     * Adds edges, nodes, etc to the map given certain parameters and where the mouse is clicked.
-     * @param click the mouse is clicked.
-     */
 
     /**
      * Disables the nodes in the highlighted area.
@@ -672,11 +740,6 @@ public class ModifyMapController {
     }
 
     /**
-     * Stores a Circle for moving nodes.
-     */
-    Circle to_move = new Circle();
-
-    /**
      * relocates the nodes when the mouse is released.
      *
      * @param event the mouse is depressed.
@@ -692,7 +755,7 @@ public class ModifyMapController {
      */
     public void drag(MouseEvent event) {
 
-        if (location_or_path.getValue().toString().equals("Modify Locations")) {
+        if (cur_action.equals("Modify Locations")) {
             to_move = (Circle) event.getSource();
             double org_x = to_move.getCenterX();
             double org_y = to_move.getCenterY();
@@ -771,7 +834,7 @@ public class ModifyMapController {
             edge_list.put(line.getKey(), line.getValue());
             line.getValue().setStroke(Color.BLACK);
         }
-        location_or_path.getSelectionModel().selectFirst();
+        onViewIconClick();
         delete_edge_box.setVisible(false);
     }
 
@@ -912,9 +975,9 @@ public class ModifyMapController {
             @Override
             public void handle(MouseEvent click) {
                 if (click.getButton() == MouseButton.SECONDARY) {
-                    System.out.println("Right Click");
+                    rightClick(node, pin);
                 } else {
-                    switch (location_or_path.getValue().toString()) {
+                    switch (cur_action) {
                         case "Add Path":
                             clickOptionAddPath(node, pin);
                             break;
@@ -938,6 +1001,18 @@ public class ModifyMapController {
                 }
             }
         });
+    }
+
+    private void rightClick(Node node, Circle pin) {
+        onViewIconClick();
+        clearOptions();
+        modify_info_box.setVisible(true);
+        pin.setFill(Color.YELLOW);
+        building_change.setText(node.getNodeBuilding());
+        loc_type_change.getSelectionModel().select((Object) node.getNodeType());
+        long_name_change.setText(node.getLongName());
+        short_name_change.setText(node.getShortName());
+        changing_node = node;
     }
 
     private void clickOptionAddPath(Node node, Circle pin) {
@@ -991,9 +1066,9 @@ public class ModifyMapController {
             temp_pin.setStroke(Color.BLACK);
             temp_pin.setStrokeWidth(3);
             pane.getChildren().add(temp_pin);
-        } else if (location_or_path.getValue().toString().equals("Add Location")) {
+        } else if (cur_action.equals("Add Location")) {
             clickOptionAddLocation(click);
-        } else if (location_or_path.getValue().toString().equals("Delete Path")) {
+        } else if (cur_action.equals("Delete Path")) {
             Point2D pt = new Point2D(click.getX(), click.getY());
             for (Map.Entry<Edge, Line> line : edge_list.entrySet()) {
                 if (line.getValue().contains(pt)) {
@@ -1008,7 +1083,7 @@ public class ModifyMapController {
                     }
                 }
             }
-        } else if (location_or_path.getValue().toString().equals("Batch Disable Locations")) {
+        } else if (cur_action.equals("Batch Disable Locations")) {
             removePaneChild("polygon");
             createPreviewLine(click.getX(), click.getY());
             geoBlock.getPoints().addAll(click.getX(), click.getY());
@@ -1017,14 +1092,26 @@ public class ModifyMapController {
     }
 
     private void clickOptionAddLocation(MouseEvent click) {
+        predictor_type.setVisible(false);
+        node_or_edge.setVisible(false);
         Scene scene = add_loc.getScene();
+        int x_3d;
+        int y_3d;
+        if(predict_nn){
+            Matrix predict_3d = predictor.getNeuralNetPrediction((int) click.getX(), (int) click.getY());
+            x_3d = (int) predict_3d.get(0, 0);
+            y_3d = (int) predict_3d.get(1, 0);
+        } else {
+            double[] affine_res = predictor.getAffinePrediction((int) click.getX(), (int) click.getY(), choose_floor.getValue().toString());
+            x_3d = (int) affine_res[0];
+            y_3d = (int) affine_res[1];
+        }
 
-        Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
 
         String loc_type_shortname = locations.get(loc_type.getValue().toString());
         new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                 floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0), false); //TODO: id function
+                short_name.getText(), "S", x_3d, y_3d, false);
         pane.getChildren().clear();
         pane.getChildren().add(map);
         map.setImage(new Image(select3DMap()));
@@ -1039,6 +1126,16 @@ public class ModifyMapController {
         choose_floor.setVisible(false);
     }
 
+    public void onChangeInfoConfirm() {
+        changing_node.setNodeBuilding(building_change.getText());
+        String loc_type_shortname = locations.get(loc_type_change.getValue().toString());
+        changing_node.setNodeType(loc_type_shortname);
+        changing_node.setLongName(long_name_change.getText());
+        changing_node.setShortName(short_name_change.getText());
+        storage.updateNode(changing_node);
+        onViewIconClick();
+        clearOptions();
+    }
 
     /**
      * Stops adding a location.
@@ -1123,6 +1220,19 @@ public class ModifyMapController {
             }
         }
         removePaneChild();
+    }
+
+    /**
+     * Toggles the Learning mode.
+     */
+    public void onNNToggle() {
+        if (!toggleNN.isSelected()) {
+            //use neural net for prediction
+            predict_nn = true;
+        } else {
+            // use affine transform for prediction
+            predict_nn = false;
+        }
     }
 
     /**
