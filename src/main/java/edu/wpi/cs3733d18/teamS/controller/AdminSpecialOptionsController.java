@@ -33,7 +33,7 @@ import java.sql.Time;
  * @author Noah Hillman
  * @version 1.3, April 13, 2018
  */
-public class AdminSpecialOptionsController{
+public class AdminSpecialOptionsController {
 
     /**
      * The default (AStar) path algorithm.
@@ -268,37 +268,6 @@ public class AdminSpecialOptionsController{
         selected_user = user_table.getSelectionModel().getSelectedItem();
     }
 
-    @FXML
-    Button it_request;
-
-    public void onITRequest() {
-        Timeout.stop();
-        SquonksAPI squonks_api = new SquonksAPI();
-        squonks_api.run(e -> onPathFindClick(e));
-        Timeout.start();
-    }
-
-    public void onPathFindClick(String node_id) {
-        SearchAlgorithm alg;
-        int select = AdminSpecialOptionsController.getChoosenAlg();
-        if (select == 1) {
-            alg = new Dijkstras();
-        } else if (select == 2) {
-            alg = new DepthFirst();
-        } else if (select == 3) {
-            alg = new BreadthFirst();
-        } else {
-            alg = new AStar();
-        }
-        Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(Storage.getInstance().getDefaultKioskLocation(), node_id);
-        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
-            return;
-        }
-        Map.path = finder.pathfinder_path;
-        Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
-    }
-
     /**
      * Initializes the scene.
      */
@@ -318,5 +287,13 @@ public class AdminSpecialOptionsController{
         delete_user_box.setVisible(false);
         modify_user_box.setVisible(false);
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+    }
+
+    @FXML
+    private Button special_request;
+
+    @FXML
+    public void onSpecialRequest() {
+        Main.switchScenes("Special Requests", "/SpecialRequests.fxml");
     }
 }
