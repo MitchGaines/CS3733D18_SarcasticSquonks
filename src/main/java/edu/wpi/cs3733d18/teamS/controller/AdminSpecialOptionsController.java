@@ -5,7 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -31,7 +33,7 @@ import java.sql.Time;
  * @author Noah Hillman
  * @version 1.3, April 13, 2018
  */
-public class AdminSpecialOptionsController{
+public class AdminSpecialOptionsController {
 
     /**
      * The default (AStar) path algorithm.
@@ -90,6 +92,12 @@ public class AdminSpecialOptionsController{
     @FXML
     TableView<User> user_table;
 
+    private AdminPageController parent;
+
+    public void setParent(AdminPageController parent) {
+        this.parent = parent;
+    }
+
     /**
      * Retrieves the chosen algorithm.
      * @return the value for the selected path algorithm.
@@ -104,7 +112,25 @@ public class AdminSpecialOptionsController{
      * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onModifyMapClick(ActionEvent event) throws IOException {
-        Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
+        ModifyMapController mmc = (ModifyMapController) Main.switchScenes("Modify Nodes", "/ModifyNodes.fxml");
+        mmc.setUp(user, page);
+
+    }
+
+    private User user;
+    private String page;
+
+    private void setUser(User user) {
+        this.user = user;
+    }
+
+    private void setPage(String page) {
+        this.page = page;
+    }
+
+    public void setUp(User user, String page) {
+        setUser(user);
+        setPage(page);
     }
 
     /**
@@ -248,16 +274,6 @@ public class AdminSpecialOptionsController{
         selected_user = user_table.getSelectionModel().getSelectedItem();
     }
 
-    @FXML
-    Button it_request;
-
-    public void onITRequest() {
-        Timeout.stop();
-        SquonksAPI squonks_api = new SquonksAPI();
-        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
-        Timeout.start();
-    }
-
     /**
      * Initializes the scene.
      */
@@ -277,5 +293,13 @@ public class AdminSpecialOptionsController{
         delete_user_box.setVisible(false);
         modify_user_box.setVisible(false);
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
+    }
+
+    @FXML
+    private Button special_request;
+
+    @FXML
+    public void onSpecialRequest() throws IOException {
+        parent.loadSpecialRequests();
     }
 }

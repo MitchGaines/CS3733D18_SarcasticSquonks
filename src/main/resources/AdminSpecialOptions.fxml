@@ -138,7 +138,7 @@
                </HBox.margin>
             </JFXButton>
             <JFXButton fx:id="modify_map_btn" buttonType="RAISED" onAction="#onModifyMapClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%modify_map" />
-            <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%it_request" />
+            <JFXButton fx:id="special_request" buttonType="RAISED" onAction="#onSpecialRequest" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%special_request" />
             <JFXComboBox fx:id="path_algorithm_box" onAction="#chooseAlgorithm" promptText="%choose_path_algorithm" style="-fx-font-size: 18;">
                <padding>
                   <Insets left="10.0" />

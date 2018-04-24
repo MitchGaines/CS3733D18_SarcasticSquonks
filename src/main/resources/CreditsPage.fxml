@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.AboutPageController">
+<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.CreditsController">
     <center>
         <StackPane fx:id="stack_pane" prefHeight="650.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
             <children>
@@ -25,20 +27,26 @@
                 </ImageView>
                 <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
                     <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
-                        <HBox alignment="TOP_CENTER" prefHeight="340.0" prefWidth="200.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Credits" />
+                        <HBox alignment="TOP_CENTER" prefHeight="108.0" prefWidth="1200.0">
                             <VBox.margin>
                                 <Insets top="-40.0" />
                             </VBox.margin>
                      <children>
-                        <JFXListView fx:id="names_list" prefHeight="138.0" prefWidth="248.0" />
-                        <JFXListView fx:id="positions_list" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="The Sarcastic Squonks would like to thank the following groups for their contributions to our application's functionality..." textAlignment="CENTER" wrappingWidth="508.87109375" />
                      </children>
                         </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
+                  <VBox alignment="TOP_CENTER" prefWidth="300" spacing="25.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="CS 3733 APIs" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Rampant Raikous- Prescription Service Request" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Other ones (other teams)" />
+                        <Separator />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Other APIs" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Automated Calling and Texting (Twillio, Inc.)" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Neural Network for 2D to 3D Node Translation (Kyle Corry)" />
+                     </children>
+                  </VBox>
                     </children>
                     <StackPane.margin>
                         <Insets top="40.0" />
@@ -50,7 +58,8 @@
     <bottom>
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <JFXButton fx:id="back" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" onAction="#onBackClick" text="Back" />
+            <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Back" />
+            <JFXButton fx:id="home" onAction="#onHomeClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Home" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
