@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -89,8 +90,19 @@ public class AdminPageController extends UserController {
     public void loadAdmin() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
         Parent root = loader.load();
+        AdminSpecialOptionsController asoc = loader.getController();
+        asoc.setUp(this_user, page);
         main_pane.setCenter(root);
     }
+
+    public void setUp(User user, String page) {
+        this_user = user;
+        this.page = page;
+        super.setUp(user, page);
+    }
+
+    private User this_user;
+    private String page;
 
 
     /**

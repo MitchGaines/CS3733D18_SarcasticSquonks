@@ -281,18 +281,4 @@ public class ServiceAreaController {
         //parent.declareOrClearEmergency();
     }
 
-    @FXML
-    Button prescription_request;
-
-    public void prescriptionRequestClick() {
-        Timeout.stop();
-        RaikouAPI raikouAPI = new RaikouAPI();
-        try {
-            raikouAPI.run(100, 30, 900, 600, null, null, null);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
-        Timeout.start();
-    }
-
 }
