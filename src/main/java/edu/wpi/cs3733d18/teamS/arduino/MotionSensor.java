@@ -1,36 +1,40 @@
 package edu.wpi.cs3733d18.teamS.arduino;
 
 import com.fazecast.jSerialComm.SerialPort;
-import edu.wpi.cs3733d18.teamS.controller.AdminPageController;
 import edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController;
-import javafx.scene.control.Label;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Scanner;
-import javax.swing.JButton;
-
-public class MotionSensor  {
-
+public class MotionSensor {
+    public static SensorPolling poll = new SensorPolling();
+    public static SerialPort[] port_names  = SerialPort.getCommPorts();
+    public static SerialPort chosen_port = SerialPort.getCommPort(port_names[0].getSystemPortName().toString());
 
     public boolean getSwitchStatus() {
         return AdminSpecialOptionsController.includeMotion();
     }
 
-    public void connect(){
-        SerialPort[] port_names = SerialPort.getCommPorts();
-        try{
-            SerialPort chosen_port = SerialPort.getCommPort(port_names[0].getSystemPortName().toString());
+    public void connect() {
+
+        try {
+            if (!chosen_port.isOpen()) {
+                chosen_port.openPort();
+            }
             chosen_port.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
-            chosen_port.openPort();
-            SensorPolling poll = new SensorPolling();
-            poll.start(chosen_port);
-        }catch (NullPointerException npe){
+            SensorPolling.getInstance().start(chosen_port);
+
+        } catch (NullPointerException npe) {
             System.out.println("No Arduino found");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("No ports found");
         }
 
+    }
 
+    public static MotionSensor getInstance() {
+        return MotionHolder.instance;
+    }
 
+    private static class MotionHolder {
+        private static final MotionSensor instance = new MotionSensor();
     }
 
 }
