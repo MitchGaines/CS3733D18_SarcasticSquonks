@@ -278,21 +278,5 @@ public class AdminSpecialOptionsController{
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
     }
 
-    @FXML
-    JFXToggleButton motion_sensor;
-    @FXML
-    Label ms_output;
-    private static boolean include_motion;
-
-    public static boolean includeMotion() {
-        return include_motion;
-    }
-
-    public void motion_sensor_change() {
-        include_motion = motion_sensor.isSelected();
-        if(includeMotion()){
-            //MotionSensor.connect();
-        }
-
-    }
+    
 }
