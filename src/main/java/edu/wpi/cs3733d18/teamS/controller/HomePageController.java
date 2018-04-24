@@ -112,6 +112,10 @@ public class HomePageController {
     JFXToggleButton stairs_toggle;
     @FXML
     JFXButton map;
+    @FXML
+    ImageView minimap;
+    @FXML
+    Text use_map;
 
     /**
      * Stores the LoginHandler.
@@ -405,4 +409,14 @@ public class HomePageController {
         UserController user_controller = (UserController) Main.switchScenes("User", page);
         user_controller.setUp(user, page);
     } //END OF TEST
+
+    public void mouseEnter() {
+        minimap.setOpacity(.6);
+        use_map.setOpacity(.6);
+    }
+
+    public void mouseExit() {
+        minimap.setOpacity(.85);
+        use_map.setOpacity(.85);
+    }
 }
