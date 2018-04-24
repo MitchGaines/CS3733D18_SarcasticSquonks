@@ -142,7 +142,9 @@ public class LogController {
      */
     public void setUp(User user, String return_page) {
         setUser(user);
-        user_name.setText(user.getUsername());
+        if (user_name != null) {
+            user_name.setText(user.getUsername());
+        }
         setReturnPage(return_page);
         populateTable();
     }
@@ -151,7 +153,7 @@ public class LogController {
      * Sets the user.
      * @param user the user.
      */
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
     }
 

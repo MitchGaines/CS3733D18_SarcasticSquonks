@@ -3,6 +3,9 @@ package edu.wpi.cs3733d18.teamS.controller;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.user.User;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -61,6 +65,14 @@ public class UserController {
         }
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
     public void setUp(User user, String page) {
         setUser(user);
         setPage(page);
@@ -103,9 +115,7 @@ public class UserController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Log.fxml"), AllText.getBundle());
         Parent root = loader.load();
         LogController log_controller = loader.getController();
-        log_controller.setUser(user);
-        //log_controller.setReturnPage(page);
-        log_controller.setUser(user);
+        log_controller.setUp(user, page);
         log_controller.populateTable();
         main_pane.setCenter(root);
     }
@@ -138,10 +148,25 @@ public class UserController {
         serviceAreaController.setParent(this);
         requestSidebarController.setParent(this);
         MakeRequest();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        time.setText(dtf.format(now));
         //dismissEmergency();
+        updatedTime();
+    }
+
+    /**
+     * Updates clock to live time
+     */
+    public void updatedTime() {
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+
+            time.setText(dtf.format(now));
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
     }
 
 }
