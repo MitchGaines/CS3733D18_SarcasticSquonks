@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kylecorry.matrix.Matrix;
 import edu.wpi.cs3733d18.teamS.data.Edge;
@@ -117,7 +118,7 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D, node_edge_select;
+    JFXToggleButton toggle3D, toggleNN, node_edge_select;
 
     @FXML
     Label time;
