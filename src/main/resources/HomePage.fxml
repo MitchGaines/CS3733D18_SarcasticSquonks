@@ -100,8 +100,8 @@
                                 <Insets top="-40.0" />
                             </VBox.margin>
                         </HBox>
-                        <JFXComboBox fx:id="combobox_start" editable="true" focusColor="#4863a0" labelFloat="true" onKeyReleased="#onKeyReleasedComboBox" promptText="%start_location" style="-fx-font-size: 23;" />
-                        <JFXComboBox fx:id="combobox_end" editable="true" focusColor="#4863a0" labelFloat="true" onKeyReleased="#onKeyReleasedComboBox" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
+                        <JFXComboBox fx:id="combobox_start" editable="true" focusColor="#4863a0" labelFloat="true" promptText="%start_location" style="-fx-font-size: 23;" />
+                        <JFXComboBox fx:id="combobox_end" editable="true" focusColor="#4863a0" labelFloat="true" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
                         <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
                         <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
                     </children>
@@ -109,6 +109,19 @@
                         <Insets top="40.0" />
                     </StackPane.margin>
                 </VBox>
+            <ImageView fx:id="minimap" opacity=".85" fitHeight="300.0" fitWidth="300.0" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets right="50.0" />
+               </StackPane.margin>
+               <image>
+                  <Image url="@images/mapIcons/minimap_toned_down.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="use_map" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 70; -fx-font-weight: BOLD;" text="%use_map" textAlignment="CENTER" wrappingWidth="200.0" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets bottom="70.0" right="100.0" />
+               </StackPane.margin>
+            </Text>
             </children>
         </StackPane>
     </center>
@@ -117,7 +130,7 @@
             <children>
                 <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
                 <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-            <JFXButton fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
+            <JFXButton buttonType="RAISED" fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />

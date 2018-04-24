@@ -23,25 +23,26 @@
                         <Insets top="30.0" />
                     </StackPane.margin>
                 </ImageView>
-                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
+                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="25.0">
                     <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
-                        <HBox alignment="TOP_CENTER" prefHeight="340.0" prefWidth="200.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Sarcastic Squonks" />
+                        <HBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="200.0">
                             <VBox.margin>
-                                <Insets top="-40.0" />
+                                <Insets top="-20.0" />
                             </VBox.margin>
-                     <children>
-                        <JFXListView fx:id="names_list" prefHeight="138.0" prefWidth="248.0" />
-                        <JFXListView fx:id="positions_list" />
-                     </children>
+                            <children>
+                                <JFXListView fx:id="names_list" minHeight="373.0" minWidth="180.0" prefWidth="220.0" />
+                                <JFXListView fx:id="positions_list" minHeight="373.0" minWidth="190.0" prefWidth="220.0" />
+                            </children>
                         </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="A special thanks to..." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Kyle Corry, for all his valuable expertise as our Team Coach!" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Wilson Wong, for his instruction in the WPI Computer Science Department" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Andrew Shinn, for his input at Brigham &amp; Women's Faulkner Hospital" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="THE BRIGHAM &amp; WOMEN'S HOSPITAL MAPS AND DATA USED IN THIS APPLICATION ARE COPYRIGHTED AND PROVIDED FOR THE SOLE USE OF EDUCATIONAL PURPOSES" wrappingWidth="500.0" />
                     </children>
                     <StackPane.margin>
-                        <Insets top="40.0" />
+                        <Insets top="30.0" />
                     </StackPane.margin>
                 </VBox>
             </children>
@@ -50,7 +51,8 @@
     <bottom>
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <JFXButton fx:id="back" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" onAction="#onBackClick" text="Back" />
+            <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%Back" />
+            <JFXButton fx:id="creds" onAction="#onCreditsClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%Credits" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />

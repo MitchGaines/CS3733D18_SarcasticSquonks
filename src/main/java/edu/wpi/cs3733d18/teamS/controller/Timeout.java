@@ -67,8 +67,8 @@ public class Timeout {
                         }
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Thread.currentThread().interrupt();
+//                    e.printStackTrace();
+//                    Thread.currentThread().interrupt();
                 }
             }
         };
