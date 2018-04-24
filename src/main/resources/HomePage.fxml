@@ -109,6 +109,19 @@
                         <Insets top="40.0" />
                     </StackPane.margin>
                 </VBox>
+            <ImageView fx:id="minimap" fitHeight="300.0" fitWidth="300.0" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets right="50.0" />
+               </StackPane.margin>
+               <image>
+                  <Image url="@images/mapIcons/minimap.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="use_map" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 70; -fx-font-weight: BOLD;" text="%use_map" textAlignment="CENTER" wrappingWidth="200.0" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets bottom="70.0" right="100.0" />
+               </StackPane.margin>
+            </Text>
             </children>
         </StackPane>
     </center>
