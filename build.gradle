@@ -80,7 +80,11 @@ dependencies {
             [group: 'd18.teamP', name: 'TransportationRequest', version: '1.0.0'],
             [group: 'b17.teamI', name: 'FoodRequest', version: '1.0.0'],
             [group: 'd18.teamM', name: 'RoomService', version: '1.0.1'],
-            [group: 'd18.teamN', name: 'SecurityRequest', version: '1.0.0']
+            [group: 'd18.teamN', name: 'SecurityRequest', version: '1.0.0'],
+            [group: 'org.apache.commons', name: 'commons-math3', version: '3.0'],
+            [group: 'd18.teamD', name: 'AffineTransformation', version: '1.1.0'],
+            [group: 'd18.teamS', name: 'ComputerService', version: '1.1.0']
+
     )
 }
 
@@ -99,4 +103,3 @@ jar {
     }
     from configurations.runtime.collect { zipTree(it) }
 }
-
