@@ -9,6 +9,7 @@ import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
 import edu.wpi.cs3733d18.teamS.data.Node3DPredictor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -41,9 +42,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,31 +70,31 @@ import pointConverter.TeamD.API.PointConverter;
  */
 public class ModifyMapController {
 
+
+    /**
+     * Stores a Circle for moving nodes.
+     */
+    Circle to_move = new Circle();
     /**
      * Stores a double for the zoom factor.
      */
     private double zoom_factor;
-
     /**
      * A HashMap with Nodes for keys and Circles for values to represent the node list.
      */
     private HashMap<edu.wpi.cs3733d18.teamS.data.Node, Circle> nodes_list;
-
     /**
      * A HashMap with Edges for keys and Lines for values to represent the edge list.
      */
     private HashMap<edu.wpi.cs3733d18.teamS.data.Edge, Line> edge_list;
-
     /**
      * The database storage.
      */
     private Storage storage;
-
     /**
      * Stores a HashMap with Strings as the value and key to represent the locations.
      */
     private HashMap<String, String> locations;
-
     /**
      * Stores a HashMap with Strings as the value and key to represent the floor map.
      */
@@ -104,7 +105,6 @@ public class ModifyMapController {
     private ObservableList<String> floors;
 
     private edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
-
     private edu.wpi.cs3733d18.teamS.data.Node new_node;
 
     private Node changing_node;
@@ -113,12 +113,10 @@ public class ModifyMapController {
      * Stores a HashMap with Edges for the Key and Lines for the value to represent the edges to be deleted.
      */
     private HashMap<Edge, Line> edges_to_delete;
-
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent nodes to move.
      */
     private HashMap<Node, Circle> nodes_to_move;
-
     /**
      * Stores a HashMap with Nodes for the key and Circles for the value to represent moved nodes.
      */
@@ -144,9 +142,6 @@ public class ModifyMapController {
 
     @FXML
     JFXComboBox loc_type, loc_type_change;
-
-    @FXML
-    JFXButton floor_0, floor_1, floor_2, floor_3, floor_4;
 
     @FXML
     AnchorPane pane;
@@ -177,45 +172,43 @@ public class ModifyMapController {
 
     @FXML
     HBox node_or_edge, predictor_type;
+
+    @FXML
+    JFXButton floor_0, floor_1, floor_2, floor_3, floor_4;
     /**
      * Stores a color code.
      */
     private Color color = Color.web("#4863A0");
-
     /**
      * Stores a circle for a temporary pin
      */
     private Circle temp_pin;
-
     /**
      * Stores a boolean for the first click
      */
     private Boolean first_click;
-
     /**
      * Stores the node for the first location.
      */
     private edu.wpi.cs3733d18.teamS.data.Node first_loc;
-
     /**
      * Stores the node for the second location.
      */
     private edu.wpi.cs3733d18.teamS.data.Node second_loc;
-
     /**
      * Stores a HashMap of Nodes for the Keys and Circles for the Values to represent the entries to delete.
      */
     private HashMap<Node, Circle> entry_to_delete;
-
     /**
      * Stores a new 3d node predictor.
      */
     private Node3DPredictor predictor = new Node3DPredictor();
-
     /**
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
+    private User user;
+    private String page;
 
     /**
      * toggles use of neural net or affine transform
@@ -433,7 +426,14 @@ public class ModifyMapController {
      * @throws IOException the exception thrown when the program fails to read or write a file.
      */
     public void onBackClick(ActionEvent event) throws IOException {
-        Main.switchScenes("User", "/AdminPage.fxml");
+        AdminPageController admin_page = (AdminPageController) Main.switchScenes("User", "/AdminPage.fxml");
+        admin_page.setUp(user, page);
+
+    }
+
+    public void setUp(User user, String page) {
+        this.user = user;
+        this.page = page;
     }
 
     /**
@@ -596,11 +596,6 @@ public class ModifyMapController {
     }
 
     /**
-     * Adds edges, nodes, etc to the map given certain parameters and where the mouse is clicked.
-     * @param click the mouse is clicked.
-     */
-
-    /**
      * Disables the nodes in the highlighted area.
      */
     public void disableNodesInPolygon() {
@@ -733,11 +728,6 @@ public class ModifyMapController {
 
         pane.setOnMouseExited(event -> removePaneChild("previewLine"));
     }
-
-    /**
-     * Stores a Circle for moving nodes.
-     */
-    Circle to_move = new Circle();
 
     /**
      * relocates the nodes when the mouse is released.
@@ -1151,7 +1141,6 @@ public class ModifyMapController {
         building.setText("");
         long_name.setText("");
         short_name.setText("");
-
     }
 
     /**

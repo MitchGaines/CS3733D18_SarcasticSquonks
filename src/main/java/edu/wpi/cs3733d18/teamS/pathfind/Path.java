@@ -2,24 +2,18 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.animation.*;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polyline;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 import javafx.scene.image.ImageView;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -303,7 +297,7 @@ public class Path {
         } else {
             start_icon = new ImageView("images/mapIcons/middle_flag.png");
         }
-
+        start_icon.toFront();
         start_icon.setPreserveRatio(true);
         start_icon.setFitHeight(120);
         if (is3D) {
@@ -316,30 +310,11 @@ public class Path {
         start_icon.setId("prev_icon");
         start_icon.smoothProperty().setValue(true);
         start_icon.setOpacity(.8);
+        start_icon.setUserData(start_node);
+
         fx_nodes.add(start_icon);
 
-        StackPane start_pane = new StackPane();
-        start_pane.setStyle("-fx-background-color: #f8f8f8;" +
-                "-fx-border-width: 2px;" +
-                "-fx-border-style: solid;" +
-                "-fx-border-color: #c8bf9b;" +
-                "-fx-text-alignment: center;" +
-                "-fx-fit-to-width: 20px;" +
-                "-fx-padding: 5px;");
-        start_pane.setId("temporaryIcon");
-        Text t = new Text(start_node.getLongName());
-        t.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        start_pane.getChildren().add(t);
-        double height = start_pane.getBoundsInParent().getMaxY()+start_pane.getBoundsInParent().getMinY();
-        double width = start_pane.getBoundsInParent().getMaxX()-start_pane.getBoundsInParent().getMinX();
-        if (is3D){
-            start_pane.setTranslateX(start_node.getXCoord3D() - (width / 2));
-            start_pane.setTranslateY(start_node.getYCoord3D() - (height * 2));
-        }else{
-            start_pane.setTranslateX(start_node.getXCoord() - (width / 2) );
-            start_pane.setTranslateY(start_node.getYCoord() - (height * 2));
-        }
-        fx_nodes.add(start_pane);
+        addTooltip(start_icon);
 
         //adding icons for end of path
         AStarNode end_node = path_segments.get(seg_index).seg_path.get(path_segments.get(seg_index).seg_path.size() - 1);
@@ -367,40 +342,50 @@ public class Path {
             icon.setFitHeight(120);
             icon.setOpacity(.8);
         }
+        icon.toFront();
         icon.setId("next_icon");
         icon.smoothProperty().setValue(true);
         icon.setX(x_pos - (icon.getFitHeight()/2));
         icon.setY(y_pos - (icon.getFitHeight()/2));
+        icon.setUserData(end_node);
         fx_nodes.add(icon);
 
-        StackPane sp = new StackPane();
-        sp.setStyle("-fx-background-color: #f8f8f8;" +
-                "-fx-border-width: 2px;" +
-                "-fx-border-style: solid;" +
-                "-fx-border-color: #c8bf9b;" +
-                "-fx-text-alignment: center;" +
-                "-fx-fit-to-width: 20px;" +
-                "-fx-padding: 5px;");
-        sp.setId("temporaryIcon");
-        t = new Text(end_node.getLongName());
-        t.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        sp.getChildren().add(t);
-        height = sp.getBoundsInParent().getMaxY()+sp.getBoundsInParent().getMinY();
-        width = sp.getBoundsInParent().getMaxX()-sp.getBoundsInParent().getMinX();
-        sp.setTranslateX(x_pos - (width / 2));
-        sp.setTranslateY(y_pos - (height * 2));
-
-        boolean boxes_intersecting = true;
-        while(boxes_intersecting){
-            if(sp.getBoundsInParent().intersects(start_pane.getBoundsInParent())){
-                sp.setTranslateX(sp.getTranslateX() + 15);
-            }else{
-                boxes_intersecting = false;
-            }
-        }
-        fx_nodes.add(sp);
+        addTooltip(icon);
 
         return fx_nodes;
+    }
+
+    /**
+     * addTooltip
+     * Adds a tooltip to the supplied node, adding navigation instructions to the tooltip.
+     *
+     * @param n The node to bind the tooltip to
+     * @return The angle as a double between the two points.
+     * @author Matt Puentes
+     */
+    private void addTooltip(Node n){
+        String tooltip_text = "";
+        if(n.getId() == "prev_icon" || n.getId() == "next_icon"){
+            tooltip_text += ((AStarNode) n.getUserData()).getLongName();
+            String id;
+            int floor;
+            if(n.getId() == "prev_icon"){
+                id = prevFloorId();
+                floor = prevFloorChange();
+            } else {
+                id = nextFloorId();
+                floor = nextFloorChange();
+            }
+            if(floor != 0){
+                tooltip_text += "\n";
+                tooltip_text += (floor > 0 ? "Up " : "Down ") + Math.abs(floor) + " floor"
+                        + (Math.abs(floor) > 1 ? "s " : " ") + (n.getId() == "prev_icon" ? "from" : "to") + " \n" + id;
+            }
+        }
+        Tooltip t = new Tooltip(tooltip_text);
+        t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-t.getHeight()+80));
+        n.setOnMouseExited(event -> t.hide());
     }
 
     public int nextFloorChange() {
@@ -408,6 +393,27 @@ public class Path {
             return (Map.floor_ids.indexOf(this.path_segments.get(seg_index + 1).seg_path.get(0).floor) - PathfindController.current_floor);
         }
         return 0;
+    }
+
+    public int prevFloorChange() {
+        if (seg_index > 0) {
+            return (PathfindController.current_floor - Map.floor_ids.indexOf(this.path_segments.get(seg_index - 1).seg_path.get(0).floor));
+        }
+        return 0;
+    }
+
+    public String nextFloorId() {
+        if (path_segments.size() > seg_index + 1) {
+            return this.path_segments.get(seg_index + 1).seg_path.get(0).getLongName();
+        }
+        return "";
+    }
+
+    public String prevFloorId() {
+        if (seg_index > 0) {
+            return this.path_segments.get(seg_index - 1).seg_path.get(this.path_segments.get(seg_index - 1).seg_path.size() - 1).getLongName();
+        }
+        return "";
     }
 
     ArrayList<Node> genAnts(Polyline p) {

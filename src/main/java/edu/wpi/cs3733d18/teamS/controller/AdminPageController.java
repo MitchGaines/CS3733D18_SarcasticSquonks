@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
+import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -89,9 +90,20 @@ public class AdminPageController extends UserController {
     public void loadAdmin() throws IOException {
         loader = new FXMLLoader(getClass().getResource("/AdminSpecialOptions.fxml"), AllText.getBundle());
         Parent root = loader.load();
+        AdminSpecialOptionsController asoc = loader.getController();
+        asoc.setParent(this);
+        asoc.setUp(this_user, page);
         main_pane.setCenter(root);
     }
 
+    public void setUp(User user, String page) {
+        this_user = user;
+        this.page = page;
+        super.setUp(user, page);
+    }
+
+    private User this_user;
+    private String page;
 
     /**
      * Initializes the service requests menu.
@@ -120,6 +132,16 @@ public class AdminPageController extends UserController {
         );
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+    }
+
+    /**
+     * Loads in the special requests.
+     * @throws IOException the exception thrown when the program fails to read or write a file.
+     */
+    public void loadSpecialRequests() throws IOException {
+        loader = new FXMLLoader(getClass().getResource("/SpecialRequests.fxml"), AllText.getBundle());
+        Parent root = loader.load();
+        main_pane.setCenter(root);
     }
 
 }
