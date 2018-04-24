@@ -42,7 +42,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,9 +50,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pointConverter.TeamD.API.PointConverter;
-
-import pointConverter.TeamD.API.PointConverter;
 
 /**
  * Controller for modifying the map and methods related to it.
