@@ -4,6 +4,9 @@ var hl7     = require('simple-hl7');
 var app     = hl7.tcp();
 require('body-parser-xml')(body_parser);
 
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 app.use(body_parser.xml({
   limit: '10MB',   // Reject payload bigger than 1 MB
   xmlParseOptions: {
