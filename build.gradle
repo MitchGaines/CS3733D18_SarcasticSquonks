@@ -103,3 +103,4 @@ jar {
     }
     from configurations.runtime.collect { zipTree(it) }
 }
+
