@@ -1,5 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import edu.wpi.cs3733d18.teamS.data.Node;
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -8,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class FuzzyComboBox {
@@ -110,9 +113,30 @@ public class FuzzyComboBox {
         combo_box.show();
         visible_items = FXCollections.observableArrayList();
         visible_items.addAll(item_names);
+
+        // Filter by floor
+        // 1, 2, 3, L1, L2
+        user_text = filterFloor(user_text, new String[]{"floor 1", "floor one", "1st floor", "first floor"}, "1");
+        user_text = filterFloor(user_text, new String[]{"floor 2", "floor two", "2nd floor", "second floor"}, "2");
+        user_text = filterFloor(user_text, new String[]{"floor 3", "floor three", "3rd floor", "third floor"}, "3");
+        user_text = filterFloor(user_text, new String[]{"floor l1", "l1", "basement 1", "basement one"}, "L1");
+        user_text = filterFloor(user_text, new String[]{"floor l2", "l2", "basement 2", "basement two"}, "L2");
+
+
+        // Filter by building
+        // 15 Francis, 45 Francis, BTM, Shapiro, Tower
+        user_text = filterBuilding(user_text, new String[]{"15 francis", "francis 15", "fifteen francis", "francis fifteen"}, "15 Francis");
+        user_text = filterBuilding(user_text, new String[]{"45 francis", "francis 45", "forty-five francis", "francis forty-five", "forty five francis", "francis forty five"}, "45 Francis");
+        user_text = filterBuilding(user_text, new String[]{"btm", "building for transformative medicine", "building transformative medicine", "transformative medicine"}, "BTM");
+        user_text = filterBuilding(user_text, new String[]{"shapiro"}, "Shapiro");
+        user_text = filterBuilding(user_text, new String[]{"tower"}, "Tower");
+
         if (user_text.length() != 0) {
-            Stream<String> item_names_stream = item_names.stream();
-            item_names_stream.filter(el -> !el.toLowerCase().contains(user_text)).forEach(visible_items::remove);
+            ArrayList<String> toRemove = new ArrayList<>();
+            Stream<String> visible_items_stream = visible_items.stream();
+            String user_searchable_text = user_text;
+            visible_items_stream.filter(el -> !el.toLowerCase().contains(user_searchable_text)).forEach(toRemove::add);
+            visible_items.removeAll(toRemove);
         }
         combo_box.setItems(visible_items);
 
@@ -160,10 +184,53 @@ public class FuzzyComboBox {
      */
     public void setItems(ObservableList<edu.wpi.cs3733d18.teamS.data.Node> items) {
         this.items = items;
-        item_names = FXCollections.observableArrayList();
-        // Populate item_names
-        for (edu.wpi.cs3733d18.teamS.data.Node item : items) {
-            item_names.add(item.toString());
+    }
+
+    /**
+     * filterFloor
+     * Removes all elements of visible_items on the specified floor if one of the keywords is a substring of str.
+     *
+     * @param str a String to look for keywords in.
+     * @param keywords an array of Strings that are keywords pertaining to the given floor.
+     * @param floor a String representing the floor being filtered for.
+     * @return str if no matching keyword was found in it, and otherwise returns str with the matched keyword removed and any
+     * leading or trailing whitespace trimmed off.
+     */
+    private String filterFloor(String str, String[] keywords, String floor) {
+        for (String keyword : keywords) {
+            if (str.contains(keyword)) {
+                for (Node item : items) {
+                    if (!item.getNodeFloor().equals(floor)) {
+                        visible_items.remove(item.getLongName());
+                    }
+                }
+                return str.replace(keyword, "").trim();
+            }
         }
+        return str;
+    }
+
+    /**
+     * filterBuilding
+     * Removes all elements of visible_items in the specified building if one of the keywords is a substring of str.
+     *
+     * @param str a String to look for keywords in.
+     * @param keywords an array of Strings that are keywords pertaining to the given building.
+     * @param building a String representing the building being filtered for.
+     * @return str if no matching keyword was found in it, and otherwise returns str with the matched keyword removed and any
+     * leading or trailing whitespace trimmed off.
+     */
+    private String filterBuilding(String str, String[] keywords, String building) {
+        for (String keyword : keywords) {
+            if (str.contains(keyword)) {
+                for (Node item : items) {
+                    if (!item.getNodeBuilding().equals(building)) {
+                        visible_items.remove(item.getLongName());
+                    }
+                }
+                return str.replace(keyword, "").trim();
+            }
+        }
+        return str;
     }
 }
