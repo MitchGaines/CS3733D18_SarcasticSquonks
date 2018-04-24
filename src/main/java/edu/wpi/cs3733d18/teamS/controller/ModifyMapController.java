@@ -27,14 +27,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -127,6 +126,9 @@ public class ModifyMapController {
 
     @FXML
     JFXToggleButton toggle3D, toggleNN, node_edge_select;
+
+    @FXML
+    GridPane button_pane;
 
     @FXML
     Label time;
@@ -223,12 +225,21 @@ public class ModifyMapController {
     private String cur_action = "View Map";
     private ImageView cur_icon;
     JFXButton cur_floor;
+
+    DropShadow ds;
+
+    private List<String> short_name_list;
     /**
      * Initializes the scene.
      */
     @FXML
     private void initialize() {
         cur_icon = view_btn;
+        ds = new DropShadow();
+        ds.setOffsetX(7.0);
+        ds.setOffsetY(7.0);
+        ds.setColor(color);
+        cur_icon.setEffect(ds);
         first_click = true;
 
         zoom_factor = 1;
@@ -237,7 +248,7 @@ public class ModifyMapController {
         scroll_pane.setHvalue(0.25);
 
         cur_floor = floor_2;
-        cur_floor.setStyle("-fx-background-color: #91a1c6");
+        cur_floor.setStyle("-fx-background-color: #91a1c6; -fx-text-fill: #ffffff; -fx-font-size: 30;");
 
         edges_to_delete = new HashMap<>();
         entry_to_delete = new HashMap<>();
@@ -245,24 +256,28 @@ public class ModifyMapController {
         movedNodes = new HashMap<>();
 
         ObservableList<String> list_type = FXCollections.observableArrayList();
-        list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
+        list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs",
+                "Service", "Elevator", "Exit", "Retail");
         loc_type.setItems(list_type);
         loc_type_change.setItems(list_type);
 
         //Hashmap for node constructor
-        List<String> short_name = new ArrayList<>();
-        short_name.add("CONF");
-        short_name.add("HALL");
-        short_name.add("DEPT");
-        short_name.add("INFO");
-        short_name.add("LABS");
-        short_name.add("REST");
-        short_name.add("STAI");
-        short_name.add("SERV");
+        short_name_list = new ArrayList<>();
+        short_name_list.add("CONF");
+        short_name_list.add("HALL");
+        short_name_list.add("DEPT");
+        short_name_list.add("INFO");
+        short_name_list.add("LABS");
+        short_name_list.add("REST");
+        short_name_list.add("STAI");
+        short_name_list.add("SERV");
+        short_name_list.add("ELEV");
+        short_name_list.add("EXIT");
+        short_name_list.add("RETL");
 
         locations = new HashMap<>();
         for (int i = 0; i < list_type.size(); i++) {
-            locations.put(list_type.get(i), short_name.get(i));
+            locations.put(list_type.get(i), short_name_list.get(i));
         }
 
         floors = FXCollections.observableArrayList();
@@ -287,26 +302,6 @@ public class ModifyMapController {
         edge_list = new HashMap<>();
         storage = Storage.getInstance();
         makeMap(storage.getAllNodes(), storage.getAllEdges());
-
-        list_type = FXCollections.observableArrayList();
-        list_type.addAll("Conference", "Hallway", "Department", "Information", "Laboratory", "Restroom", "Stairs", "Service");
-        loc_type.setItems(list_type);
-
-        //Hashmap for node constructor
-        short_name = new ArrayList<>();
-        short_name.add("CONF");
-        short_name.add("HALL");
-        short_name.add("DEPT");
-        short_name.add("INFO");
-        short_name.add("LABS");
-        short_name.add("REST");
-        short_name.add("STAI");
-        short_name.add("SERV");
-
-        locations = new HashMap<>();
-        for (int i = 0; i < list_type.size(); i++) {
-            locations.put(list_type.get(i), short_name.get(i));
-        }
 
         updatedTime();
 
@@ -390,12 +385,12 @@ public class ModifyMapController {
                 to_return = "images/2dMaps/03_thethirdfloor.png";
             }
         }
-        floor_0.setStyle("-fx-background-color: #4863A0");
-        floor_1.setStyle("-fx-background-color: #4863A0");
-        floor_2.setStyle("-fx-background-color: #4863A0");
-        floor_3.setStyle("-fx-background-color: #4863A0");
-        floor_4.setStyle("-fx-background-color: #4863A0");
-        cur_floor.setStyle("-fx-background-color: #91a1c6");
+        floor_0.setStyle("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 30;");
+        floor_1.setStyle("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 30;");
+        floor_2.setStyle("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 30;");
+        floor_3.setStyle("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 30;");
+        floor_4.setStyle("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 30;");
+        cur_floor.setStyle("-fx-background-color: #91a1c6; -fx-text-fill: #ffffff; -fx-font-size: 30;");
         makeMap(storage.getAllNodes(), storage.getAllEdges());
         return to_return;
     }
@@ -505,6 +500,7 @@ public class ModifyMapController {
                 break;
         }
         cur_action = action;
+        cur_icon.setEffect(ds);
     }
 
     public void onViewIconClick() {
@@ -512,11 +508,13 @@ public class ModifyMapController {
     }
 
     public void onAddIconClick() {
+        cur_icon.setEffect(null);
         cur_icon = add_btn;
         onNodeEdgeClick();
     }
 
     public void onRemoveIconClick() {
+        cur_icon.setEffect(null);
         cur_icon = remove_btn;
         onNodeEdgeClick();
     }
@@ -568,6 +566,7 @@ public class ModifyMapController {
         }
         node_or_edge.setVisible(false);
         predictor_type.setVisible(false);
+        cur_icon.setEffect(null);
     }
 
     /**
@@ -593,6 +592,7 @@ public class ModifyMapController {
         toggle3D.setSelected(false);
         map.setImage(new Image(chooseFloor()));
         setAction("View Map", view_btn);
+        button_pane.setVisible(true);
     }
 
     /**
@@ -1007,7 +1007,8 @@ public class ModifyMapController {
         modify_info_box.setVisible(true);
         pin.setFill(Color.YELLOW);
         building_change.setText(node.getNodeBuilding());
-        loc_type_change.getSelectionModel().select((Object) node.getNodeType());
+        int index = short_name_list.indexOf(node.getNodeType());
+        loc_type_change.getSelectionModel().select(index);
         long_name_change.setText(node.getLongName());
         short_name_change.setText(node.getShortName());
         changing_node = node;
@@ -1020,6 +1021,9 @@ public class ModifyMapController {
             location_one.setText(node.getNodeID());
             pin.setFill(Color.YELLOW);
         } else {
+            if(second_loc != null) {
+                nodes_list.get(second_loc).setFill(color);
+            }
             second_loc = node;
             location_two.setText(node.getNodeID());
             pin.setFill(Color.YELLOW);
@@ -1044,15 +1048,18 @@ public class ModifyMapController {
     }
 
     private void clickOptionModLoc(Node node, Circle pin) {
-        if (pin.getFill().equals(Color.YELLOW) && movedNodes.containsKey(node)) {
+        if (pin.getFill().equals(Color.YELLOW) && !pin.equals(to_move)) {
             pin.setFill(color);
             nodes_to_move.remove(node, pin);
+            pin.setOnMouseDragged(null);
+            pin.setOnMouseReleased(null);
         } else {
             nodes_to_move.put(node, pin);
             pin.setFill(Color.YELLOW);
             pin.setOnMouseDragged(event -> drag(event));
             pin.setOnMouseReleased(event -> released(event));
         }
+        to_move = null;
     }
 
     public void onMouseClick(MouseEvent click) {
@@ -1123,6 +1130,7 @@ public class ModifyMapController {
         confirm_3d.setVisible(true);
         scene.setCursor(Cursor.DEFAULT);
         add_node_box.setVisible(false);
+        button_pane.setVisible(false);
     }
 
     public void onChangeInfoConfirm() {
