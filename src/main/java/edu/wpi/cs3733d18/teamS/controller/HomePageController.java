@@ -24,10 +24,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -111,7 +113,11 @@ public class HomePageController {
     @FXML
     JFXToggleButton stairs_toggle;
     @FXML
+    ImageView minimap;
+    @FXML
     JFXButton map;
+    @FXML
+    Text use_map;
 
     /**
      * Stores the LoginHandler.
@@ -400,7 +406,7 @@ public class HomePageController {
     }
 
     public void onMapClick() {
-        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
+        Main.switchScenes("HomepageMap", "/HomepageMap.fxml");
     }
 
     //PART OF THE USER TEST
@@ -408,4 +414,14 @@ public class HomePageController {
         UserController user_controller = (UserController) Main.switchScenes("User", page);
         user_controller.setUp(user, page);
     } //END OF TEST
+
+    public void mouseEnter() {
+        minimap.setOpacity(.6);
+        use_map.setOpacity(.6);
+    }
+
+    public void mouseExit() {
+        minimap.setOpacity(.9);
+        use_map.setOpacity(.9);
+    }
 }
