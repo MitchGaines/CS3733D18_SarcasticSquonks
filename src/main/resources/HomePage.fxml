@@ -118,6 +118,11 @@
                 <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
                 <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
             <JFXButton fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
+            <JFXButton fx:id="map" buttonType="RAISED" onAction="#onMapClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%map">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </JFXButton>
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
