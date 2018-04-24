@@ -112,9 +112,9 @@ public class HomePageController {
     JFXToggleButton stairs_toggle;
     @FXML
     JFXButton map;
-    @FXML
+
     ImageView minimap;
-    @FXML
+    
     Text use_map;
 
     /**
