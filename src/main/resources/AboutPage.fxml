@@ -51,8 +51,8 @@
     <bottom>
         <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Back" />
-            <JFXButton fx:id="creds" onAction="#onCreditsClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="Credits" />
+            <JFXButton fx:id="back" onAction="#onBackClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%Back" />
+            <JFXButton fx:id="creds" onAction="#onCreditsClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%Credits" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
