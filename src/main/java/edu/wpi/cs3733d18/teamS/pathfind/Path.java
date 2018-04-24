@@ -9,15 +9,10 @@ import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polyline;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 import javafx.scene.image.ImageView;
-import org.controlsfx.control.PopOver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -359,10 +354,36 @@ public class Path {
         return fx_nodes;
     }
 
+    /**
+     * addTooltip
+     * Adds a tooltip to the supplied node, adding navigation instructions to the tooltip.
+     *
+     * @param n The node to bind the tooltip to
+     * @return The angle as a double between the two points.
+     * @author Matt Puentes
+     */
     private void addTooltip(Node n){
-        Tooltip t = new Tooltip(((AStarNode) n.getUserData()).getLongName());
+        String tooltip_text = "";
+        if(n.getId() == "prev_icon" || n.getId() == "next_icon"){
+            tooltip_text += ((AStarNode) n.getUserData()).getLongName();
+            String id;
+            int floor;
+            if(n.getId() == "prev_icon"){
+                id = prevFloorId();
+                floor = prevFloorChange();
+            } else {
+                id = nextFloorId();
+                floor = nextFloorChange();
+            }
+            if(floor != 0){
+                tooltip_text += "\n";
+                tooltip_text += (floor > 0 ? "Up " : "Down ") + Math.abs(floor) + " floor"
+                        + (Math.abs(floor) > 1 ? "s " : " ") + (n.getId() == "prev_icon" ? "from" : "to") + " \n" + id;
+            }
+        }
+        Tooltip t = new Tooltip(tooltip_text);
         t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
-        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-5));
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-t.getHeight()+80));
         n.setOnMouseExited(event -> t.hide());
     }
 
@@ -371,6 +392,27 @@ public class Path {
             return (Map.floor_ids.indexOf(this.path_segments.get(seg_index + 1).seg_path.get(0).floor) - PathfindController.current_floor);
         }
         return 0;
+    }
+
+    public int prevFloorChange() {
+        if (seg_index > 0) {
+            return (PathfindController.current_floor - Map.floor_ids.indexOf(this.path_segments.get(seg_index - 1).seg_path.get(0).floor));
+        }
+        return 0;
+    }
+
+    public String nextFloorId() {
+        if (path_segments.size() > seg_index + 1) {
+            return this.path_segments.get(seg_index + 1).seg_path.get(0).getLongName();
+        }
+        return "";
+    }
+
+    public String prevFloorId() {
+        if (seg_index > 0) {
+            return this.path_segments.get(seg_index - 1).seg_path.get(this.path_segments.get(seg_index - 1).seg_path.size() - 1).getLongName();
+        }
+        return "";
     }
 
     ArrayList<Node> genAnts(Polyline p) {
