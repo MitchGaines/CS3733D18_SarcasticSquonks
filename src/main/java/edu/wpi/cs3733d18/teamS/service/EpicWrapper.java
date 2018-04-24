@@ -26,11 +26,4 @@ public class EpicWrapper {
         hl7_task.setStatus(Task.TaskStatus.REQUESTED);
         hl7_task.setDescription(sr.getDescription());
     }
-/*
-    public ServiceRequest getEpicServiceRequest(){
-        /*return ServiceRequest.createService("Test", "this is a test",
-                , "Some guy", "Bathrrom", "Some fullfiller");
-
-    }
-*/
 }
