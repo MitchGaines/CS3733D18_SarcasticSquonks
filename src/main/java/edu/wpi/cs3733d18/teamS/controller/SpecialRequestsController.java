@@ -2,11 +2,17 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamR.RaikouAPI;
-import edu.wpi.cs3733d18.teamR.ServiceException;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamF.api.ServiceRequest;
+import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
+import edu.wpi.cs3733d18.teamp.api.TransportationRequest;
+import edu.wpi.cs3733d18.teamp.api.Exceptions.ServiceException;
+import com.manlyminotaursAPI.core.RoomService;
+import com.nearnagas.api.Security;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
 
 public class SpecialRequestsController {
 
@@ -14,7 +20,11 @@ public class SpecialRequestsController {
     Button voice_recognition_box;
 
     public void onVoiceRecognitionClick() {
-        // TODO Danny
+        Timeout.stop();
+        ServiceRequest f_api = new ServiceRequest();
+        //f_api.initVoice();
+        f_api.run(-1, -1, 1000, 631, null, null, null);
+        Timeout.start();
     }
 
     @FXML
@@ -25,7 +35,7 @@ public class SpecialRequestsController {
         RaikouAPI raikouAPI = new RaikouAPI();
         try {
             raikouAPI.run(100, 30, 900, 600, null, null, null);
-        } catch (ServiceException e) {
+        } catch (edu.wpi.cs3733d18.teamR.ServiceException e) {
             e.printStackTrace();
         }
         Timeout.start();
@@ -35,14 +45,20 @@ public class SpecialRequestsController {
     Button sanitation_box;
 
     public void onSanitationRequest() {
-        // TODO Danny
+        /*
+            Team Q's just doesn't work
+         */
+
     }
 
     @FXML
     Button gift_request;
 
     public void onGiftRequest() {
-        // TODO Danny
+        Timeout.stop();
+        GiftShop o_api = new GiftShop();
+        o_api.run(100, 30, 1000, 700, null, null, null);
+        Timeout.start();
     }
 
     @FXML
@@ -69,7 +85,7 @@ public class SpecialRequestsController {
         }
         Pathfinder finder = new Pathfinder(alg);
         finder.findShortestPath(Storage.getInstance().getDefaultKioskLocation(), node_id);
-        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
         Map.path = finder.pathfinder_path;
@@ -80,27 +96,50 @@ public class SpecialRequestsController {
     Button transportation_request;
 
     public void onTransportationRequest() {
-        // TODO Danny
+        Timeout.stop();
+        TransportationRequest p_api = new TransportationRequest();
+        try {
+            p_api.run(100, 30, 1000, 700, null, null, null);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 
     @FXML
     Button food_request;
 
     public void onFoodRequest() {
-        // TODO Danny
+        /*
+            no documentation, unsure how to add it
+         */
     }
 
     @FXML
     Button room_service;
 
     public void onRoomServiceRequest() {
-        // TODO Danny
+        Timeout.stop();
+        RoomService m_api = new RoomService();
+        try {
+            m_api.run(100, 30, 1280, 720, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 
     @FXML
     Button security_request;
 
     public void onSecurityRequest() {
-        // TODO Danny
+        Timeout.stop();
+        Security n_api = new Security();
+        try {
+            n_api.run(100, 30, 1280, 720, null, null, null);
+        } catch (com.nearnagas.api.ServiceException e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 }
