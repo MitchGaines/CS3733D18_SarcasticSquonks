@@ -43,7 +43,6 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Controller for modifying the map and methods related to it.
@@ -65,30 +65,7 @@ import java.util.Map;
  */
 public class ModifyMapController {
 
-    @FXML
-    JFXToggleButton toggle3D;
-    @FXML
-    Label add_loc_fail, time;
-    @FXML
-    TextField building, long_name, short_name, kiosk_location_name, location_one, location_two, location_to_delete, kiosk_location;
-    @FXML
-    JFXComboBox loc_type, location_or_path, choose_floor;
-    @FXML
-    AnchorPane pane;
-    @FXML
-    Button add_loc_cancel, add_loc, back_btn;
-    @FXML
-    BorderPane main_pane;
-    @FXML
-    ScrollPane scroll_pane;
-    @FXML
-    ImageView map;
-    @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box;
-    @FXML
-    Button confirm_3d;
-    @FXML
-    Text user_name;
+
     /**
      * Stores a Circle for moving nodes.
      */
@@ -136,7 +113,13 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton node_edge_select;
+    JFXToggleButton toggle3D, toggleNN, node_edge_select;
+
+    @FXML
+    Label time;
+
+    @FXML
+    TextField building, long_name, short_name, kiosk_location_name, location_one, location_two, location_to_delete, kiosk_location;
 
     @FXML
     TextField building_change;
@@ -148,16 +131,37 @@ public class ModifyMapController {
     JFXComboBox loc_type_change;
 
     @FXML
-    Button confirm_change;
+    Button add_loc_cancel, add_loc, back_btn, confirm_change;
 
     @FXML
-    VBox modify_info_box;
+    BorderPane main_pane;
+
+    @FXML
+    ScrollPane scroll_pane;
+
+    @FXML
+    ImageView map;
+
+    @FXML
+    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box, modify_info_box;
+
+    @FXML
+    Button confirm_3d;
+
+    @FXML
+    Text user_name;
 
     @FXML
     ImageView view_btn, add_btn, remove_btn, modify_btn, kiosk_btn, batch_btn;
 
     @FXML
-    HBox node_or_edge;
+    HBox node_or_edge, predictor_type;
+
+    @FXML
+    JFXComboBox loc_type, choose_floor;
+
+    @FXML
+    AnchorPane pane;
     /**
      * Stores a color code.
      */
@@ -193,9 +197,13 @@ public class ModifyMapController {
     private User user;
     private String page;
 
+    /**
+     * toggles use of neural net or affine transform
+     */
+    private boolean predict_nn = true;
+
     private String cur_action = "View Map";
     private ImageView cur_icon;
-
     /**
      * Initializes the scene.
      */
@@ -475,6 +483,7 @@ public class ModifyMapController {
             setAction("Add Path", add_btn);
         } else if (!node_edge_select.isSelected() && cur_icon.equals(add_btn)){
             setAction("Add Location", add_btn);
+            predictor_type.setVisible(true);
         } else if(node_edge_select.isSelected() && cur_icon.equals(remove_btn)) {
             setAction("Delete Path", remove_btn);
         } else if (!node_edge_select.isSelected() && cur_icon.equals(remove_btn)){
@@ -503,6 +512,7 @@ public class ModifyMapController {
             entry.getValue().setStroke(Color.BLACK);
         }
         node_or_edge.setVisible(false);
+        predictor_type.setVisible(false);
     }
 
     /**
@@ -1082,16 +1092,26 @@ public class ModifyMapController {
     }
 
     private void clickOptionAddLocation(MouseEvent click) {
+        predictor_type.setVisible(false);
         node_or_edge.setVisible(false);
         Scene scene = add_loc.getScene();
+        int x_3d;
+        int y_3d;
+        if(predict_nn){
+            Matrix predict_3d = predictor.getNeuralNetPrediction((int) click.getX(), (int) click.getY());
+            x_3d = (int) predict_3d.get(0, 0);
+            y_3d = (int) predict_3d.get(1, 0);
+        } else {
+            double[] affine_res = predictor.getAffinePrediction((int) click.getX(), (int) click.getY(), choose_floor.getValue().toString());
+            x_3d = (int) affine_res[0];
+            y_3d = (int) affine_res[1];
+        }
 
-
-        Matrix predict_3d = predictor.getPrediction((int) click.getX(), (int) click.getY());
 
         String loc_type_shortname = locations.get(loc_type.getValue().toString());
         new_node = new edu.wpi.cs3733d18.teamS.data.Node(generateNodeId(loc_type_shortname), (int) click.getX(), (int) click.getY(),
                 floor_map.get(choose_floor.getValue().toString()), building.getText(), loc_type_shortname, long_name.getText(),
-                short_name.getText(), "S", (int) predict_3d.get(0, 0), (int) predict_3d.get(1, 0), false); //TODO: id function
+                short_name.getText(), "S", x_3d, y_3d, false);
         pane.getChildren().clear();
         pane.getChildren().add(map);
         map.setImage(new Image(select3DMap()));
@@ -1200,6 +1220,19 @@ public class ModifyMapController {
             }
         }
         removePaneChild();
+    }
+
+    /**
+     * Toggles the Learning mode.
+     */
+    public void onNNToggle() {
+        if (!toggleNN.isSelected()) {
+            //use neural net for prediction
+            predict_nn = true;
+        } else {
+            // use affine transform for prediction
+            predict_nn = false;
+        }
     }
 
     /**
