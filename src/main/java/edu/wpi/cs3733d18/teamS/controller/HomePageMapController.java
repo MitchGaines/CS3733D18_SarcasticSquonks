@@ -8,21 +8,31 @@ import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +61,16 @@ public class HomePageMapController {
     @FXML
     GridPane button_pane;
 
+    @FXML
+    Slider zoom_scroll;
+
+    private double zoom_factor = 1;
+
+    private long time_holder;
+
+    private final double MAX_ZOOM = 1.6;
+    private final double MIN_ZOOM = .6;
+
     private int floor = 1;
 
     private Storage database;
@@ -65,24 +85,44 @@ public class HomePageMapController {
             if (floor == Integer.parseInt(button.getId().replaceAll("[^0-9]", ""))) {
                 button.setStyle("-fx-background-color: #a6a6a6; -fx-font-size: 30;");
             }
+            JFXButton b = (JFXButton) button;
+            b.setDisableVisualFocus(true);
         }
+        zoom_scroll.setMin(MIN_ZOOM);
+        zoom_scroll.setMax(MAX_ZOOM);
+        zoom_scroll.setShowTickMarks(true);
+        zoom_scroll.setMajorTickUnit(0.2);
+        zoom_scroll.setStyle("-fx-background-color: #4863A0;");
         map_img.setImage(getFloorImage(floor));
+        zoom(1);
         fitToPos(start_node.getXCoord(), start_node.getYCoord());
         drawStartIcon();
         updatedTime();
+        zoom_scroll.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                zoom(newValue.doubleValue());
+            }
+        });
+    }
+
+    private void zoom(double zoom_amount) {
+        zoom_factor = Math.max(Math.min(zoom_amount, MAX_ZOOM), MIN_ZOOM);
+        zoom_scroll.setValue(zoom_factor);
+        map_scroll_pane.getContent().setScaleX(zoom_factor);
+        map_scroll_pane.setLayoutX(zoom_factor);
+        map_scroll_pane.getContent().setScaleY(zoom_factor);
+        map_scroll_pane.setLayoutY(zoom_factor);
     }
 
     private void fitToPos(double x, double y) {
-        map_scroll_pane.setHvalue(.5);
-        map_scroll_pane.setVvalue(.5);
-
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
         pane_height = 800;
         pane_width = 1200;
 
-        double map_width = map_img.getFitWidth();
-        double map_height = map_img.getFitHeight();
+        double map_width = map_img.getImage().getWidth();
+        double map_height = map_img.getImage().getHeight();
         map_scroll_pane.setHvalue((x - (0.5 * pane_width)) / (map_width - pane_width));
         map_scroll_pane.setVvalue((y - (0.5 * pane_height)) / (map_height - pane_height));
     }
@@ -121,12 +161,19 @@ public class HomePageMapController {
         if (floor == Map.floor_ids.indexOf(start_node.getNodeFloor())) {
             map_anchor_pane.getChildren().get(1).setOpacity(1);
         } else {
-            map_anchor_pane.getChildren().get(1).setOpacity(.4);
+            map_anchor_pane.getChildren().get(1).setOpacity(.35);
         }
     }
 
     @FXML
-    public void onMapClick(javafx.scene.input.MouseEvent e) {
+    public void onMapClick() {
+        time_holder = System.currentTimeMillis();
+    }
+    @FXML
+    public void onMapRelease(javafx.scene.input.MouseEvent e) {
+        if((System.currentTimeMillis() - time_holder)> 200 ){
+            return;
+        }
         //System.out.println("mouse clicked at: " + e.getX() + ", " + e.getY());
         double distance = 999999;
         edu.wpi.cs3733d18.teamS.data.Node best_node;
@@ -138,7 +185,6 @@ public class HomePageMapController {
                 distance = new_dist;
             }
         }
-        System.out.println("navigating to: " + best_node.getNodeID() + " at: " + best_node.getXCoord() + ", " + best_node.getYCoord());
         SearchAlgorithm alg;
         int select = AdminSpecialOptionsController.getChoosenAlg();
         if (select == 1) {
@@ -152,11 +198,9 @@ public class HomePageMapController {
         }
         Pathfinder finder = new Pathfinder(alg);
         finder.findShortestPath(database.getDefaultKioskLocation(), best_node.getNodeID());
-/*        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
+        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
-        Stage stage = (Stage) map_anchor_pane.getScene().getWindow();
-        stage.close();*/
         Map.path = finder.pathfinder_path;
         Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }

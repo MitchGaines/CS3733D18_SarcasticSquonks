@@ -32,7 +32,7 @@ public class ServiceAreaController {
     ComboBox<ServiceRequest> active_requests_box = new ComboBox<>();
 
     @FXML
-    ComboBox<edu.wpi.cs3733d18.teamS.data.Node> service_location = new ComboBox<>();
+    ComboBox<String> service_location = new ComboBox<>();
 
     @FXML
     ComboBox<User> fulfiller_box = new ComboBox<>();
@@ -41,6 +41,7 @@ public class ServiceAreaController {
     Button request_service_button, pathfind_button;
     @FXML
     Button mark_completed_btn;
+
     private User user;
     private ObservableList<Node> locations = FXCollections.observableArrayList();
     @FXML
@@ -50,33 +51,15 @@ public class ServiceAreaController {
     @FXML
     private TextArea description_field, description_text;
     private UserController parent;
+    private FuzzyComboBox fuzzy_service_location;
 
     public void populateRequestTypes() {
         request_type_selector.valueProperty().set(null);
         request_type_selector.getItems().removeAll(request_type_selector.getItems());
         request_type_selector.getItems().addAll(Storage.getInstance().getAllServiceTypes());
-        service_location.setConverter(new StringConverter<Node>() {
-            @Override
-            public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
-                if (node == null) {
-                    return "";
-                } else {
-                    return node.toString();
-                }
-            }
 
-            @Override
-            public edu.wpi.cs3733d18.teamS.data.Node fromString(String long_name) {
-                for (edu.wpi.cs3733d18.teamS.data.Node node : locations) {
-                    if (node.getLongName().equals(long_name)) {
-                        return node;
-                    }
-                }
-                return null;
-            }
-        });
         locations.sort(Comparator.comparing(Node::getLongName));
-        service_location.setItems(locations);
+        fuzzy_service_location = new FuzzyComboBox(service_location, locations);
     }
 
     public void populateRequestsBox() {
@@ -165,7 +148,7 @@ public class ServiceAreaController {
                         description_field.getText(),
                         request_type_selector.getSelectionModel().getSelectedItem(),
                         user,
-                        service_location.getValue(),
+                        fuzzy_service_location.getValue(),
                         desired_user);
         storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
@@ -227,52 +210,6 @@ public class ServiceAreaController {
     public void initialize() {
         if (fulfiller_box != null) {
             fulfiller_box.setVisible(false);
-        }
-    }
-
-    /**
-     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
-     * in the edit field as a substring.
-     *
-     * @param e KeyEvent representing the key that was typed.
-     */
-    @FXML
-    void onKeyReleasedComboBox(KeyEvent e) {
-        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>) (e.getSource());
-        ObservableList<edu.wpi.cs3733d18.teamS.data.Node> filteredItems = FXCollections.observableArrayList();
-        combo_box.show();
-        TextField editor = combo_box.getEditor();
-
-        if (editor.getText().equals("")
-                || e.getCode() == KeyCode.BACK_SPACE
-                || e.getCode() == KeyCode.DELETE
-                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
-            combo_box.setItems(locations);
-        }
-
-        Stream<Node> items_stream = combo_box.getItems().stream();
-        String user_text = editor.getText().toLowerCase();
-        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
-
-        if (!e.getCode().isArrowKey()) { // Doesn't change list while edu.wpi.cs3733d18.teamS.user is navigating dropdown with arrow keys
-            if (e.getCode() == KeyCode.ENTER) {
-                // Pressing enter clear the edit field if it was autocompleted. This prevents
-                // that by storing the editor text and putting it back in afterwards
-                String current_editor = editor.getText();
-                combo_box.setItems(filteredItems);
-                editor.setText(current_editor);
-            } else {
-                combo_box.setItems(filteredItems);
-            }
-
-            // Resize drop down
-            int new_visible_size;
-            new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
-            if (new_visible_size != combo_box.getVisibleRowCount()) {
-                combo_box.hide();
-                combo_box.setVisibleRowCount(new_visible_size);
-                combo_box.show();
-            }
         }
     }
 
