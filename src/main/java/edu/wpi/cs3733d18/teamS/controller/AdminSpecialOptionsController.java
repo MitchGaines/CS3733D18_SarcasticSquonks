@@ -92,6 +92,12 @@ public class AdminSpecialOptionsController {
     @FXML
     TableView<User> user_table;
 
+    private AdminPageController parent;
+
+    public void setParent(AdminPageController parent) {
+        this.parent = parent;
+    }
+
     /**
      * Retrieves the chosen algorithm.
      * @return the value for the selected path algorithm.
@@ -293,7 +299,7 @@ public class AdminSpecialOptionsController {
     private Button special_request;
 
     @FXML
-    public void onSpecialRequest() {
-        Main.switchScenes("Special Requests", "/SpecialRequests.fxml");
+    public void onSpecialRequest() throws IOException {
+        parent.loadSpecialRequests();
     }
 }
