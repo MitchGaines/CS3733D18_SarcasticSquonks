@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
+import javax.swing.*;
+
 public class CreditsController {
 
     @FXML
@@ -20,8 +22,13 @@ public class CreditsController {
 
     @FXML
     void onBackClick(ActionEvent event) {    // about screen
-        Main.switchScenes("Back", "/HomePage.fxml");
+        Main.switchScenes("Back", "/AboutPage.fxml");
     }
+
+    @FXML
+    void onHomeClick(ActionEvent event) {Main.switchScenes("Home", "/HomePage.fxml");}
+
+
 
 
 

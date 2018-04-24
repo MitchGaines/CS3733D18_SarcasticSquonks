@@ -322,10 +322,7 @@ public class HomePageController {
         Main.switchScenes("About", "/AboutPage.fxml");
     }
 
-    @FXML
-    void onCreditsClick(ActionEvent event) {    // about screen
-        Main.switchScenes("About", "/AboutPage.fxml");
-    }
+
 
     /**
      * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
