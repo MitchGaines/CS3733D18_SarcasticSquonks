@@ -57,7 +57,9 @@ dependencies {
             [group: 'd18.teamF', name: 'VoiceRecognition', version: '1.1.0'],
             [group: 'd18.teamQ', name: 'SanitationRequest', version: '1.0.0'],
             [group: 'd18.teamP', name: 'TransportationRequest', version: '1.0.0'],
-            [group: 'b17.teamI', name: 'FoodRequest', version: '1.0.0']
+            [group: 'b17.teamI', name: 'FoodRequest', version: '1.0.0'],
+            [group: 'd18.teamM', name: 'RoomService', version: '1.0.1'],
+            [group: 'd18.teamN', name: 'SecurityRequest', version: '1.0.0']
     )
     compile(
             [group: 'junit', name: 'junit', version: '4.12'],
@@ -76,7 +78,9 @@ dependencies {
             [group: 'd18.teamF', name: 'VoiceRecognition', version: '1.1.0'],
             [group: 'd18.teamQ', name: 'SanitationRequest', version: '1.0.0'],
             [group: 'd18.teamP', name: 'TransportationRequest', version: '1.0.0'],
-            [group: 'b17.teamI', name: 'FoodRequest', version: '1.0.0']
+            [group: 'b17.teamI', name: 'FoodRequest', version: '1.0.0'],
+            [group: 'd18.teamM', name: 'RoomService', version: '1.0.1'],
+            [group: 'd18.teamN', name: 'SecurityRequest', version: '1.0.0']
     )
 }
 

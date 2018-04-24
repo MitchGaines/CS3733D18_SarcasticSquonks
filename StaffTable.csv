@@ -1,0 +1,7 @@
+isWorking,isAvailable,getLanguageSpoken,userID, deleteTime
+false,true,english/spanish,1,
+true,true,mandarin/spanish,3,
+true,false,french/english,5,
+false,true,latin/greek,7,
+true,false,german/italian/english/mandarin,9,
+false,false,english/spanish/korean,11,

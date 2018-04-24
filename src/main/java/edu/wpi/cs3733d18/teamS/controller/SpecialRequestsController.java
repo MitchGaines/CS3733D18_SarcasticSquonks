@@ -6,18 +6,13 @@ import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamF.api.ServiceRequest;
 import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
-import edu.wpi.cs3733d18.teamp.api.Exceptions.EmployeeNotFoundException;
 import edu.wpi.cs3733d18.teamp.api.TransportationRequest;
 import edu.wpi.cs3733d18.teamp.api.Exceptions.ServiceException;
-import edu.cmu.sphinx.api.Microphone;
-import edu.wpi.cs3733d18.teamQ2.ui.Controller.RequestController2;
-
+import com.manlyminotaursAPI.core.RoomService;
+import com.nearnagas.api.Security;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import edu.wpi.cs3733d18.teamS.database.Storage;
 
-import javax.naming.ServiceUnavailableException;
-import java.io.IOException;
 
 public class SpecialRequestsController {
 
@@ -25,9 +20,11 @@ public class SpecialRequestsController {
     Button voice_recognition_box;
 
     public void onVoiceRecognitionClick() {
+        Timeout.stop();
         ServiceRequest f_api = new ServiceRequest();
-        f_api.initVoice();
+        //f_api.initVoice();
         f_api.run(-1, -1, 1000, 631, null, null, null);
+        Timeout.start();
     }
 
     @FXML
@@ -49,26 +46,19 @@ public class SpecialRequestsController {
 
     public void onSanitationRequest() {
         /*
-        RequestController2 q_api = new RequestController2();
+            Team Q's just doesn't work
+         */
 
-        try {
-            q_api.run(100, 30, 1300, 600, null, null, null);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ServiceUnavailableException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
     @FXML
     Button gift_request;
 
     public void onGiftRequest() {
+        Timeout.stop();
         GiftShop o_api = new GiftShop();
         o_api.run(100, 30, 1000, 700, null, null, null);
+        Timeout.start();
     }
 
     @FXML
@@ -111,7 +101,7 @@ public class SpecialRequestsController {
         try {
             p_api.run(100, 30, 1000, 700, null, null, null);
         } catch (ServiceException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         Timeout.start();
     }
@@ -120,20 +110,36 @@ public class SpecialRequestsController {
     Button food_request;
 
     public void onFoodRequest() {
-        // TODO Danny
+        /*
+            no documentation, unsure how to add it
+         */
     }
 
     @FXML
     Button room_service;
 
     public void onRoomServiceRequest() {
-        // TODO Danny
+        Timeout.stop();
+        RoomService m_api = new RoomService();
+        try {
+            m_api.run(100, 30, 1280, 720, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 
     @FXML
     Button security_request;
 
     public void onSecurityRequest() {
-        // TODO Danny
+        Timeout.stop();
+        Security n_api = new Security();
+        try {
+            n_api.run(100, 30, 1280, 720, null, null, null);
+        } catch (com.nearnagas.api.ServiceException e) {
+            e.printStackTrace();
+        }
+        Timeout.start();
     }
 }
