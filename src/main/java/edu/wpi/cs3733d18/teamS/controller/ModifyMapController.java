@@ -120,7 +120,7 @@ public class ModifyMapController {
     private HashMap<Node, Circle> movedNodes;
 
     @FXML
-    JFXToggleButton toggle3D;
+    JFXToggleButton toggle3D, toggleNN, node_edge_select;
 
     @FXML
     Label time;
@@ -205,11 +205,6 @@ public class ModifyMapController {
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
-
-    /**
-     * toggles use of neural net or affine transform
-     */
-    private boolean predict_nn = true;
 
     /**
      * toggles use of neural net or affine transform
@@ -1104,9 +1099,8 @@ public class ModifyMapController {
     private void clickOptionAddLocation(MouseEvent click) {
         node_or_edge.setVisible(false);
         Scene scene = add_loc.getScene();
-        int x_3d = 1;
-        int x_3d = 1;
-        int y_3d = 1;
+        int x_3d;
+        int y_3d;
         if(predict_nn){
             Matrix predict_3d = predictor.getNeuralNetPrediction((int) click.getX(), (int) click.getY());
             x_3d = (int) predict_3d.get(0, 0);
