@@ -278,5 +278,5 @@ public class AdminSpecialOptionsController{
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
     }
 
-    
+
 }
