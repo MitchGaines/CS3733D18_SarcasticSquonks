@@ -1,5 +1,6 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXToggleButton;
@@ -18,6 +19,7 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -136,6 +138,9 @@ public class ModifyMapController {
 
     @FXML
     JFXComboBox loc_type, choose_floor, loc_type_change;
+
+    @FXML
+    JFXButton floor_0, floor_1, floor_2, floor_3, floor_4;
 
     @FXML
     AnchorPane pane;
@@ -371,6 +376,11 @@ public class ModifyMapController {
         }
         toggle3D.setSelected(false);
         makeMap(storage.getAllNodes(), storage.getAllEdges());
+    }
+
+    public void onFloorClick(Event event) {
+        JFXButton button = (JFXButton) event.getSource();
+
     }
 
     /**
