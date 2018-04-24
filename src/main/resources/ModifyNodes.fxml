@@ -299,16 +299,6 @@
                         <Insets left="-10.0" right="-10.0" />
                      </HBox.margin>
             </JFXToggleButton>
-                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="NN/Affine" toggleColor="#999999" toggleLineColor="#4863a0">
-                    <font>
-                        <Font size="23.0" />
-                    </font>
-                </JFXToggleButton>
-                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="NN/Affine" toggleColor="#999999" toggleLineColor="#4863a0">
-                    <font>
-                        <Font size="23.0" />
-                    </font>
-                </JFXToggleButton>
                </children>
                <StackPane.margin>
                   <Insets left="-55.0" />
@@ -354,10 +344,30 @@
                   <Insets bottom="20.0" />
                </StackPane.margin>
             </HBox>
-                <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23; -fx-text-color: #ffffff;" StackPane.alignment="BOTTOM_LEFT">
+                <JFXComboBox fx:id="choose_floor" focusColor="#4863a0" onAction="#onChooseFloorChange" promptText="%choose_floor" style="-fx-font-size: 23; -fx-text-color: #ffffff;" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets bottom="18.0" left="10.0" />
                </StackPane.margin></JFXComboBox>
+            <HBox fx:id="predictor_type" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="BOTTOM_LEFT">
+               <children>
+                  <Label text="Smart" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                <JFXToggleButton fx:id="toggleNN" alignment="BOTTOM_CENTER" onAction="#onNNToggle" text="Math" textFill="WHITE" toggleColor="#fafafa" toggleLineColor="#999999">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                     <HBox.margin>
+                        <Insets left="-10.0" />
+                     </HBox.margin>
+                </JFXToggleButton>
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="20.0" left="10.0" />
+               </StackPane.margin>
+            </HBox>
          </children>
       </StackPane>
    </center>

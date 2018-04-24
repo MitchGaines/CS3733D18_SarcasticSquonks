@@ -165,7 +165,7 @@ public class ModifyMapController {
     ImageView view_btn, add_btn, remove_btn, modify_btn, kiosk_btn, batch_btn;
 
     @FXML
-    HBox node_or_edge;
+    HBox node_or_edge, predictor_type;
     /**
      * Stores a color code.
      */
@@ -485,6 +485,7 @@ public class ModifyMapController {
             setAction("Add Path", add_btn);
         } else if (!node_edge_select.isSelected() && cur_icon.equals(add_btn)){
             setAction("Add Location", add_btn);
+            predictor_type.setVisible(true);
         } else if(node_edge_select.isSelected() && cur_icon.equals(remove_btn)) {
             setAction("Delete Path", remove_btn);
         } else if (!node_edge_select.isSelected() && cur_icon.equals(remove_btn)){
@@ -513,6 +514,7 @@ public class ModifyMapController {
             entry.getValue().setStroke(Color.BLACK);
         }
         node_or_edge.setVisible(false);
+        predictor_type.setVisible(false);
     }
 
     /**
@@ -1097,6 +1099,7 @@ public class ModifyMapController {
     }
 
     private void clickOptionAddLocation(MouseEvent click) {
+        predictor_type.setVisible(false);
         node_or_edge.setVisible(false);
         Scene scene = add_loc.getScene();
         int x_3d;
