@@ -1,3 +1,0 @@
-messageID,message,isRead,sentTime,senderID,receiverID,deleteTime
-1,hello world,false,2018-04-10,2,1,
-2,how are you?,true,2018-04-12,5,3,
