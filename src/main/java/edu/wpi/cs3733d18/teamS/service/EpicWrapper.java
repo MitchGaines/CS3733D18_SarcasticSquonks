@@ -48,10 +48,7 @@ public class EpicWrapper {
                 System.out.println("Unable to clse ByteArrayOutputStream");
             }
         }
-
+    public ServiceRequest getEpicServiceRequest(){
         /*return ServiceRequest.createService("Test", "this is a test",
-                , "Some guy", "Bathrrom", "Some fullfiller");
-        return hl7_task_b;
-    }
-*/
+
 }
