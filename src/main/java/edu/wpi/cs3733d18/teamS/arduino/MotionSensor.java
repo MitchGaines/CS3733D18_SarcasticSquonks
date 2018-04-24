@@ -5,16 +5,15 @@ import edu.wpi.cs3733d18.teamS.controller.AdminSpecialOptionsController;
 
 public class MotionSensor {
     public static SensorPolling poll = new SensorPolling();
-    public static SerialPort[] port_names  = SerialPort.getCommPorts();
-    public static SerialPort chosen_port = SerialPort.getCommPort(port_names[0].getSystemPortName().toString());
 
-    public boolean getSwitchStatus() {
-        return AdminSpecialOptionsController.includeMotion();
-    }
+
+
 
     public void connect() {
 
         try {
+            SerialPort[] port_names  = SerialPort.getCommPorts();
+            SerialPort chosen_port = SerialPort.getCommPort(port_names[0].getSystemPortName().toString());
             if (!chosen_port.isOpen()) {
                 chosen_port.openPort();
             }
