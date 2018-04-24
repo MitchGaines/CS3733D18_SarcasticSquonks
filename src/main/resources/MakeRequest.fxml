@@ -34,7 +34,7 @@
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXComboBox fx:id="service_location" editable="true" focusColor="#4863a0" labelFloat="true" onKeyReleased="#onKeyReleasedComboBox" promptText="%service_location" style="-fx-font-size: 23;">
+            <JFXComboBox fx:id="service_location" editable="true" focusColor="#4863a0" labelFloat="true" promptText="%service_location" style="-fx-font-size: 23;">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
