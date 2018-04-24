@@ -2,14 +2,13 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.animation.*;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.effect.Shadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
@@ -18,8 +17,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 import javafx.scene.image.ImageView;
+import org.controlsfx.control.PopOver;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -316,30 +315,11 @@ public class Path {
         start_icon.setId("prev_icon");
         start_icon.smoothProperty().setValue(true);
         start_icon.setOpacity(.8);
+        start_icon.setUserData(start_node);
+
         fx_nodes.add(start_icon);
 
-        StackPane start_pane = new StackPane();
-        start_pane.setStyle("-fx-background-color: #f8f8f8;" +
-                "-fx-border-width: 2px;" +
-                "-fx-border-style: solid;" +
-                "-fx-border-color: #c8bf9b;" +
-                "-fx-text-alignment: center;" +
-                "-fx-fit-to-width: 20px;" +
-                "-fx-padding: 5px;");
-        start_pane.setId("temporaryIcon");
-        Text t = new Text(start_node.getLongName());
-        t.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        start_pane.getChildren().add(t);
-        double height = start_pane.getBoundsInParent().getMaxY()+start_pane.getBoundsInParent().getMinY();
-        double width = start_pane.getBoundsInParent().getMaxX()-start_pane.getBoundsInParent().getMinX();
-        if (is3D){
-            start_pane.setTranslateX(start_node.getXCoord3D() - (width / 2));
-            start_pane.setTranslateY(start_node.getYCoord3D() - (height * 2));
-        }else{
-            start_pane.setTranslateX(start_node.getXCoord() - (width / 2) );
-            start_pane.setTranslateY(start_node.getYCoord() - (height * 2));
-        }
-        fx_nodes.add(start_pane);
+        addTooltip(start_icon);
 
         //adding icons for end of path
         AStarNode end_node = path_segments.get(seg_index).seg_path.get(path_segments.get(seg_index).seg_path.size() - 1);
@@ -371,36 +351,19 @@ public class Path {
         icon.smoothProperty().setValue(true);
         icon.setX(x_pos - (icon.getFitHeight()/2));
         icon.setY(y_pos - (icon.getFitHeight()/2));
+        icon.setUserData(end_node);
         fx_nodes.add(icon);
 
-        StackPane sp = new StackPane();
-        sp.setStyle("-fx-background-color: #f8f8f8;" +
-                "-fx-border-width: 2px;" +
-                "-fx-border-style: solid;" +
-                "-fx-border-color: #c8bf9b;" +
-                "-fx-text-alignment: center;" +
-                "-fx-fit-to-width: 20px;" +
-                "-fx-padding: 5px;");
-        sp.setId("temporaryIcon");
-        t = new Text(end_node.getLongName());
-        t.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        sp.getChildren().add(t);
-        height = sp.getBoundsInParent().getMaxY()+sp.getBoundsInParent().getMinY();
-        width = sp.getBoundsInParent().getMaxX()-sp.getBoundsInParent().getMinX();
-        sp.setTranslateX(x_pos - (width / 2));
-        sp.setTranslateY(y_pos - (height * 2));
-
-        boolean boxes_intersecting = true;
-        while(boxes_intersecting){
-            if(sp.getBoundsInParent().intersects(start_pane.getBoundsInParent())){
-                sp.setTranslateX(sp.getTranslateX() + 15);
-            }else{
-                boxes_intersecting = false;
-            }
-        }
-        fx_nodes.add(sp);
+        addTooltip(icon);
 
         return fx_nodes;
+    }
+
+    private void addTooltip(Node n){
+        Tooltip t = new Tooltip(((AStarNode) n.getUserData()).getLongName());
+        t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-5));
+        n.setOnMouseExited(event -> t.hide());
     }
 
     public int nextFloorChange() {
