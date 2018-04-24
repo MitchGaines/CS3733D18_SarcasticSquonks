@@ -65,30 +65,7 @@ import java.util.Map;
  */
 public class ModifyMapController {
 
-    @FXML
-    JFXToggleButton toggle3D;
-    @FXML
-    Label add_loc_fail, time;
-    @FXML
-    TextField building, long_name, short_name, kiosk_location_name, location_one, location_two, location_to_delete, kiosk_location;
-    @FXML
-    JFXComboBox loc_type, location_or_path, choose_floor;
-    @FXML
-    AnchorPane pane;
-    @FXML
-    Button add_loc_cancel, add_loc, back_btn;
-    @FXML
-    BorderPane main_pane;
-    @FXML
-    ScrollPane scroll_pane;
-    @FXML
-    ImageView map;
-    @FXML
-    VBox add_node_box, add_edge_box, delete_loc_box, delete_edge_box, modify_loc_box, batch_disable_box;
-    @FXML
-    Button confirm_3d;
-    @FXML
-    Text user_name;
+
     /**
      * Stores a Circle for moving nodes.
      */
@@ -154,9 +131,6 @@ public class ModifyMapController {
     JFXComboBox loc_type_change;
 
     @FXML
-    Button confirm_change;
-
-    @FXML
     Button add_loc_cancel, add_loc, back_btn, confirm_change;
 
     @FXML
@@ -182,6 +156,12 @@ public class ModifyMapController {
 
     @FXML
     HBox node_or_edge, predictor_type;
+
+    @FXML
+    JFXComboBox loc_type, choose_floor;
+
+    @FXML
+    AnchorPane pane;
     /**
      * Stores a color code.
      */
