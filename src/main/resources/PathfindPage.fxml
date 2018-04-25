@@ -67,6 +67,11 @@
                       <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" />
                   <VBox alignment="CENTER" prefHeight="700.0" prefWidth="419.0" spacing="20.0">
                      <children>
+                        <JFXButton buttonType="RAISED" onAction="#onBigQRClick" style="-fx-background-color: #B7B8B6;" text="%view_map">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXButton>
                         <ScrollPane fx:id="directions_pane" hbarPolicy="NEVER" prefHeight="425.0" prefWidth="277.0" vbarPolicy="ALWAYS">
                           <content>
                               <BorderPane fx:id="directions_anchor" prefHeight="200.0" prefWidth="407.0">
