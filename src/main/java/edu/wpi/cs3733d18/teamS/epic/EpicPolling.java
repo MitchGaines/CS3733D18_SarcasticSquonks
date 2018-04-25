@@ -1,4 +1,4 @@
-package edu.wpi.cs3733d18.teamS.service;
+package edu.wpi.cs3733d18.teamS.epic;
 
 public class EpicPolling implements Runnable {
     private Thread t;

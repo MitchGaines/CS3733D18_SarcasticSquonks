@@ -1,8 +1,9 @@
 package edu.wpi.cs3733d18.teamS.service;
 
 import edu.wpi.cs3733d18.teamS.data.Node;
-import edu.wpi.cs3733d18.teamS.data.TCPClient;
+import edu.wpi.cs3733d18.teamS.epic.TCPClient;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.epic.EpicWrapper;
 import edu.wpi.cs3733d18.teamS.user.User;
 import org.joda.time.DateTime;
 
@@ -100,9 +101,9 @@ public class ServiceRequest {
      * @param desired_fulfiller The name of the user we want to fulfill the request.
      * @return The service request that was created.
      */
-    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller) {
+    public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller, Boolean to_epic) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);
-        if (sr != null) { TCPClient.sendTcpPacket(EpicWrapper.createEpicService(sr)); }
+        if(to_epic) { EpicWrapper.send2Epic(sr); }
         return sr;
     }
 

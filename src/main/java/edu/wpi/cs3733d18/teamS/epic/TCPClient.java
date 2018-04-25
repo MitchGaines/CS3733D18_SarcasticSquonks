@@ -1,4 +1,4 @@
-package edu.wpi.cs3733d18.teamS.data;
+package edu.wpi.cs3733d18.teamS.epic;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ public class TCPClient {
     public static void sendTcpPacket(byte[] data){
         Socket socket = new Socket();
         try {
-            socket = new Socket("127.0.0.1", 8080);
+            socket = new Socket("127.0.0.1", 5000);
 
             OutputStream out = socket.getOutputStream();
             DataOutputStream os = new DataOutputStream(out);
