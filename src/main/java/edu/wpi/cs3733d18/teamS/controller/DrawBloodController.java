@@ -49,8 +49,8 @@ public class DrawBloodController {
     }
 
     @FXML
+    @SuppressWarnings("Duplicate")
     public void submitReport() {
-        // TODO EPIC interaction
 
         EpicWrapper.send2Epic(ServiceRequest.createService("Blood Report", "Patient's blood report.", Storage.getInstance().getServiceTypesByName("Medical").get(0), null, null, null, true));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -58,6 +58,7 @@ public class DrawBloodController {
         alert.setHeaderText("Service Request Created");
         alert.setContentText("Your service request was created successfully.");
         alert.showAndWait();
+
 
         Main.switchScenes("Nurse View", "/NurseHome.fxml");
     }
