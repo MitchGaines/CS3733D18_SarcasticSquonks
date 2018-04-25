@@ -49,7 +49,6 @@ public class Ant {
     }
 
     /**
-     * addStop
      * Adds a stop to the animation cycle at the given coordinate.
      *
      * @param x x-coordinate to add stop at.
@@ -77,7 +76,6 @@ public class Ant {
     }
 
     /**
-     * playFromStart
      * Begins marching animation from the first stop on the path.
      */
     void playFromStart() {
@@ -85,7 +83,6 @@ public class Ant {
     }
 
     /**
-     * playFrom
      * Begins marching animation from the specified starting time (in seconds).
      *
      * @param seconds time (in seconds) to begin the marching animation from.
@@ -95,7 +92,6 @@ public class Ant {
     }
 
     /**
-     * getDuration
      * Returns the duration (in seconds) of the marching animation from start to finish.
      *
      * @return the duration (in seconds) of the marching animation from start to finish
@@ -105,7 +101,6 @@ public class Ant {
     }
 
     /**
-     * getImageView
      * Returns the JavaFX ImageView associated with the Ant. Used to place this Ant in a scene.
      *
      * @return the JavaFX ImageView associated with the Ant.
@@ -115,7 +110,6 @@ public class Ant {
     }
 
     /**
-     * duplicate
      * Returns a deep-copy of this Ant. Used for creating multiple Ants that follow the same path.
      *
      * @return a deep-copy of this Ant.
