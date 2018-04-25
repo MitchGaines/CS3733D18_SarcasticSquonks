@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.NurseHomeController">
+<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.NurseHomeController">
     <top>
         <ExpansionPanel fx:id="exp_panel" prefWidth="1200.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER" />
     </top>
@@ -38,13 +38,13 @@
                 </VBox>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="632.0" minWidth="10.0" prefWidth="628.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="572.0" minWidth="10.0" prefWidth="572.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="628.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="572.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="350.0" minHeight="10.0" prefHeight="314.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="227.0" minHeight="10.0" prefHeight="89.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="314.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="89.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="297.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #dbe9d8;">
