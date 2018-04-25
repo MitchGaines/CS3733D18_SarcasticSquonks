@@ -4,6 +4,7 @@ import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.InteractivePhone;
 import edu.wpi.cs3733d18.teamS.pathfind.Map;
+import edu.wpi.cs3733d18.teamS.pathfind.Path;
 import edu.wpi.cs3733d18.teamS.pathfind.QRCode;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

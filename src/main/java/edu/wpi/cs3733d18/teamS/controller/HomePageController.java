@@ -317,10 +317,15 @@ public class HomePageController {
     }
 
     @FXML
+    void onAboutClick(ActionEvent event) {
+        Main.switchScenes("About", "/AboutPage.fxml");
+    }
+
+    @FXML
     public void updateStartCombobox() {
         if (combobox_start.getSelectionModel() != null) {
-            HomePageMapController.start_id = combobox_start.getValue().getNodeID();
-            homepageMapController.updateStart(combobox_start.getValue().getNodeID());
+            HomePageMapController.start_id = auto_combobox_start.getValue().getNodeID();
+            homepageMapController.updateStart(auto_combobox_start.getValue().getNodeID());
         }
     }
 
