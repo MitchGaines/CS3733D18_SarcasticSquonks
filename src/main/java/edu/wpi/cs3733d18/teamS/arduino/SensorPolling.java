@@ -15,12 +15,35 @@ public class SensorPolling implements Runnable{
     private volatile boolean exit;
 
     @Override
-    public void run(){
+    public void run() {
         exit = false;
-        Scanner scanner = new Scanner(sp.getInputStream());
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(sp.getInputStream());
+            line = scanner.nextLine();
+        } catch (NullPointerException e) {
+            System.out.println("Input Stream not found");
+            line = "0";
+
+        }catch (NumberFormatException num){
+            System.out.println("Input Stream format error");
+            line = "0";
+        }
+
         System.out.println("Sensor is connected...");
         while(!exit){
-            line = scanner.nextLine();
+            try{
+                line = scanner.nextLine();
+            }catch (NullPointerException e) {
+                System.out.println("Input Stream not found");
+                line = "1";
+
+            }catch (NumberFormatException num){
+                System.out.println("Input Stream format error");
+                line = "1";
+            }
+
+            //System.out.println(line);
             if(Integer.parseInt(line)== 0 ) {
                 try{
                     System.out.println(line);
@@ -49,6 +72,7 @@ public class SensorPolling implements Runnable{
     }
     public void stop(){
         exit = true;
+
     }
 
     public static SensorPolling getInstance() {

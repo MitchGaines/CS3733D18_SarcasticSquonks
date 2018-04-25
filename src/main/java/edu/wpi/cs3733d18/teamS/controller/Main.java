@@ -1,6 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
+import edu.wpi.cs3733d18.teamS.arduino.SensorPolling;
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
 import edu.wpi.cs3733d18.teamS.database.CSVReader;
 import edu.wpi.cs3733d18.teamS.database.CSVWriter;
@@ -69,7 +70,7 @@ public class Main extends Application {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
-                        MotionSensor.poll.stop();
+                        SensorPolling.getInstance().stop();
                         primary_stage.removeEventFilter(MouseEvent.MOUSE_PRESSED, this);
                     }
                 });
