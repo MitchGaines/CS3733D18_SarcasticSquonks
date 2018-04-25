@@ -19,6 +19,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -32,10 +33,12 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 
 public class HomePageMapController {
@@ -67,6 +70,8 @@ public class HomePageMapController {
     private double zoom_factor = 1;
 
     private long time_holder;
+
+    static String start_id = "BINFO00102";
 
     private final double MAX_ZOOM = 1.6;
     private final double MIN_ZOOM = .6;
@@ -137,6 +142,13 @@ public class HomePageMapController {
     }
 
     private void drawStartIcon() {
+        ArrayList<Node> to_remove = new ArrayList<>();
+        for(Node node: map_anchor_pane.getChildren()) {
+            if(node.getId() == "temporaryIcon") {
+                to_remove.add(node);
+            }
+        }
+        map_anchor_pane.getChildren().removeAll(to_remove);
         ImageView icon;
         icon = new ImageView("images/mapIcons/start_flag.png");
         icon.setId("temporaryIcon");
@@ -147,6 +159,30 @@ public class HomePageMapController {
         icon.setX(start_node.getXCoord() - (icon.getFitHeight() / 2));
         icon.setY(start_node.getYCoord() - (icon.getFitHeight() / 2));
         map_anchor_pane.getChildren().add(icon);
+    }
+
+
+    void updateStart(String start_id) {
+        start_node = database.getNodeByID(start_id);
+        zoom(1);
+        drawStartIcon();
+        floor = Map.floor_ids.indexOf(start_node.getNodeFloor());
+        for (Node n : button_pane.getChildren()) {
+            JFXButton button = (JFXButton) n;
+            if(floor == Integer.parseInt(button.getId().replaceAll("[^0-9]", ""))) {
+                button.setStyle("-fx-background-color: #a6a6a6; -fx-font-size: 30;");
+            } else {
+                n.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;");
+            }
+        }
+        map_img.setImage(getFloorImage(floor));
+        if (floor == Map.floor_ids.indexOf(start_node.getNodeFloor())) {
+            map_anchor_pane.getChildren().get(1).setOpacity(1);
+        } else {
+            map_anchor_pane.getChildren().get(1).setOpacity(.35);
+        }
+        map_img.setImage(getFloorImage(Map.floor_ids.indexOf(start_node.getNodeFloor())));
+        fitToPos(start_node.getXCoord(), start_node.getYCoord());
     }
 
     @FXML
@@ -197,7 +233,7 @@ public class HomePageMapController {
             alg = new AStar();
         }
         Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(database.getDefaultKioskLocation(), best_node.getNodeID());
+        finder.findShortestPath(start_node.getNodeID(), best_node.getNodeID());
         if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }

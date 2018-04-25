@@ -121,7 +121,7 @@
                                       <Insets top="-40.0" />
                                   </VBox.margin>
                               </HBox>
-                              <JFXComboBox fx:id="combobox_start" editable="true" focusColor="WHITE" promptText="%start_location" style="-fx-font-size: 23; -fx-background-color: #ffffff;" unFocusColor="#fafafa" />
+                              <JFXComboBox fx:id="combobox_start" editable="true" focusColor="WHITE" onAction="#updateStartCombobox" promptText="%start_location" style="-fx-font-size: 23; -fx-background-color: #ffffff;" unFocusColor="#fafafa" />
                               <JFXComboBox fx:id="combobox_end" editable="true" focusColor="WHITE" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12; -fx-background-color: #ffffff;" unFocusColor="#fafafa" />
                               <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23; -fx-text-fill: #ffffff;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#fafafa" />
                               <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />

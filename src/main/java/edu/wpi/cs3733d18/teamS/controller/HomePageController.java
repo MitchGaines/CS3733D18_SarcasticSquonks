@@ -120,6 +120,8 @@ public class HomePageController {
     @FXML
     JFXButton map;
     Text use_map;
+    @FXML
+    HomePageMapController homepageMapController;
 
     /**
      * Stores the LoginHandler.
@@ -209,6 +211,7 @@ public class HomePageController {
         }
 
         login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
+        homepageMapController.updateStart(KIOSK_DEFAULT_LOCATION);
     }
 
     /**
@@ -314,8 +317,16 @@ public class HomePageController {
     }
 
     @FXML
-    void onAboutClick(ActionEvent event) {    // about screen
+    void onAboutClick(ActionEvent event) {
         Main.switchScenes("About", "/AboutPage.fxml");
+    }
+
+    @FXML
+    public void updateStartCombobox() {
+        if (combobox_start.getSelectionModel() != null) {
+            HomePageMapController.start_id = auto_combobox_start.getValue().getNodeID();
+            homepageMapController.updateStart(auto_combobox_start.getValue().getNodeID());
+        }
     }
 
     @FXML
@@ -350,10 +361,6 @@ public class HomePageController {
         }
     }
 
-    public void onMapClick() {
-        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
-    }
-
     //PART OF THE USER TEST
     public void openUser(ActionEvent event, String page, User user) throws IOException {
         UserController user_controller = (UserController) Main.switchScenes("User", page);
@@ -371,7 +378,7 @@ public class HomePageController {
     }
 
     public void onOpenSearchClick() {
-        if(search_pane.isVisible()) {
+        if (search_pane.isVisible()) {
             search_pane.setVisible(false);
             search_loc_btn.setText(AllText.get("search_by_name"));
         } else {
