@@ -23,9 +23,7 @@ public class CreditsController {
         Main.switchScenes("Back", "/HomePage.fxml");
     }
 
-
-
-
-
+    @FXML
+    void onHomeClick(ActionEvent event) {Main.switchScenes("Home", "/HomePage.fxml");}
 
 }
