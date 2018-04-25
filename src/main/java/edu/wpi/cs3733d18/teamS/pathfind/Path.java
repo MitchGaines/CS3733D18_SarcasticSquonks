@@ -6,11 +6,13 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.effect.Shadow;
+import javafx.scene.effect.*;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.apache.commons.codec.binary.Base64;
 import javafx.scene.image.ImageView;
@@ -33,8 +35,8 @@ public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
     private static final double NUM_ANTS_PER_SECOND = 1.8;
+    public static int seg_index = 0;
     private static final double PATH_DRAW_SPEED = 250;
-    public int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
     public ArrayList<PathSegment> path_segments = new ArrayList<>();
 
@@ -243,6 +245,7 @@ public class Path {
     }
 
     public void genPathSegments() {
+        seg_index = 0;
         PathSegment seg = new PathSegment();
         String curr_floor = algorithm_node_path.get(0).floor;
         for (AStarNode node : algorithm_node_path) {
@@ -359,6 +362,68 @@ public class Path {
         return fx_nodes;
     }
 
+    public ArrayList<Node> generateBreadcrumbs(){
+        ArrayList<Node> n = new ArrayList<>();
+        String prevFloor = "";
+
+        for(int i = 0; i < path_segments.size(); i++){
+
+            Text t;
+            if (i > 0){
+                t = new Text("\n→");
+                t.styleProperty().set("-fx-text-fill: #ffffff; -fx-font-size: 25");
+                t.setFont(new Font(50));
+                t.setFill(Color.WHITE);
+                t.setTextAlignment(TextAlignment.CENTER);
+                n.add(t);
+            }
+
+            ImageView iv = new ImageView();
+            if(i != 0 && i != path_segments.size()-1){
+//                iv.setUserData(prevFloor+"\nto\nFloor " + path_segments.get(i).seg_path.get(0).floor);
+                iv.setUserData("Floor " + path_segments.get(i).seg_path.get(0).floor + i);
+            } else {
+                iv.setUserData("Floor " + path_segments.get(i).seg_path.get(0).floor + i);
+            }
+
+            if (i == 0){
+                iv.setImage(new Image("images/mapIcons/start_flag_small.png"));
+            } else if (i == path_segments.size() - 1) {
+                iv.setImage(new Image("images/mapIcons/goal_flag_small.png"));
+            } else {
+                iv.setImage(new Image("images/mapIcons/middle_flag_small.png"));
+            }
+
+
+            n.add(iv);
+
+            prevFloor = "Floor " + path_segments.get(i).seg_path.get(0).floor;
+
+        }
+
+        for(Node node : n){
+            try{
+                ImageView iv = (ImageView) node;
+                iv.setId("flag");
+                iv.setPreserveRatio(true);
+                iv.setX(iv.getX() - 100 - (iv.getFitHeight()/2));
+                iv.setY(iv.getY() - 100 - (iv.getFitHeight()/2));
+
+                iv.setFitHeight(50);
+                iv.setOpacity(.8);
+                iv.smoothProperty().setValue(true);
+
+            } catch (ClassCastException e){
+                node.setId("text");
+            }
+
+//<!--<JFXButton fx:id="floor_0" alignment="CENTER" buttonType="RAISED" opacity="0.9" prefHeight="60.0" prefWidth="80.0"
+// style="-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;" text="L2" textAlignment="CENTER"
+// GridPane.halignment="CENTER" GridPane.columnIndex="4" GridPane.valignment="CENTER" />-->
+        }
+        return n;
+    }
+
     /**
      * addTooltip
      * Adds a tooltip to the supplied node, adding navigation instructions to the tooltip.
@@ -388,7 +453,7 @@ public class Path {
         }
         Tooltip t = new Tooltip(tooltip_text);
         t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
-        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-t.getHeight()+80));
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-t.getHeight()+100));
         n.setOnMouseExited(event -> t.hide());
     }
 
