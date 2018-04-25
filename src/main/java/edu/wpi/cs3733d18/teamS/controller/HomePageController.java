@@ -115,8 +115,6 @@ public class HomePageController {
     @FXML
     ImageView minimap;
     @FXML
-    JFXButton map;
-    @FXML
     Text use_map;
 
     /**
@@ -364,7 +362,7 @@ public class HomePageController {
     }
 
     public void mouseExit() {
-        minimap.setOpacity(.9);
-        use_map.setOpacity(.9);
+        minimap.setOpacity(.85);
+        use_map.setOpacity(.85);
     }
 }

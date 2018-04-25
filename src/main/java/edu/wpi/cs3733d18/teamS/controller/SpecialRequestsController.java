@@ -8,11 +8,16 @@ import edu.wpi.cs3733d18.teamF.api.ServiceRequest;
 import edu.wpi.cs3733d18.teamOapi.giftShop.GiftShop;
 import edu.wpi.cs3733d18.teamp.api.TransportationRequest;
 import edu.wpi.cs3733d18.teamp.api.Exceptions.ServiceException;
-import com.manlyminotaursAPI.core.RoomService;
 import com.nearnagas.api.Security;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+/**
+ * The controller for the special requests page
+ * @author Joseph Turcotte
+ * @author Danny Sullivan
+ * @version 1.3, April 23, 2018
+ */
 
 public class SpecialRequestsController {
 
@@ -39,16 +44,6 @@ public class SpecialRequestsController {
             e.printStackTrace();
         }
         Timeout.start();
-    }
-
-    @FXML
-    Button sanitation_box;
-
-    public void onSanitationRequest() {
-        /*
-            Team Q's just doesn't work
-         */
-
     }
 
     @FXML
@@ -107,29 +102,6 @@ public class SpecialRequestsController {
     }
 
     @FXML
-    Button food_request;
-
-    public void onFoodRequest() {
-        /*
-            no documentation, unsure how to add it
-         */
-    }
-
-    @FXML
-    Button room_service;
-
-    public void onRoomServiceRequest() {
-        Timeout.stop();
-        RoomService m_api = new RoomService();
-        try {
-            m_api.run(100, 30, 1280, 720, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Timeout.start();
-    }
-
-    @FXML
     Button security_request;
 
     public void onSecurityRequest() {
@@ -141,5 +113,13 @@ public class SpecialRequestsController {
             e.printStackTrace();
         }
         Timeout.start();
+    }
+
+    @FXML
+    private Button nurse_btn;
+
+    @FXML
+    public void onNurseClick() {
+        Main.switchScenes("Nurse View", "/NurseHome.fxml");
     }
 }

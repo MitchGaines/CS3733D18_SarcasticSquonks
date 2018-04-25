@@ -2,6 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -30,6 +32,11 @@
                               <Font size="30.0" />
                           </font>
                       </Text>
+                  <JFXButton fx:id="nurse_btn" buttonType="RAISED" onAction="#onNurseClick" prefHeight="50.0" prefWidth="108.0" style="-fx-background-color: #B7B8B6;" text="Nurse" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </GridPane>
             <GridPane prefHeight="456.0" prefWidth="540.0">
@@ -39,56 +46,94 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="308.0" minHeight="10.0" prefHeight="227.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="228.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                      <JFXButton fx:id="prescription_request" buttonType="RAISED" onAction="#prescriptionRequestClick" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%prescription_request" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-gift-filled-50.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                      <JFXButton fx:id="prescription_request" buttonType="RAISED" onAction="#prescriptionRequestClick" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%prescription_request" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                           <font>
                               <Font size="23.0" />
                           </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                       </JFXButton>
-                  <JFXButton fx:id="voice_recognition_box" buttonType="RAISED" onAction="#onVoiceRecognitionClick" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%voice_recognition" GridPane.halignment="CENTER">
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-treatment-50.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="voice_recognition_box" buttonType="RAISED" onAction="#onVoiceRecognitionClick" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%voice_recognition" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <font>
                         <Font size="23.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="sanitation_box" buttonType="RAISED" onAction="#onSanitationRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%sanitation_request" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-microphone-filled-50.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="gift_request" buttonType="RAISED" onAction="#onGiftRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%gift_request" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font size="23.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="gift_request" buttonType="RAISED" onAction="#onGiftRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%gift_request" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%it_request" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font size="23.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="it_request" buttonType="RAISED" onAction="#onITRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%it_request" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <JFXButton fx:id="transportation_request" buttonType="RAISED" onAction="#onTransportationRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%transportation_request" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <font>
                         <Font size="23.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="transportation_request" buttonType="RAISED" onAction="#onTransportationRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%transportation_request" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <JFXButton fx:id="security_request" buttonType="RAISED" onAction="#onSecurityRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%security_request" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <font>
                         <Font size="23.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
                   </JFXButton>
-                  <JFXButton fx:id="food_request" buttonType="RAISED" onAction="#onFoodRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%food_request" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="room_service" buttonType="RAISED" onAction="#onRoomServiceRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%room_service" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="security_request" buttonType="RAISED" onAction="#onSecurityRequest" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: #B7B8B6;" text="%security_request" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </JFXButton>
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-protect-filled-50.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-monitor-filled-50.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="91.0" fitWidth="88.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                     <image>
+                        <Image url="@images/specialIcons/icons8-transportation-filled-50.png" />
+                     </image>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
+                  </ImageView>
                </children>
             </GridPane>
             </children>
