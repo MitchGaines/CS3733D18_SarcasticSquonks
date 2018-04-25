@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -14,8 +15,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class EpicWrapper {
-
-    private static org.apache.http.client.HttpClient http_client = HttpClientBuilder.create().build();
+    private static RequestConfig req_config = RequestConfig.custom().setConnectTimeout(5000).build();
+    private static org.apache.http.client.HttpClient http_client = HttpClientBuilder.create().setDefaultRequestConfig(req_config).build();
 
     public static void send2Epic(ServiceRequest sr){
         ObjectWriter json_map = new ObjectMapper().writer();
