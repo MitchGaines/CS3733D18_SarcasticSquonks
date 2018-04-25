@@ -456,7 +456,7 @@ public class Path {
         }
         Tooltip t = new Tooltip(tooltip_text);
         t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
-        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY() - t.getHeight() + 100));
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX() + 100, event.getSceneY() - t.getHeight() + 100));
         n.setOnMouseExited(event -> t.hide());
     }
 
