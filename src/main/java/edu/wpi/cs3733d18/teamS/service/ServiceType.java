@@ -6,7 +6,9 @@ import edu.wpi.cs3733d18.teamS.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -195,6 +197,13 @@ public class ServiceType {
                 .filter(e -> e.service_type.getName().equals(this.getName()) && e.requestedDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.requestedDate.toDateTime().isAfter(start.toDateTime().toInstant()));
     }
 
+
+
+    public double getFulfilledInRange(DateTime start, DateTime end) {
+        return storage.getAllServiceRequests().stream()
+                .filter(e -> e.isFulfilled() && e.service_type.getName().equals(this.getName()) && e.fulfilledDate.toDateTime().isBefore(end.toDateTime().toInstant()) && e.fulfilledDate.toDateTime().isAfter(start.toDateTime().toInstant())).count();
+    }
+
     public long getNumRequests(DateTime start, DateTime end) {
         return requestedInRange(start, end).count();
     }
@@ -205,5 +214,71 @@ public class ServiceType {
                 .mapToDouble(e -> ((double) (e.fulfilledDate.getMillis() - e.requestedDate.getMillis())) / DateTimeConstants.MILLIS_PER_HOUR)
                 .average()
                 .orElse(0);
+    }
+
+    // returns a hashmap with a user and the number of services they requested in the time period
+    public HashMap<User, Number> getFulfillmentBreakdownByUser(DateTime start, DateTime end) {
+        System.out.println("DING");
+        HashMap<User, Number> return_hashmap = new HashMap<>();
+        for (User user : Storage.getInstance().getAllUsers()) {
+            Stream<ServiceRequest> in_range = requestedInRange(start, end);
+            in_range.filter(e -> e.isFulfilled()).forEach(e -> {
+                if (e.getFulfiller().getUserID() == user.getUserID()) {
+                    if (return_hashmap.containsKey(user)) {
+                        return_hashmap.put(user, return_hashmap.get(user).intValue() + 1);
+                    } else {
+                        return_hashmap.put(user, 1);
+                    }
+                }
+            });
+        }
+        return return_hashmap;
+    }
+
+    // returns a hashmap with a user and the number of services they fulfilled in the time period
+    public HashMap<User, Number> getRequestBreakdownByUser(DateTime start, DateTime end) {
+        System.out.println("DONG");
+        HashMap<User, Number> return_hashmap = new HashMap<>();
+        for (User user : Storage.getInstance().getAllUsers()) {
+            Stream<ServiceRequest> in_range = requestedInRange(start, end);
+            in_range.forEach(e -> {
+                if (e.getRequester().getUserID() == user.getUserID()) {
+                    if (return_hashmap.containsKey(user)) {
+                        return_hashmap.put(user, return_hashmap.get(user).intValue() + 1);
+                    } else {
+                        return_hashmap.put(user, 1);
+                    }
+                }
+            });
+        }
+        return return_hashmap;
+    }
+
+
+    // returns a hashmap with a user and the number of services they fulfilled in the time period
+    public HashMap<User, Number> getTimeSpentByUser(DateTime start, DateTime end) {
+        HashMap<User, Long> milli_hashmap = new HashMap<>();
+        for (User user : Storage.getInstance().getAllUsers()) {
+            Stream<ServiceRequest> in_range = requestedInRange(start, end);
+            in_range.forEach(e -> {
+                if (e.getRequester().getUserID() == user.getUserID()) {
+                    if (milli_hashmap.containsKey(user)) {
+                        milli_hashmap.put(user, milli_hashmap.get(user) + 1);
+                    } else {
+                        milli_hashmap.put(user, (e.getFulfilledDate().getMillis() - e.getRequestedDate().getMillis()));
+                        //System.out.println(milli_hashmap.get(user));
+                    }
+                }
+            });
+        }
+        HashMap<User, Number> return_hashmap = new HashMap<>();
+        for (Map.Entry<User, Long> entry : milli_hashmap.entrySet()) {
+            return_hashmap.put(entry.getKey(), ((double) entry.getValue() / DateTimeConstants.MILLIS_PER_HOUR));
+        }
+        return return_hashmap;
+    }
+
+    public int totalInRange(DateTime start, DateTime end) {
+        return (int) requestedInRange(start, end).count();
     }
 }

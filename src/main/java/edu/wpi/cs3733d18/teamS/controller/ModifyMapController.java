@@ -228,7 +228,7 @@ public class ModifyMapController {
         ds = new DropShadow();
         ds.setOffsetX(7.0);
         ds.setOffsetY(7.0);
-        ds.setColor(color);
+        ds.setColor(Color.GRAY);
         cur_icon.setEffect(ds);
         first_click = true;
 
