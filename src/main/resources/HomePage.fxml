@@ -65,7 +65,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <JFXButton fx:id="search_loc_btn" buttonType="RAISED" onAction="#onOpenSearchClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="View Map" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <JFXButton fx:id="search_loc_btn" buttonType="RAISED" onAction="#onOpenSearchClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%view_map" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                </center>
