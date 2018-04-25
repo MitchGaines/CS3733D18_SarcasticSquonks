@@ -109,12 +109,12 @@
                         <Insets top="40.0" />
                     </StackPane.margin>
                 </VBox>
-            <ImageView fx:id="minimap" fitHeight="300.0" fitWidth="300.0" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+            <ImageView fx:id="minimap" opacity=".85" fitHeight="300.0" fitWidth="300.0" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
                <StackPane.margin>
                   <Insets right="50.0" />
                </StackPane.margin>
                <image>
-                  <Image url="@images/mapIcons/minimap.png" />
+                  <Image url="@images/mapIcons/minimap_toned_down.png" />
                </image>
             </ImageView>
             <Text fx:id="use_map" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 70; -fx-font-weight: BOLD;" text="%use_map" textAlignment="CENTER" wrappingWidth="200.0" StackPane.alignment="BOTTOM_RIGHT">
@@ -130,12 +130,7 @@
             <children>
                 <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
                 <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-            <JFXButton fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
-            <JFXButton fx:id="map" buttonType="RAISED" onAction="#onMapClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%map">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </JFXButton>
+            <JFXButton buttonType="RAISED" fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" />
