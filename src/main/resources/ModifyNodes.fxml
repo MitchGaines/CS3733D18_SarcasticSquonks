@@ -81,7 +81,7 @@
               </ScrollPane>
                 <StackPane alignment="TOP_CENTER" maxHeight="371.0" maxWidth="240.0" prefHeight="371.0" prefWidth="240.0" StackPane.alignment="TOP_LEFT">
                     <children>
-                        <VBox fx:id="add_node_box" alignment="TOP_CENTER" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                        <VBox fx:id="add_node_box" alignment="TOP_CENTER" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
                                 <JFXTextField fx:id="building" alignment="CENTER" focusColor="#4863a0" promptText="%building" style="-fx-background-color: #ffffff;">
                                     <font>
@@ -129,7 +129,7 @@
                         <Insets />
                      </StackPane.margin>
                         </VBox>
-                        <VBox fx:id="add_edge_box" alignment="TOP_CENTER" maxHeight="265.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                        <VBox fx:id="add_edge_box" alignment="TOP_CENTER" maxHeight="265.0" spacing="20.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
                                 <JFXTextField fx:id="location_one" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one" style="-fx-background-color: #ffffff;">
                                     <font>
@@ -160,7 +160,7 @@
                         <Insets />
                      </StackPane.margin>
                         </VBox>
-                        <VBox fx:id="delete_loc_box" alignment="TOP_CENTER" maxHeight="190.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                        <VBox fx:id="delete_loc_box" alignment="TOP_CENTER" maxHeight="190.0" spacing="20.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
                                 <JFXTextField fx:id="location_to_delete" alignment="CENTER" editable="false" focusColor="#4863a0" promptText="%location_one" style="-fx-background-color: #ffffff;">
                                     <font>
@@ -183,7 +183,7 @@
                         <Insets />
                      </StackPane.margin>
                         </VBox>
-                  <VBox fx:id="delete_edge_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                  <VBox fx:id="delete_edge_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                      <children>
                         <JFXButton fx:id="delete_edge" buttonType="RAISED" onAction="#onDeleteEdge" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Delete Edges">
                            <VBox.margin>
@@ -195,7 +195,7 @@
                         <Insets />
                      </StackPane.margin>
                   </VBox>
-                  <VBox fx:id="batch_disable_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                  <VBox fx:id="batch_disable_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                       <children>
                           <JFXButton fx:id="disable_selection" buttonType="RAISED" onAction="#disableNodesInPolygon" style="-fx-background-color: #B7B8B6;" text="%disable_location">
                               <font>
@@ -215,7 +215,7 @@
                         <Insets />
                      </StackPane.margin>
                   </VBox>
-                        <VBox fx:id="modify_loc_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                        <VBox fx:id="modify_loc_box" alignment="TOP_CENTER" maxHeight="125.0" spacing="20.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                             <children>
                                 <JFXButton fx:id="confirm_new_loc" buttonType="RAISED" onAction="#onConfirmMove" style="-fx-font-size: 23; -fx-background-color: #B7B8B6;" text="Confirm">
                            <VBox.margin>
@@ -227,7 +227,7 @@
                         <Insets />
                      </StackPane.margin>
                         </VBox>
-                  <VBox fx:id="modify_info_box" alignment="TOP_CENTER" maxHeight="400.0" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+                  <VBox fx:id="modify_info_box" alignment="TOP_CENTER" maxHeight="400.0" prefHeight="389.0" prefWidth="242.0" spacing="15.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                      <children>
                         <JFXTextField fx:id="building_change" alignment="CENTER" focusColor="#4863a0" promptText="%building" style="-fx-background-color: #ffffff;">
                            <font>
@@ -284,7 +284,7 @@
                   <Insets left="10.0" top="10.0" />
                </StackPane.margin>
                 </StackPane>
-            <HBox fx:id="node_or_edge" alignment="TOP_CENTER" maxHeight="62.0" maxWidth="160.0" prefHeight="62.0" prefWidth="121.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="TOP_CENTER">
+            <HBox fx:id="node_or_edge" alignment="TOP_CENTER" maxHeight="62.0" maxWidth="160.0" prefHeight="62.0" prefWidth="121.0" style="-fx-background-color: #4863A080; -fx-border-radius: 0 0 10 10; -fx-background-radius: 0 0 10 10;" visible="false" StackPane.alignment="TOP_CENTER">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Node">
                      <font>
@@ -307,7 +307,7 @@
                   <Insets left="-55.0" />
                </StackPane.margin>
             </HBox>
-            <HBox alignment="BOTTOM_CENTER" maxHeight="50.0" maxWidth="100.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #4863A080;" StackPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="BOTTOM_CENTER" maxHeight="50.0" maxWidth="100.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <ImageView fx:id="view_btn" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#onViewIconClick" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -373,7 +373,7 @@
                   <Insets right="20.0" />
                </StackPane.margin>
             </GridPane>
-            <HBox fx:id="predictor_type" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" style="-fx-background-color: #4863A080;" visible="false" StackPane.alignment="BOTTOM_LEFT">
+            <HBox fx:id="predictor_type" alignment="CENTER" maxHeight="50.0" maxWidth="200.0" style="-fx-background-color: #4863A080; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" visible="false" StackPane.alignment="BOTTOM_LEFT">
                <children>
                   <Label text="Smart" textFill="WHITE">
                      <font>
