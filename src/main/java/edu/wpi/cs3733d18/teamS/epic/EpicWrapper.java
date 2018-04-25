@@ -14,10 +14,17 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Handles EHR server interaction.
+ */
 public class EpicWrapper {
     private static RequestConfig req_config = RequestConfig.custom().setConnectTimeout(5000).build();
     private static org.apache.http.client.HttpClient http_client = HttpClientBuilder.create().setDefaultRequestConfig(req_config).build();
 
+    /**
+     * Sends a service request to the web server via json to then transfer via HL7.
+     * @param sr The service request to send.
+     */
     public static void send2Epic(ServiceRequest sr){
         ObjectWriter json_map = new ObjectMapper().writer();
         String json = "";
