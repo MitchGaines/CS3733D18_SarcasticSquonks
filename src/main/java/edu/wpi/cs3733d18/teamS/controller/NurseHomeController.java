@@ -60,6 +60,6 @@ public class NurseHomeController {
 
     @FXML
     public void onBackClick() {
-        Main.switchScenes("Brigham and Women's", "/AdminPage.fxml");
+        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
     }
 }

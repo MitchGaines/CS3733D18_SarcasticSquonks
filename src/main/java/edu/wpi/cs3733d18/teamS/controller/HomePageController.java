@@ -212,6 +212,7 @@ public class HomePageController {
 
         login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
         homepageMapController.updateStart(KIOSK_DEFAULT_LOCATION);
+        Timeout.start();
     }
 
     /**

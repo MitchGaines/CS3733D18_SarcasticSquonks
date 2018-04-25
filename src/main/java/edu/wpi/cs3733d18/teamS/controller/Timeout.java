@@ -57,7 +57,7 @@ public class Timeout {
                         if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
                             AllText.changeLanguage("en");
                             Platform.runLater(() -> Main.switchScenes("Screen Saver", "/ScreenSaver.fxml"));
-                            Thread.sleep(sleep_time);
+                            Timeout.stop();
                         } else {
                             long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());
                             if (new_sleep_time <= 0) {
