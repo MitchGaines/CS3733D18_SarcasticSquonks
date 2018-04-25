@@ -97,11 +97,6 @@ public class AdminSpecialOptionsController{
         this.parent = parent;
     }
 
-    private AdminPageController parent;
-
-    public void setParent(AdminPageController parent) {
-        this.parent = parent;
-    }
 
     /**
      * Retrieves the chosen algorithm.
@@ -306,7 +301,6 @@ public class AdminSpecialOptionsController{
     @FXML
     public void onSpecialRequest() throws IOException {
         parent.loadSpecialRequests();
-        Main.switchScenes("Special Requests", "/SpecialRequests.fxml");
     }
 
 }
