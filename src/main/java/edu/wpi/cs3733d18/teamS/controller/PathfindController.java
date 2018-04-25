@@ -2,7 +2,10 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
-import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.pathfind.InteractivePhone;
+import edu.wpi.cs3733d18.teamS.pathfind.Map;
+import edu.wpi.cs3733d18.teamS.pathfind.Path;
+import edu.wpi.cs3733d18.teamS.pathfind.QRCode;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
@@ -146,21 +150,22 @@ public class PathfindController {
     private Storage db_storage;
 
     /**
-     * Stores a boolean to track whether or not the program is already in the 3D mode.
-     */
-    private boolean in3DMode = false;
-
-    /**
      * The current floor on the application.
      */
     public static int current_floor;
 
+    private static double MIN_ZOOM = .25;
+    private static double MAX_ZOOM = 1.3;
+
+    private boolean first_3d_switch = false;
     /**
      * Stores the Map.
      */
     private Map map;
 
     private ArrayList<String> path_steps;
+
+    private ArrayList<Node> list_of_nodes = new ArrayList<>();
 
     private URL directions_url;
 
@@ -200,7 +205,6 @@ public class PathfindController {
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
-        map_anchor_pane.getChildren().add(map.getPath().getFullPathPolyline(map.is_3D));
         updateMap(map.thisStep(map.is_3D));
         if (map.getPath().path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);
@@ -229,9 +233,11 @@ public class PathfindController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
+        //setup the scroll pane
         stack_pane.setAlignment(zoom_scroll, Pos.TOP_LEFT);
-        zoom_scroll.setMin(0.5);
-        zoom_scroll.setMax(1.8);
+        zoom_scroll.setMin(MIN_ZOOM);
+        zoom_scroll.setMax(MAX_ZOOM);
         zoom_scroll.setValue(1);
         zoom_scroll.setShowTickMarks(true);
         zoom_scroll.setMajorTickUnit(0.2);
@@ -252,33 +258,42 @@ public class PathfindController {
      * @param zoom_amount the amount the screen will scale in or out.
      */
     private void zoom(double zoom_amount) {
-        zoom_factor = zoom_amount;
+        double old_x = map_img.getImage().getWidth() * map_scroll_pane.getHvalue() + ((.5 - map_scroll_pane.getHvalue()) * map_scroll_pane.getWidth());
+        double old_y = map_img.getImage().getHeight() * map_scroll_pane.getVvalue() + ((.5 - map_scroll_pane.getVvalue()) * map_scroll_pane.getHeight());
+        zoom_factor = Math.max(Math.min(zoom_amount, MAX_ZOOM), MIN_ZOOM);
         zoom_scroll.setValue(zoom_factor);
-        if (zoom_factor < 0.5) {
-            zoom_factor = 0.5;
-        }
-        if (zoom_factor > 1.8) {
-            zoom_factor = 1.8;
-        }
         map_scroll_pane.getContent().setScaleX(zoom_factor);
         map_scroll_pane.setLayoutX(zoom_factor);
         map_scroll_pane.getContent().setScaleY(zoom_factor);
         map_scroll_pane.setLayoutY(zoom_factor);
-        map_scroll_pane.snapshot(new SnapshotParameters(), new WritableImage(1, 1));
+        //scrollToPoint(old_x, old_y);
     }
 
     /**
-     * Sets the zoom amount for when the zoom out node is clicked in the scene.
+     * Moves the viewport to the center of the given unscaled point using the current scale_factor
+     *
+     * @param x unscaled x position
+     * @param y unscaled y position
      */
-    public void onZoomOut() {
-        zoom(zoom_factor - 0.2);
-    }
-
-    /**
-     * Sets the zoom amount for when the zoom in node is clicked in the scene.
-     */
-    public void onZoomIn() {
-        zoom(zoom_factor + 0.2);
+    private void scrollToPoint(double x, double y) {
+        double pane_width = map_scroll_pane.getWidth();
+        double pane_height = map_scroll_pane.getHeight();
+        double map_width = map_img.getImage().getWidth();
+        double map_height = map_img.getImage().getHeight();
+        if (map.is_3D) {
+            map_width = 5000;
+            map_height = 2774;
+        }
+        if (pane_height == 0) {
+            pane_height = 917;
+            pane_width = 1920;
+        }
+        double new_x = (x - (map_width / 2)) * zoom_factor + (map_width / 2);
+        double new_y = (y - (map_height / 2)) * zoom_factor + (map_height / 2);
+        double h_val = Math.min(Math.max(0.0, (new_x - (0.5 * pane_width)) / (map_width - pane_width)), 1.0);
+        double v_val = Math.min(Math.max(0.0, (new_y - (0.5 * pane_height)) / (map_height - pane_height)), 1.0);
+        map_scroll_pane.setHvalue(h_val);
+        map_scroll_pane.setVvalue(v_val);
     }
 
     /**
@@ -298,26 +313,19 @@ public class PathfindController {
      */
     private void fitToPath(ArrayList<Node> nodes) {
         Polyline p = (Polyline) nodes.get(0);
-        zoom(1);
-        map_scroll_pane.setHvalue(.5);
-        map_scroll_pane.setVvalue(.5);
         double nodes_width = p.getBoundsInParent().getWidth();
         double nodes_height = p.getBoundsInParent().getHeight();
 
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
-        if(pane_height == 0) {
-            pane_height = 1000;
-            pane_width = 1700;
+        if (pane_height == 0 || pane_width == 0) {
+            pane_width = 1920;
+            pane_height = 917;
         }
-
-        double zoom1 = (pane_width / (nodes_width + 250));
-        double zoom2 = (pane_height / (nodes_height + 250));
+        double zoom1 = (pane_width / (nodes_width + 200));
+        double zoom2 = (pane_height / (nodes_height + 200));
         double zoom_amount = Math.min(zoom1, zoom2);
-
-
-        double map_width = map_img.getFitWidth();
-        double map_height = map_img.getFitHeight();
+        zoom(zoom_amount);
 
         double poly_width = p.getBoundsInParent().getWidth();
         double poly_height = p.getBoundsInParent().getHeight();
@@ -325,14 +333,11 @@ public class PathfindController {
         double poly_y = p.getBoundsInParent().getMinY();
         double desired_x = poly_x + (poly_width / 2);
         double desired_y = poly_y + (poly_height / 2);
-        desired_x = p.getPoints().get(0);
-        desired_y = p.getPoints().get(1);
-        if (map.is_3D) {
-            desired_y += 400;
+        if (first_3d_switch) {
+            first_3d_switch = false;
+            desired_y -= 200;
         }
-
-        map_scroll_pane.setHvalue((desired_x - (0.5 * pane_width)) / (map_width - pane_width));
-        map_scroll_pane.setVvalue((desired_y - (0.5 * pane_height)) / (map_height - pane_height));
+        scrollToPoint(desired_x, desired_y);
     }
 
     /**
@@ -349,7 +354,7 @@ public class PathfindController {
      * @param nodes ArrayList of nodes to be displayed on the new map.
      */
     public void updateMap(ArrayList<Node> nodes) {
-        Image m = getFloorImage(current_floor, in3DMode);
+        Image m = getFloorImage(current_floor, map.is_3D);
         map_img.setImage(m);
         map.clearIcons();
         //set click method calling
@@ -386,6 +391,7 @@ public class PathfindController {
         }
         map_anchor_pane.getChildren().addAll(nodes);
         fitToPath(nodes);
+        this.list_of_nodes = nodes;
         step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
     }
@@ -427,24 +433,12 @@ public class PathfindController {
     public void toggleMappingType() {
         if (map.is_3D) {
             toggle_map_btn.setText(AllText.get("3d_map"));
-            in3DMode = false;
             map.is_3D = false;
         } else {
+            first_3d_switch = true;
             toggle_map_btn.setText(AllText.get("2d_map"));
-            in3DMode = true;
             map.is_3D = true;
         }
-
-        Path path = null;
-        if (map != null) {
-            map.clearIcons();
-            path = map.getPath();
-        }
-
-        if (path != null) {
-            Map.path = path;
-        }
-
         updateMap(map.thisStep(map.is_3D));
     }
 
@@ -487,16 +481,16 @@ public class PathfindController {
         stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
-    public void onPhoneCallBtnClick(){
-        if(!phone_field.getText().isEmpty()){
+    public void onPhoneCallBtnClick() {
+        if (!phone_field.getText().isEmpty()) {
             InteractivePhone call = new InteractivePhone(path_steps);
             call.callDirections(phone_field.getText());
             onBigQRClick();
         }
     }
 
-    public void onPhoneTextBtnClick(){
-        if(!phone_field.getText().isEmpty()){
+    public void onPhoneTextBtnClick() {
+        if (!phone_field.getText().isEmpty()) {
             InteractivePhone call = new InteractivePhone(path_steps);
             call.textDirections(phone_field.getText(), directions_url);
             onBigQRClick();
@@ -505,7 +499,7 @@ public class PathfindController {
 
     public void onPrevClick() {
         updateMap(map.prevStep(map.is_3D));
-        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
+        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue() && map.getPath().path_segments.size() > 1) {
             next_btn.disableProperty().setValue(false);
         }
         if (map.getPath().seg_index <= 0) {
@@ -530,23 +524,17 @@ public class PathfindController {
         ImageView icon;
         if (step_description.contains(AllText.get("turn_left"))) {
             icon = new ImageView(new Image("images/directionsIcons/left.png"));
-        }
-        else if (step_description.contains(AllText.get("turn_right"))) {
+        } else if (step_description.contains(AllText.get("turn_right"))) {
             icon = new ImageView(new Image("images/directionsIcons/right.png"));
-        }
-        else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
+        } else if (step_description.contains(AllText.get("continue_straight")) || step_description.contains(AllText.get("first_step_dirs"))) {
             icon = new ImageView(new Image("images/directionsIcons/walking.png"));
-        }
-        else if (step_description.contains(AllText.get("stairs_up"))) {
+        } else if (step_description.contains(AllText.get("stairs_up"))) {
             icon = new ImageView(new Image("images/mapIcons/up.png"));
-        }
-        else if (step_description.contains(AllText.get("stairs_down"))) {
+        } else if (step_description.contains(AllText.get("stairs_down"))) {
             icon = new ImageView(new Image("images/mapIcons/down.png"));
-        }
-        else if (step_description.contains(AllText.get("destination_to"))){
+        } else if (step_description.contains(AllText.get("destination_to"))) {
             icon = new ImageView(new Image("images/mapIcons/destinationIcon.png"));
-        }
-        else {
+        } else {
             icon = new ImageView();
             icon.setFitWidth(32);
             icon.setFitHeight(32);

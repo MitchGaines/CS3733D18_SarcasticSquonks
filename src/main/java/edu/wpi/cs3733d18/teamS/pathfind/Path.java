@@ -74,7 +74,7 @@ public class Path {
         path_description.add("- " + AllText.get("directions_from") + ": " + algorithm_node_path.get(0).getLongName()
                 + " " + AllText.get("to") + ": " + algorithm_node_path.get(algorithm_node_path.size() - 1).getLongName() + ".");
 
-        path_description.add("- " + AllText.get("first_step_dirs")+ " " + algorithm_node_path.get(1).short_name + ".");
+        path_description.add("- " + AllText.get("first_step_dirs") + " " + algorithm_node_path.get(1).short_name + ".");
 
         for (int i = 1; i < (algorithm_node_path.size() - 1); i++) {
             int distance = calcDistance(algorithm_node_path.get(i - 1), algorithm_node_path.get(i));
@@ -117,7 +117,7 @@ public class Path {
             }
 
             path_description.add("- " + AllText.get("in") + " " + distance + " " + AllText.get("feet") + ", "
-                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + " at " + algorithm_node_path.get(i+1).getLongName() + ".");
+                    + calcTurn(algorithm_node_path.get(i), algorithm_node_path.get(i + 1)) + " at " + algorithm_node_path.get(i + 1).getLongName() + ".");
 
             if (next_floor > curr_floor) {
                 path_description.add("- " + AllText.get("stairs_up") + " " + algorithm_node_path.get(i).floor + ".");
@@ -213,7 +213,7 @@ public class Path {
 
     public Polyline getFullPathPolyline(boolean is_3D) {
         Polyline polyline = new Polyline();
-        for(AStarNode node: algorithm_node_path){
+        for (AStarNode node : algorithm_node_path) {
             if (is_3D) {
                 polyline.getPoints().addAll((double) node.getXCoord3D(), (double) node.getYCoord3D());
             } else {
@@ -226,6 +226,7 @@ public class Path {
                 "-fx-stroke-line-cap:ROUND;" +
                 "-fx-stroke-line-join:ROUND;" +
                 "-fx-stroke-width:8.0");
+        polyline.toBack();
         return polyline;
     }
 
@@ -269,6 +270,7 @@ public class Path {
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
         playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
+        fx_nodes.add(getFullPathPolyline(is3D));
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
@@ -281,6 +283,7 @@ public class Path {
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
         playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
+        fx_nodes.add(getFullPathPolyline(is3D));
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
@@ -290,6 +293,7 @@ public class Path {
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
         playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
+        fx_nodes.add(getFullPathPolyline(is3D));
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
     }
@@ -308,11 +312,11 @@ public class Path {
         start_icon.setPreserveRatio(true);
         start_icon.setFitHeight(120);
         if (is3D) {
-            start_icon.setX(start_node.getXCoord3D() - (start_icon.getFitHeight()/2));
-            start_icon.setY(start_node.getYCoord3D() - (start_icon.getFitHeight()/2));
+            start_icon.setX(start_node.getXCoord3D() - (start_icon.getFitHeight() / 2));
+            start_icon.setY(start_node.getYCoord3D() - (start_icon.getFitHeight() / 2));
         } else {
-            start_icon.setX(start_node.getXCoord() - (start_icon.getFitHeight()/2));
-            start_icon.setY(start_node.getYCoord() - (start_icon.getFitHeight()/2));
+            start_icon.setX(start_node.getXCoord() - (start_icon.getFitHeight() / 2));
+            start_icon.setY(start_node.getYCoord() - (start_icon.getFitHeight() / 2));
         }
         start_icon.setId("prev_icon");
         start_icon.smoothProperty().setValue(true);
@@ -352,13 +356,12 @@ public class Path {
         icon.toFront();
         icon.setId("next_icon");
         icon.smoothProperty().setValue(true);
-        icon.setX(x_pos - (icon.getFitHeight()/2));
-        icon.setY(y_pos - (icon.getFitHeight()/2));
+        icon.setX(x_pos - (icon.getFitHeight() / 2));
+        icon.setY(y_pos - (icon.getFitHeight() / 2));
         icon.setUserData(end_node);
         fx_nodes.add(icon);
 
         addTooltip(icon);
-
         return fx_nodes;
     }
 
@@ -432,20 +435,20 @@ public class Path {
      * @return The angle as a double between the two points.
      * @author Matt Puentes
      */
-    private void addTooltip(Node n){
+    private void addTooltip(Node n) {
         String tooltip_text = "";
-        if(n.getId() == "prev_icon" || n.getId() == "next_icon"){
+        if (n.getId() == "prev_icon" || n.getId() == "next_icon") {
             tooltip_text += ((AStarNode) n.getUserData()).getLongName();
             String id;
             int floor;
-            if(n.getId() == "prev_icon"){
+            if (n.getId() == "prev_icon") {
                 id = prevFloorId();
                 floor = prevFloorChange();
             } else {
                 id = nextFloorId();
                 floor = nextFloorChange();
             }
-            if(floor != 0){
+            if (floor != 0) {
                 tooltip_text += "\n";
                 tooltip_text += (floor > 0 ? "Up " : "Down ") + Math.abs(floor) + " floor"
                         + (Math.abs(floor) > 1 ? "s " : " ") + (n.getId() == "prev_icon" ? "from" : "to") + " \n" + id;
@@ -453,7 +456,7 @@ public class Path {
         }
         Tooltip t = new Tooltip(tooltip_text);
         t.styleProperty().set("-fx-background-color: #4863A0; -fx-text-fill: #ffffff; -fx-font-size: 25");
-        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY()-t.getHeight()+100));
+        n.setOnMouseEntered(event -> t.show(n, event.getSceneX(), event.getSceneY() - t.getHeight() + 100));
         n.setOnMouseExited(event -> t.hide());
     }
 

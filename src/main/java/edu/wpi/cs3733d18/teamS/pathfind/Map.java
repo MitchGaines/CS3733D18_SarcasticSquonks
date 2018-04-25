@@ -69,7 +69,8 @@ public class Map {
         for (Node n : map_anchor_pane.getChildren()) {
             if (n.getId().equals("temporaryIcon") ||
                     n.getId().equals("prev_icon") ||
-                    n.getId().equals("next_icon")) {
+                    n.getId().equals("next_icon") ||
+                    n.getId().equals("full_path")) {
                 toRemove.add(n);
             }
         }
