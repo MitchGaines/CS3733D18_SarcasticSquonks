@@ -76,6 +76,9 @@ public class HomePageController {
     JFXButton about;
 
     @FXML
+    JFXButton search_loc_btn;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -100,7 +103,7 @@ public class HomePageController {
     JFXComboBox language_selector;
 
     @FXML
-    StackPane stack_pane;
+    StackPane stack_pane, search_pane;
 
     @FXML
     ExpansionPanel exp_panel;
@@ -423,5 +426,15 @@ public class HomePageController {
     public void mouseExit() {
         minimap.setOpacity(.85);
         use_map.setOpacity(.85);
+    }
+
+    public void onOpenSearchClick() {
+        if(search_pane.isVisible()) {
+            search_pane.setVisible(false);
+            search_loc_btn.setText("Search by Name");
+        } else {
+            search_pane.setVisible(true);
+            search_loc_btn.setText("Map View");
+        }
     }
 }
