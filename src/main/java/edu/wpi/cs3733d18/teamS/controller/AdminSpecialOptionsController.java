@@ -32,7 +32,7 @@ import java.sql.Time;
  * @author Noah Hillman
  * @version 1.3, April 13, 2018
  */
-public class AdminSpecialOptionsController {
+public class AdminSpecialOptionsController{
 
     /**
      * The default (AStar) path algorithm.
@@ -271,6 +271,16 @@ public class AdminSpecialOptionsController {
      */
     public void onUserChoose() {
         selected_user = user_table.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    Button it_request;
+
+    public void onITRequest() {
+        Timeout.stop();
+        SquonksAPI squonks_api = new SquonksAPI();
+        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
+        Timeout.start();
     }
 
     /**
