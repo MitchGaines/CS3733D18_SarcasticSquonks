@@ -5,7 +5,7 @@ var xml     = require("xml");
 var body_parser = require("body-parser");
 var hl7     = require('simple-hl7');
 var xml_list = {};
-var hl7_client = hl7.Server.createTcpClient('localhost', 7777);
+var hl7_client = hl7.Server.createTcpClient('159.203.189.146', 7777);
 
 require('body-parser-xml')(body_parser);
 

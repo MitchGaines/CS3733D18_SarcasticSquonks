@@ -25,7 +25,7 @@ public class EpicWrapper {
             System.out.println(json);
             StringEntity params = new StringEntity(json);
 
-            HttpPost req = new HttpPost("http://127.0.0.1:3000/epic");
+            HttpPost req = new HttpPost("http://159.203.189.146:3000/epic");
             req.addHeader("content-type", "application/x-www-form-urlencoded");
             req.setEntity(params);
             HttpResponse res = http_client.execute(req);

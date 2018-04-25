@@ -102,7 +102,7 @@ public class ServiceRequest {
      */
     public static ServiceRequest createService(String title, String description, ServiceType type, User requester, Node location, User desired_fulfiller, Boolean to_epic) {
         ServiceRequest sr = new ServiceRequest(title, description, type, requester, location, desired_fulfiller);
-
+        if(to_epic) { EpicWrapper.send2Epic(sr); }
         return sr;
     }
 
