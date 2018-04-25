@@ -1,9 +1,10 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx;
 import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
-import edu.wpi.cs3733d18.teamS.pathfind.*;
+import edu.wpi.cs3733d18.teamS.pathfind.InteractivePhone;
+import edu.wpi.cs3733d18.teamS.pathfind.Map;
+import edu.wpi.cs3733d18.teamS.pathfind.QRCode;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,23 +15,20 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
