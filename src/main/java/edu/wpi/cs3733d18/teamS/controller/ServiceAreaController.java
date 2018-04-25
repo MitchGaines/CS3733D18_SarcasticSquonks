@@ -150,7 +150,7 @@ public class ServiceAreaController {
                         request_type_selector.getSelectionModel().getSelectedItem(),
                         user,
                         fuzzy_service_location.getValue(),
-                        desired_user);
+                        desired_user, true);
         storage.saveRequest(sr);
         ServiceLogEntry.log(sr, false);
         populateRequestsBox();

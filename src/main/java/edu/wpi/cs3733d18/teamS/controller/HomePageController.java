@@ -116,10 +116,9 @@ public class HomePageController {
     @FXML
     JFXToggleButton stairs_toggle;
     @FXML
-    JFXButton map;
-    @FXML
     ImageView minimap;
     @FXML
+    JFXButton map;
     Text use_map;
 
     /**
@@ -374,10 +373,10 @@ public class HomePageController {
     public void onOpenSearchClick() {
         if(search_pane.isVisible()) {
             search_pane.setVisible(false);
-            search_loc_btn.setText("Search by Name");
+            search_loc_btn.setText(AllText.get("search_by_name"));
         } else {
             search_pane.setVisible(true);
-            search_loc_btn.setText("Map View");
+            search_loc_btn.setText(AllText.get("view_map"));
         }
     }
 }

@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
+<BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
     <top>
         <BorderPane fx:id="header_pane" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
             <left>
@@ -53,6 +53,13 @@
                         </AnchorPane>
                     </content>
                 </ScrollPane>
+                <VBox fx:id="breadcromb_holder" alignment="TOP_CENTER" maxHeight="50.0" maxWidth="50.0" StackPane.alignment="TOP_CENTER" style="-fx-background-color: #4863A0; -fx-border-radius: 0 0 10 10; -fx-background-radius: 0 0 10 10; -fx-padding: 10;">
+                    <HBox fx:id="breadcrumb_box" alignment="TOP_CENTER"/>
+                    <HBox fx:id="breadcrumb_label" alignment="TOP_CENTER"/>
+                    <StackPane.margin>
+                        <Insets bottom="50.0" right="30.0" top="0.0" />
+                    </StackPane.margin>
+                </VBox>
                 <Slider fx:id="zoom_scroll" maxWidth="180.0">
                 </Slider>
             <HBox fx:id="directions_box" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" visible="false">
@@ -60,6 +67,11 @@
                       <ImageView fx:id="expanded_qr" fitHeight="529.0" fitWidth="705.0" onMouseClicked="#onBigQRClick" pickOnBounds="true" preserveRatio="true" />
                   <VBox alignment="CENTER" prefHeight="700.0" prefWidth="419.0" spacing="20.0">
                      <children>
+                        <JFXButton buttonType="RAISED" onAction="#onBigQRClick" style="-fx-background-color: #B7B8B6;" text="%view_map">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXButton>
                         <ScrollPane fx:id="directions_pane" hbarPolicy="NEVER" prefHeight="425.0" prefWidth="277.0" vbarPolicy="ALWAYS">
                           <content>
                               <BorderPane fx:id="directions_anchor" prefHeight="200.0" prefWidth="407.0">

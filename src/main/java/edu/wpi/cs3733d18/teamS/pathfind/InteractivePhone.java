@@ -35,7 +35,7 @@ public class InteractivePhone {
             } else if(AllText.getLanguage().equals("ru")) {
                 line = new Say.Builder(step).language(Say.Language.RU_RU).loop(1).voice(Say.Voice.ALICE).build();
             } else {
-                line = new Say.Builder(step).language(Say.Language.EN_US).loop(1).voice(Say.Voice.MAN).build();
+                line = new Say.Builder(step).language(Say.Language.EN_AU).loop(1).voice(Say.Voice.MAN).build();
             }
 
             Pause pause = new Pause.Builder().length(3).build();
