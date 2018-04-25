@@ -273,16 +273,6 @@ public class AdminSpecialOptionsController{
         selected_user = user_table.getSelectionModel().getSelectedItem();
     }
 
-    @FXML
-    Button it_request;
-
-    public void onITRequest() {
-        Timeout.stop();
-        SquonksAPI squonks_api = new SquonksAPI();
-        squonks_api.run(100, 30, 900, 600, null, null, new Stage());
-        Timeout.start();
-    }
-
     /**
      * Initializes the scene.
      */
