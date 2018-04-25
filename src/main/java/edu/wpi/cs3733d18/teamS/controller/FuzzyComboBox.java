@@ -12,6 +12,15 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+/**
+ * FuzzyComboBox creates a combobox of Node objects that can sort out Nodes that do not match the text typed in the
+ * associated JavaFX combobox's editor. The FuzzyComboBox checks the editor for keywords pertaining to a floor or
+ * building in BWH in order to sort out all nodes not on that floor or in that building. Then it uses any outstanding
+ * text to filter through the remaining nodes that have that text as a substring.
+ *
+ * @author Will Lucca
+ * @version 1.4, 4/25/18
+ */
 public class FuzzyComboBox {
 
     /**
@@ -85,7 +94,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * getValue
      * Returns the current Node object in items represented by the string in the ComboBox's text editor OR null if the
      * string in the editor does not correspond to any Node object in items.
      *
@@ -102,7 +110,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * updateVisibleItems
      * Called when the user changes the text in the ComboBox's field to update the options listed in the
      * ComboBox to include only those that contain a substring of the user input.
      */
@@ -146,7 +153,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * getComboBox
      * Returns the JavaFX ComboBox used by this FuzzyComboBox.
      *
      * @return the JavaFX ComboBox used by this FuzzyComboBox.
@@ -156,7 +162,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * setComboBox
      * Sets the JavaFX ComboBox used by this FuzzyComboBox.
      *
      * @param combo_box the JavaFX ComboBox to be assigned.
@@ -166,7 +171,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * getItems
      * Returns the list of items that the FuzzyComboBox can search through.
      *
      * @return the list of items that the FuzzyComboBox can search through.
@@ -176,7 +180,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * setItems
      * Sets the list of items that the FuzzyComboBox will search through.
      *
      * @param items a list of items for the FuzzyComboBox to search through.
@@ -186,7 +189,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * filterFloor
      * Removes all elements of visible_items on the specified floor if one of the keywords is a substring of str.
      *
      * @param str a String to look for keywords in.
@@ -210,7 +212,6 @@ public class FuzzyComboBox {
     }
 
     /**
-     * filterBuilding
      * Removes all elements of visible_items in the specified building if one of the keywords is a substring of str.
      *
      * @param str a String to look for keywords in.
