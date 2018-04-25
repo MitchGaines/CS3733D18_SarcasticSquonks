@@ -487,9 +487,9 @@ public class ModifyMapController {
     }
 
     /**
-     * Sets the user and the page
-     * @param user
-     * @param page
+     * Sets the user and the page.
+     * @param user the user who is using the page.
+     * @param page the page being used.
      */
     public void setUp(User user, String page) {
         this.user = user;
@@ -1178,7 +1178,7 @@ public class ModifyMapController {
     /**
      * If the map is clicked it executes actions.
      * Confirming a 3D coord, Adding a location, Deleting a path, Drawing a polygon to disable nodes and edges
-     * @param click
+     * @param click The mouse is clicked.
      */
     public void onMouseClick(MouseEvent click) {
         if (confirm_3d.isVisible()) {

@@ -78,8 +78,10 @@ public class SpecialRequestsController {
         Timeout.start();
     }
 
+    
     /**
      * Our own pathfind function so that our IT request can pathfind to a ticket's location.
+     * @param node_id the node id.
      */
     public void onPathFindClick(String node_id) {
         SearchAlgorithm alg;
