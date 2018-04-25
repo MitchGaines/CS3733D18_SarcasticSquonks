@@ -259,12 +259,14 @@ public class HomePageController {
             alert.setHeaderText("Please select a starting and ending location");
             alert.setContentText("You must select both a starting and ending location to get directions.");
             alert.showAndWait();
+            return;
         } else if (auto_combobox_start.getValue().equals(auto_combobox_end.getValue())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Your starting and ending locations can't be the same");
             alert.setHeaderText("Your starting and ending locations can't be the same");
             alert.setContentText("You must select a starting and ending location that are different from each other.");
             alert.showAndWait();
+            return;
         }
         include_stairs = stairs_toggle.isSelected();
 
