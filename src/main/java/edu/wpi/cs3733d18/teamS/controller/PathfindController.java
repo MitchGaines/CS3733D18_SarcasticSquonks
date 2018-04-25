@@ -249,6 +249,7 @@ public class PathfindController {
             }
         });
         breadcrumb_box.setPickOnBounds(false);
+        onNodeClick(0);
     }
 
     /**
@@ -411,6 +412,18 @@ public class PathfindController {
                     n.setOpacity(0.25);
                 }
             }
+        }
+        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
+            next_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index <= 0) {
+            prev_btn.disableProperty().setValue(true);
+        }
+        if (map.getPath().seg_index > 0 && prev_btn.disableProperty().getValue()) {
+            prev_btn.disableProperty().setValue(false);
+        }
+        if (map.getPath().seg_index >= map.getPath().path_segments.size() - 1) {
+            next_btn.disableProperty().setValue(true);
         }
     }
 
