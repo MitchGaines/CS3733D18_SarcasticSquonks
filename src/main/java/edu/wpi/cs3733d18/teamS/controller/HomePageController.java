@@ -318,11 +318,17 @@ public class HomePageController {
         Main.switchScenes("Pathfinder", "/PathfindPage.fxml");
     }
 
+    /**
+     * switches to about page
+     */
     @FXML
-    void onAboutClick(ActionEvent event) {
+    void onAboutClick() {
         Main.switchScenes("About", "/AboutPage.fxml");
     }
 
+    /**
+     * updates the homepage map when the starting combobox is changed
+     */
     @FXML
     public void updateStartCombobox() {
         if (combobox_start.getSelectionModel() != null) {
@@ -369,16 +375,10 @@ public class HomePageController {
         user_controller.setUp(user, page);
     } //END OF TEST
 
-    public void mouseEnter() {
-        minimap.setOpacity(.6);
-        use_map.setOpacity(.6);
-    }
 
-    public void mouseExit() {
-        minimap.setOpacity(.85);
-        use_map.setOpacity(.85);
-    }
-
+    /**
+     * switches between combobox and map destination choices
+     */
     public void onOpenSearchClick() {
         if (search_pane.isVisible()) {
             search_pane.setVisible(false);

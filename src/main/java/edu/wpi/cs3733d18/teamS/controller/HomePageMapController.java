@@ -40,7 +40,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-
+/**
+ * HomePageMapController.java
+ * Embedded page for the homepage that allows user to view and pick locations based on the map.
+ *
+ * @author Noah Hillman
+ * @version %I%, %G%
+ * Date: April 25, 2018
+ */
 public class HomePageMapController {
 
     @FXML
@@ -111,6 +118,11 @@ public class HomePageMapController {
         });
     }
 
+    /**
+     * zooms everything in the scroll pane to the zoom amount
+     *
+     * @param zoom_amount scale (1 = normal, .5 zoomed out, 2 = zoomed in)
+     */
     private void zoom(double zoom_amount) {
         zoom_factor = Math.max(Math.min(zoom_amount, MAX_ZOOM), MIN_ZOOM);
         zoom_scroll.setValue(zoom_factor);
@@ -120,6 +132,11 @@ public class HomePageMapController {
         map_scroll_pane.setLayoutY(zoom_factor);
     }
 
+    /**
+     * moves the scroll pane to the given position
+     * @param x x_coordinate for centering
+     * @param y y_coordinate for centering
+     */
     private void fitToPos(double x, double y) {
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
@@ -132,6 +149,11 @@ public class HomePageMapController {
         map_scroll_pane.setVvalue((y - (0.5 * pane_height)) / (map_height - pane_height));
     }
 
+    /**
+     * retrieves the image for the given floor
+     * @param floor index of the floor, starting at 0 (0-> L2, L1, 1, 2, 3 etc)
+     * @return Image of floor
+     */
     private static Image getFloorImage(int floor) {
         String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
                 "images/2dMaps/00_thelowerlevel1.png",
@@ -141,6 +163,9 @@ public class HomePageMapController {
         return new Image(images2d[floor]);
     }
 
+    /**
+     * draws the start_icon on the anchor pane
+     */
     private void drawStartIcon() {
         ArrayList<Node> to_remove = new ArrayList<>();
         for(Node node: map_anchor_pane.getChildren()) {
@@ -161,7 +186,10 @@ public class HomePageMapController {
         map_anchor_pane.getChildren().add(icon);
     }
 
-
+    /**
+     * updates the starting location, map, and images from the homepagecontroller
+     * @param start_id new node start_id
+     */
     void updateStart(String start_id) {
         start_node = database.getNodeByID(start_id);
         zoom(1);
@@ -185,6 +213,10 @@ public class HomePageMapController {
         fitToPos(start_node.getXCoord(), start_node.getYCoord());
     }
 
+    /**
+     * changes the floor and updates the buttons
+     * @param e mouse event to check the button pressed
+     */
     @FXML
     public void onFloorClick(Event e) {
         JFXButton button = (JFXButton) e.getSource();
@@ -201,10 +233,18 @@ public class HomePageMapController {
         }
     }
 
+    /**
+     * starts timer to check for click vs click drag
+     */
     @FXML
     public void onMapClick() {
         time_holder = System.currentTimeMillis();
     }
+
+    /**
+     * Pathfinds to nearest node to mouse click
+     * @param e mouse event
+     */
     @FXML
     public void onMapRelease(javafx.scene.input.MouseEvent e) {
         if((System.currentTimeMillis() - time_holder)> 200 ){
@@ -259,7 +299,13 @@ public class HomePageMapController {
     }
     */
 
-
+    /**
+     * calculates the euclidean distance between a node and an (x,y) point
+     * @param n1 starting node
+     * @param x x_coordinate
+     * @param y y_coordinate
+     * @return
+     */
     private double calcDist(edu.wpi.cs3733d18.teamS.data.Node n1, double x, double y) {
         return (Math.sqrt((Math.pow(n1.getXCoord() - x, 2)) + Math.pow(n1.getYCoord() - y, 2)));
     }
