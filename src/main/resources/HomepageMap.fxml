@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageMapController">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageMapController">
    <center>
-      <StackPane fx:id="stack_pane" prefHeight="800.0">
+      <StackPane fx:id="stack_pane">
          <children>
             <ScrollPane fx:id="map_scroll_pane" hvalue="0.25" pannable="true" prefHeight="690.0" prefWidth="900.0" vvalue="0.25">
                <content>
