@@ -4,7 +4,7 @@
   "description": "Server for back-end web functionality in CS3733 ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node hapi-server.js"
   },
   "author": "CS3733 Team S",
   "license": "ISC",
@@ -14,9 +14,15 @@
     "bootstrap": "^4.1.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
+    "hapi": "^17.3.1",
+    "hl7": "^1.0.0",
     "jquery": "^3.3.1",
+    "net": "^1.0.2",
+    "node-hl7": "^0.1.3",
     "path": "^0.12.7",
     "popper.js": "^1.14.3",
+    "simple-hl7": "^2.2.0",
     "xml": "^1.0.1"
-  }
+  },
+  "devDependencies": {}
 }
