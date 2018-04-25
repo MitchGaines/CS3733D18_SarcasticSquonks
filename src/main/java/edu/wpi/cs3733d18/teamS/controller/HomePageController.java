@@ -76,6 +76,9 @@ public class HomePageController {
     JFXButton about;
 
     @FXML
+    JFXButton search_loc_btn;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -100,7 +103,7 @@ public class HomePageController {
     JFXComboBox<String> language_selector;
 
     @FXML
-    StackPane stack_pane;
+    StackPane stack_pane, search_pane;
 
     @FXML
     ExpansionPanel exp_panel;
@@ -115,7 +118,10 @@ public class HomePageController {
     @FXML
     ImageView minimap;
     @FXML
+    JFXButton map;
     Text use_map;
+    @FXML
+    HomePageMapController homepageMapController;
 
     /**
      * Stores the LoginHandler.
@@ -205,6 +211,7 @@ public class HomePageController {
         }
 
         login_btn.defaultButtonProperty().bind(Bindings.or(username.focusedProperty(), password.focusedProperty()));
+        homepageMapController.updateStart(KIOSK_DEFAULT_LOCATION);
     }
 
     /**
@@ -252,12 +259,14 @@ public class HomePageController {
             alert.setHeaderText("Please select a starting and ending location");
             alert.setContentText("You must select both a starting and ending location to get directions.");
             alert.showAndWait();
+            return;
         } else if (auto_combobox_start.getValue().equals(auto_combobox_end.getValue())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Your starting and ending locations can't be the same");
             alert.setHeaderText("Your starting and ending locations can't be the same");
             alert.setContentText("You must select a starting and ending location that are different from each other.");
             alert.showAndWait();
+            return;
         }
         include_stairs = stairs_toggle.isSelected();
 
@@ -274,7 +283,7 @@ public class HomePageController {
         }
         Pathfinder finder = new Pathfinder(alg);
         finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), auto_combobox_end.getValue().getNodeID());
-        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
         Map.path = finder.pathfinder_path;
@@ -310,8 +319,16 @@ public class HomePageController {
     }
 
     @FXML
-    void onAboutClick(ActionEvent event) {    // about screen
+    void onAboutClick(ActionEvent event) {
         Main.switchScenes("About", "/AboutPage.fxml");
+    }
+
+    @FXML
+    public void updateStartCombobox() {
+        if (combobox_start.getSelectionModel() != null) {
+            HomePageMapController.start_id = auto_combobox_start.getValue().getNodeID();
+            homepageMapController.updateStart(auto_combobox_start.getValue().getNodeID());
+        }
     }
 
     @FXML
@@ -346,10 +363,6 @@ public class HomePageController {
         }
     }
 
-    public void onMapClick() {
-        Main.switchScenes("HomepageMap", "/HomepageMap.fxml");
-    }
-
     //PART OF THE USER TEST
     public void openUser(ActionEvent event, String page, User user) throws IOException {
         UserController user_controller = (UserController) Main.switchScenes("User", page);
@@ -364,5 +377,15 @@ public class HomePageController {
     public void mouseExit() {
         minimap.setOpacity(.85);
         use_map.setOpacity(.85);
+    }
+
+    public void onOpenSearchClick() {
+        if (search_pane.isVisible()) {
+            search_pane.setVisible(false);
+            search_loc_btn.setText(AllText.get("search_by_name"));
+        } else {
+            search_pane.setVisible(true);
+            search_loc_btn.setText(AllText.get("view_map"));
+        }
     }
 }

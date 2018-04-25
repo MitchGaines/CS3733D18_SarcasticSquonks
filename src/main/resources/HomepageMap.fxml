@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
@@ -14,12 +13,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageMapController">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.HomePageMapController">
    <center>
-      <StackPane fx:id="stack_pane" prefHeight="800.0">
+      <StackPane fx:id="stack_pane">
          <children>
             <ScrollPane fx:id="map_scroll_pane" hvalue="0.25" pannable="true" prefHeight="690.0" prefWidth="900.0" vvalue="0.25">
                <content>
@@ -64,49 +61,10 @@
                   <Insets />
                </opaqueInsets>
                <StackPane.margin>
-                  <Insets left="20.0" top="20.0" />
+                  <Insets />
                </StackPane.margin>
             </Slider>
          </children>
       </StackPane>
    </center>
-   <bottom>
-      <BorderPane maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
-         <center>
-            <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: #ffffff;" text="%map_instructions" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="System Bold" size="40.0" />
-                     </font>
-                  </Text>
-               </children>
-            </GridPane>
-         </center>
-      </BorderPane>
-   </bottom>
-   <top>
-      <BorderPane prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;">
-         <left>
-            <Label fx:id="time" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets left="10.0" />
-               </BorderPane.margin>
-            </Label>
-         </left>
-         <right>
-            <JFXButton fx:id="back_button" buttonType="RAISED" onAction="#onBackButtonClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%home" BorderPane.alignment="CENTER_RIGHT">
-               <BorderPane.margin>
-                  <Insets right="10.0" />
-               </BorderPane.margin>
-            </JFXButton>
-         </right>
-      </BorderPane>
-   </top>
 </BorderPane>
