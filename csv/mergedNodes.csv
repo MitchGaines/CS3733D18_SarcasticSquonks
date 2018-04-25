@@ -130,15 +130,15 @@ CHALL003L2,2215,905,L2,45 Francis,HALL,Hallway 3 Floor L2,Hallway C003L2,Team C,
 CHALL004L1,2770,1070,L1,45 Francis,HALL,Hallway 4 Floor L1,Hallway C004L1,Team C,2458,1669,false
 CHALL004L2,2130,905,L2,45 Francis,HALL,Hallway 4 Floor L2,Hallway C004L2,Team C,2062,1441,false
 CHALL005L1,1750,1285,L1,Tower,HALL,Hallway 5 Floor L1,Hallway C005L1,Team C,1636,1516,false
-CHALL005L2,1745,1280,L2,Tower,HALL,Hallway 5 Floor L2,Hallway C005L2,Team C,1626,1558,false
+CHALL005L2,1745,1280,L2,Tower,HALL,Hallway 5 Floor L2,Hallway C005L2,Team C,1643,1530,false
 CHALL006L1,2130,1285,L1,Tower,HALL,Hallway 6 Floor L1,Hallway C006L1,Team C,1917,1617,false
-CHALL006L2,1745,1010,L2,Tower,HALL,Hallway 6 Floor L2,Hallway C006L2,Team C,1655,1383,false
+CHALL006L2,1745,1010,L2,Tower,HALL,Hallway 6 Floor L2,Hallway C006L2,Team C,1730,1405,false
 CHALL007L1,2130,1045,L1,Tower,HALL,Hallway 7 Floor L1,Hallway C007L1,Team C,2006,1488,false
-CHALL007L2,1730,1010,L2,Tower,HALL,Hallway 7 Floor L2,Hallway C007L2,Team C,1636,1377,false
+CHALL007L2,1730,1010,L2,Tower,HALL,Hallway 7 Floor L2,Hallway C007L2,Team C,1712,1399,false
 CHALL008L1,2215,1045,L1,45 Francis,HALL,Hallway 8 Floor L1,Hallway C008L1,Team C,2068,1510,false
-CHALL008L2,1730,925,L2,Tower,HALL,Hallway 8 Floor L2,Hallway C008L2,Team C,1647,1305,false
+CHALL008L2,1730,925,L2,Tower,HALL,Hallway 8 Floor L2,Hallway C008L2,Team C,1762,1321,false
 CHALL009L1,2220,905,L1,45 Francis,HALL,Hallway 9 Floor L1,Hallway C009L1,Team C,2122,1437,false
-CHALL009L2,1730,850,L2,Tower,HALL,Hallway 9 Floor L2,Hallway C009L2,Team C,1658,1231,false
+CHALL009L2,1730,850,L2,Tower,HALL,Hallway 9 Floor L2,Hallway C009L2,Team C,1786,1286,false
 CHALL010L1,2265,905,L1,45 Francis,HALL,Hallway 10 Floor L1,Hallway C010L1,Team C,2155,1449,false
 CHALL010L2,2130,850,L2,Tower,HALL,Hallway 10 Floor L2,Hallway C010L2,Team C,2084,1405,false
 CHALL011L1,2360,850,L1,45 Francis,HALL,Hallway 11 Floor L1,Hallway C011L1,Team C,2243,1444,false
@@ -149,19 +149,19 @@ CHALL015L1,2300,850,L1,45 Francis,HALL,Hallway 15 Floor L1,Hallway C015L1,Team C
 CLABS001L1,1965,1285,L1,Tower,LABS,Outpatient Fluoroscopy Floor L1,Lab C001L1,Team C,1796,1574,false
 CLABS001L2,2300,855,L2,45 Francis,LABS,Radiation Oncology T/X Suite Floor L2,Lab C001L2,Team C,2205,1459,false
 CLABS002L1,1750,1090,L1,Tower,LABS,Pre-Op PACU Floor L1,Lab C002L1,Team C,1709,1410,false
-CLABS002L2,2215,1280,L2,45 Francis,LABS,Radiation Oncology Floor L2,Lab C002L2,Team C,2003,1640,false
+CLABS002L2,2215,1280,L2,45 Francis,LABS,Radiation Oncology Floor L2,Lab C002L2,Team C,1990,1664,false
 CLABS003L1,2290,1285,L1,45 Francis,LABS,Nuclear Medicine Floor L1,Lab C003L1,Team C,2035,1660,false
 CLABS004L1,2320,1285,L1,45 Francis,LABS,Ultrasound Floor L1,Lab C004L1,Team C,2056,1668,false
 CLABS005L1,2770,1285,L1,45 Francis,LABS,CSIR MRI Floor L1,Lab C005L1,Team C,2381,1785,false
 CREST001L1,1732,1020,L1,Tower,REST,Restroom L Elevator Floor L1,Restroom C001L1,Team C,1722,1367,false
 CREST001L2,2300,885,L2,45 Francis,REST,Restroom K Elevator Floor L2,Restroom C001L2,Team C,2192,1476,false
 CREST002L1,2065,1285,L1,Tower,REST,Restroom M Elevator Floor L1,Restroom C002L1,Team C,1870,1600,false
-CREST002L2,1930,1280,L2,45 Francis,REST,Restroom L Elevator Floor L2,Restroom C002L2,Team C,1796,1595,false
+CREST002L2,1930,1280,L2,45 Francis,REST,Restroom L Elevator Floor L2,Restroom C002L2,Team C,1790,1586,false
 CREST003L1,2300,880,L1,45 Francis,REST,Restroom K Elevator Floor L1,Restroom C003L1,Team C,2189,1444,false
 CREST004L1,2770,1160,L1,45 Francis,REST,Restroom H Elevator Floor L1,Restroom C004L1,Team C,2426,1718,false
 CRETL001L1,2185,905,L1,45 Francis,RETL,Vending Machine 1 L1,Retail C001L1,Team C,2097,1427,false
 CSERV001L1,2490,1043,L1,45 Francis,SERV,Volunteers Floor L1,Service C001L1,Team C,2267,1582,false
-CSERV001L2,2015,1280,L2,45 Francis,SERV,Interpreter Services Floor L2,Service C001L2,Team C,1864,1609,false
+CSERV001L2,2015,1280,L2,45 Francis,SERV,Interpreter Services Floor L2,Service C001L2,Team C,1866,1616,false
 DELEV00A02,4550,375,2,15 Francis,ELEV,Elevator A Floor 2,Elevator A2,Team D,4030,1705,false
 DELEV00B02,4155,650,2,15 Francis,ELEV,Elevator B Floor 2,Elevator B2,Team D,3625,1740,false
 DELEV00C02,3955,885,2,15 Francis,ELEV,Elevator C Floor 2,Elevator C2,Team D,3380,1835,false
@@ -559,7 +559,7 @@ WELEV00LL1,1785,925,L1,Tower,ELEV,Elevator L Floor L1,Elevator LL1,Team C,1804,1
 WELEV00L01,1810,930,1,Tower,ELEV,Elevator L Floor 1,Elevator L1,Team F,1806,1290,false
 WELEV00L02,1805,925,2,Tower,ELEV,Elevator L Floor 2,Elevator L2,Team H,1804,1261,false
 WELEV00L03,1790,925,3,Tower,ELEV,Elevator L Floor 3,Elevator L3,Team H,1804,1233,false
-WELEV00ML2,1820,1280,L2,Tower,ELEV,Elevator M Floor L2,Elevator ML2,Team C,1699,1537,false
+WELEV00ML2,1820,1280,L2,Tower,ELEV,Elevator M Floor L2,Elevator ML2,Team C,1692,1545,false
 WELEV00ML1,1820,1285,L1,Tower,ELEV,Elevator M Floor L1,Elevator ML1,Team C,1694,1514,false
 WELEV00M01,1810,1280,1,Tower,ELEV,Elevator M Floor 1,Elevator M1,Team F,1669,1481,false
 WELEV00M02,1825,1280,2,Tower,ELEV,Elevator M Floor 2,Elevator M2,Team H,1682,1458,false
