@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
@@ -40,7 +38,10 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="CS 3733 APIs" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Rampant Raikous- Prescription Service Request" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Other ones (other teams)" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Original Ogres- Gift Shop Request" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Phat Pheonixes- Transportation Request" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Nearsighted Nagas- Security Request" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Team F- General Services &amp; Voice Recognition" />
                         <Separator />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Other APIs" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Automated Calling and Texting (Twillio, Inc.)" />
