@@ -100,15 +100,7 @@
                            </image>
                         </ImageView>
                      </children></StackPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #dbe9d8;" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <Rectangle fx:id="patient_rect" arcHeight="5.0" arcWidth="5.0" fill="#b0aac2" height="106.0" onMouseClicked="#onPatientClick" onMouseEntered="#changeColor" onMouseExited="#resetColor" stroke="#dbe9d8" strokeType="INSIDE" width="91.0" />
-                        <ImageView fx:id="patient_image" onMouseClicked="#onPatientClick">
-                           <image>
-                              <Image url="@images/epicIcons/icons8-treatment-filled-50.png" />
-                           </image>
-                        </ImageView>
-                     </children></StackPane>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #dbe9d8;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Check Vitals" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="23.0" />
@@ -118,14 +110,6 @@
                      </GridPane.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Administer Medication" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets bottom="40.0" />
-                     </GridPane.margin>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="View Patient Data" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="23.0" />
                      </font>
