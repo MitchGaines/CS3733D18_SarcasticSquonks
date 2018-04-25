@@ -1,2 +1,0 @@
-employeeID,username,firstName,lastName,password,isAdmin,employeeType,subtype
-1,sguy,Some,Guy,password,1,default,DEFAULT

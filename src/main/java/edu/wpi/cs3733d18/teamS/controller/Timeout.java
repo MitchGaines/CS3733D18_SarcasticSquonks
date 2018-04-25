@@ -56,7 +56,7 @@ public class Timeout {
                     while (!kill) {
                         if ((DateTime.now().getMillis() - last_action.getMillis()) > sleep_time) {
                             AllText.changeLanguage("en");
-                            Platform.runLater(() -> Main.switchScenes("Brigham and Women's", "/HomePage.fxml"));
+                            Platform.runLater(() -> Main.switchScenes("Screen Saver", "/ScreenSaver.fxml"));
                             Thread.sleep(sleep_time);
                         } else {
                             long new_sleep_time = sleep_time - (DateTime.now().getMillis() - last_action.getMillis());

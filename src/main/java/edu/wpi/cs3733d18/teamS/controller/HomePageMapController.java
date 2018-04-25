@@ -19,6 +19,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -32,12 +33,21 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
-
+/**
+ * HomePageMapController.java
+ * Embedded page for the homepage that allows user to view and pick locations based on the map.
+ *
+ * @author Noah Hillman
+ * @version %I%, %G%
+ * Date: April 25, 2018
+ */
 public class HomePageMapController {
 
     @FXML
@@ -68,6 +78,8 @@ public class HomePageMapController {
 
     private long time_holder;
 
+    static String start_id = "BINFO00102";
+
     private final double MAX_ZOOM = 1.6;
     private final double MIN_ZOOM = .6;
 
@@ -97,7 +109,7 @@ public class HomePageMapController {
         zoom(1);
         fitToPos(start_node.getXCoord(), start_node.getYCoord());
         drawStartIcon();
-        updatedTime();
+        //updatedTime();
         zoom_scroll.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -106,6 +118,11 @@ public class HomePageMapController {
         });
     }
 
+    /**
+     * zooms everything in the scroll pane to the zoom amount
+     *
+     * @param zoom_amount scale (1 = normal, .5 zoomed out, 2 = zoomed in)
+     */
     private void zoom(double zoom_amount) {
         zoom_factor = Math.max(Math.min(zoom_amount, MAX_ZOOM), MIN_ZOOM);
         zoom_scroll.setValue(zoom_factor);
@@ -115,6 +132,11 @@ public class HomePageMapController {
         map_scroll_pane.setLayoutY(zoom_factor);
     }
 
+    /**
+     * moves the scroll pane to the given position
+     * @param x x_coordinate for centering
+     * @param y y_coordinate for centering
+     */
     private void fitToPos(double x, double y) {
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
@@ -127,6 +149,11 @@ public class HomePageMapController {
         map_scroll_pane.setVvalue((y - (0.5 * pane_height)) / (map_height - pane_height));
     }
 
+    /**
+     * retrieves the image for the given floor
+     * @param floor index of the floor, starting at 0 (0-> L2, L1, 1, 2, 3 etc)
+     * @return Image of floor
+     */
     private static Image getFloorImage(int floor) {
         String[] images2d = {"images/2dMaps/00_thelowerlevel2.png",
                 "images/2dMaps/00_thelowerlevel1.png",
@@ -136,7 +163,17 @@ public class HomePageMapController {
         return new Image(images2d[floor]);
     }
 
+    /**
+     * draws the start_icon on the anchor pane
+     */
     private void drawStartIcon() {
+        ArrayList<Node> to_remove = new ArrayList<>();
+        for(Node node: map_anchor_pane.getChildren()) {
+            if(node.getId() == "temporaryIcon") {
+                to_remove.add(node);
+            }
+        }
+        map_anchor_pane.getChildren().removeAll(to_remove);
         ImageView icon;
         icon = new ImageView("images/mapIcons/start_flag.png");
         icon.setId("temporaryIcon");
@@ -149,6 +186,37 @@ public class HomePageMapController {
         map_anchor_pane.getChildren().add(icon);
     }
 
+    /**
+     * updates the starting location, map, and images from the homepagecontroller
+     * @param start_id new node start_id
+     */
+    void updateStart(String start_id) {
+        start_node = database.getNodeByID(start_id);
+        zoom(1);
+        drawStartIcon();
+        floor = Map.floor_ids.indexOf(start_node.getNodeFloor());
+        for (Node n : button_pane.getChildren()) {
+            JFXButton button = (JFXButton) n;
+            if(floor == Integer.parseInt(button.getId().replaceAll("[^0-9]", ""))) {
+                button.setStyle("-fx-background-color: #a6a6a6; -fx-font-size: 30;");
+            } else {
+                n.setStyle("-fx-text-fill: #ffffff; -fx-background-color: #4863A0; -fx-font-size: 30;");
+            }
+        }
+        map_img.setImage(getFloorImage(floor));
+        if (floor == Map.floor_ids.indexOf(start_node.getNodeFloor())) {
+            map_anchor_pane.getChildren().get(1).setOpacity(1);
+        } else {
+            map_anchor_pane.getChildren().get(1).setOpacity(.35);
+        }
+        map_img.setImage(getFloorImage(Map.floor_ids.indexOf(start_node.getNodeFloor())));
+        fitToPos(start_node.getXCoord(), start_node.getYCoord());
+    }
+
+    /**
+     * changes the floor and updates the buttons
+     * @param e mouse event to check the button pressed
+     */
     @FXML
     public void onFloorClick(Event e) {
         JFXButton button = (JFXButton) e.getSource();
@@ -165,10 +233,18 @@ public class HomePageMapController {
         }
     }
 
+    /**
+     * starts timer to check for click vs click drag
+     */
     @FXML
     public void onMapClick() {
         time_holder = System.currentTimeMillis();
     }
+
+    /**
+     * Pathfinds to nearest node to mouse click
+     * @param e mouse event
+     */
     @FXML
     public void onMapRelease(javafx.scene.input.MouseEvent e) {
         if((System.currentTimeMillis() - time_holder)> 200 ){
@@ -197,7 +273,7 @@ public class HomePageMapController {
             alg = new AStar();
         }
         Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(database.getDefaultKioskLocation(), best_node.getNodeID());
+        finder.findShortestPath(start_node.getNodeID(), best_node.getNodeID());
         if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
@@ -208,6 +284,7 @@ public class HomePageMapController {
     /**
      * Updates clock to live time
      */
+    /*
     public void updatedTime() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
@@ -220,8 +297,15 @@ public class HomePageMapController {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }
+    */
 
-
+    /**
+     * calculates the euclidean distance between a node and an (x,y) point
+     * @param n1 starting node
+     * @param x x_coordinate
+     * @param y y_coordinate
+     * @return
+     */
     private double calcDist(edu.wpi.cs3733d18.teamS.data.Node n1, double x, double y) {
         return (Math.sqrt((Math.pow(n1.getXCoord() - x, 2)) + Math.pow(n1.getYCoord() - y, 2)));
     }

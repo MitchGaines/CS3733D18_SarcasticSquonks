@@ -32,6 +32,11 @@
                               <Font size="30.0" />
                           </font>
                       </Text>
+                  <JFXButton fx:id="nurse_btn" buttonType="RAISED" onAction="#onNurseClick" prefHeight="50.0" prefWidth="108.0" style="-fx-background-color: #B7B8B6;" text="Nurse" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </GridPane>
             <GridPane prefHeight="456.0" prefWidth="540.0">

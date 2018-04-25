@@ -1,5 +1,7 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
+import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
+import edu.wpi.cs3733d18.teamS.arduino.SensorPolling;
 import edu.wpi.cs3733d18.teamS.database.ApacheDatabase;
 import edu.wpi.cs3733d18.teamS.database.CSVReader;
 import edu.wpi.cs3733d18.teamS.database.CSVWriter;
@@ -11,10 +13,12 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -57,9 +61,23 @@ public class Main extends Application {
 
             Timeout.addListenersToScene(new_scene);
 
+            double sub_height = primary_stage.getHeight() - old_height;
+            double sub_width = primary_stage.getWidth() - old_width;
+
+            primary_stage.setHeight(primary_stage.getHeight() - sub_height);
+            primary_stage.setWidth(primary_stage.getWidth() - sub_width);
             primary_stage.setScene(new_scene);
-            primary_stage.setHeight(old_height);
-            primary_stage.setWidth(old_width);
+
+            if(fxml_name.equals("/ScreenSaver.fxml")) {
+                primary_stage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        Main.switchScenes("Brigham and Women's", "/HomePage.fxml");
+                        SensorPolling.getInstance().stop();
+                        primary_stage.removeEventFilter(MouseEvent.MOUSE_PRESSED, this);
+                    }
+                });
+            }
             primary_stage.show();
             return controller;
         } catch (IOException e) {
@@ -98,6 +116,7 @@ public class Main extends Application {
         Timeout.start();
 
         primary_stage.setScene(primary_scene);
+
         primary_stage.show();
 
         // before system shutdown
