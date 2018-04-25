@@ -11,7 +11,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -53,93 +56,145 @@
                             </BorderPane.margin>
                         </Label>
                     </left>
+               <center>
+                  <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <JFXButton fx:id="search_loc_btn" buttonType="RAISED" onAction="#onOpenSearchClick" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="View Map" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </center>
+               <right>
+                  <GridPane maxWidth="70.0" minWidth="70.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </right>
                 </BorderPane>
             </collapsedContent>
         </ExpansionPanel>
     </top>
     <center>
-        <StackPane fx:id="stack_pane" prefHeight="650.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+        <StackPane fx:id="stack_pane" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="669.0" fitWidth="593.0" opacity="0.05" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                    <image>
-                        <Image url="@images/Brigham_and_Womens_Hospital_logo.svg.png" />
-                    </image>
-                    <StackPane.margin>
-                        <Insets top="30.0" />
-                    </StackPane.margin>
-                </ImageView>
-                <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1200.0" spacing="50.0">
-                    <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%find_nearest" textAlignment="CENTER">
-                            <font>
-                                <Font size="23.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </Text>
-                        <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
-                            <children>
-                                <JFXButton fx:id="INFO" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%information">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                </JFXButton>
-                                <JFXButton fx:id="EXIT" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%exit">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                </JFXButton>
-                                <JFXButton fx:id="REST" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%restroom">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                </JFXButton>
-                            </children>
-                            <VBox.margin>
-                                <Insets top="-40.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <JFXComboBox fx:id="combobox_start" editable="true" focusColor="#4863a0" labelFloat="true" promptText="%start_location" style="-fx-font-size: 23;" />
-                        <JFXComboBox fx:id="combobox_end" editable="true" focusColor="#4863a0" labelFloat="true" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12;" />
-                        <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#4863a0" />
-                        <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
-                    </children>
-                    <StackPane.margin>
-                        <Insets top="40.0" />
-                    </StackPane.margin>
-                </VBox>
-            <ImageView fx:id="minimap" fitHeight="300.0" fitWidth="300.0" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                <fx:include fx:id="homepageMap" source="HomepageMap.fxml" />
+            <StackPane fx:id="search_pane" maxWidth="500.0" style="-fx-background-color: #4863A0D9; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;">
+               <children>
+                      <VBox alignment="TOP_CENTER" maxWidth="450.0" prefHeight="570.0" prefWidth="1200.0" spacing="50.0" StackPane.alignment="CENTER">
+                          <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%find_nearest" textAlignment="CENTER">
+                                  <font>
+                                      <Font size="23.0" />
+                                  </font>
+                                  <VBox.margin>
+                                      <Insets />
+                                  </VBox.margin>
+                              </Text>
+                              <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                                  <children>
+                                      <JFXButton fx:id="INFO" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%information">
+                                          <font>
+                                              <Font size="16.0" />
+                                          </font>
+                                      </JFXButton>
+                                      <JFXButton fx:id="EXIT" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%exit">
+                                          <font>
+                                              <Font size="16.0" />
+                                          </font>
+                                      </JFXButton>
+                                      <JFXButton fx:id="REST" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%restroom">
+                                          <font>
+                                              <Font size="16.0" />
+                                          </font>
+                                      </JFXButton>
+                                  </children>
+                                  <VBox.margin>
+                                      <Insets top="-40.0" />
+                                  </VBox.margin>
+                              </HBox>
+                              <JFXComboBox fx:id="combobox_start" editable="true" focusColor="WHITE" promptText="%start_location" style="-fx-font-size: 23; -fx-background-color: #ffffff;" unFocusColor="#fafafa" />
+                              <JFXComboBox fx:id="combobox_end" editable="true" focusColor="WHITE" promptText="%end_location" style="-fx-font-size: 23; -jfx-focus-color-font-size: 12; -fx-background-color: #ffffff;" unFocusColor="#fafafa" />
+                              <JFXToggleButton fx:id="stairs_toggle" style="-fx-font-size: 23; -fx-text-fill: #ffffff;" text="%stairs" toggleColor="#b7b8b6" toggleLineColor="#fafafa" />
+                              <JFXButton fx:id="pathfind" buttonType="RAISED" onAction="#onPathfindClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%directions_button" />
+                          </children>
+                     <StackPane.margin>
+                        <Insets left="10.0" right="10.0" top="15.0" />
+                     </StackPane.margin>
+                      </VBox>
+                  <ImageView fitHeight="33.0" fitWidth="34.0" onMouseClicked="#onOpenSearchClick" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                     <StackPane.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </StackPane.margin>
+                     <image>
+                        <Image url="@images/close.png" />
+                     </image>
+                  </ImageView>
+               </children>
                <StackPane.margin>
-                  <Insets right="50.0" />
+                  <Insets bottom="100.0" top="50.0" />
                </StackPane.margin>
-               <image>
-                  <Image url="@images/mapIcons/minimap.png" />
-               </image>
-            </ImageView>
-            <Text fx:id="use_map" onMouseClicked="#onMapClick" onMouseEntered="#mouseEnter" opacity="0.75" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 70; -fx-font-weight: BOLD;" text="%use_map" textAlignment="CENTER" wrappingWidth="200.0" StackPane.alignment="BOTTOM_RIGHT">
-               <StackPane.margin>
-                  <Insets bottom="70.0" right="100.0" />
-               </StackPane.margin>
-            </Text>
+            </StackPane>
             </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </StackPane>
     </center>
-    <bottom>
-        <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="273.0" spacing="20.0" BorderPane.alignment="CENTER">
-            <children>
-                <JFXComboBox fx:id="language_selector" focusColor="#4863a0" labelFloat="true" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
-                <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
-            <JFXButton fx:id="about" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" />
-            <JFXButton fx:id="map" buttonType="RAISED" onAction="#onMapClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%map">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </JFXButton>
-            </children>
-            <padding>
-                <Insets bottom="10.0" left="10.0" />
-            </padding>
-        </HBox>
-    </bottom>
+   <bottom>
+      <BorderPane maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
+         <left>
+              <HBox alignment="CENTER_LEFT" maxHeight="50.0" maxWidth="280.0" prefHeight="50.0" prefWidth="280.0" spacing="20.0" BorderPane.alignment="CENTER">
+                  <children>
+                      <JFXComboBox fx:id="language_selector" focusColor="#4863a0" promptText="%language" style="-fx-font-size: 18; -fx-background-color: #ffffff;" />
+                      <JFXButton buttonType="RAISED" onAction="#onLanguageChange" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%confirm" />
+                  </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+              </HBox>
+         </left>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: #ffffff;" text="%map_instructions" textAlignment="CENTER" wrappingWidth="702.9113159179688" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </GridPane>
+         </center>
+         <right>
+            <GridPane maxWidth="280.0" prefWidth="280.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXButton fx:id="about" buttonType="RAISED" onAction="#onAboutClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 18;" text="%about_page" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></JFXButton>
+               </children>
+            </GridPane>
+         </right>
+      </BorderPane>
+   </bottom>
 </BorderPane>

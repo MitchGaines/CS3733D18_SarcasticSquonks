@@ -65,7 +65,6 @@ public class Path {
      * condenses repeated go straight instructions into a single, text instruction.
      *
      * @return URL based on calculated turns at each node.
-     * @throws MalformedURLException The error thrown when the URL is not formated properly.
      */
     public ArrayList<String> getPathDirections() {
         ArrayList<String> path_description = new ArrayList<>();
@@ -300,7 +299,7 @@ public class Path {
         } else {
             start_icon = new ImageView("images/mapIcons/middle_flag.png");
         }
-
+        start_icon.toFront();
         start_icon.setPreserveRatio(true);
         start_icon.setFitHeight(120);
         if (is3D) {
@@ -345,6 +344,7 @@ public class Path {
             icon.setFitHeight(120);
             icon.setOpacity(.8);
         }
+        icon.toFront();
         icon.setId("next_icon");
         icon.smoothProperty().setValue(true);
         icon.setX(x_pos - (icon.getFitHeight()/2));

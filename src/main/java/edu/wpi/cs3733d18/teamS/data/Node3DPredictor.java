@@ -145,11 +145,11 @@ public class Node3DPredictor implements Runnable {
         nn.fit(input_data, output_data, 0.0001, 500);
 
 
-        PointConverter.addTransform("Lower Level Two", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2225, 1588, 1687, 1006, 2511);
-        PointConverter.addTransform("Lower Level One", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2199, 1572, 1651, 1006, 2475);
-        PointConverter.addTransform("First Floor", 990, 2843, 1486, 1241, 3386, 535, 593, 2123, 1459, 1396, 3092, 1517);
-        PointConverter.addTransform("Second Floor", 981, 2514, 1761, 1498, 4833, 846, 730, 1920, 1534, 1558, 4039, 2052);
-        PointConverter.addTransform("Third Floor", 4735, 1160, 1100, 1496, 1705, 3064, 3872, 2174, 1104, 1351, 1016, 2310);
+        PointConverter.addTransform("L2", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2225, 1588, 1687, 1006, 2511);
+        PointConverter.addTransform("L1", 4733, 1159, 1796, 1537, 1846, 3115, 3870, 2199, 1572, 1651, 1006, 2475);
+        PointConverter.addTransform("1", 990, 2843, 1486, 1241, 3386, 535, 593, 2123, 1459, 1396, 3092, 1517);
+        PointConverter.addTransform("2", 981, 2514, 1761, 1498, 4833, 846, 730, 1920, 1534, 1558, 4039, 2052);
+        PointConverter.addTransform("3", 4735, 1160, 1100, 1496, 1705, 3064, 3872, 2174, 1104, 1351, 1016, 2310);
     }
 
     public void start(Storage _storage){

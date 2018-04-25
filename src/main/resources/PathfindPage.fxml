@@ -20,7 +20,7 @@
 
 <BorderPane fx:id="main_pane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733d18.teamS.controller.PathfindController">
     <top>
-        <BorderPane fx:id="header_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
+        <BorderPane fx:id="header_pane" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;" BorderPane.alignment="CENTER">
             <left>
                 <Label fx:id="time" style="-fx-text-fill: #ffffff; -fx-font-size: 23;" text="2:30" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
@@ -95,7 +95,7 @@
         </StackPane>
     </center>
     <bottom>
-        <BorderPane fx:id="footer_pane" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;">
+        <BorderPane fx:id="footer_pane" maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4863A0;">
             <right>
                 <JFXButton fx:id="toggle_map_btn" buttonType="RAISED" onAction="#toggleMappingType" style="-fx-font-size: 18; -fx-background-color: #B7B8B6;" text="%3d_map" BorderPane.alignment="CENTER">
                     <BorderPane.margin>

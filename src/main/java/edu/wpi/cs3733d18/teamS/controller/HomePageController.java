@@ -76,6 +76,9 @@ public class HomePageController {
     JFXButton about;
 
     @FXML
+    JFXButton search_loc_btn;
+
+    @FXML
     TextField username;
 
     @FXML
@@ -91,16 +94,16 @@ public class HomePageController {
     BorderPane main_pane;
 
     @FXML
-    JFXComboBox<String> combobox_start;
+    JFXComboBox<edu.wpi.cs3733d18.teamS.data.Node> combobox_start;
 
     @FXML
-    JFXComboBox<String> combobox_end;
+    JFXComboBox<edu.wpi.cs3733d18.teamS.data.Node> combobox_end;
 
     @FXML
-    JFXComboBox<String> language_selector;
+    JFXComboBox language_selector;
 
     @FXML
-    StackPane stack_pane;
+    StackPane stack_pane, search_pane;
 
     @FXML
     ExpansionPanel exp_panel;
@@ -113,9 +116,9 @@ public class HomePageController {
     @FXML
     JFXToggleButton stairs_toggle;
     @FXML
-    ImageView minimap;
-    @FXML
     JFXButton map;
+    @FXML
+    ImageView minimap;
     @FXML
     Text use_map;
 
@@ -128,16 +131,6 @@ public class HomePageController {
      * Stores the ObservableList for node locations.
      */
     private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
-
-    /**
-     * Stores the FuzzyComboBox associated with the start location ComboBox.
-     */
-    private FuzzyComboBox auto_combobox_start;
-
-    /**
-     * Stores the FuzzyComboBox associated with the end location ComboBox.
-     */
-    private FuzzyComboBox auto_combobox_end;
 
     /**
      * Retrieves whether or not stairs are included.
@@ -162,7 +155,7 @@ public class HomePageController {
 //    }
 
     public void setEnd(String node_id) {
-        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id).toString());
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
     }
 
     /**
@@ -172,6 +165,28 @@ public class HomePageController {
     public void initialize() {
         HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
+        StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
+            @Override
+            public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
+                if (node == null) {
+                    return "";
+                } else {
+                    return node.toString();
+                }
+            }
+
+            @Override
+            public edu.wpi.cs3733d18.teamS.data.Node fromString(String long_name) {
+                for (edu.wpi.cs3733d18.teamS.data.Node node : locations) {
+                    if (node.getLongName().equals(long_name)) {
+                        return node;
+                    }
+                }
+                return null;
+            }
+        };
+        combobox_start.setConverter(string_node_converter);
+        combobox_end.setConverter(string_node_converter);
 
         ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<>();
         for (edu.wpi.cs3733d18.teamS.data.Node location : locations) {
@@ -193,9 +208,9 @@ public class HomePageController {
             }
         }
 
-        auto_combobox_start = new FuzzyComboBox(combobox_start, locations);
-        auto_combobox_end = new FuzzyComboBox(combobox_end, locations);
-        combobox_start.setValue(locations.get(default_index).toString());
+        combobox_start.setItems(locations);
+        combobox_start.setValue(locations.get(default_index));
+        combobox_end.setItems(locations);
 
         loginHandler = new LoginHandler();
 
@@ -248,13 +263,13 @@ public class HomePageController {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
-        if (auto_combobox_start.getValue() == null || auto_combobox_end.getValue() == null) {
+        if (combobox_start.getSelectionModel().isEmpty() || combobox_end.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Please select a starting and ending location");
             alert.setHeaderText("Please select a starting and ending location");
             alert.setContentText("You must select both a starting and ending location to get directions.");
             alert.showAndWait();
-        } else if (auto_combobox_start.getValue().equals(auto_combobox_end.getValue())) {
+        } else if (combobox_start.getValue().equals(combobox_end.getValue())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Your starting and ending locations can't be the same");
             alert.setHeaderText("Your starting and ending locations can't be the same");
@@ -275,8 +290,8 @@ public class HomePageController {
             alg = new AStar();
         }
         Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), auto_combobox_end.getValue().getNodeID());
-        if(finder.pathfinder_path.getAStarNodePath().size() <= 1){
+        finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
         Map.path = finder.pathfinder_path;
@@ -292,7 +307,7 @@ public class HomePageController {
     @FXML
     void onQuickClick(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
-        if (auto_combobox_start.getValue().getNodeID().contains(button.getId())) {
+        if (combobox_start.getValue().getNodeID().contains(button.getId())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Can't Get Directions");
             alert.setHeaderText("You have specified a location, however you are already there");
@@ -302,7 +317,7 @@ public class HomePageController {
         }
 
         Pathfinder quick_finder = new Pathfinder(new Dijkstras());
-        quick_finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), button.getId());
+        quick_finder.findShortestPath(combobox_start.getValue().getNodeID(), button.getId());
         Path path = quick_finder.pathfinder_path;
         if (path.getAStarNodePath().size() <= 1) {
             return;
@@ -319,6 +334,51 @@ public class HomePageController {
     @FXML
     void onCreditsClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
+    }
+
+    /**
+     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
+     * in the edit field as a substring.
+     *
+     * @param e KeyEvent representing the key that was typed.
+     */
+    @FXML
+    void onKeyReleasedComboBox(KeyEvent e) {
+        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>) (e.getSource());
+        ObservableList<edu.wpi.cs3733d18.teamS.data.Node> filteredItems = FXCollections.observableArrayList();
+        combo_box.show();
+        TextField editor = combo_box.getEditor();
+
+        if (editor.getText().equals("")
+                || e.getCode() == KeyCode.BACK_SPACE
+                || e.getCode() == KeyCode.DELETE
+                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
+            combo_box.setItems(locations);
+        }
+
+        Stream<edu.wpi.cs3733d18.teamS.data.Node> items_stream = combo_box.getItems().stream();
+        String user_text = editor.getText().toLowerCase();
+        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
+
+        if (!e.getCode().isArrowKey()) { // Doesn't change list while edu.wpi.cs3733d18.teamS.user is navigating dropdown with arrow keys
+            if (e.getCode() == KeyCode.ENTER) {
+                // Pressing enter clear the edit field if it was autocompleted. This prevents
+                // that by storing the editor text and putting it back in afterwards
+                String current_editor = editor.getText();
+                combo_box.setItems(filteredItems);
+                editor.setText(current_editor);
+            } else {
+                combo_box.setItems(filteredItems);
+            }
+
+            // Resize drop down
+            int new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
+            if (new_visible_size != combo_box.getVisibleRowCount()) {
+                combo_box.hide();
+                combo_box.setVisibleRowCount(new_visible_size);
+                combo_box.show();
+            }
+        }
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
@@ -349,7 +409,7 @@ public class HomePageController {
     }
 
     public void onMapClick() {
-        Main.switchScenes("HomepageMap", "/HomepageMap.fxml");
+        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
     }
 
     //PART OF THE USER TEST
@@ -364,7 +424,17 @@ public class HomePageController {
     }
 
     public void mouseExit() {
-        minimap.setOpacity(.9);
-        use_map.setOpacity(.9);
+        minimap.setOpacity(.85);
+        use_map.setOpacity(.85);
+    }
+
+    public void onOpenSearchClick() {
+        if(search_pane.isVisible()) {
+            search_pane.setVisible(false);
+            search_loc_btn.setText("Search by Name");
+        } else {
+            search_pane.setVisible(true);
+            search_loc_btn.setText("Map View");
+        }
     }
 }
