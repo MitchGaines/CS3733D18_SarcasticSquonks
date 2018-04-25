@@ -2,6 +2,9 @@ package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.epic.EpicWrapper;
+import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -48,6 +51,7 @@ public class AdministerMedsController {
     public void submitReport() {
         // TODO EPIC interaction
 
+        EpicWrapper.send2Epic(ServiceRequest.createService("Medication Report", "Patient's medication report.", Storage.getInstance().getServiceTypesByName("Medical").get(0), null, null, null, true));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Service Request Created");
         alert.setHeaderText("Service Request Created");
