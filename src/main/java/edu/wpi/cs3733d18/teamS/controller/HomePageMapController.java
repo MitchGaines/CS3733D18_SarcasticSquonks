@@ -97,7 +97,7 @@ public class HomePageMapController {
         zoom(1);
         fitToPos(start_node.getXCoord(), start_node.getYCoord());
         drawStartIcon();
-        updatedTime();
+        //updatedTime();
         zoom_scroll.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -208,6 +208,7 @@ public class HomePageMapController {
     /**
      * Updates clock to live time
      */
+    /*
     public void updatedTime() {
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
@@ -220,6 +221,7 @@ public class HomePageMapController {
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
     }
+    */
 
 
     private double calcDist(edu.wpi.cs3733d18.teamS.data.Node n1, double x, double y) {
