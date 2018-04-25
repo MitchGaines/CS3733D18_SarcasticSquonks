@@ -121,6 +121,8 @@ public class HomePageController {
     ImageView minimap;
     @FXML
     Text use_map;
+    @FXML
+    HomePageMapController homepageMapController;
 
     /**
      * Stores the LoginHandler.
@@ -165,6 +167,7 @@ public class HomePageController {
     public void initialize() {
         HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
+
         StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
             @Override
             public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
@@ -327,58 +330,15 @@ public class HomePageController {
     }
 
     @FXML
+    public void updateStartCombobox() {
+        if(combobox_start.getSelectionModel() != null) {
+            HomePageMapController.start_id = combobox_start.getValue().getNodeID();
+            homepageMapController.updateStart(combobox_start.getValue().getNodeID());
+        }
+    }
+    @FXML
     void onAboutClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
-    }
-
-    @FXML
-    void onCreditsClick(ActionEvent event) {    // about screen
-        Main.switchScenes("About", "/AboutPage.fxml");
-    }
-
-    /**
-     * Autocomplete algorithm which sets the displayed items of a ComboBox to be only the ones that include the text
-     * in the edit field as a substring.
-     *
-     * @param e KeyEvent representing the key that was typed.
-     */
-    @FXML
-    void onKeyReleasedComboBox(KeyEvent e) {
-        ComboBox<edu.wpi.cs3733d18.teamS.data.Node> combo_box = (ComboBox<edu.wpi.cs3733d18.teamS.data.Node>) (e.getSource());
-        ObservableList<edu.wpi.cs3733d18.teamS.data.Node> filteredItems = FXCollections.observableArrayList();
-        combo_box.show();
-        TextField editor = combo_box.getEditor();
-
-        if (editor.getText().equals("")
-                || e.getCode() == KeyCode.BACK_SPACE
-                || e.getCode() == KeyCode.DELETE
-                || (e.getCode().isLetterKey() && editor.getCaretPosition() < editor.getText().length())) {
-            combo_box.setItems(locations);
-        }
-
-        Stream<edu.wpi.cs3733d18.teamS.data.Node> items_stream = combo_box.getItems().stream();
-        String user_text = editor.getText().toLowerCase();
-        items_stream.filter(el -> el.toString().toLowerCase().contains(user_text)).forEach(filteredItems::add);
-
-        if (!e.getCode().isArrowKey()) { // Doesn't change list while edu.wpi.cs3733d18.teamS.user is navigating dropdown with arrow keys
-            if (e.getCode() == KeyCode.ENTER) {
-                // Pressing enter clear the edit field if it was autocompleted. This prevents
-                // that by storing the editor text and putting it back in afterwards
-                String current_editor = editor.getText();
-                combo_box.setItems(filteredItems);
-                editor.setText(current_editor);
-            } else {
-                combo_box.setItems(filteredItems);
-            }
-
-            // Resize drop down
-            int new_visible_size = filteredItems.size() > 10 ? 10 : filteredItems.size();
-            if (new_visible_size != combo_box.getVisibleRowCount()) {
-                combo_box.hide();
-                combo_box.setVisibleRowCount(new_visible_size);
-                combo_box.show();
-            }
-        }
     }
 
     //THIS IS A TEST TO TRY OUT DIFFERENT USERS
@@ -406,10 +366,6 @@ public class HomePageController {
         } catch (InvalidUsernameException e) {
             wrong_credentials.setText("Wrong username or password");
         }
-    }
-
-    public void onMapClick() {
-        Main.switchScenes("HomePageMap", "/HomePageMap.fxml");
     }
 
     //PART OF THE USER TEST
