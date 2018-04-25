@@ -16,12 +16,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Handles phone interaction for texting and phone calling
+ * @author Mitch Gaines
+ */
 public class InteractivePhone {
     private String account_sid = "AC61003cbc0ab62fb17514a23dd877954d";
     private String auth_token = "93baca692310f9af4c1e13a730071a3d";
     private String from_phone = "+18329475093";
     private TwiML twiml;
 
+    /**
+     * Creates twiml for phone calling.
+     * @param dir_steps these are the steps that need to be followed.
+     */
     public InteractivePhone(ArrayList<String> dir_steps){
         Twilio.init(account_sid, auth_token);
 
@@ -47,6 +55,10 @@ public class InteractivePhone {
         twiml = twiml_builder.build();
     }
 
+    /**
+     * calls the phone number of the string entered.
+     * @param to_phone the receiver's phone number.
+     */
     public void callDirections(String to_phone){
         try {
 
@@ -72,6 +84,11 @@ public class InteractivePhone {
         }
     }
 
+    /**
+     * Creates and sends text message to receiver.
+     * @param to_phone phone number of the person the next is directed to.
+     * @param url The url to send them.
+     */
     public void textDirections(String to_phone, URL url){
         Message msg = Message.creator(
                 new PhoneNumber(to_phone),
