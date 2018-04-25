@@ -121,13 +121,13 @@ CCONF003L1,2445,1245,L1,45 Francis,CONF,Abrams Conference Room,Conf C003L1,Team 
 CDEPT002L1,1980,845,L1,Tower,DEPT,Day Surgery Family Waiting Floor L1,Department C002L1,Team C,1970,1340,false
 CDEPT003L1,1845,845,L1,Tower,DEPT,Day Surgery Family Waiting Exit Floor L1,Department C003L1,Team C,1871,1303,false
 CDEPT004L1,2310,1043,L1,45 Francis,DEPT,Medical Records Film Library Floor L1,Department C004L1,Team C,2137,1534,false
-CHALL001L1,1732,925,L1,Tower,HALL,Hallway 1 Floor L1,Hallway C001L1,Team C,1758,1316,false
+CHALL001L1,1732,925,L1,Tower,HALL,Hallway 1 Floor L1,Hallway C001L1,Team C,1765,1299,false
 CHALL001L2,2360,855,L2,45 Francis,HALL,Hallway K Elevator Floor L2,Hallway C001L2,Team C,2244,1474,false
 CHALL002L1,2445,1043,L1,45 Francis,HALL,Hallway 2 Floor L1,Hallway C002L1,Team C,2235,1570,false
 CHALL002L2,2270,905,L2,45 Francis,HALL,Hallway 2 Floor L2,Hallway C002L2,Team C,2164,1479,false
 CHALL003L1,2445,1285,L1,45 Francis,HALL,Hallway 3 Floor L1,Hallway C003L1,Team C,2147,1700,false
 CHALL003L2,2215,905,L2,45 Francis,HALL,Hallway 3 Floor L2,Hallway C003L2,Team C,2126,1465,false
-CHALL004L1,2770,1070,L1,45 Francis,HALL,Hallway 4 Floor L1,Hallway C004L1,Team C,2458,1669,false
+CHALL004L1,2770,1070,L1,45 Francis,HALL,Hallway 4 Floor L1,Hallway C004L1,Team C,2466,1659,false
 CHALL004L2,2130,905,L2,45 Francis,HALL,Hallway 4 Floor L2,Hallway C004L2,Team C,2062,1441,false
 CHALL005L1,1750,1285,L1,Tower,HALL,Hallway 5 Floor L1,Hallway C005L1,Team C,1636,1516,false
 CHALL005L2,1745,1280,L2,Tower,HALL,Hallway 5 Floor L2,Hallway C005L2,Team C,1643,1530,false
@@ -144,7 +144,7 @@ CHALL010L2,2130,850,L2,Tower,HALL,Hallway 10 Floor L2,Hallway C010L2,Team C,2084
 CHALL011L1,2360,850,L1,45 Francis,HALL,Hallway 11 Floor L1,Hallway C011L1,Team C,2243,1444,false
 CHALL012L1,2130,905,L1,45 Francis,HALL,Hallway 12 Floor L1,Hallway C012L1,Team C,2057,1412,false
 CHALL013L1,2130,845,L1,45 Francis,HALL,Hallway 13 Floor L1,Hallway C013L1,Team C,2079,1380,false
-CHALL014L1,1845,925,L1,Tower,HALL,Hallway 14 Floor L1,Hallway C014L1,Team C,1841,1346,false
+CHALL014L1,1845,925,L1,Tower,HALL,Hallway 14 Floor L1,Hallway C014L1,Team C,1851,1333,false
 CHALL015L1,2300,850,L1,45 Francis,HALL,Hallway 15 Floor L1,Hallway C015L1,Team C,2200,1428,false
 CLABS001L1,1965,1285,L1,Tower,LABS,Outpatient Fluoroscopy Floor L1,Lab C001L1,Team C,1796,1574,false
 CLABS001L2,2300,855,L2,45 Francis,LABS,Radiation Oncology T/X Suite Floor L2,Lab C001L2,Team C,2205,1459,false
@@ -540,7 +540,7 @@ WELEV00F01,3050,980,1,45 Francis,ELEV,Elevator F Floor 1,Elevator F1,Team E,2690
 WELEV00F02,3075,960,2,45 Francis,ELEV,Elevator F Floor 2,Elevator F2,Team B,2723,1641,false
 WELEV00G01,2935,900,1,45 Francis,ELEV,Elevator G Floor 1,Elevator G1,Team E,2632,1596,false
 WELEV00G02,2945,870,2,45 Francis,ELEV,Elevator G Floor 2,Elevator G2,Team B,2663,1534,false
-WELEV00HL1,2715,1070,L1,45 Francis,ELEV,Elevator H Floor L1,Elevator HL1,Team C,2419,1648,false
+WELEV00HL1,2715,1070,L1,45 Francis,ELEV,Elevator H Floor L1,Elevator HL1,Team C,2426,1645,false
 WELEV00H01,2735,1070,1,45 Francis,ELEV,Elevator H Floor 1,Elevator H1,Team E,2427,1619,false
 WELEV00H02,2725,1065,2,45 Francis,ELEV,Elevator H Floor 2,Elevator H2,Team B,2416,1614,false
 WELEV00H03,2715,1075,3,45 Francis,ELEV,Elevator H Floor 3,Elevator H3,Team I,2420,1565,false
