@@ -3,7 +3,9 @@ var app     = express();
 var path    = require("path");
 var xml     = require("xml");
 var body_parser = require("body-parser");
-
+var hl7     = require('simple-hl7');
+var xml_list = {};
+var hl7_client = hl7.Server.createTcpClient('159.203.189.146', 7777);
 require('body-parser-xml')(body_parser);
 
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
@@ -17,9 +19,16 @@ app.use(body_parser.xml({
     explicitArray: false // Only put nodes in array if >1
   }
 }));
-app.set('view engine', 'ejs');
 
-var xml_list = {};
+app.use(body_parser.json({
+  limit: '10MB'
+}));
+
+app.use(body_parser.urlencoded({
+  extended: true
+}));
+
+app.set('view engine', 'ejs');
 
 app.get('/:steps', function(req, res){
   var path = "";
@@ -49,6 +58,40 @@ app.post('/twiml/:twiml_steps', function(req, res) {
 app.post('/twiml/new_xml/:key', function(req, res, body) {
   xml_list[req.params.key] = body;
   console.log(xml_list[req.params.key]);
+});
+
+app.post('/epic', function(req, res) {
+  var service_request_raw = JSON.stringify(req.body);
+  var service_request = JSON.parse(service_request_raw);
+  console.log("Service Request json Received");
+
+
+  console.log(service_request);
+  res.send(req.body);
+
+  var msg = new hl7.Message(
+                    "Medical Request",
+                    "EPIPEN",
+                    "SMS",
+                    "199912271408",
+                    "WONG",
+                    ["ADT", "A04"], //This field has 2 components
+                    "1817457",
+                    "D",
+                    "2.5"
+                );
+
+  console.log('******sending message*****')
+  hl7_client.send(msg, function(err, ack) {
+    console.log('******ack recieved*****')
+    console.log(ack.log());
+  });
+
+
+  /*
+  var msg = new
+  hl7_client.send();
+  */
 });
 
 

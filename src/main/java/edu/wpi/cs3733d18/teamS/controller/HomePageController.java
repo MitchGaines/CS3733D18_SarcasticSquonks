@@ -94,13 +94,13 @@ public class HomePageController {
     BorderPane main_pane;
 
     @FXML
-    JFXComboBox<edu.wpi.cs3733d18.teamS.data.Node> combobox_start;
+    JFXComboBox<String> combobox_start;
 
     @FXML
-    JFXComboBox<edu.wpi.cs3733d18.teamS.data.Node> combobox_end;
+    JFXComboBox<String> combobox_end;
 
     @FXML
-    JFXComboBox language_selector;
+    JFXComboBox<String> language_selector;
 
     @FXML
     StackPane stack_pane, search_pane;
@@ -116,10 +116,9 @@ public class HomePageController {
     @FXML
     JFXToggleButton stairs_toggle;
     @FXML
-    JFXButton map;
-    @FXML
     ImageView minimap;
     @FXML
+    JFXButton map;
     Text use_map;
     @FXML
     HomePageMapController homepageMapController;
@@ -133,6 +132,16 @@ public class HomePageController {
      * Stores the ObservableList for node locations.
      */
     private ObservableList<edu.wpi.cs3733d18.teamS.data.Node> locations = FXCollections.observableArrayList();
+
+    /**
+     * Stores the FuzzyComboBox associated with the start location ComboBox.
+     */
+    private FuzzyComboBox auto_combobox_start;
+
+    /**
+     * Stores the FuzzyComboBox associated with the end location ComboBox.
+     */
+    private FuzzyComboBox auto_combobox_end;
 
     /**
      * Retrieves whether or not stairs are included.
@@ -157,7 +166,7 @@ public class HomePageController {
 //    }
 
     public void setEnd(String node_id) {
-        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id));
+        combobox_end.getSelectionModel().select(Storage.getInstance().getNodeByID(node_id).toString());
     }
 
     /**
@@ -167,29 +176,6 @@ public class HomePageController {
     public void initialize() {
         HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         locations.addAll(Storage.getInstance().getAllNodes());
-
-        StringConverter<edu.wpi.cs3733d18.teamS.data.Node> string_node_converter = new StringConverter<edu.wpi.cs3733d18.teamS.data.Node>() {
-            @Override
-            public String toString(edu.wpi.cs3733d18.teamS.data.Node node) {
-                if (node == null) {
-                    return "";
-                } else {
-                    return node.toString();
-                }
-            }
-
-            @Override
-            public edu.wpi.cs3733d18.teamS.data.Node fromString(String long_name) {
-                for (edu.wpi.cs3733d18.teamS.data.Node node : locations) {
-                    if (node.getLongName().equals(long_name)) {
-                        return node;
-                    }
-                }
-                return null;
-            }
-        };
-        combobox_start.setConverter(string_node_converter);
-        combobox_end.setConverter(string_node_converter);
 
         ArrayList<edu.wpi.cs3733d18.teamS.data.Node> to_remove = new ArrayList<>();
         for (edu.wpi.cs3733d18.teamS.data.Node location : locations) {
@@ -211,9 +197,9 @@ public class HomePageController {
             }
         }
 
-        combobox_start.setItems(locations);
-        combobox_start.setValue(locations.get(default_index));
-        combobox_end.setItems(locations);
+        auto_combobox_start = new FuzzyComboBox(combobox_start, locations);
+        auto_combobox_end = new FuzzyComboBox(combobox_end, locations);
+        combobox_start.setValue(locations.get(default_index).toString());
 
         loginHandler = new LoginHandler();
 
@@ -267,13 +253,13 @@ public class HomePageController {
      */
     @FXML
     void onPathfindClick(ActionEvent event) throws IOException {
-        if (combobox_start.getSelectionModel().isEmpty() || combobox_end.getSelectionModel().isEmpty()) {
+        if (auto_combobox_start.getValue() == null || auto_combobox_end.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Please select a starting and ending location");
             alert.setHeaderText("Please select a starting and ending location");
             alert.setContentText("You must select both a starting and ending location to get directions.");
             alert.showAndWait();
-        } else if (combobox_start.getValue().equals(combobox_end.getValue())) {
+        } else if (auto_combobox_start.getValue().equals(auto_combobox_end.getValue())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Your starting and ending locations can't be the same");
             alert.setHeaderText("Your starting and ending locations can't be the same");
@@ -294,7 +280,7 @@ public class HomePageController {
             alg = new AStar();
         }
         Pathfinder finder = new Pathfinder(alg);
-        finder.findShortestPath(combobox_start.getValue().getNodeID(), combobox_end.getValue().getNodeID());
+        finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), auto_combobox_end.getValue().getNodeID());
         if (finder.pathfinder_path.getAStarNodePath().size() <= 1) {
             return;
         }
@@ -311,7 +297,7 @@ public class HomePageController {
     @FXML
     void onQuickClick(ActionEvent event) throws IOException {
         Button button = (Button) event.getSource();
-        if (combobox_start.getValue().getNodeID().contains(button.getId())) {
+        if (auto_combobox_start.getValue().getNodeID().contains(button.getId())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Can't Get Directions");
             alert.setHeaderText("You have specified a location, however you are already there");
@@ -321,7 +307,7 @@ public class HomePageController {
         }
 
         Pathfinder quick_finder = new Pathfinder(new Dijkstras());
-        quick_finder.findShortestPath(combobox_start.getValue().getNodeID(), button.getId());
+        quick_finder.findShortestPath(auto_combobox_start.getValue().getNodeID(), button.getId());
         Path path = quick_finder.pathfinder_path;
         if (path.getAStarNodePath().size() <= 1) {
             return;
@@ -339,7 +325,7 @@ public class HomePageController {
     }
 
     @FXML
-    void onAboutClick(ActionEvent event) {    // about screen
+    void onCreditsClick(ActionEvent event) {    // about screen
         Main.switchScenes("About", "/AboutPage.fxml");
     }
 

@@ -37,7 +37,7 @@ public class Map {
     /**
      * Stores a Boolean for whether or not the requested map needs to be in 3D or not.
      */
-    public boolean is_3D;
+    public static boolean is_3D;
 
 
     /**
