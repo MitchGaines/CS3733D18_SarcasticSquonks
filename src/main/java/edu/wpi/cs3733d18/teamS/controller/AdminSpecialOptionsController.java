@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733d18.SquonksAPI.controller.SquonksAPI;
 import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
 import edu.wpi.cs3733d18.teamS.database.Storage;
+import edu.wpi.cs3733d18.teamS.epic.EpicWrapper;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.pathfind.*;
 import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
@@ -294,9 +295,6 @@ public class AdminSpecialOptionsController{
         modify_user_box.setVisible(false);
         timeout_field.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
     }
-
-    @FXML
-    private Button special_request;
 
     @FXML
     public void onSpecialRequest() throws IOException {
