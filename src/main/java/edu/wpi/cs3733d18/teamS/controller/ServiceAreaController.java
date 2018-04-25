@@ -218,5 +218,4 @@ public class ServiceAreaController {
         parent = user_controller;
         //parent.declareOrClearEmergency();
     }
-
 }

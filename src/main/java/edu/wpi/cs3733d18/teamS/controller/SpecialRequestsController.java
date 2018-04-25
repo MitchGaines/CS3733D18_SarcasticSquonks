@@ -135,4 +135,11 @@ public class SpecialRequestsController {
         }
         Timeout.start();
     }
+
+    @FXML
+    private Button nurse_btn;
+
+    public void onNurseClick() {
+        Main.switchScenes("Nurse Home", "/NurseHome.fxml");
+    }
 }
