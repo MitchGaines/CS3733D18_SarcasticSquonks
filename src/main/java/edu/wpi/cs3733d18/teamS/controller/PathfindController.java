@@ -137,11 +137,6 @@ public class PathfindController {
     private Storage db_storage;
 
     /**
-     * Stores a boolean to track whether or not the program is already in the 3D mode.
-     */
-    private boolean in3DMode = false;
-
-    /**
      * The current floor on the application.
      */
     public static int current_floor;
@@ -149,6 +144,7 @@ public class PathfindController {
     private static double MIN_ZOOM = .25;
     private static double MAX_ZOOM = 1.3;
 
+    private boolean first_3d_switch = false;
     /**
      * Stores the Map.
      */
@@ -196,7 +192,6 @@ public class PathfindController {
         this.db_storage = Storage.getInstance();
 
         map = new Map(map_anchor_pane, false);
-        map_anchor_pane.getChildren().add(map.getPath().getFullPathPolyline(map.is_3D));
         updateMap(map.thisStep(map.is_3D));
         if (map.getPath().path_segments.size() < 2) {
             next_btn.disableProperty().setValue(true);
@@ -248,12 +243,15 @@ public class PathfindController {
      * @param zoom_amount the amount the screen will scale in or out.
      */
     private void zoom(double zoom_amount) {
+        double old_x = map_img.getImage().getWidth() * map_scroll_pane.getHvalue() + ((.5 - map_scroll_pane.getHvalue()) * map_scroll_pane.getWidth());
+        double old_y = map_img.getImage().getHeight() * map_scroll_pane.getVvalue() + ((.5 - map_scroll_pane.getVvalue()) * map_scroll_pane.getHeight());
         zoom_factor = Math.max(Math.min(zoom_amount, MAX_ZOOM), MIN_ZOOM);
         zoom_scroll.setValue(zoom_factor);
         map_scroll_pane.getContent().setScaleX(zoom_factor);
         map_scroll_pane.setLayoutX(zoom_factor);
         map_scroll_pane.getContent().setScaleY(zoom_factor);
         map_scroll_pane.setLayoutY(zoom_factor);
+        //scrollToPoint(old_x, old_y);
     }
 
     /**
@@ -266,13 +264,17 @@ public class PathfindController {
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
         double map_width = map_img.getImage().getWidth();
-        double map_height  = map_img.getImage().getHeight();
-        if (pane_height == 0) {
-            pane_height = 1000;
-            pane_width = 1700;
+        double map_height = map_img.getImage().getHeight();
+        if (map.is_3D) {
+            map_width = 5000;
+            map_height = 2774;
         }
-        double new_x = (x - (map_width/2))*zoom_factor + (map_width/2);
-        double new_y = (y - (map_height/2))*zoom_factor + (map_height/2);
+        if (pane_height == 0) {
+            pane_height = 917;
+            pane_width = 1920;
+        }
+        double new_x = (x - (map_width / 2)) * zoom_factor + (map_width / 2);
+        double new_y = (y - (map_height / 2)) * zoom_factor + (map_height / 2);
         double h_val = Math.min(Math.max(0.0, (new_x - (0.5 * pane_width)) / (map_width - pane_width)), 1.0);
         double v_val = Math.min(Math.max(0.0, (new_y - (0.5 * pane_height)) / (map_height - pane_height)), 1.0);
         map_scroll_pane.setHvalue(h_val);
@@ -301,11 +303,10 @@ public class PathfindController {
 
         double pane_width = map_scroll_pane.getWidth();
         double pane_height = map_scroll_pane.getHeight();
-        if(pane_height == 0 || pane_width == 0) {
-            pane_width = 1700;
-            pane_height = 900;
+        if (pane_height == 0 || pane_width == 0) {
+            pane_width = 1920;
+            pane_height = 917;
         }
-
         double zoom1 = (pane_width / (nodes_width + 200));
         double zoom2 = (pane_height / (nodes_height + 200));
         double zoom_amount = Math.min(zoom1, zoom2);
@@ -317,7 +318,11 @@ public class PathfindController {
         double poly_y = p.getBoundsInParent().getMinY();
         double desired_x = poly_x + (poly_width / 2);
         double desired_y = poly_y + (poly_height / 2);
-        scrollToPoint(desired_x,desired_y);
+        if (first_3d_switch) {
+            first_3d_switch = false;
+            desired_y -= 200;
+        }
+        scrollToPoint(desired_x, desired_y);
     }
 
     /**
@@ -334,7 +339,7 @@ public class PathfindController {
      * @param nodes ArrayList of nodes to be displayed on the new map.
      */
     public void updateMap(ArrayList<Node> nodes) {
-        Image m = getFloorImage(current_floor, in3DMode);
+        Image m = getFloorImage(current_floor, map.is_3D);
         map_img.setImage(m);
         map.clearIcons();
         //set click method calling
@@ -368,24 +373,12 @@ public class PathfindController {
     public void toggleMappingType() {
         if (map.is_3D) {
             toggle_map_btn.setText(AllText.get("3d_map"));
-            in3DMode = false;
             map.is_3D = false;
         } else {
+            first_3d_switch = true;
             toggle_map_btn.setText(AllText.get("2d_map"));
-            in3DMode = true;
             map.is_3D = true;
         }
-
-        Path path = null;
-        if (map != null) {
-            map.clearIcons();
-            path = map.getPath();
-        }
-
-        if (path != null) {
-            Map.path = path;
-        }
-
         updateMap(map.thisStep(map.is_3D));
     }
 
@@ -446,7 +439,7 @@ public class PathfindController {
 
     public void onPrevClick() {
         updateMap(map.prevStep(map.is_3D));
-        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue()) {
+        if (map.getPath().seg_index < map.getPath().path_segments.size() && next_btn.disableProperty().getValue() && map.getPath().path_segments.size() > 1) {
             next_btn.disableProperty().setValue(false);
         }
         if (map.getPath().seg_index <= 0) {
