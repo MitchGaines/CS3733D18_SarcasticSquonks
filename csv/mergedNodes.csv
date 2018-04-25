@@ -1,7 +1,7 @@
 node_id,x_coord,y_coord,floor,building,node_type,long_name,short_name,team_assigned,x_coord_3d,y_coord_3d,disabled
 ACONF00102,1580,2538,2,BTM,HALL,Hall,Hall,Team A,1106,2080,false
 ACONF00103,1648,2968,3,BTM,CONF,BTM Conference Center,BTM Conference,Team A,1029,2246,false
-ADEPT00101,1401,2628,1,BTM,DEPT,Neuroscience Waiting Room,Neuro Waiting Room,Team A,938,2132,false
+ADEPT00101,1401,2628,1,BTM,DEPT,Neuroscience Waiting Room,Neuro Waiting Room,Team A,995,2143,false
 ADEPT00102,1395,2674,2,BTM,DEPT,Orthopedics and Rhemutalogy,Orthopedics and Rhemutalogy,Team A,932,2095,false
 ADEPT00201,1720,2847,1,BTM,DEPT,MS Waiting,MS Waiting,Team A,1080,2261,false
 ADEPT00301,986,2852,1,BTM,DEPT,CART Waiting,CART Waiting,Team A,594,2130,false
@@ -22,7 +22,7 @@ AHALL00301,1608,2737,1,BTM,HALL,Hall,Hall,Team A,1043,2200,false
 AHALL00302,1590,2745,2,BTM,HALL,Hall,Hall,Team A,1034,2187,false
 AHALL00303,1650,2732,3,BTM,HALL,Hall,Hall,Team A,1100,2155,false
 AHALL003L2,1701,2734,L2,BTM,HALL,Hall,Hall,Team A,1036,2245,false
-AHALL00401,1420,2737,1,BTM,HALL,Hall,Hall,Team A,954,2154,false
+AHALL00401,1420,2737,1,BTM,HALL,Hall,Hall,Team A,963,2154,false
 AHALL00402,1528,2745,2,BTM,HALL,Hall,Hall,Team A,1013,2153,false
 AHALL00403,1650,2766,3,BTM,HALL,Hall,Hall,Team A,1089,2174,false
 AHALL004L2,1698,2687,L2,BTM,HALL,Hall,Hall,Team A,1052,2223,false
@@ -35,7 +35,7 @@ AHALL00603,1580,2858,3,BTM,HALL,HallNode,HallNode,Team A,1013,2205,false
 AHALL00701,1017,2865,1,BTM,HALL,Hall,Hall,Team A,611,2142,false
 AHALL00801,1532,2739,1,BTM,HALL,Hall,Hall,Team A,991,2179,false
 AHALL00901,1581,2566,1,BTM,HALL,Hall,Hall,Team A,1074,2135,false
-AHALL01001,1605,2568,1,BTM,HALL,Hall,Hall,Team A,736,2000,false
+AHALL01001,1605,2568,1,BTM,HALL,Hall,Hall,Team A,1089,2119,false
 AINFO001L2,1681,2747,L2,BTM,INFO,BTM Security Desk,Security,Team A,1022,2245,false
 ALABS00103,1611,2678,3,BTM,LABS,Innovation Hub,Innovation Hub,Team A,1079,2121,false
 ALABS001L2,1667,2682,L2,BTM,LABS,MRI/CT Scan Imaging,MRI/CT Imaging,Team A,1029,2217,false
