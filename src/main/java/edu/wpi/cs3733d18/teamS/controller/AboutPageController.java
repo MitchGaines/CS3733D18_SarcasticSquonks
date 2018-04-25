@@ -50,13 +50,22 @@ public class AboutPageController {
     JFXButton back;
 
     @FXML
+    JFXButton creds;
+
+    @FXML
     JFXListView<String> names_list;
     @FXML
     JFXListView<String> positions_list;
 
     @FXML
-    void onBackClick(ActionEvent event) {    // about screen
+    void onBackClick(ActionEvent event) {    // previous screen
         Main.switchScenes("Back", "/HomePage.fxml");
+    }
+
+    @FXML
+    void onCreditsClick(ActionEvent event) {    // credits screen
+
+        Main.switchScenes("Credits", "/CreditsPage.fxml");
     }
 
     public void initialize() {

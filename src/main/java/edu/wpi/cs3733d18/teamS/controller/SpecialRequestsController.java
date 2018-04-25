@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
  * The controller for the special requests page
  * @author Joseph Turcotte
  * @author Danny Sullivan
- * @version 1.3, April 23, 2018
+ * @version 1.4, April 23, 2018
  */
 
 public class SpecialRequestsController {
@@ -24,6 +24,9 @@ public class SpecialRequestsController {
     @FXML
     Button voice_recognition_box;
 
+    /**
+     * Implementation of Team F's API, which implements voice control assistance for several different requests.
+     */
     public void onVoiceRecognitionClick() {
         Timeout.stop();
         ServiceRequest f_api = new ServiceRequest();
@@ -35,6 +38,9 @@ public class SpecialRequestsController {
     @FXML
     Button prescription_request;
 
+    /**
+     * Implementation of Team R's API, which implements a prescription service.
+     */
     public void prescriptionRequestClick() {
         Timeout.stop();
         RaikouAPI raikouAPI = new RaikouAPI();
@@ -49,6 +55,9 @@ public class SpecialRequestsController {
     @FXML
     Button gift_request;
 
+    /**
+     * Implementation of Team O's API, which implements a gift shop service.
+     */
     public void onGiftRequest() {
         Timeout.stop();
         GiftShop o_api = new GiftShop();
@@ -59,6 +68,9 @@ public class SpecialRequestsController {
     @FXML
     Button it_request;
 
+    /**
+     * Implementation of our own API, which implements an IT service.
+     */
     public void onITRequest() {
         Timeout.stop();
         SquonksAPI squonks_api = new SquonksAPI();
@@ -66,6 +78,9 @@ public class SpecialRequestsController {
         Timeout.start();
     }
 
+    /**
+     * Our own pathfind function so that our IT request can pathfind to a ticket's location.
+     */
     public void onPathFindClick(String node_id) {
         SearchAlgorithm alg;
         int select = AdminSpecialOptionsController.getChoosenAlg();
@@ -90,6 +105,9 @@ public class SpecialRequestsController {
     @FXML
     Button transportation_request;
 
+    /**
+     * Implementation of Team P's API, which implements a transportation service.
+     */
     public void onTransportationRequest() {
         Timeout.stop();
         TransportationRequest p_api = new TransportationRequest();
@@ -104,6 +122,9 @@ public class SpecialRequestsController {
     @FXML
     Button security_request;
 
+    /**
+     * Implementation of Team N's API, which implements a security service.
+     */
     public void onSecurityRequest() {
         Timeout.stop();
         Security n_api = new Security();

@@ -1,6 +1,8 @@
 package edu.wpi.cs3733d18.teamS.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXToggleButton;
+import edu.wpi.cs3733d18.teamS.arduino.MotionSensor;
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import edu.wpi.cs3733d18.teamS.user.User;
 import javafx.animation.Animation;
