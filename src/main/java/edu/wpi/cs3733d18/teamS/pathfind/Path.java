@@ -2,6 +2,7 @@ package edu.wpi.cs3733d18.teamS.pathfind;
 
 import edu.wpi.cs3733d18.teamS.internationalization.AllText;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import edu.wpi.cs3733d18.teamS.controller.PathfindController;
 import javafx.scene.control.Tooltip;
@@ -32,6 +33,7 @@ public class Path {
     private static final double FEET_PER_PIXEL = .323;
     private static final int MIN_TURN_ANGLE = 30;
     private static final double NUM_ANTS_PER_SECOND = 1.8;
+    private static final double PATH_DRAW_SPEED = 250;
     public int seg_index = 0;
     ArrayList<AStarNode> algorithm_node_path = new ArrayList<>();
     public ArrayList<PathSegment> path_segments = new ArrayList<>();
@@ -262,6 +264,7 @@ public class Path {
             this.seg_index--;
         }
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
@@ -273,6 +276,7 @@ public class Path {
             this.seg_index++;
         }
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
@@ -281,6 +285,7 @@ public class Path {
     public ArrayList<Node> thisSeg(boolean is3D) {
         ArrayList<Node> fx_nodes = new ArrayList<>();
         Polyline p = this.path_segments.get(seg_index).genPolyline(is3D);
+        playDrawingAnimation(p, is3D);
         fx_nodes.add(p);
         fx_nodes.addAll(genAnts(p));
         return fx_nodes;
@@ -437,6 +442,23 @@ public class Path {
     public ArrayList<PathSegment> getPathSegments() {
         return path_segments;
     }
+
+    void playDrawingAnimation(Polyline p, boolean is3D) {
+        Platform.runLater(() -> {
+            double length = this.path_segments.get(seg_index).getTotalLength(is3D);
+            p.getStrokeDashArray().addAll(length, length);
+            p.setStrokeDashOffset(length);
+            new Timeline(new KeyFrame(
+                    Duration.seconds(length / PATH_DRAW_SPEED),
+                    new KeyValue(
+                            p.strokeDashOffsetProperty(),
+                            0.0,
+                            Interpolator.EASE_BOTH
+                    )
+            )).play();
+        });
+    }
+
 }
 
 class PathSegment {
@@ -494,5 +516,25 @@ class PathSegment {
         path_glow_anim.play();
         polylineEffect.setBumpInput(s);
         return polylineEffect;
+    }
+
+    double getTotalLength(boolean is3D) {
+        double total_length = 0;
+        int x, y, prev_x, prev_y;
+        for (int i = 1; i < seg_path.size(); i++) {
+            if (is3D) {
+                x = seg_path.get(i).getXCoord3D();
+                y = seg_path.get(i).getYCoord3D();
+                prev_x = seg_path.get(i - 1).getXCoord3D();
+                prev_y = seg_path.get(i - 1).getYCoord3D();
+            } else {
+                x = seg_path.get(i).getXCoord();
+                y = seg_path.get(i).getYCoord();
+                prev_x = seg_path.get(i - 1).getXCoord();
+                prev_y = seg_path.get(i - 1).getYCoord();
+            }
+            total_length += Math.pow(Math.pow(x - prev_x, 2) + Math.pow(y - prev_y, 2), 0.5);
+        }
+        return total_length;
     }
 }
