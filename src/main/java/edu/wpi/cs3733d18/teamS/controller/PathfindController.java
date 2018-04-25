@@ -20,16 +20,21 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -123,6 +128,12 @@ public class PathfindController {
 
     @FXML
     Button call_btn, text_btn;
+
+    @FXML
+    HBox breadcrumb_box;
+
+    @FXML
+    HBox breadcrumb_label;
 
     /**
      * Stores the zoom factor.
@@ -231,6 +242,7 @@ public class PathfindController {
                 zoom(newValue.doubleValue());
             }
         });
+        breadcrumb_box.setPickOnBounds(false);
     }
 
     /**
@@ -342,25 +354,58 @@ public class PathfindController {
         //set click method calling
         for (Node a_node : nodes) {
             if (a_node.getId().equals("next_icon")) {
-                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        onNextClick();
-                    }
-                });
+                a_node.setOnMouseClicked(event -> onNextClick());
             } else if(a_node.getId().equals("prev_icon")){
-                a_node.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        onPrevClick();
-                    }
-                });
+                a_node.setOnMouseClicked(event -> onPrevClick());
+            }
+        }
+        breadcrumb_box.getChildren().clear();
+        breadcrumb_label.getChildren().clear();
+        ArrayList<Node> breadcrumbs = map.getPath().generateBreadcrumbs();
+        for (Node breadcrumb : breadcrumbs){
+            if(breadcrumb.getUserData() != null){
+                String s = (String) breadcrumb.getUserData();
+                int i = Integer.parseInt(s.substring(s.length()-1));
+                breadcrumb.setOnMouseClicked(event -> onNodeClick(i));
+            }
+
+            breadcrumb_box.getChildren().add(breadcrumb);
+
+            Text t = new Text();
+            t.setTextAlignment(TextAlignment.CENTER);
+            t.setFill(Color.WHITE);
+            if (breadcrumb.getId().equals("flag")){
+                String s = (String) breadcrumb.getUserData();
+                t.setText(s.substring(0, s.length()-1));
+                breadcrumb_label.getChildren().add(t);
+            } else {
+                t.setText("      ");
+                breadcrumb_label.getChildren().add(t);
             }
         }
         map_anchor_pane.getChildren().addAll(nodes);
         fitToPath(nodes);
         step_indicator.setText(AllText.get("step") + ": " + (map.getPath().seg_index + 1) + " / " + map.getPath().getPathSegments().size());
         floor_indicator.setText(AllText.get("floor") + ": " + Map.floor_ids.get(current_floor));
+    }
+
+    private void onNodeClick(int seg_int){
+        Glow g = new Glow(40);
+        Path.seg_index = seg_int;
+        updateMap(map.thisStep(map.is_3D));
+        for (Node n : breadcrumb_box.getChildren()){
+            if(n.getUserData() != null) {
+                String s = (String) n.getUserData();
+                int i = Integer.parseInt(s.substring(s.length() - 1));
+                if(i == seg_int){
+                    n.setEffect(new Glow(40));
+                    n.setOpacity(1);
+                } else {
+                    n.setEffect(null);
+                    n.setOpacity(0.25);
+                }
+            }
+        }
     }
 
     /**
@@ -405,7 +450,7 @@ public class PathfindController {
         stack_pane.setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(0).setEffect(adj);
         stack_pane.getChildrenUnmodifiable().get(1).setEffect(adj);
-        //stack_pane.getChildrenUnmodifiable().get(2).setEffect(adj);
+        stack_pane.getChildrenUnmodifiable().get(2).setEffect(adj);
         directions_box.setVisible(true);
         expanded_qr.isPreserveRatio();
     }
@@ -426,7 +471,7 @@ public class PathfindController {
         stack_pane.setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(0).setEffect(null);
         stack_pane.getChildrenUnmodifiable().get(1).setEffect(null);
-        //stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
+        stack_pane.getChildrenUnmodifiable().get(2).setEffect(null);
     }
 
     public void onPhoneCallBtnClick(){

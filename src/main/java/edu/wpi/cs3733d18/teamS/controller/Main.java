@@ -113,6 +113,7 @@ public class Main extends Application {
         Timeout.start();
 
         primary_stage.setScene(primary_scene);
+
         primary_stage.show();
 
         // before system shutdown
