@@ -87,9 +87,9 @@
         <StackPane fx:id="stack_pane" BorderPane.alignment="CENTER">
             <children>
                 <fx:include fx:id="homepageMap" source="HomepageMap.fxml" />
-            <StackPane fx:id="search_pane" maxWidth="500.0" style="-fx-background-color: #4863A0D9; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;">
+            <StackPane fx:id="search_pane" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" style="-fx-background-color: #4863A0D9; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10;" StackPane.alignment="TOP_CENTER">
                <children>
-                      <VBox alignment="TOP_CENTER" maxWidth="450.0" prefHeight="570.0" prefWidth="1200.0" spacing="50.0" StackPane.alignment="CENTER">
+                      <VBox alignment="TOP_CENTER" maxWidth="450.0" prefHeight="570.0" prefWidth="1200.0" spacing="45.0" StackPane.alignment="CENTER">
                           <children>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%find_nearest" textAlignment="CENTER">
                                   <font>
@@ -99,7 +99,7 @@
                                       <Insets />
                                   </VBox.margin>
                               </Text>
-                              <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                              <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                                   <children>
                                       <JFXButton fx:id="INFO" buttonType="RAISED" onAction="#onQuickClick" style="-fx-background-color: #B7B8B6; -fx-font-size: 23;" text="%information">
                                           <font>
