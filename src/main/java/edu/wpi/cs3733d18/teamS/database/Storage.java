@@ -3,6 +3,7 @@ package edu.wpi.cs3733d18.teamS.database;
 import edu.wpi.cs3733d18.teamS.controller.HomePageController;
 import edu.wpi.cs3733d18.teamS.data.Edge;
 import edu.wpi.cs3733d18.teamS.data.Node;
+import edu.wpi.cs3733d18.teamS.service.ServiceLogEntry;
 import edu.wpi.cs3733d18.teamS.service.ServiceRequest;
 import edu.wpi.cs3733d18.teamS.service.ServiceType;
 import edu.wpi.cs3733d18.teamS.user.LoginHandler;
@@ -1088,6 +1089,8 @@ public class Storage {
 
             saveDefaultKioskLocation("BINFO00102");
         }
+
+        ServiceLogEntry.initialize();
     }
 
     /**

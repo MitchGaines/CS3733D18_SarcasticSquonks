@@ -488,6 +488,12 @@ public class Path {
         return "";
     }
 
+    /**
+     * Creates Ants that follow the given polyline and fill the length of the polyline.
+     *
+     * @param p the polyline to animate ants on top of.
+     * @return an ArrayList of all the JavaFX Nodes that the Ants will animate to be placed in a scene.
+     */
     ArrayList<Node> genAnts(Polyline p) {
         Ant ant = new Ant(p.getPoints().get(0), p.getPoints().get(1));
         for (int i = 2; i < p.getPoints().size(); i += 2) {
@@ -511,9 +517,18 @@ public class Path {
         return path_segments;
     }
 
+    /**
+     * Creates and plays the animation of the visible portion of a path polyline, unless the polyline has only one point.
+     *
+     * @param p polyline to animate.
+     * @param is3D whether or not the map it is displayed on is 3D.
+     */
     void playDrawingAnimation(Polyline p, boolean is3D) {
         Platform.runLater(() -> {
             double length = this.path_segments.get(seg_index).getTotalLength(is3D);
+            if (length == 0) {
+                return;
+            }
             p.getStrokeDashArray().addAll(length, length);
             p.setStrokeDashOffset(length);
             new Timeline(new KeyFrame(
@@ -586,6 +601,12 @@ class PathSegment {
         return polylineEffect;
     }
 
+    /**
+     * Calculates the total length (in pixels) of this PathSegment.
+     *
+     * @param is3D whether or not the map it is displayed on is 3D.
+     * @return the total length (in pixels) of this PathSegment. Zero if the segment has only one point.
+     */
     double getTotalLength(boolean is3D) {
         double total_length = 0;
         int x, y, prev_x, prev_y;

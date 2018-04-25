@@ -63,7 +63,7 @@ import pointConverter.TeamD.API.PointConverter;
  * @author Cormac Lynch-Collier
  * @author Matthew Puentes
  * @author Danny Sullivan
- * @version 1.3, April 13, 2018
+ * @version 1.4, April 25, 2018
  */
 public class ModifyMapController {
 
@@ -97,13 +97,29 @@ public class ModifyMapController {
      */
     private HashMap<String, String> floor_map;
 
+    /**
+     * Stores the current floor of the map is displaying as a String.
+     */
     private String cur_floor_name = "1";
 
+    /**
+     * An observable list of the floors that it is possible to display.
+     */
     private ObservableList<String> floors;
 
+    /**
+     * Stores the first node when creating a new path.
+     */
     private edu.wpi.cs3733d18.teamS.data.Node start_of_edge;
+
+    /**
+     * Stores the a node temporarily when adding a new location to the map.
+     */
     private edu.wpi.cs3733d18.teamS.data.Node new_node;
 
+    /**
+     * Stores the changing node when modifying a nodes location.
+     */
     private Node changing_node;
 
     /**
@@ -204,7 +220,13 @@ public class ModifyMapController {
      * Stores a polygon.
      */
     private Polygon geoBlock = new Polygon();
+    /**
+     * Stores the admin user currently logged in.
+     */
     private User user;
+    /**
+     * Stores the page to return to when hitting back.
+     */
     private String page;
 
     /**
@@ -212,12 +234,29 @@ public class ModifyMapController {
      */
     private boolean predict_nn = true;
 
+    /**
+     * Stores the current action.
+     */
     private String cur_action = "View Map";
+
+    /**
+     * Stores the image associated with the current action.
+     */
     private ImageView cur_icon;
+
+    /**
+     * Stores button associated with the current floor.
+     */
     JFXButton cur_floor;
 
+    /**
+     * Stores the dropshadow that will display behind the icons.
+     */
     DropShadow ds;
 
+    /**
+     * List of the names of the floors.
+     */
     private List<String> short_name_list;
     /**
      * Initializes the scene.
@@ -342,6 +381,10 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Finds which map to display on the screen.
+     * @return String.
+     */
     public String chooseFloor() {
         String to_return = "";
         if(cur_floor.equals(floor_0)) {
@@ -385,30 +428,45 @@ public class ModifyMapController {
         return to_return;
     }
 
+    /**
+     * Runs if "L2" is clicked.
+     */
     public void onFloor0Click() {
         cur_floor = floor_0;
         cur_floor_name = "L2";
         map.setImage(new Image(chooseFloor()));
     }
 
+    /**
+     * Runs if "L1" is clicked.
+     */
     public void onFloor1Click() {
         cur_floor = floor_1;
         cur_floor_name = "L1";
         map.setImage(new Image(chooseFloor()));
     }
 
+    /**
+     * Runs if "1" is clicked.
+     */
     public void onFloor2Click() {
         cur_floor = floor_2;
         cur_floor_name = "1";
         map.setImage(new Image(chooseFloor()));
     }
 
+    /**
+     * Runs if "2" is clicked.
+     */
     public void onFloor3Click() {
         cur_floor = floor_3;
         cur_floor_name = "2";
         map.setImage(new Image(chooseFloor()));
     }
 
+    /**
+     * Runs if "3" is clicked.
+     */
     public void onFloor4Click() {
         cur_floor = floor_4;
         cur_floor_name = "3";
@@ -428,6 +486,11 @@ public class ModifyMapController {
 
     }
 
+    /**
+     * Sets the user and the page
+     * @param user
+     * @param page
+     */
     public void setUp(User user, String page) {
         this.user = user;
         this.page = page;
@@ -467,6 +530,11 @@ public class ModifyMapController {
         setAction("View Map", view_btn);
     }
 
+    /**
+     * Sets the action that the admin is allowed to perform on the map.
+     * @param action
+     * @param icon_btn
+     */
     private void setAction(String action, ImageView icon_btn) {
         clearOptions();
         cur_icon = icon_btn;
@@ -504,34 +572,55 @@ public class ModifyMapController {
         cur_icon.setEffect(ds);
     }
 
+    /**
+     * Sets the action to View Map.
+     */
     public void onViewIconClick() {
         setAction("View Map", view_btn);
     }
 
+    /**
+     * Sets the action to Add.
+     */
     public void onAddIconClick() {
         cur_icon.setEffect(null);
         cur_icon = add_btn;
         onNodeEdgeClick();
     }
 
+    /**
+     * Sets the action to Remove.
+     */
     public void onRemoveIconClick() {
         cur_icon.setEffect(null);
         cur_icon = remove_btn;
         onNodeEdgeClick();
     }
 
+    /**
+     * Sets the action to Modify Location.
+     */
     public void onModifyIconClick() {
         setAction("Modify Locations", modify_btn);
     }
 
+    /**
+     * Sets the action to Set Kiosk.
+     */
     public void onKioskIconClick() {
         setAction("Set Kiosk Location", kiosk_btn);
     }
 
+    /**
+     * Sets the action to Batch Disable.
+     */
     public void onPolygonIconClick() {
         setAction("Batch Disable Locations", batch_btn);
     }
 
+    /**
+     * Decides if the admin is adding a node, location, remove a node, location.
+     */
     public void onNodeEdgeClick() {
         if(node_edge_select.isSelected() && cur_icon.equals(add_btn)) {
             setAction("Add Path", add_btn);
@@ -546,6 +635,9 @@ public class ModifyMapController {
         node_or_edge.setVisible(true);
     }
 
+    /**
+     * Clears what is currently displayed on the screen.
+     */
     public void clearOptions() {
         scroll_pane.setPannable(true);
         add_edge_box.setVisible(false);
@@ -959,6 +1051,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Adds a click property to a pin and the node associated with it.
+     * @param node
+     * @param pin
+     */
     private void addClickProperty(Node node, Circle pin) {
         pin.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
@@ -992,6 +1089,11 @@ public class ModifyMapController {
         });
     }
 
+    /**
+     * Displays the info of a node if it is right clicked.
+     * @param node
+     * @param pin
+     */
     private void rightClick(Node node, Circle pin) {
         onViewIconClick();
         clearOptions();
@@ -1005,6 +1107,11 @@ public class ModifyMapController {
         changing_node = node;
     }
 
+    /**
+     * Prepares to add a path using the node clicked.
+     * @param node
+     * @param pin
+     */
     private void clickOptionAddPath(Node node, Circle pin) {
         if (first_click) {
             first_loc = node;
@@ -1021,6 +1128,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Prepares a node to be deleted if clicked.
+     * @param node
+     * @param pin
+     */
     private void clickOptionDeleteLoc(Node node, Circle pin) {
         if (pin.getFill().equals(Color.YELLOW)) {
             pin.setFill(color);
@@ -1032,12 +1144,22 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Prepares a node to be the new kiosk location if clicked.
+     * @param node
+     * @param pin
+     */
     private void clickOptionKioskLoc(Node node, Circle pin) {
         Storage.getInstance().updateDefaultKioskLocation(node.getNodeID());
         HomePageController.setKioskDefaultLocation(Storage.getInstance().getDefaultKioskLocation());
         kiosk_location_name.setText(node.getNodeID());
     }
 
+    /**
+     * Prepares nodes to be moved if they are clicked.
+     * @param node
+     * @param pin
+     */
     private void clickOptionModLoc(Node node, Circle pin) {
         if (pin.getFill().equals(Color.YELLOW) && !pin.equals(to_move)) {
             pin.setFill(color);
@@ -1053,6 +1175,11 @@ public class ModifyMapController {
         to_move = null;
     }
 
+    /**
+     * If the map is clicked it executes actions.
+     * Confirming a 3D coord, Adding a location, Deleting a path, Drawing a polygon to disable nodes and edges
+     * @param click
+     */
     public void onMouseClick(MouseEvent click) {
         if (confirm_3d.isVisible()) {
             new_node.setXCoord3D((int) click.getX());
@@ -1087,6 +1214,11 @@ public class ModifyMapController {
         }
     }
 
+    /**
+     * Sets a 2D coord for adding a location and prepares for the user to set the 3D.
+     * It predicts where that 3D will be.
+     * @param click
+     */
     private void clickOptionAddLocation(MouseEvent click) {
         predictor_type.setVisible(false);
         node_or_edge.setVisible(false);
@@ -1124,6 +1256,9 @@ public class ModifyMapController {
         button_pane.setVisible(false);
     }
 
+    /**
+     * Confirm button for modifying location coords.
+     */
     public void onChangeInfoConfirm() {
         changing_node.setNodeBuilding(building_change.getText());
         String loc_type_shortname = locations.get(loc_type_change.getValue().toString());
