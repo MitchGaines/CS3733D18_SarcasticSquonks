@@ -61,9 +61,12 @@ public class Main extends Application {
 
             Timeout.addListenersToScene(new_scene);
 
+            double sub_height = primary_stage.getHeight() - old_height;
+            double sub_width = primary_stage.getWidth() - old_width;
+
+            primary_stage.setHeight(primary_stage.getHeight() - sub_height);
+            primary_stage.setWidth(primary_stage.getWidth() - sub_width);
             primary_stage.setScene(new_scene);
-            primary_stage.setHeight(old_height);
-            primary_stage.setWidth(old_width);
 
             if(fxml_name.equals("/ScreenSaver.fxml")) {
                 primary_stage.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
