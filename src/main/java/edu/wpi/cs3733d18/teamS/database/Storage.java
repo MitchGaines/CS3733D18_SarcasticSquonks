@@ -510,16 +510,23 @@ public class Storage {
      */
     public void updateRequest(ServiceRequest request) {
 
+
+        // check if fulfiller id is null
+        long fulfiller_id = request.getFulfiller() == null ? 0 : request.getFulfiller().getUserID();
+
+
+        long desired_fulfiller_id = request.getDesiredFulfiller() == null ? 0 : request.getDesiredFulfiller().getUserID();
+
         String[] values = new String[]{
                 String.format("%s = '%s'", "title", request.getTitle().replaceAll("'", "''")),
                 String.format("%s = '%s'", "description", request.getDescription().replaceAll("'", "''")),
                 String.format("%s = '%s'", "service_type", request.getServiceType().getName().replaceAll("'", "''")),
                 String.format("%s = %d", "requester_id", request.getRequester().getUserID()),
-                String.format("%s = %d", "fulfiller_id", request.getFulfiller().getUserID()),
+                String.format("%s = %d", "fulfiller_id", (fulfiller_id)),
                 String.format("%s = '%s'", "location", request.getLocation().getNodeID()),
                 String.format("%s = '%s'", "request_time", dtf.print(request.getRequestedDate())),
                 String.format("%s = '%s'", "fulfill_time", dtf.print(request.getFulfilledDate())),
-                String.format("%s = %d", "desired_fulfiller_id", request.getDesiredFulfiller().getUserID())
+                String.format("%s = %d", "desired_fulfiller_id", (desired_fulfiller_id))
         };
 
         database.update("SERVICES", values, "service_id = " + request.getRequestID(), null);
