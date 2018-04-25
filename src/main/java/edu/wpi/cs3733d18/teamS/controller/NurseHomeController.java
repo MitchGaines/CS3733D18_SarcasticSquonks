@@ -47,25 +47,12 @@ public class NurseHomeController {
         Main.switchScenes("Administer Medication", "/AdministerMeds.fxml");
     }
 
-    // ---------------- VIEW PATIENTS ------------------- //
-
-    @FXML
-    private Rectangle patient_rect;
-
-    @FXML
-    private ImageView patient_image;
-
-    @FXML
-    public void onPatientClick() {
-        Main.switchScenes("Patient Data", "/PatientData.fxml");
-    }
-
     public void changeColor() {
-        // empty for now
+
     }
 
     public void resetColor() {
-        // empty for now
+
     }
 
     @FXML

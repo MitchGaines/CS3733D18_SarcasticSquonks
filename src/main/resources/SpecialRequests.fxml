@@ -16,7 +16,7 @@
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <children>
-        <VBox alignment="TOP_CENTER" prefHeight="605.0" prefWidth="600.0" spacing="27.0">
+        <VBox alignment="TOP_CENTER" prefHeight="605.0" prefWidth="626.0" spacing="27.0">
             <children>
             <GridPane>
               <columnConstraints>
@@ -32,11 +32,17 @@
                               <Font size="30.0" />
                           </font>
                       </Text>
-                  <JFXButton fx:id="nurse_btn" buttonType="RAISED" onAction="#onNurseClick" prefHeight="50.0" prefWidth="108.0" style="-fx-background-color: #B7B8B6;" text="Nurse" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </JFXButton>
+                      <JFXButton fx:id="nurse_btn" buttonType="RAISED" onAction="#onNurseClick" prefHeight="50.0" prefWidth="108.0" style="-fx-background-color: #B7B8B6;" text="%nurse" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                       <font>
+                           <Font size="23.0" />
+                       </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                       </JFXButton>
                </children>
             </GridPane>
             <GridPane prefHeight="456.0" prefWidth="540.0">

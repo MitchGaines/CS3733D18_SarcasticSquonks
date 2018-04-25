@@ -118,8 +118,7 @@ public class SpecialRequestsController {
     @FXML
     private Button nurse_btn;
 
-    @FXML
     public void onNurseClick() {
-        Main.switchScenes("Nurse View", "/NurseHome.fxml");
+        Main.switchScenes("Nurse Home", "/NurseHome.fxml");
     }
 }
