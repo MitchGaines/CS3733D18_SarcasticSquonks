@@ -1,8 +1,10 @@
 package edu.wpi.cs3733d18.teamS.service;
 
+import edu.wpi.cs3733d18.teamS.database.Storage;
 import edu.wpi.cs3733d18.teamS.user.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Date;
  * @author Mathew McMillan
  * @version "%I%, %G%"
  */
-public class ServiceLogEntry {
+public class ServiceLogEntry implements Comparable<ServiceLogEntry> {
     /**
      * Stores a new ArrayList of ServiceLogEntry for the class.
      */
@@ -113,5 +115,28 @@ public class ServiceLogEntry {
     public Date getTime() {
         return time;
     }
+
+
+    public static void initialize() {
+        for (ServiceRequest request : Storage.getInstance().getAllServiceRequests()) {
+            ServiceLogEntry sle = new ServiceLogEntry(request, false);
+            sle.time = request.getRequestedDate().toDate();
+            log.add(sle);
+            if (request.isFulfilled()) {
+                ServiceLogEntry sle2 = new ServiceLogEntry(request, true);
+                sle.time = request.getFulfilledDate().toDate();
+                log.add(sle2);
+            }
+        }
+
+        Collections.sort(log);
+    }
+
+
+    @Override
+    public int compareTo(ServiceLogEntry other) {
+        return getTime().compareTo(other.getTime());
+    }
+
 
 }
