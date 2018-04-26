@@ -71,7 +71,7 @@ app.post('/epic', function(req, res) {
 
   var msg = new hl7.Message(
                     "Medical Request",
-                    "EPIPEN",
+                    service_request,
                     "SMS",
                     "199912271408",
                     "WONG",
